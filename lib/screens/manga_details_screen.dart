@@ -42,14 +42,6 @@ class _MangaDetailsScreenState extends State<MangaDetailsScreen> {
   late double score;
   late String startDate;
   late String endDate;
-  List<String> statuses = [
-    "PLANNING",
-    "CURRENT",
-    "COMPLETED",
-    "REPEATING",
-    "PAUSED",
-    "DROPPED"
-  ];
   Map<String, String> query = {};
   double adjustedWidth = 0;
   double adjustedHeight = 0;

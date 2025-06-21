@@ -107,7 +107,7 @@ class EmbeddedAnimeSource implements AnimeSource {
   }
 
   @override
-  Future<List<List<String>>> getAnimeTitlesAndIds(String query) async {
+  Future<List<String>> getAnimeTitles(String query) async {
     var urlStream = Uri.parse(
         "${getEndpoint()}/unyo/anime/titleAndIds?source=$source&query=$query");
     logger.i("$source: Request made to /unyo/anime/titleAndIds");
@@ -115,7 +115,7 @@ class EmbeddedAnimeSource implements AnimeSource {
 
     if (response.statusCode != 200) {
       logger.e("$source: Error getting titles: ${response.statusCode} ${response.body}");
-      return [[], []];
+      return [];
     }
 
     Map<String, dynamic> jsonResponse = json.decode(response.body);
@@ -123,8 +123,8 @@ class EmbeddedAnimeSource implements AnimeSource {
     List<dynamic> titles = jsonResponse["titles"] ?? [];
     List<dynamic> ids = jsonResponse["ids"] ?? [];
     return [
-      titles.map((e) => e as String).toList(),
-      ids.map((e) => e as String).toList()
+      // titles.map((e) => e as String).toList(),
+      // ids.map((e) => e as String).toList()
     ];
   }
 

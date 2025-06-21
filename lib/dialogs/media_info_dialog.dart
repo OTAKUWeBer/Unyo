@@ -5,6 +5,73 @@ import 'package:unyo/models/models.dart';
 import 'package:unyo/util/utils.dart';
 import 'package:unyo/widgets/widgets.dart';
 
+class MediaInfoDialogManager {
+  static final MediaInfoDialogManager _instance =
+  MediaInfoDialogManager._internal();
+  MediaInfoDialogManager._internal();
+  factory MediaInfoDialogManager() => _instance;
+
+  void openAnimeInfoDialog(BuildContext context, totalWidth, totalHeight) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const Text(
+                "List Editor",
+                style: TextStyle(color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {
+                  askForDeleteUserMedia();
+                },
+                icon: const Icon(Icons.delete, color: Colors.white),
+              )
+            ],
+          ),
+          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+          content: MediaInfoDialog(
+              id: widget.currentAnime.id,
+              episodes: widget.currentAnime.episodes,
+              totalWidth: totalWidth,
+              totalHeight: totalHeight,
+              statuses: statuses,
+              query: query,
+              progress: progress,
+              currentEpisode: latestReleasedEpisode,
+              score: score,
+              setUserMediaModel: setUserAnimeModel,
+              startDate: startDate,
+              endDate: endDate,
+              animeModel: widget.currentAnime),
+        );
+      },
+    );
+  }
+
+  void askForDeleteUserMedia() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Are you sure you wish to delete this media entry",
+              style: TextStyle(color: Colors.white)),
+          backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+          content: DeleteUserMediaDialog(
+            totalHeight: totalHeight,
+            totalWidth: totalWidth,
+            currentMediaId: widget.currentAnime.id,
+            deleteUserAnime: loggedUserModel.deleteUserAnime,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class MediaInfoDialog extends StatefulWidget {
   const MediaInfoDialog({
     super.key,

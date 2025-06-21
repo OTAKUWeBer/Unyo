@@ -1,6 +1,128 @@
+import 'dart:async';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:unyo/notification/notification_manager.dart';
+import 'package:unyo/sources/sources.dart';
 import 'package:unyo/widgets/widgets.dart';
+
+class WrongTitleDialogManager {
+  static final WrongTitleDialogManager _instance =
+      WrongTitleDialogManager._internal();
+
+  WrongTitleDialogManager._internal();
+
+  factory WrongTitleDialogManager() => _instance;
+
+  bool manualTitleSelection = false;
+  List<DropdownMenuEntry> wrongTitleEntries = [];
+  String oldWrongTitleSearch = "";
+  String? currentSearchString;
+  int? currentSearchIndex;
+  Timer wrongTitleSearchTimer = Timer(const Duration(milliseconds: 500), () {});
+  void Function() wrongTitleSearchFunction = () {};
+  TextEditingController wrongTitleSearchController = TextEditingController();
+  List<String> results = [];
+
+  void openWrongTitleDialog(BuildContext context, double width, double height,
+      {AnimeSource? currentAnimeSource, MangaSource? currentMangaSource}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            setWrongTitleSearch(setState,
+                currentAnimeSource: currentAnimeSource,
+                currentMangaSource: currentMangaSource);
+            return AlertDialog(
+              title: Text(context.tr("select_title"),
+                  style: const TextStyle(color: Colors.white)),
+              backgroundColor: const Color.fromARGB(255, 44, 44, 44),
+              content: WrongTitleDialog(
+                width: width,
+                height: height,
+                wrongTitleSearchController: wrongTitleSearchController,
+                wrongTitleEntries: wrongTitleEntries,
+                currentSearchString: manualTitleSelection
+                    ? currentSearchString!
+                    : results.isNotEmpty
+                        ? results[0]
+                        : "",
+                onPressed: () async {
+                  wrongTitleSearchTimer.cancel();
+                  //NOTE dirty fix for a bug
+                  if (!context.mounted) return;
+                  NotificationManager().showWarningNotification(
+                      context,
+                      "Updating Title, don't close...",
+                      DesktopSnackBarPosition.topCenter);
+                  await Future.delayed(const Duration(seconds: 1));
+                  if (!context.mounted) return;
+                  NotificationManager().showSuccessNotification(context,
+                      "Title Updated", DesktopSnackBarPosition.topCenter);
+                  if (!context.mounted) return;
+                  Navigator.of(context).pop();
+                },
+                onSelected: (value) {
+                  manualTitleSelection = true;
+                  currentSearchString = results[value];
+                  currentSearchIndex = value!;
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void setWrongTitleSearch(void Function(void Function()) setDialogState,
+      {AnimeSource? currentAnimeSource, MangaSource? currentMangaSource}) {
+    oldWrongTitleSearch = "";
+    //reset listener
+    wrongTitleSearchController.removeListener(wrongTitleSearchFunction);
+    wrongTitleSearchFunction = () {
+      wrongTitleSearchTimer.cancel();
+      wrongTitleSearchTimer =
+          Timer(const Duration(milliseconds: 500), () async {
+        if (wrongTitleSearchController.text != oldWrongTitleSearch &&
+            wrongTitleSearchController.text != "") {
+          if (currentMangaSource == null) {
+            results = await currentAnimeSource!
+                .getAnimeTitles(wrongTitleSearchController.text);
+          } else {
+            results = [];
+            // searches = await currentMangaSource!.get(title);
+          }
+          setDialogState(() {
+            wrongTitleEntries = [
+              ...results.mapIndexed(
+                (index, title) {
+                  return DropdownMenuEntry(
+                    style: const ButtonStyle(
+                      foregroundColor: MaterialStatePropertyAll(Colors.white),
+                    ),
+                    value: index,
+                    label: title,
+                  );
+                },
+              ),
+            ];
+          });
+        }
+        oldWrongTitleSearch = wrongTitleSearchController.text;
+      });
+    };
+    wrongTitleSearchController.addListener(wrongTitleSearchFunction);
+  }
+
+  void clearProperties() {
+    manualTitleSelection = false;
+    currentSearchIndex = null;
+    currentSearchString = null;
+  }
+}
 
 class WrongTitleDialog extends StatelessWidget {
   const WrongTitleDialog({
@@ -11,7 +133,6 @@ class WrongTitleDialog extends StatelessWidget {
     required this.onSelected,
     required this.onPressed,
     required this.wrongTitleEntries,
-    required this.manualSelection,
     required this.currentSearchString,
   });
 
@@ -21,7 +142,6 @@ class WrongTitleDialog extends StatelessWidget {
   final void Function(dynamic)? onSelected;
   final void Function() onPressed;
   final List<DropdownMenuEntry<dynamic>> wrongTitleEntries;
-  final int? manualSelection;
   final String currentSearchString;
 
   @override

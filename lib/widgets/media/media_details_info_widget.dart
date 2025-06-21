@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_list_view/smooth_list_view.dart';
+import 'package:unyo/dialogs/dialogs.dart';
 import 'package:unyo/models/models.dart';
 import 'package:unyo/sources/sources.dart';
 import 'package:unyo/widgets/widgets.dart';
@@ -19,7 +20,6 @@ class MediaDetailsInfoWidget extends StatelessWidget {
       required this.updateSource,
       required this.context,
       required this.setState,
-      required this.openWrongTitleDialog,
       required this.openMediaInfoDialog,
       this.currentAnime,
       required this.currentEpisode,
@@ -39,9 +39,6 @@ class MediaDetailsInfoWidget extends StatelessWidget {
   final void Function(int, BuildContext) updateSource;
   final BuildContext context;
   final void Function(void Function()) setState;
-  final void Function(
-          BuildContext, double, double, void Function(void Function()))
-      openWrongTitleDialog;
   final void Function(BuildContext) openMediaInfoDialog;
 
   List<DropdownMenuItem> getSources() {
@@ -127,8 +124,9 @@ class MediaDetailsInfoWidget extends StatelessWidget {
                   ),
                   StyledButton(
                     onPressed: () {
-                      openWrongTitleDialog(
-                          context, adjustedWidth, adjustedHeight, setState);
+                      WrongTitleDialogManager().openWrongTitleDialog(context, adjustedWidth, adjustedHeight);
+                      // openWrongTitleDialog(
+                      //     context, adjustedWidth, adjustedHeight, setState);
                     },
                     text: context.tr("wrong_no_title"),
                   ),
