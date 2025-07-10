@@ -3,11 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  bitsdojo_window_windows
   bonsoir_windows
-  desktop_keep_screen_on
-  flutter_acrylic
-  flutter_window_close
+  dynamic_color
   fvp
   url_launcher_windows
 )

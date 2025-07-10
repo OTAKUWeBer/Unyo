@@ -1,0 +1,47 @@
+// External dependencies
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
+// Internal dependencies
+import 'package:unyo/application/effects/app_effects.dart';
+
+mixin EffectMixin<State> on Cubit<State> {
+  State copyStateWithEffects(State state, List<AppEffect> effects);
+  Logger get logger;
+
+  void addEffect(AppEffect effect) {
+    logger.d("Adding AppEffect: $effect");
+    final current = state;
+    final newEffects = [..._currentEffects, effect];
+    emit(copyStateWithEffects(current, newEffects));
+  }
+
+  void clearEffects() {
+    emit(copyStateWithEffects(state, []));
+  }
+
+  List<AppEffect> get _currentEffects {
+    if (state is HasEffects) {
+      return (state as HasEffects).stateEffects;
+    }
+    throw StateError('Cubit/Bloc State must implement HasEffects');
+  }
+
+  void showSnackBarEffect({required String message}) {
+    logger.i("ShowSnackbar with message: $message");
+    addEffect(ShowSnackbarEffect(message));
+  }
+
+  void replaceRouteEffect({required String path}) {
+    logger.i("ReplaceRoute with path: $path");
+    addEffect(ReplaceRouteEffect(path));
+  }
+
+  void pushRouteEffect({required String path}) {
+    logger.i("PushRoute with path: $path");
+    addEffect(PushRouteEffect(path));
+  }
+}
+
+abstract class HasEffects {
+  List<AppEffect> get stateEffects;
+}

@@ -1,118 +1,40 @@
-import 'dart:io';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
+//Flutter dependencies
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_acrylic/window.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:unyo/models/adapters/anilist_user_model_adapter.dart';
-import 'package:unyo/models/adapters/anime_model_adapter.dart';
-import 'package:unyo/models/adapters/local_user_model_adapter.dart';
-import 'package:unyo/models/adapters/manga_model_adapter.dart';
-import 'package:unyo/models/adapters/user_media_model_adapter.dart';
-import 'package:unyo/router/router.dart';
-import 'package:fvp/fvp.dart' as fvp;
-import 'package:path/path.dart' as p;
-import 'package:unyo/util/utils.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:unyo/util/constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Future<void> shutdownCleanup() async {
-  await discord.cleanup();
-  processManager.stopProcess();
-}
+//Internal dependencies
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/router/app_router.dart';
 
-Future<void> main() async {
-  logger.i("Initializing dependencies");
+final _appRouter = AppRouter();
+
+void main() async {
+  // Initialize Flutter bindings
   WidgetsFlutterBinding.ensureInitialized();
-  await Window.initialize();
   await EasyLocalization.ensureInitialized();
-  final dir = await getApplicationSupportDirectory();
-  Hive.init(p.join(dir.path, "data"));
-  Hive.registerAdapter(AnilistUserModelAdapter());
-  Hive.registerAdapter(LocalUserModelAdapter());
-  Hive.registerAdapter(UserMediaModelAdapter());
-  Hive.registerAdapter(MangaModelAdapter());
-  Hive.registerAdapter(AnimeModelAdapter());
-
-  if (Platform.isWindows) {
-    fvp.registerWith(options: {
-      'platforms': ['windows'],
-      'video.decoders': ['DXVA', 'FFmpeg'],
-      'player': {"avformat.extension_picky": "0"}
-    });
-  } else {
-    fvp.registerWith(options: {
-      'platforms': ['linux', 'macos'],
-    });
-  }
-
-  // Handle forced shutdown (Ctrl+C, SIGTERM)
-  ProcessSignal.sigint.watch().listen((_) async {
-    await shutdownCleanup();
-    exit(0);
-  });
-  ProcessSignal.sigterm.watch().listen((_) async {
-    await shutdownCleanup();
-    exit(0);
-  });
-
-  logger.i("Initializing Unyo");
+  // Inject dependencies before running the app
+  setupLocator();
   runApp(
     EasyLocalization(
-      supportedLocales: const [
-        Locale('en'),
-        Locale('es'),
-        Locale('fr'),
-        Locale('de'),
-        Locale('it'),
-        Locale('pt'),
-        Locale('ru'),
-        Locale('ja'),
-        Locale('bn'),
-        Locale('hi'),
-      ],
+      supportedLocales: [Locale('en')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
       useOnlyLangCode: true,
-      path: 'assets/languages',
-      fallbackLocale: const Locale('en'),
-      child: const MyApp(),
+      child: ScreenUtilInit(
+        designSize: const Size(1280, 720),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return const MyApp();
+        },
+      ),
     ),
   );
-  doWhenWindowReady(() {
-    appWindow.position = const Offset(200, 200);
-    appWindow.minSize = const Size(1280, 720);
-    appWindow.title = "Unyo";
-    appWindow.size = const Size(1280, 720);
-    appWindow.show();
-  });
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    FlutterWindowClose.setWindowShouldCloseHandler(() async {
-      logger.i("Unyo is exiting...");
-      await shutdownCleanup();
-      logger.i("Cleanup done; exiting now.");
-      return true;
-    });
-  }
-
-  @override
-  void dispose() {
-    Future.microtask(() async {
-      await shutdownCleanup();
-    });
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +43,93 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      title: 'Unyo',
-      routerConfig: router,
+      title: "Unyo",
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color.fromARGB(255, 44, 44, 44),
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        // colorScheme: ColorScheme.dark(
+        //   primary: Colors.grey[200]!,
+        //   secondary: Colors.grey[300]!,
+        //   surface: Colors.white,
+        //   onSurface: Colors.grey[300]!,
+        // ),
+        textTheme: TextTheme(
+          // Display styles (largest) - white
+          displayLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+          displayMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 35,
+            fontWeight: FontWeight.bold,
+          ),
+          displaySmall: TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+
+          // Headline styles - white to light gray
+          headlineLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+          ),
+          headlineMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            // fontWeight: FontWeight.w600,
+          ),
+          headlineSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            // fontWeight: FontWeight.w600,
+          ),
+
+          // Title styles - light gray to mid gray
+          titleLarge: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            // fontWeight: FontWeight.w500,
+          ),
+          titleMedium: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            // fontWeight: FontWeight.w500,
+          ),
+          titleSmall: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            // fontWeight: FontWeight.w500,
+          ),
+
+          // Body styles - dark gray to black
+          bodyLarge: TextStyle(color: Colors.grey[900], fontSize: 14),
+          bodyMedium: TextStyle(color: Colors.grey[900], fontSize: 12),
+          bodySmall: TextStyle(color: Colors.grey[900], fontSize: 10),
+
+          // Label styles - black
+          labelLarge: TextStyle(
+            color: Colors.grey[900],
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+          labelMedium: TextStyle(
+            color: Colors.grey[900],
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+          ),
+          labelSmall: TextStyle(
+            color: Colors.grey[900],
+            fontSize: 10,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+      routerConfig: _appRouter.config(),
     );
   }
 }

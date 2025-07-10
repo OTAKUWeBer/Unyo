@@ -3,9 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  bitsdojo_window_linux
-  flutter_acrylic
-  flutter_window_close
+  dynamic_color
   fvp
   url_launcher_linux
 )
