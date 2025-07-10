@@ -34,6 +34,7 @@ As it is apparent by the commits Unyo has been stuck for quite a while and littl
 
 ### Some Updates!
 - A new backend is being made for unyo so more extensions come back and uptime gets much much better. It is coming along nice, expect more news in the future.
+- The backend is prety much done, I have decided to do a rewrite of the app so it can be more maintanable less buggy, the end user probablu doesn't notice but the way it was going it had started to show signs of weakness be it in performance and developer experience and new features were very very hard to add.
 
 ## Installation
 
