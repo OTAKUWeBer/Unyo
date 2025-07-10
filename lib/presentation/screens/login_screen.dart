@@ -77,8 +77,10 @@ class _LoginViewState extends State<_LoginView> {
       builder: (context, state) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Spacer(flex: 1),
             TextDisplayLarge(text: context.tr("select_user")),
             SizedBox(height: 0.07.sh),
             SizedBox(
@@ -90,10 +92,24 @@ class _LoginViewState extends State<_LoginView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ...state.availableUsers.map(
-                      (user) => UserAvatar(user: user, onPressed: (){}),
+                      (user) => UserAvatar(user: user, onPressed: () {}),
                     ),
-                    AddUserAvatar(onPressed: () {}),
+                    AddUserAvatar(onPressed: () => context.read<LoginCubit>().initiateAccountCreation(context)),
                     // Display existing users
+                  ],
+                ),
+              ),
+            ),
+            Spacer(flex: 1),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: EdgeInsets.all(30.0.r),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const TextHeadlineSmall(text: "Unyo revamped! by K3vinb5"),
+                    Image.asset("assets/logo.png", scale: 2.5),
                   ],
                 ),
               ),

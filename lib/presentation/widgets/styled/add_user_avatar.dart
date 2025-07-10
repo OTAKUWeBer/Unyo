@@ -30,7 +30,7 @@ class AddUserAvatar extends StatelessWidget {
             ),
             hoverDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(150.r),
-              border: Border.all(color: Colors.white, width: 6.w),
+              border: Border.all(color: Colors.white, width: 8.w),
             ),
             child: InkWell(
               borderRadius: BorderRadius.circular(140.r),

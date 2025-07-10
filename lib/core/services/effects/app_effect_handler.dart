@@ -1,6 +1,5 @@
 // External dependencies
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -32,30 +31,53 @@ class AppEffectHandler {
         _handleReplaceRouteEffect(replaceRouteEffect, context);
       case PushRouteEffect pushRouteEffect:
         _handlePushRouteEffect(pushRouteEffect, context);
+      case ShowWidgetDialogEffect showWidgetDialogEffect:
+        _handleShowWidgetDialogEffect(showWidgetDialogEffect, context);
       default:
         _handleUnkownEffect(effect);
     }
+  }
+
+  void _handleShowWidgetDialogEffect(
+    ShowWidgetDialogEffect effect,
+    BuildContext context,
+  ) {
+    _logger.d("Handling ShowWidgetDialogEffect");
+    showDialog(
+      context: context,
+      builder:
+          (dialogContext) => effect.dialog
+    );
   }
 
   void _handleShowSnackbarEffect(ShowSnackbarEffect effect) {
     _logger.d("Handling ShowSnackbarEffect");
   }
 
-  void _handleUnkownEffect(AppEffect effect) {
-    _logger.e("Unimplemented Effect Handler for effect: $effect");
-  }
-
-  void _handleReplaceRouteEffect(ReplaceRouteEffect effect, BuildContext context,) {
+  void _handleReplaceRouteEffect(
+    ReplaceRouteEffect effect,
+    BuildContext context,
+  ) {
     _logger.d("Handling ReplaceRouteEffect");
-    context.router.root.replacePath(effect.routeName.replaceFirst("/", ""), onFailure: _handleRouteFailure);
+    context.router.root.replacePath(
+      effect.routeName.replaceFirst("/", ""),
+      onFailure: _handleRouteFailure,
+    );
   }
 
   void _handlePushRouteEffect(PushRouteEffect effect, BuildContext context) {
     _logger.d("Handling PushRouteEffect");
-    context.router.root.pushPath(effect.routeName.replaceFirst("/", ""), onFailure: _handleRouteFailure);
+    context.router.root.pushPath(
+      effect.routeName.replaceFirst("/", ""),
+      onFailure: _handleRouteFailure,
+    );
   }
 
   void _handleRouteFailure(NavigationFailure failure) {
     _logger.e("Navigation failure: ${failure.toString()}");
+  }
+
+  void _handleUnkownEffect(AppEffect effect) {
+    _logger.e("Unimplemented Effect Handler for effect: $effect");
   }
 }

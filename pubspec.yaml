@@ -49,6 +49,7 @@ dependencies:
   # Storage
   hive: ^2.2.3
   path_provider: ^2.1.5
+  path: ^1.9.1
   # Asset Management
   icons_launcher: ^3.0.1
   # Utilities
@@ -83,6 +84,7 @@ flutter:
   # Assets Application
   assets:
     - assets/translations/
+    - assets/logo.png
   #   - images/a_dot_ham.jpeg
 
   # To add custom fonts, add a fonts section in the "flutter" section with a "family" key for the font name and a "fonts" key listing the font assets.

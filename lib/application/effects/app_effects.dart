@@ -17,15 +17,16 @@ class PushRouteEffect extends AppEffect {
   PushRouteEffect(this.routeName, {this.arguments});
 }
 
+// Dialogs Effects
+class ShowWidgetDialogEffect extends AppEffect {
+  final Widget dialog;
+
+  ShowWidgetDialogEffect(this.dialog);
+}
+
 // Feedback Effects
 class ShowSnackbarEffect extends AppEffect {
   final String message;
 
   ShowSnackbarEffect(this.message);
-}
-
-class ShowDialogEffect extends AppEffect {
-  final Dialog dialog;
-
-  ShowDialogEffect(this.dialog);
 }

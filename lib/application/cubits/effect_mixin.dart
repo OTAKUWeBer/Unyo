@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 // Internal dependencies
@@ -16,6 +17,7 @@ mixin EffectMixin<State> on Cubit<State> {
   }
 
   void clearEffects() {
+    logger.d("Clearing all effects");
     emit(copyStateWithEffects(state, []));
   }
 
@@ -24,6 +26,11 @@ mixin EffectMixin<State> on Cubit<State> {
       return (state as HasEffects).stateEffects;
     }
     throw StateError('Cubit/Bloc State must implement HasEffects');
+  }
+
+  void showWidgetDialogEffect({required Widget dialog}) {
+    logger.i("ShowWidgetDialog with dialog: $dialog");
+    addEffect(ShowWidgetDialogEffect(dialog));
   }
 
   void showSnackBarEffect({required String message}) {

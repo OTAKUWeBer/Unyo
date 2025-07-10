@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
@@ -11,7 +12,7 @@ import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/data/models/models.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
-import 'package:unyo/domain/entities/user.dart';
+import 'package:unyo/presentation/dialogs/account_creation_dialog.dart';
 
 class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   // Repositories
@@ -32,11 +33,11 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   Logger get logger => _logger;
 
 
-  // Future<void> initiateAccountCreation() {
-  //   // Effect that creates dialog
-  // }
+  Future<void> initiateAccountCreation(BuildContext context) async {
+    showWidgetDialogEffect(dialog: AccountCreationDialog(screenContext: context));
+  }
 
-  Future<void> fetchAllUsers() async{
+  Future<void> fetchAllUsers() async {
     List<UserModel> usersAvailable = (await _userRepository.fetchAllUsers()).cast<UserModel>();
     updateAvailableUsers(usersAvailable);
   }

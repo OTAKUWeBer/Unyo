@@ -1,6 +1,8 @@
 // External dependencies
+import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
 
 // Internal dependencies
 import 'package:unyo/application/cubits/login_cubit.dart';
@@ -20,6 +22,7 @@ void setupLocator() {
   // Services
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
+  sl.registerLazySingletonAsync<Directory>(() => getApplicationSupportDirectory(), instanceName: "applicationSupportDirectory");
 
   // Notifiers
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier());
