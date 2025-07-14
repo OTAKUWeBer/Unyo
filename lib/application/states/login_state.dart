@@ -2,17 +2,19 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
+import 'package:unyo/core/enums/login_card_type.dart';
 
 //Internal dependencies
-import 'package:unyo/data/models/models.dart';
+import 'package:unyo/domain/entities/user.dart';
 
 part 'login_state.freezed.dart';
 
 @freezed
 abstract class LoginState with _$LoginState implements HasEffects{
   const factory LoginState({
-    required UserModel user,
-    required List<UserModel> availableUsers,
+    required User user,
+    required List<User> availableUsers,
+    required LoginCardType selectedLoginCard,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _LoginState;
 

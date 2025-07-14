@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState {
 
- UserModel get user; List<AppEffect> get effects;
+ User get user; List<AppEffect> get effects;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,11 +45,11 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- UserModel user, List<AppEffect> effects
+ User user, List<AppEffect> effects
 });
 
 
-$UserModelCopyWith<$Res> get user;
+
 
 }
 /// @nodoc
@@ -65,20 +65,11 @@ class _$HomeStateCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? user = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as UserModel,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as User,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserModelCopyWith<$Res> get user {
-  
-  return $UserModelCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
-  });
-}
+
 }
 
 
@@ -160,7 +151,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( UserModel user,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User user,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
 return $default(_that.user,_that.effects);case _:
@@ -181,7 +172,7 @@ return $default(_that.user,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( UserModel user,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User user,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
 return $default(_that.user,_that.effects);case _:
@@ -201,7 +192,7 @@ return $default(_that.user,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( UserModel user,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User user,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
 return $default(_that.user,_that.effects);case _:
@@ -219,7 +210,7 @@ class _HomeState extends HomeState {
   const _HomeState({required this.user, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
-@override final  UserModel user;
+@override final  User user;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
@@ -258,11 +249,11 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- UserModel user, List<AppEffect> effects
+ User user, List<AppEffect> effects
 });
 
 
-@override $UserModelCopyWith<$Res> get user;
+
 
 }
 /// @nodoc
@@ -278,21 +269,12 @@ class __$HomeStateCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? user = null,Object? effects = null,}) {
   return _then(_HomeState(
 user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as UserModel,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as User,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
 
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$UserModelCopyWith<$Res> get user {
-  
-  return $UserModelCopyWith<$Res>(_self.user, (value) {
-    return _then(_self.copyWith(user: value));
-  });
-}
+
 }
 
 // dart format on

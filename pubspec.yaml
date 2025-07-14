@@ -62,6 +62,7 @@ dependencies:
   # FFI/Native Integration
   ffi: ^2.1.4
   ffigen: ^19.0.0
+  flutter_svg: ^2.2.0
 
 # Dev dependencies
 dev_dependencies:
@@ -85,6 +86,9 @@ flutter:
   assets:
     - assets/translations/
     - assets/logo.png
+    - assets/images/myanimelist.svg
+    - assets/images/anilist.svg
+    - assets/images/local_account.svg
   #   - images/a_dot_ham.jpeg
 
   # To add custom fonts, add a fonts section in the "flutter" section with a "family" key for the font name and a "fonts" key listing the font assets.

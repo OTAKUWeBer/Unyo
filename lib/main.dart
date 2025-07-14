@@ -107,23 +107,23 @@ class MyApp extends StatelessWidget {
           ),
 
           // Body styles - dark gray to black
-          bodyLarge: TextStyle(color: Colors.grey[900], fontSize: 14),
-          bodyMedium: TextStyle(color: Colors.grey[900], fontSize: 12),
-          bodySmall: TextStyle(color: Colors.grey[900], fontSize: 10),
+          bodyLarge: TextStyle(color: Colors.white, fontSize: 14),
+          bodyMedium: TextStyle(color: Colors.white, fontSize: 12),
+          bodySmall: TextStyle(color: Colors.white, fontSize: 10),
 
           // Label styles - black
           labelLarge: TextStyle(
-            color: Colors.grey[900],
+            color: Colors.grey,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
           labelMedium: TextStyle(
-            color: Colors.grey[900],
+            color: Colors.grey,
             fontSize: 11,
             fontWeight: FontWeight.w500,
           ),
           labelSmall: TextStyle(
-            color: Colors.grey[900],
+            color: Colors.grey,
             fontSize: 10,
             fontWeight: FontWeight.w500,
           ),

@@ -14,6 +14,7 @@ import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/data/models/models.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
+import 'package:unyo/domain/entities/user.dart';
 
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   //Repositories
@@ -21,7 +22,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   // Notifiers / Subscriptions
   final UserNotifier _userNotifier;
-  late StreamSubscription<UserModel> _userSubscription;
+  late StreamSubscription<User> _userSubscription;
 
   final Logger _logger = sl<Logger>();
 
