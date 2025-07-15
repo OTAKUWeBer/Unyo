@@ -33,6 +33,8 @@ class AppEffectHandler {
         _handlePushRouteEffect(pushRouteEffect, context);
       case ShowWidgetDialogEffect showWidgetDialogEffect:
         _handleShowWidgetDialogEffect(showWidgetDialogEffect, context);
+      case CloseDialogEffect closeDialogEffect:
+        _handleCloseDialogEffect(effect, closeDialogEffect.context);
       default:
         _handleUnkownEffect(effect);
     }
@@ -48,6 +50,15 @@ class AppEffectHandler {
       builder:
           (dialogContext) => effect.dialog
     );
+  }
+
+  void _handleCloseDialogEffect(CloseDialogEffect effect, BuildContext context) {
+    _logger.d("Handling CloseDialogEffect");
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      _logger.w("No Dialog found");
+    }
   }
 
   void _handleShowSnackbarEffect(ShowSnackbarEffect effect) {

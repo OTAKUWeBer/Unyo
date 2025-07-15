@@ -8,7 +8,7 @@ import 'package:flutter_svg/svg.dart';
 // Internal dependencies
 import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/enums/login_card_type.dart';
-import 'package:unyo/presentation/widgets/styled/login_card.dart';
+import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/text/text_display_large.dart';
 
 import '../../application/states/login_state.dart';
@@ -33,7 +33,7 @@ class AccountCreationDialog extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 40.h),
-                  TextDisplayLarge(text: context.tr("sign_int_title")),
+                  TextDisplayLarge(text: context.tr("sign_in_title")),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -51,6 +51,7 @@ class AccountCreationDialog extends StatelessWidget {
                                 ),
                                 title: 'Anilist',
                                 description: 'Sync your list with Anilist',
+                                onTap: () => context.read<LoginCubit>().selectLoginType(LoginCardType.anilist),
                                 isSelected: state.selectedLoginCard == LoginCardType.anilist,
                               ),
                               LoginCard(
@@ -59,8 +60,9 @@ class AccountCreationDialog extends StatelessWidget {
                                   width: 120.w,
                                   height: 120.h,
                                 ),
-                                title: 'Local Account',
+                                title: 'MyAnimeList',
                                 description: 'Sync your list with MyAnimeList',
+                                onTap: () => context.read<LoginCubit>().selectLoginType(LoginCardType.mal),
                                 isSelected: state.selectedLoginCard == LoginCardType.mal,
                               ),
                               LoginCard(
@@ -71,13 +73,23 @@ class AccountCreationDialog extends StatelessWidget {
                                 ),
                                 title: 'Local Account',
                                 description: 'Offline usage, no sync',
+                                onTap: () => context.read<LoginCubit>().selectLoginType(LoginCardType.local),
                                 isSelected: state.selectedLoginCard == LoginCardType.local,
                               ),
-                              SizedBox(height: 60.h),
-                              Row(),
                             ],
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16.0.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        DarkUnyoButton(onPressed: () => context.read<LoginCubit>().closeDialogEffect(context), text: context.tr("cancel"),),
+                        SizedBox(width: 15.w,),
+                        LightUnyoButton(onPressed: (){},text: context.tr("confirm"),)
                       ],
                     ),
                   ),

@@ -33,6 +33,11 @@ mixin EffectMixin<State> on Cubit<State> {
     addEffect(ShowWidgetDialogEffect(dialog));
   }
 
+  void closeDialogEffect(BuildContext context) {
+    logger.i("CloseDialog attempted");
+    addEffect(CloseDialogEffect(context));
+  }
+
   void showSnackBarEffect({required String message}) {
     logger.i("ShowSnackbar with message: $message");
     addEffect(ShowSnackbarEffect(message));

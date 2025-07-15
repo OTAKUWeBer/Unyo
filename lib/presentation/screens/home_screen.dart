@@ -8,7 +8,6 @@ import 'package:unyo/application/cubits/home_cubit.dart';
 import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
-import 'package:unyo/presentation/widgets/text/texts.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {

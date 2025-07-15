@@ -41,8 +41,19 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   @override
   Logger get logger => _logger;
 
-  Future<void> initiateAccountCreation(BuildContext context) async {
+  void initiateAccountCreation(BuildContext context) async {
     showWidgetDialogEffect(dialog: AccountCreationDialog(context));
+  }
+
+  void selectLoginType(LoginCardType type) async {
+    if (state.selectedLoginCard == type) return;
+    _logger.d("Login type selected: $type");
+    emit(state.copyWith(selectedLoginCard: type));
+  }
+
+  void closeAccountCreationDialog(BuildContext context) {
+    _logger.d("Closing account creation dialog");
+    closeDialogEffect(context);
   }
 
   Future<void> fetchAllUsers() async {

@@ -24,6 +24,12 @@ class ShowWidgetDialogEffect extends AppEffect {
   ShowWidgetDialogEffect(this.dialog);
 }
 
+class CloseDialogEffect extends AppEffect {
+  BuildContext context;
+
+  CloseDialogEffect(this.context);
+}
+
 // Feedback Effects
 class ShowSnackbarEffect extends AppEffect {
   final String message;
