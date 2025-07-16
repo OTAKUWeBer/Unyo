@@ -1,13 +1,16 @@
 // Dart dependencies
 import 'dart:convert';
 import 'dart:io';
+
 // External dependencies
 import 'package:http/http.dart' as http;
 import 'http_exception.dart';
 
 class HttpClient {
   final http.Client client;
+
   HttpClient({required this.client});
+
   Future<dynamic> get(
     String url, {
     Map<String, String>? headers,
@@ -17,8 +20,7 @@ class HttpClient {
     dynamic responseJson;
 
     try {
-      response =
-          await http.get(Uri.parse(url), headers: headers ?? {});
+      response = await http.get(Uri.parse(url), headers: headers ?? {});
 
       responseJson = _returnResponse(response);
     } on SocketException {
@@ -27,13 +29,19 @@ class HttpClient {
     return responseJson;
   }
 
-  Future<dynamic> post(String url,
-      {Map<String, String>? headers, Object? body}) async {
+  Future<dynamic> post(
+    String url, {
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
     http.Response? response;
     dynamic responseJson;
     try {
-      response = await http.post(Uri.parse(url),
-          headers: headers ?? {}, body: body);
+      response = await http.post(
+        Uri.parse(url),
+        headers: headers ?? {},
+        body: body,
+      );
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -42,13 +50,19 @@ class HttpClient {
     return responseJson;
   }
 
-  Future<dynamic> put(String url,
-      {Map<String, String>? headers, Object? body}) async {
+  Future<dynamic> put(
+    String url, {
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
     http.Response? response;
     dynamic responseJson;
     try {
-      response = await http.put(Uri.parse(url),
-          headers: headers ?? {}, body: body);
+      response = await http.put(
+        Uri.parse(url),
+        headers: headers ?? {},
+        body: body,
+      );
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -61,8 +75,7 @@ class HttpClient {
     http.Response? response;
     dynamic responseJson;
     try {
-      response =
-          await http.delete(Uri.parse(url), headers: headers ?? {});
+      response = await http.delete(Uri.parse(url), headers: headers ?? {});
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -93,6 +106,7 @@ dynamic _returnResponse(http.Response response) {
       throw BadGateWayException(response.body.toString());
     default:
       return FetchDataException(
-          'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+        'Error occured while Communication with Server with StatusCode : ${response.statusCode}',
+      );
   }
 }

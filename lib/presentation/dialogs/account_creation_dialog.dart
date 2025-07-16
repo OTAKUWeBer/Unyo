@@ -89,7 +89,7 @@ class AccountCreationDialog extends StatelessWidget {
                       children: [
                         DarkUnyoButton(onPressed: () => context.read<LoginCubit>().closeDialogEffect(context), text: context.tr("cancel"),),
                         SizedBox(width: 15.w,),
-                        LightUnyoButton(onPressed: (){},text: context.tr("confirm"),)
+                        LightUnyoButton(onPressed: () => context.read<LoginCubit>().attemptToCreateUser(context), text: context.tr("confirm"),)
                       ],
                     ),
                   ),

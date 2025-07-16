@@ -18,7 +18,7 @@ import 'package:unyo/domain/entities/user.dart';
 
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   //Repositories
-  final UserRepositoryHive _userRepository;
+  final UserRepositoryLocal _userRepository;
 
   // Notifiers / Subscriptions
   final UserNotifier _userNotifier;

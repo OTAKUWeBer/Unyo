@@ -28,9 +28,10 @@ void setupLocator() {
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier());
 
   // Repositories
-  sl.registerLazySingleton<UserRepositoryHive>(() => UserRepositoryHive());
+  sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
+  sl.registerLazySingleton<UserRepositoryAnilist>(() => UserRepositoryAnilist());
 
   // Cubits / Blocs
-  sl.registerFactory<LoginCubit>(() => LoginCubit(sl(), sl()));
+  sl.registerFactory<LoginCubit>(() => LoginCubit(sl(), sl(), sl()));
   sl.registerFactory<HomeCubit>(() => HomeCubit(sl(), sl()));
 }

@@ -18,13 +18,14 @@ import 'package:unyo/presentation/dialogs/account_creation_dialog.dart';
 
 class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   // Repositories
-  final UserRepositoryHive _userRepository;
+  final UserRepositoryLocal _userRepositoryLocal;
+  final UserRepositoryAnilist _userRepositoryAnilist;
   final Logger _logger = sl<Logger>();
 
   // Notifiers / Subscriptions
   final UserNotifier _userNotifier;
 
-  LoginCubit(this._userRepository, this._userNotifier)
+  LoginCubit(this._userRepositoryLocal, this._userNotifier, this._userRepositoryAnilist)
     : super(
         LoginState(
           user: UserModel.empty(),
@@ -56,10 +57,28 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     closeDialogEffect(context);
   }
 
+  Future<void> attemptToCreateUser(BuildContext context) async {
+    switch (state.selectedLoginCard) {
+      case LoginCardType.anilist:
+        _logger.i("Attempting to create Anilist User");
+        _userRepositoryAnilist.createUser();
+        break;
+      case LoginCardType.mal:
+        _logger.i("Attempting to create MyAnimeList User");
+        break;
+      case LoginCardType.local:
+        _logger.i("Attempting to create Local User");
+        break;
+    }
+    closeDialogEffect(context);
+  }
+
   Future<void> fetchAllUsers() async {
-    List<User> usersAvailable =
-        (await _userRepository.fetchAllUsers()).cast<User>();
-    updateAvailableUsers(usersAvailable);
+    List<User> usersAvailableLocal =
+        (await _userRepositoryLocal.fetchAllLoggedInUsers()).cast<User>();
+    List<User> usersAvailableAnilist =
+    (await _userRepositoryAnilist.fetchAllLoggedInUsers()).cast<User>();
+    updateAvailableUsers(usersAvailableAnilist + usersAvailableLocal);
   }
 
   void updateAvailableUsers(List<User> users) {
