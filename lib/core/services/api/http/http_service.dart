@@ -1,33 +1,228 @@
 //External dependencies
-import 'package:http/http.dart';
-//Internal dependencies
-import 'package:unyo/core/services/api/http/helpers/http_client.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:retry/retry.dart';
+
+// Internal dependencies
+import 'package:unyo/core/di/locator.dart';
+import 'api_response.dart';
+import 'http_exception.dart';
 
 class HttpService {
+  final http.Client client = http.Client();
+  final Logger _logger = sl<Logger>();
+  final Duration timeout;
+  final RetryOptions retryOptions;
+  final Duration cacheTtl = const Duration(minutes: 20);
+  final Map<String, (int, dynamic)> apiResponseCache = {};
 
-  //Empty constructor
-  const HttpService();
+  HttpService({
+    this.timeout = const Duration(seconds: 7),
+    this.retryOptions = const RetryOptions(maxAttempts: 2),
+  });
 
-  Client createHttp() {
-    return Client();
+  Future<ApiResponse<T>> get<T>(
+    String endpoint, {
+    Map<String, String>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    _logger.i("GET request to $endpoint attempting to return instance of $T");
+    ApiResponse<T>? cachedApiResponse = _getCachedResponse<T>(
+      'GET',
+      endpoint,
+      headers: headers,
+      fromJson: fromJson,
+    );
+    if (cachedApiResponse != null) {
+      _logger.i("Returning cached response for $endpoint");
+      return cachedApiResponse;
+    }
+    ApiResponse<T> apiResponse = await _request(
+      'GET',
+      endpoint,
+      fromJson: fromJson,
+      headers: headers,
+    );
+    _cacheResponse(
+      apiResponse,
+      'GET',
+      endpoint,
+      headers: headers,
+      fromJson: fromJson,
+    );
+    return apiResponse;
   }
 
-  getData(String url) async {
-    final client = HttpClient(client: createHttp());
-    final response = await client.get(url);
-    return response;
+  Future<ApiResponse<T>> post<T>(
+    String endpoint, {
+    Map<String, String>? headers,
+    Object? body,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    _logger.i("POST request to $endpoint attempting to return instance of $T");
+    final encodedBody = json.encode(body);
+    ApiResponse<T>? cachedApiResponse = _getCachedResponse<T>(
+      'POST',
+      endpoint,
+      headers: headers,
+      body: encodedBody,
+      fromJson: fromJson,
+    );
+    if (cachedApiResponse != null) {
+      _logger.i("Returning cached response for $endpoint");
+      return cachedApiResponse;
+    }
+    ApiResponse<T> apiResponse = await _request(
+      'POST',
+      endpoint,
+      fromJson: fromJson,
+      headers: headers,
+      body: encodedBody,
+    );
+    _cacheResponse(
+      apiResponse,
+      'POST',
+      endpoint,
+      headers: headers,
+      body: encodedBody,
+      fromJson: fromJson
+    );
+    return apiResponse;
   }
 
-  postData(String url, dynamic body) async {
-    final client = HttpClient(client: createHttp());
-    final response = await client.post(url, body: body);
-
-    return response;
+  ApiResponse<T>? _getCachedResponse<T>(
+    String method,
+    String endpoint, {
+    Map<String, String>? headers,
+    String? body,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) {
+    final cacheKey = "${method.hashCode}${endpoint.hashCode}${headers.hashCode}${body.hashCode}${fromJson.hashCode}";
+    if (apiResponseCache.containsKey(cacheKey)) {
+      _logger.i("Cached response found for $endpoint");
+      try {
+        final (expiry, cachedResponse as ApiResponse<T>) =
+        apiResponseCache[cacheKey]!;
+        if (expiry < DateTime.now().millisecondsSinceEpoch) {
+          _logger.i(
+            "Cached response for $endpoint has expired, making new request",
+          );
+          apiResponseCache.remove(cacheKey);
+        } else {
+          _logger.i("Cached response for $endpoint is still valid");
+          return cachedResponse;
+        }
+      } catch (e, stackTrace) {
+        _logger.e(
+          "Error while retrieving cached response for $endpoint: $e",
+          stackTrace: stackTrace,
+        );
+        apiResponseCache.remove(cacheKey);
+        return null;
+      }
+    }
+    _logger.i("No cached response found for $endpoint");
+    return null;
   }
 
-  putData(String url, dynamic body) async {
-    final client = HttpClient(client: createHttp());
-    final response = await client.put(url, body: body);
-    return response;
+  void _cacheResponse<T>(
+    ApiResponse<T> response,
+    String method,
+    String endpoint, {
+    Map<String, String>? headers,
+    String? body,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) {
+    _logger.i("Caching response for $endpoint");
+    final cacheKey = "${method.hashCode}${endpoint.hashCode}${headers.hashCode}${body.hashCode}${fromJson.hashCode}";
+    apiResponseCache[cacheKey] =
+        (
+          DateTime.now().millisecondsSinceEpoch + cacheTtl.inMilliseconds,
+          response,
+        );
+  }
+
+  Future<ApiResponse<T>> _request<T>(
+    String method,
+    String endpoint, {
+    required T Function(Map<String, dynamic>) fromJson,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
+    final uri = Uri.parse(endpoint);
+    _logger.i("Handling request to $uri");
+    try {
+      final response = await retryOptions.retry(() async {
+        final request = switch (method) {
+          'POST' => client.post(
+            uri,
+            headers: _defaultHeaders(headers),
+            body: body,
+          ),
+          'GET' => client.get(uri, headers: _defaultHeaders(headers)),
+          'PUT' => client.put(
+            uri,
+            headers: _defaultHeaders(headers),
+            body: body,
+          ),
+          'PATCH' => client.patch(
+            uri,
+            headers: _defaultHeaders(headers),
+            body: body,
+          ),
+          'DELETE' => client.delete(uri, headers: _defaultHeaders(headers)),
+          _ => throw UnsupportedError('Method not supported'),
+        };
+        return await request.timeout(timeout);
+      }, retryIf: (e) => e is SocketException || e is TimeoutException);
+      _logger.i(
+        "Handling response received from $uri with status code ${response.statusCode}",
+      );
+      return _handleResponse<T>(response, fromJson);
+    } on SocketException {
+      _logger.e("SocketException occurred while handling request to $uri");
+      throw HttpNetworkException();
+    } on TimeoutException {
+      _logger.e("TimeoutException occurred while handling request to $uri");
+      throw HttpTimeoutException();
+    } on http.ClientException catch (e, stackTrace) {
+      _logger.e(
+        "ClientException occurred while handling request to $uri: ${e.message}",
+        stackTrace: stackTrace,
+      );
+      throw HttpServerException(500, e.message);
+    }
+  }
+
+  ApiResponse<T> _handleResponse<T>(
+    http.Response response,
+    T Function(Map<String, dynamic>) fromJson,
+  ) {
+    final status = response.statusCode;
+    if (status >= 200 && status < 300) {
+      _logger.d("Response from server is successful with status code $status");
+      final jsonMap = json.decode(response.body) as Map<String, dynamic>;
+      return ApiResponse(
+        data: fromJson(jsonMap),
+        statusCode: status,
+        headers: response.headers,
+      );
+    }
+    // TODO if status is specific number saying no more requests available return specific exception
+    _logger.e(
+      "Response from server failed with status code $status: ${response.body}",
+    );
+    throw HttpServerException(status, response.body);
+  }
+
+  Map<String, String> _defaultHeaders(Map<String, String>? override) {
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...?override,
+    };
   }
 }
