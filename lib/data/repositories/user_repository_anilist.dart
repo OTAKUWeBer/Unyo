@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
+import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_exception.dart';
 //Internal dependencies
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
@@ -24,13 +25,35 @@ class UserRepositoryAnilist implements UserRepository {
   final Logger _logger = sl<Logger>();
   final HttpService _httpService = sl<HttpService>();
   final GraphQLService _anilistGraphQLService = sl<GraphQLService>(instanceName: config.anilistGraphQlService);
+  final UserNotifier _newUserNotifier;
   late Box<User> _anilistUsersBox;
   late HttpServer _server;
+
+  UserRepositoryAnilist(this._newUserNotifier);
 
   @override
   Future<List<User>> fetchAllLoggedInUsers() async {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
     return [..._anilistUsersBox.values.toSet()];
+  }
+
+  @override
+  Future<void> attemptCreateUser() async {
+    _logger.i("Creating Anilist user");
+    try {
+      _logger.d("Opening Anilist login server at http://localhost:9999");
+      _server = await shelfio.serve(_handleLoginRequest, 'localhost', 9999);
+    } catch (e, stackTrace) {
+      _logger.e("Error attempting to open server: $e", stackTrace: stackTrace);
+      rethrow;
+    }
+
+    _logger.i("Launching Anilist authorization URL: ${config.anilistAuthUrl}");
+    if (await canLaunchUrl(Uri.parse(config.anilistAuthUrl))) {
+      await launchUrl(Uri.parse(config.anilistAuthUrl));
+    } else {
+      _logger.e("Could not launch ${config.anilistAuthUrl}");
+    }
   }
 
   Future<ApiResponse<AuthTokenDto>> getAuthToken(String accessCode) async {
@@ -42,24 +65,6 @@ class UserRepositoryAnilist implements UserRepository {
       "code": accessCode,
     };
     return _httpService.post<AuthTokenDto>(config.anilistOAuthEndpoint, fromJson: AuthTokenDto.fromJson, body: body);
-  }
-
-  @override
-  Future<void> attemptCreateUser() async {
-    _logger.i("Creating Anilist user");
-    try {
-      _logger.d("Opening Anilist login server at http://localhost:9999");
-      _server = await shelfio.serve(_handleLoginRequest, 'localhost', 9999);
-    } catch (e, stackTrace) {
-      _logger.e("Error attempting to open server: $e", stackTrace: stackTrace);
-    }
-
-    _logger.i("Launching Anilist authorization URL: ${config.anilistAuthUrl}");
-    if (await canLaunchUrl(Uri.parse(config.anilistAuthUrl))) {
-      await launchUrl(Uri.parse(config.anilistAuthUrl));
-    } else {
-      _logger.e("Could not launch ${config.anilistAuthUrl}");
-    }
   }
 
   Future<shelf.Response> _handleLoginRequest(shelf.Request request) async {
@@ -101,6 +106,7 @@ class UserRepositoryAnilist implements UserRepository {
         refreshToken: authToken.data.refreshToken
     );
     _anilistUsersBox.put(viewerDto.data.viewer.name, newAnilistUser);
+    _newUserNotifier.updateUser(newAnilistUser);
   }
 
   void _throwIfGraphQlError<T>(ApiGraphQLResponse<T> graphQlResponse) {

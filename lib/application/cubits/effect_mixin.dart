@@ -53,6 +53,16 @@ mixin EffectMixin<State> on Cubit<State> {
     logger.i("PushRoute with path: $path");
     addEffect(PushRouteEffect(path));
   }
+
+  // Handle errors and others
+  void handleError(String message, {ContentType contentType = ContentType.failure, StackTrace? stackTrace}) {
+    logger.e(message, stackTrace: stackTrace);
+    showSnackBarEffect(
+      "Something went wrong",
+      message: message,
+      contentType: contentType,
+    );
+  }
 }
 
 abstract class HasEffects {

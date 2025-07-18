@@ -104,17 +104,17 @@ class HttpService {
     if (!_isCacheable(endpoint)) return null;
     final cacheKey = "${method.hashCode}${endpoint.hashCode}${json.encode(_cacheEnabledHeaders(headers)).hashCode}${body.hashCode}${fromJson.runtimeType.hashCode}";
     if (_apiResponseCache.containsKey(cacheKey)) {
-      _logger.i("Cached response found for $endpoint");
+      _logger.d("Cached response found for $endpoint");
       try {
         final (expiry, cachedResponse as ApiResponse<T>) =
         _apiResponseCache[cacheKey]!;
         if (expiry < DateTime.now().millisecondsSinceEpoch) {
-          _logger.i(
+          _logger.d(
             "Cached response for $endpoint has expired, making new request",
           );
           _apiResponseCache.remove(cacheKey);
         } else {
-          _logger.i("Cached response for $endpoint is still valid for ${(expiry - DateTime.now().millisecondsSinceEpoch) / 1000}s");
+          _logger.d("Cached response for $endpoint is still valid for ${(expiry - DateTime.now().millisecondsSinceEpoch) / 1000}s");
           return cachedResponse;
         }
       } catch (e, stackTrace) {
@@ -126,7 +126,7 @@ class HttpService {
         return null;
       }
     }
-    _logger.i("No cached response found for $endpoint");
+    _logger.d("No cached response found for $endpoint");
     return null;
   }
 
@@ -138,7 +138,7 @@ class HttpService {
     String? body,
     required T Function(Map<String, dynamic>) fromJson,
   }) {
-    _logger.i("Caching response for $endpoint");
+    _logger.d("Caching response for $endpoint");
     final cacheKey = "${method.hashCode}${endpoint.hashCode}${json.encode(_cacheEnabledHeaders(headers)).hashCode}${body.hashCode}${fromJson.runtimeType.hashCode}";
     _apiResponseCache[cacheKey] =
         (
@@ -172,7 +172,7 @@ class HttpService {
     Object? body,
   }) async {
     final uri = Uri.parse(endpoint);
-    _logger.i("Handling request to $uri");
+    _logger.d("Handling $method request to $uri");
     try {
       final response = await retryOptions.retry(() async {
         final request = switch (method) {
@@ -197,7 +197,7 @@ class HttpService {
         };
         return await request.timeout(timeout);
       }, retryIf: (e) => e is SocketException || e is TimeoutException);
-      _logger.i(
+      _logger.d(
         "Handling response received from $uri with status code ${response.statusCode}",
       );
       return _handleResponse<T>(response, fromJson);

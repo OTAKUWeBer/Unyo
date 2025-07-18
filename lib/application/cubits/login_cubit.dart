@@ -1,4 +1,5 @@
 // External dependencies
+import 'dart:async';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,15 +28,24 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   final Logger _logger = sl<Logger>();
 
   // Notifiers / Subscriptions
-  final UserNotifier _userNotifier;
+  final UserNotifier _loggedUserNotifier;
+  final UserNotifier _newUserNotifier;
+  late StreamSubscription<User> _newUserCreatedSubscription;
 
-  LoginCubit(this._userRepositoryLocal, this._userNotifier, this._userRepositoryAnilist)
-    : super(
+  LoginCubit(
+    this._userRepositoryLocal,
+    this._loggedUserNotifier,
+    this._newUserNotifier,
+    this._userRepositoryAnilist,
+  ) : super(
         LoginState(
           availableUsers: [],
           selectedLoginCard: LoginCardType.anilist,
         ),
-      );
+      )
+  {
+    _init();
+  }
 
   @override
   LoginState copyStateWithEffects(LoginState state, List<AppEffect> effects) {
@@ -44,6 +54,12 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
 
   @override
   Logger get logger => _logger;
+
+  @override
+  Future<void> close() {
+    _newUserCreatedSubscription.cancel();
+    return super.close();
+  }
 
   void initiateAccountCreation(BuildContext context) async {
     showWidgetDialogEffect(dialog: AccountCreationDialog(context));
@@ -55,50 +71,33 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     emit(state.copyWith(selectedLoginCard: type));
   }
 
-  void closeAccountCreationDialog(BuildContext context) {
-    _logger.d("Closing account creation dialog");
-    closeDialogEffect(context);
-  }
-
- Future<void> loginUser(User user) async {
-   switch(user) {
-     case AnilistUserModel anilistUserModel:
+  Future<void> loginUser(User user) async {
+    switch (user) {
+      case AnilistUserModel anilistUserModel:
         _logger.i("Logging in Anilist User: ${anilistUserModel.name}");
         await _loginAnilistUser(anilistUserModel);
-     case LocalUserModel localUserModel:
-       _logger.i("Logging in Local User: ${localUserModel.name}");
-     default:
-        _logger.w("Unsupported user type for login: ${user.runtimeType}");
-        showSnackBarEffect(
-          "Login Error",
-          message: "Unsupported user type for login",
-          contentType: ContentType.failure,
+      case LocalUserModel localUserModel:
+        _logger.i("Logging in Local User: ${localUserModel.name}");
+      default:
+        handleError(
+          "Unsupported user type for login: ${user.runtimeType}",
+          contentType: ContentType.warning,
         );
-   }
-   replaceRouteEffect(path: "/home");
- }
+    }
+    replaceRouteEffect(path: "/home");
+  }
 
   Future<void> attemptToCreateUser(BuildContext context) async {
     switch (state.selectedLoginCard) {
       case LoginCardType.anilist:
         _logger.i("Attempting to create Anilist User");
-        await _createUser();
+        await _createAnilistUser();
       case LoginCardType.mal:
         _logger.i("Attempting to create MyAnimeList User");
       case LoginCardType.local:
         _logger.i("Attempting to create Local User");
     }
     if (context.mounted) closeDialogEffect(context);
-    await fetchAllUsers();
-  }
-
-  Future<void> _createUser() async{
-    try{
-      await _userRepositoryAnilist.attemptCreateUser();
-    }catch (e, stackTrace) {
-     _logger.e("Error creating user $e", stackTrace: stackTrace);
-     showSnackBarEffect("Something went wrong", message: "Error creating user", contentType: ContentType.failure);
-    }
   }
 
   Future<void> fetchAllUsers() async {
@@ -106,8 +105,14 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     List<User> usersAvailableLocal =
         (await _userRepositoryLocal.fetchAllLoggedInUsers()).cast<User>();
     List<User> usersAvailableAnilist =
-    (await _userRepositoryAnilist.fetchAllLoggedInUsers()).cast<User>();
+        (await _userRepositoryAnilist.fetchAllLoggedInUsers()).cast<User>();
     _updateAvailableUsers(usersAvailableAnilist + usersAvailableLocal);
+  }
+
+  void _init() {
+    _newUserCreatedSubscription = _newUserNotifier.userStream.listen((newLoggedUser) {
+      emit(state.copyWith(availableUsers: [...state.availableUsers, newLoggedUser])); // Update state on new data
+    });
   }
 
   void _updateAvailableUsers(List<User> users) {
@@ -119,20 +124,30 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     if (dateTime.isBefore(DateTime.now())) {
       _logger.w("Anilist User token is expired, getting new accessToken");
       try {
-        ApiResponse<AuthTokenDto> authToken = await _userRepositoryAnilist.getAuthToken(user.accessCode);
-        User updatedUser = (user as AnilistUserModel).copyWith(accessToken: authToken.data.accessToken, refreshToken: authToken.data.refreshToken);
-        _userNotifier.updateUser(updatedUser);
+        ApiResponse<AuthTokenDto> authToken = await _userRepositoryAnilist
+            .getAuthToken(user.accessCode);
+        User updatedUser = (user as AnilistUserModel).copyWith(
+          accessToken: authToken.data.accessToken,
+          refreshToken: authToken.data.refreshToken,
+        );
+        _loggedUserNotifier.updateUser(updatedUser);
         return;
       } catch (e, stackTrace) {
-        _logger.e("Error refreshing user token: $e", stackTrace: stackTrace);
-        showSnackBarEffect(
-          "Something went wrong",
-          message: "Error refreshing user expired token",
-          contentType: ContentType.failure,
+        handleError(
+          "Error refreshing user expired token: $e",
+          stackTrace: stackTrace,
         );
         return;
       }
     }
-    _userNotifier.updateUser(user);
+    _loggedUserNotifier.updateUser(user);
+  }
+
+  Future<void> _createAnilistUser() async {
+    try {
+      await _userRepositoryAnilist.attemptCreateUser();
+    } catch (e, stackTrace) {
+      handleError("Error creating user $e", stackTrace: stackTrace);
+    }
   }
 }

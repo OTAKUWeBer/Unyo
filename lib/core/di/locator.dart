@@ -28,13 +28,20 @@ void setupLocator() {
   sl.registerLazySingletonAsync<Directory>(() => getApplicationSupportDirectory(), instanceName: config.applicationSupportDirectory);
 
   // Notifiers
-  sl.registerLazySingleton<UserNotifier>(() => UserNotifier());
+  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.loggedUserNotifier);
+  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
 
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
-  sl.registerLazySingleton<UserRepositoryAnilist>(() => UserRepositoryAnilist());
+  sl.registerLazySingleton<UserRepositoryAnilist>(() => UserRepositoryAnilist(sl<UserNotifier>(instanceName: config.newUserNotifier)));
 
   // Cubits / Blocs
-  sl.registerFactory<LoginCubit>(() => LoginCubit(sl(), sl(), sl()));
-  sl.registerFactory<HomeCubit>(() => HomeCubit(sl(), sl()));
+  sl.registerFactory<LoginCubit>(() => LoginCubit(
+      sl(),
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<UserNotifier>(instanceName: config.newUserNotifier),
+      sl()
+    )
+  );
+  sl.registerFactory<HomeCubit>(() => HomeCubit(sl(), sl<UserNotifier>(instanceName: config.loggedUserNotifier)));
 }

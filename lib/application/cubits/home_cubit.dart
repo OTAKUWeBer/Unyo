@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 // Internal dependencies
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/home_state.dart';
+import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/data/models/models.dart';
@@ -21,14 +22,14 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   final UserRepositoryLocal _userRepository;
 
   // Notifiers / Subscriptions
-  final UserNotifier _userNotifier;
-  late StreamSubscription<User> _userSubscription;
+  final UserNotifier _loggedUserNotifier;
+  late StreamSubscription<User> _newLoggedUserSubscription;
 
   final Logger _logger = sl<Logger>();
 
   HomeCubit(
     this._userRepository,
-    this._userNotifier,
+    this._loggedUserNotifier,
   ) : super(HomeState(loggedUser: UserModel.empty())) {
     _init();
   }
@@ -43,12 +44,12 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   @override
   Future<void> close() {
-    _userSubscription.cancel();
+    _newLoggedUserSubscription.cancel();
     return super.close();
   }
 
   void _init() {
-    _userSubscription = _userNotifier.userStream.listen((user) {
+    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((user) {
       emit(state.copyWith(loggedUser: user)); // Update state on new data
     });
   }

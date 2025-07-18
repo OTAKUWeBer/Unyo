@@ -3,7 +3,7 @@ import 'package:logger/logger.dart';
 Logger getLogger() {
   return Logger(
     printer: PrettyPrinter(),
-    level: Level.info,
+    level: Level.debug,
     // output: FileOutput(),
     filter: ProductionFilter(),
   );

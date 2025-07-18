@@ -2,6 +2,8 @@
 const String version = 'v1.0.0';
 const String applicationSupportDirectory = "applicationSupportDirectory";
 const String anilistGraphQlService = 'anilistGraphQlService';
+const String loggedUserNotifier = 'loggedUserNotifier';
+const String newUserNotifier = 'newUserNotifier';
 // Anilist API configuration
 const String anilistOAuthEndpoint = 'https://anilist.co/api/v2/oauth/token';
 const String anilistAuthUrl =
