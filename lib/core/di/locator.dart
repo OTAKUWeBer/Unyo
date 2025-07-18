@@ -43,5 +43,5 @@ void setupLocator() {
       sl()
     )
   );
-  sl.registerFactory<HomeCubit>(() => HomeCubit(sl(), sl<UserNotifier>(instanceName: config.loggedUserNotifier)));
+  sl.registerFactory<HomeCubit>(() => HomeCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier)));
 }

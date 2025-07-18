@@ -9,17 +9,14 @@ import 'package:logger/logger.dart';
 // Internal dependencies
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/home_state.dart';
-import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/data/models/models.dart';
-import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   //Repositories
-  final UserRepositoryLocal _userRepository;
 
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
@@ -28,7 +25,6 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   final Logger _logger = sl<Logger>();
 
   HomeCubit(
-    this._userRepository,
     this._loggedUserNotifier,
   ) : super(HomeState(loggedUser: UserModel.empty())) {
     _init();
