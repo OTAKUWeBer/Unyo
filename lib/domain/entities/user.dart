@@ -7,8 +7,9 @@
 abstract class User {
   final String name;
   final String avatarImage;
+  final String accessCode;
   final String accessToken;
   final String refreshToken;
 
-  User(this.accessToken, this.refreshToken, {required this.name, required this.avatarImage});
+  User({required this.name, required this.avatarImage, required this.accessCode, required this.accessToken, required this.refreshToken});
 }

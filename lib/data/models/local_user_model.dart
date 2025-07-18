@@ -15,6 +15,7 @@ abstract class LocalUserModel with _$LocalUserModel implements User {
   const factory LocalUserModel({
     required String name,
     required String avatarImage,
+    required String accessCode,
     required String accessToken,
     required String refreshToken,
   }) = _LocalUserModel;
@@ -22,6 +23,7 @@ abstract class LocalUserModel with _$LocalUserModel implements User {
   factory LocalUserModel.empty() => const LocalUserModel(
     name: '',
     avatarImage: 'https://i.imgur.com/EKtChtm.png',
+    accessCode: '',
     accessToken: '',
     refreshToken: '',
   );

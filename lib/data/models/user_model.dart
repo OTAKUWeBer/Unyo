@@ -15,6 +15,7 @@ abstract class UserModel with _$UserModel implements User {
   const factory UserModel({
     required String name,
     required String avatarImage,
+    required String accessCode,
     required String accessToken,
     required String refreshToken,
   }) = _UserModel;
@@ -22,6 +23,7 @@ abstract class UserModel with _$UserModel implements User {
   factory UserModel.empty() => const UserModel(
     name: '',
     avatarImage: 'https://i.imgur.com/EKtChtm.png',
+    accessCode: '',
     accessToken: '',
     refreshToken: '',
   );

@@ -65,6 +65,7 @@ dependencies:
   ffi: ^2.1.4
   ffigen: ^19.0.0
   meta: ^1.16.0
+  jwt_decoder: ^2.0.1
 
 # Dev dependencies
 dev_dependencies:

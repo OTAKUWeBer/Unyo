@@ -11,7 +11,7 @@ part 'home_state.freezed.dart';
 @freezed
 abstract class HomeState with _$HomeState implements HasEffects{
   const factory HomeState({
-    required User user,
+    required User loggedUser,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _HomeState;
 

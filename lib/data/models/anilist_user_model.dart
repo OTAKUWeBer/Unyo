@@ -15,6 +15,7 @@ abstract class AnilistUserModel with _$AnilistUserModel implements User {
   const factory AnilistUserModel({
     required String name,
     required String avatarImage,
+    required String accessCode,
     required String accessToken,
     required String refreshToken,
   }) = _AnilistUserModel;
@@ -22,6 +23,7 @@ abstract class AnilistUserModel with _$AnilistUserModel implements User {
   factory AnilistUserModel.empty() => const AnilistUserModel(
     name: '',
     avatarImage: 'https://i.imgur.com/EKtChtm.png',
+    accessCode: '',
     accessToken: '',
     refreshToken: '',
   );

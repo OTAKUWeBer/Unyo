@@ -29,7 +29,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   HomeCubit(
     this._userRepository,
     this._userNotifier,
-  ) : super(HomeState(user: UserModel.empty())) {
+  ) : super(HomeState(loggedUser: UserModel.empty())) {
     _init();
   }
 
@@ -49,7 +49,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   void _init() {
     _userSubscription = _userNotifier.userStream.listen((user) {
-      emit(state.copyWith(user: user)); // Update state on new data
+      emit(state.copyWith(loggedUser: user)); // Update state on new data
     });
   }
 }

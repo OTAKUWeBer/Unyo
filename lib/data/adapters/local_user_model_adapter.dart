@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'adapters_types.dart' as types;
 import 'package:unyo/data/models/local_user_model.dart';
 
-
 class LocalUserModelAdapter extends TypeAdapter<LocalUserModel> {
   @override
   LocalUserModel read(BinaryReader reader) {
@@ -13,8 +12,9 @@ class LocalUserModelAdapter extends TypeAdapter<LocalUserModel> {
     return LocalUserModel(
       name: fields[0],
       avatarImage: fields[1],
-      accessToken: fields[2],
-      refreshToken: fields[3]
+      accessCode: fields[2],
+      accessToken: fields[3],
+      refreshToken: fields[4]
     );
   }
 
@@ -23,14 +23,16 @@ class LocalUserModelAdapter extends TypeAdapter<LocalUserModel> {
 
   @override
   void write(BinaryWriter writer, LocalUserModel obj) {
-    writer.writeByte(4);
+    writer.writeByte(5);
     writer.writeByte(0);
     writer.write(obj.name);
     writer.writeByte(1);
     writer.write(obj.avatarImage);
     writer.writeByte(2);
-    writer.write(obj.accessToken);
+    writer.write(obj.accessCode);
     writer.writeByte(3);
+    writer.write(obj.accessToken);
+    writer.writeByte(4);
     writer.write(obj.refreshToken);
   }
 }

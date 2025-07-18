@@ -12,7 +12,6 @@ part 'login_state.freezed.dart';
 @freezed
 abstract class LoginState with _$LoginState implements HasEffects{
   const factory LoginState({
-    required User user,
     required List<User> availableUsers,
     required LoginCardType selectedLoginCard,
     @Default(<AppEffect>[]) List<AppEffect> effects,

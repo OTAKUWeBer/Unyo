@@ -9,6 +9,7 @@ part of 'user_model.dart';
 _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
   name: json['name'] as String,
   avatarImage: json['avatarImage'] as String,
+  accessCode: json['accessCode'] as String,
   accessToken: json['accessToken'] as String,
   refreshToken: json['refreshToken'] as String,
 );
@@ -17,6 +18,7 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'avatarImage': instance.avatarImage,
+      'accessCode': instance.accessCode,
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,
     };

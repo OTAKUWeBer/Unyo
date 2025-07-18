@@ -33,6 +33,17 @@ class UserRepositoryAnilist implements UserRepository {
     return [..._anilistUsersBox.values.toSet()];
   }
 
+  Future<ApiResponse<AuthTokenDto>> getAuthToken(String accessCode) async {
+    Map<String, dynamic> body = {
+      "grant_type": "authorization_code",
+      "client_id": config.anilistClientId,
+      "client_secret": config.anilistClientSecret,
+      "redirect_uri": config.anilistRedirectUri,
+      "code": accessCode,
+    };
+    return _httpService.post<AuthTokenDto>(config.anilistOAuthEndpoint, fromJson: AuthTokenDto.fromJson, body: body);
+  }
+
   @override
   Future<void> attemptCreateUser() async {
     _logger.i("Creating Anilist user");
@@ -55,7 +66,7 @@ class UserRepositoryAnilist implements UserRepository {
     try {
       _logger.i("Handling login request from Anilist at ${request.requestedUri.path}");
       String accessCode = request.requestedUri.queryParameters['code']!;
-      _createUser(accessCode);
+      await _createUser(accessCode);
       return shelf.Response.ok(
         'Authorization successful. You can close this window.',
       );
@@ -73,15 +84,7 @@ class UserRepositoryAnilist implements UserRepository {
 
   Future<void> _createUser(String accessCode) async {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
-    Map<String, dynamic> body = {
-      "grant_type": "authorization_code",
-      "client_id": config.anilistClientId,
-      "client_secret": config.anilistClientSecret,
-      "redirect_uri": config.anilistRedirectUri,
-      "code": accessCode,
-    };
-    ApiResponse<AuthTokenDto> authToken = await _httpService.post<AuthTokenDto>(config.anilistOAuthEndpoint, fromJson: AuthTokenDto.fromJson, body: body);
-
+    ApiResponse<AuthTokenDto> authToken = await getAuthToken(accessCode);
     Map<String, String> graphQlHeaders = {"Authorization": "Bearer ${authToken.data.accessToken}"};
     ApiGraphQLResponse<ViewerGraphqlDtoEntity> viewerDto =
       await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
@@ -93,6 +96,7 @@ class UserRepositoryAnilist implements UserRepository {
     AnilistUserModel newAnilistUser = AnilistUserModel(
         name: viewerDto.data.viewer.name,
         avatarImage: viewerDto.data.viewer.avatar.medium,
+        accessCode: accessCode,
         accessToken: authToken.data.accessToken,
         refreshToken: authToken.data.refreshToken
     );
