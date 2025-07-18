@@ -5,29 +5,36 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
+import 'package:unyo/core/services/api/graphql/graphql_exception.dart';
+//Internal dependencies
+import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
+import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
+import 'package:unyo/core/services/api/dto/viewer_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/graphql/graphql_response.dart';
+import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-// Internal dependencies
-import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/domain/repositories/repositories.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class UserRepositoryAnilist implements UserRepository {
   final Logger _logger = sl<Logger>();
   final HttpService _httpService = sl<HttpService>();
+  final GraphQLService _anilistGraphQLService = sl<GraphQLService>(instanceName: config.anilistGraphQlService);
   late Box<User> _anilistUsersBox;
   late HttpServer _server;
 
   @override
   Future<List<User>> fetchAllLoggedInUsers() async {
-    return [];
+    _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
+    return [..._anilistUsersBox.values.toSet()];
   }
 
   @override
-  Future<void> createUser() async {
+  Future<void> attemptCreateUser() async {
     _logger.i("Creating Anilist user");
     try {
       _logger.d("Opening Anilist login server at http://localhost:9999");
@@ -48,7 +55,7 @@ class UserRepositoryAnilist implements UserRepository {
     try {
       _logger.i("Handling login request from Anilist at ${request.requestedUri.path}");
       String accessCode = request.requestedUri.queryParameters['code']!;
-      _handleAccessCode(accessCode);
+      _createUser(accessCode);
       return shelf.Response.ok(
         'Authorization successful. You can close this window.',
       );
@@ -64,16 +71,37 @@ class UserRepositoryAnilist implements UserRepository {
     }
   }
 
-  Future<void> _handleAccessCode(String accessCode) async {
-    // _anilistUsersBox = await Hive.openBox<User>("anilistUsers");
+  Future<void> _createUser(String accessCode) async {
+    _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
     Map<String, dynamic> body = {
       "grant_type": "authorization_code",
-      "client_id": 17550,
-      "client_secret": "xI8KTZlKm2F3kHXLko1ArQ21bKap4MojgDTk6Ukx",
-      "redirect_uri": "http://localhost:9999/auth",
+      "client_id": config.anilistClientId,
+      "client_secret": config.anilistClientSecret,
+      "redirect_uri": config.anilistRedirectUri,
       "code": accessCode,
     };
     ApiResponse<AuthTokenDto> authToken = await _httpService.post<AuthTokenDto>(config.anilistOAuthEndpoint, fromJson: AuthTokenDto.fromJson, body: body);
-    _logger.d("${authToken.data.accessToken} ${authToken.data.refreshToken}");
+
+    Map<String, String> graphQlHeaders = {"Authorization": "Bearer ${authToken.data.accessToken}"};
+    ApiGraphQLResponse<ViewerGraphqlDtoEntity> viewerDto =
+      await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
+          query: queries.viewerQuery,
+          fromJson: ViewerGraphqlDtoEntity.fromJson,
+          headers: graphQlHeaders
+      );
+    _throwIfGraphQlError(viewerDto);
+    AnilistUserModel newAnilistUser = AnilistUserModel(
+        name: viewerDto.data.viewer.name,
+        avatarImage: viewerDto.data.viewer.avatar.medium,
+        accessToken: authToken.data.accessToken,
+        refreshToken: authToken.data.refreshToken
+    );
+    _anilistUsersBox.put(viewerDto.data.viewer.name, newAnilistUser);
+  }
+
+  void _throwIfGraphQlError<T>(ApiGraphQLResponse<T> graphQlResponse) {
+    if (graphQlResponse.errors != null && graphQlResponse.errors!.isNotEmpty) {
+      throw GraphQLException(graphQlResponse.errors!);
+    }
   }
 }

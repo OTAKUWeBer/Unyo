@@ -12,9 +12,19 @@ part 'user_model.g.dart'; // For JSON serialization
 abstract class UserModel with _$UserModel implements User {
   const UserModel._();
 
-  const factory UserModel({required String name, required String avatarImage}) = _UserModel;
+  const factory UserModel({
+    required String name,
+    required String avatarImage,
+    required String accessToken,
+    required String refreshToken,
+  }) = _UserModel;
 
-  factory UserModel.empty() => const UserModel(name: '', avatarImage: 'https://i.imgur.com/EKtChtm.png');
+  factory UserModel.empty() => const UserModel(
+    name: '',
+    avatarImage: 'https://i.imgur.com/EKtChtm.png',
+    accessToken: '',
+    refreshToken: '',
+  );
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
@@ -23,8 +33,8 @@ abstract class UserModel with _$UserModel implements User {
   Map<String, dynamic> toJson() => _$UserModelToJson(this as _UserModel);
 }
 
-class UserConverter implements JsonConverter<User, Map<String, dynamic>> {
-  const UserConverter();
+class UserModelConverter implements JsonConverter<User, Map<String, dynamic>> {
+  const UserModelConverter();
 
   @override
   User fromJson(Map<String, dynamic> json) => UserModel.fromJson(json);

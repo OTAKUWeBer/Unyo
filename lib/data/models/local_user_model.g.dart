@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'local_user_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
-  name: json['name'] as String,
-  avatarImage: json['avatarImage'] as String,
-  accessToken: json['accessToken'] as String,
-  refreshToken: json['refreshToken'] as String,
-);
+_LocalUserModel _$LocalUserModelFromJson(Map<String, dynamic> json) =>
+    _LocalUserModel(
+      name: json['name'] as String,
+      avatarImage: json['avatarImage'] as String,
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+    );
 
-Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
+Map<String, dynamic> _$LocalUserModelToJson(_LocalUserModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'avatarImage': instance.avatarImage,

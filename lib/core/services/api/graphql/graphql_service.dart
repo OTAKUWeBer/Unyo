@@ -1,0 +1,70 @@
+import 'package:logger/logger.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/api/http/http_service.dart';
+
+import 'graphql_response.dart';
+
+class GraphQLService {
+  final HttpService _httpService;
+  final String _endpoint;
+  final Logger _logger = sl<Logger>();
+
+  GraphQLService({
+    required HttpService httpService,
+    required String endpoint,
+  })  : _httpService = httpService,
+        _endpoint = endpoint;
+
+  Future<ApiGraphQLResponse<T>> query<T>({
+    required String query,
+    Map<String, dynamic>? variables,
+    Map<String, String>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    _logger.i("Executing GraphQL QUERY operation");
+    return _sendRequest(
+      query: query,
+      variables: variables,
+      headers: headers,
+      fromJson: fromJson,
+    );
+  }
+
+  Future<ApiGraphQLResponse<T>> mutation<T>({
+    required String query,
+    Map<String, dynamic>? variables,
+    Map<String, String>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    _logger.i("Executing GraphQL MUTATION operation");
+    return _sendRequest(
+      query: query,
+      variables: variables,
+      headers: headers,
+      fromJson: fromJson,
+    );
+  }
+
+  Future<ApiGraphQLResponse<T>> _sendRequest<T>({
+    required String query,
+    Map<String, dynamic>? variables,
+    Map<String, String>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    final body = {
+      "query": query,
+      "variables": variables ?? {},
+    };
+    _logger.i("Sending GraphQL request to $_endpoint");
+    final response = await _httpService.post<ApiGraphQLResponse<T>>(
+      _endpoint,
+      headers: headers,
+      body: body,
+      fromJson: (json) => ApiGraphQLResponse<T>.fromJson(
+        json,
+        fromJson,
+      ),
+    );
+    return response.data;
+  }
+}

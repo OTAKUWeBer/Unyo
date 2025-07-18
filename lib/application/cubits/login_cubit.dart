@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -61,7 +62,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     switch (state.selectedLoginCard) {
       case LoginCardType.anilist:
         _logger.i("Attempting to create Anilist User");
-        _userRepositoryAnilist.createUser();
+        _createUser();
         break;
       case LoginCardType.mal:
         _logger.i("Attempting to create MyAnimeList User");
@@ -71,9 +72,20 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
         break;
     }
     closeDialogEffect(context);
+    await fetchAllUsers();
+  }
+  
+  void _createUser(){
+    try{
+      _userRepositoryAnilist.attemptCreateUser();
+    }catch (e, stackTrace) {
+     _logger.e("Error creating user $e", stackTrace: stackTrace);
+     showSnackBarEffect("Something went wrong", message: "Error creating user", contentType: ContentType.failure);
+    }
   }
 
   Future<void> fetchAllUsers() async {
+    _logger.i("Fetching all logged in users");
     List<User> usersAvailableLocal =
         (await _userRepositoryLocal.fetchAllLoggedInUsers()).cast<User>();
     List<User> usersAvailableAnilist =

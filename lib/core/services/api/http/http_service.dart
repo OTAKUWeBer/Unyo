@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:retry/retry.dart';
 
 // Internal dependencies
+import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'api_response.dart';
 import 'http_exception.dart';
@@ -17,7 +18,7 @@ class HttpService {
   final Duration timeout;
   final RetryOptions retryOptions;
   final Duration cacheTtl = const Duration(minutes: 20);
-  final Map<String, (int, dynamic)> apiResponseCache = {};
+  final Map<String, (int, dynamic)> _apiResponseCache = {};
 
   HttpService({
     this.timeout = const Duration(seconds: 7),
@@ -37,7 +38,7 @@ class HttpService {
       fromJson: fromJson,
     );
     if (cachedApiResponse != null) {
-      _logger.i("Returning cached response for $endpoint");
+      _logger.i("Returning cached response instance of $T for $endpoint ");
       return cachedApiResponse;
     }
     ApiResponse<T> apiResponse = await _request(
@@ -72,7 +73,7 @@ class HttpService {
       fromJson: fromJson,
     );
     if (cachedApiResponse != null) {
-      _logger.i("Returning cached response for $endpoint");
+      _logger.i("Returning cached response instance of $T for $endpoint ");
       return cachedApiResponse;
     }
     ApiResponse<T> apiResponse = await _request(
@@ -100,19 +101,20 @@ class HttpService {
     String? body,
     required T Function(Map<String, dynamic>) fromJson,
   }) {
-    final cacheKey = "${method.hashCode}${endpoint.hashCode}${headers.hashCode}${body.hashCode}${fromJson.hashCode}";
-    if (apiResponseCache.containsKey(cacheKey)) {
+    if (!_isCacheable(endpoint)) return null;
+    final cacheKey = "${method.hashCode}${endpoint.hashCode}${json.encode(_cacheEnabledHeaders(headers)).hashCode}${body.hashCode}${fromJson.runtimeType.hashCode}";
+    if (_apiResponseCache.containsKey(cacheKey)) {
       _logger.i("Cached response found for $endpoint");
       try {
         final (expiry, cachedResponse as ApiResponse<T>) =
-        apiResponseCache[cacheKey]!;
+        _apiResponseCache[cacheKey]!;
         if (expiry < DateTime.now().millisecondsSinceEpoch) {
           _logger.i(
             "Cached response for $endpoint has expired, making new request",
           );
-          apiResponseCache.remove(cacheKey);
+          _apiResponseCache.remove(cacheKey);
         } else {
-          _logger.i("Cached response for $endpoint is still valid");
+          _logger.i("Cached response for $endpoint is still valid for ${(expiry - DateTime.now().millisecondsSinceEpoch) / 1000}s");
           return cachedResponse;
         }
       } catch (e, stackTrace) {
@@ -120,7 +122,7 @@ class HttpService {
           "Error while retrieving cached response for $endpoint: $e",
           stackTrace: stackTrace,
         );
-        apiResponseCache.remove(cacheKey);
+        _apiResponseCache.remove(cacheKey);
         return null;
       }
     }
@@ -137,12 +139,29 @@ class HttpService {
     required T Function(Map<String, dynamic>) fromJson,
   }) {
     _logger.i("Caching response for $endpoint");
-    final cacheKey = "${method.hashCode}${endpoint.hashCode}${headers.hashCode}${body.hashCode}${fromJson.hashCode}";
-    apiResponseCache[cacheKey] =
+    final cacheKey = "${method.hashCode}${endpoint.hashCode}${json.encode(_cacheEnabledHeaders(headers)).hashCode}${body.hashCode}${fromJson.runtimeType.hashCode}";
+    _apiResponseCache[cacheKey] =
         (
           DateTime.now().millisecondsSinceEpoch + cacheTtl.inMilliseconds,
           response,
         );
+  }
+
+  bool _isCacheable(String endpoint) {
+    if (config.cacheDisabledEndpoints.contains(endpoint)){
+      _logger.w("Endpoint $endpoint is disabled for caching");
+      return false;
+    }
+    return true;
+  }
+
+  Map<String, String>? _cacheEnabledHeaders(
+    Map<String, String>? headers,
+  ) {
+    if (headers == null) return null;
+    return Map.fromEntries(
+      headers.entries.where((entry) => !config.cacheIgnoredHeaders.contains(entry.key)),
+    );
   }
 
   Future<ApiResponse<T>> _request<T>(

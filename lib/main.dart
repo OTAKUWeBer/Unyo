@@ -1,11 +1,13 @@
-//Flutter dependencies
+import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:hive/hive.dart';
 //Internal dependencies
+import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/router/app_router.dart';
+import 'package:unyo/data/adapters/adapters.dart';
 
 final _appRouter = AppRouter();
 
@@ -15,6 +17,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   // Inject dependencies before running the app
   setupLocator();
+  // Initialize Hive and register adapters
+  await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
+  Hive
+    ..init(sl<Directory>(instanceName: config.applicationSupportDirectory).path)
+    ..registerAdapter(AnilistUserModelAdapter())
+    ..registerAdapter(LocalUserModelAdapter());
+  //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en')],

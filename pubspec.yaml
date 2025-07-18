@@ -29,7 +29,6 @@ dependencies:
   cached_annotation: ^1.7.1
   # HTTP requests
   http: ^1.4.0
-  graphql_flutter: ^5.2.0
   retry: ^3.1.2
   # Routing and Navigation
   auto_route: ^10.1.0+1
@@ -65,6 +64,7 @@ dependencies:
   # FFI/Native Integration
   ffi: ^2.1.4
   ffigen: ^19.0.0
+  meta: ^1.16.0
 
 # Dev dependencies
 dev_dependencies:

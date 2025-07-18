@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppEffect {}
@@ -32,7 +33,9 @@ class CloseDialogEffect extends AppEffect {
 
 // Feedback Effects
 class ShowSnackbarEffect extends AppEffect {
+  final String title;
   final String message;
+  final ContentType contentType;
 
-  ShowSnackbarEffect(this.message);
+  ShowSnackbarEffect(this.title, {required this.message, required this.contentType});
 }

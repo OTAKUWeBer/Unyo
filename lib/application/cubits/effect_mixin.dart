@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -38,9 +39,9 @@ mixin EffectMixin<State> on Cubit<State> {
     addEffect(CloseDialogEffect(context));
   }
 
-  void showSnackBarEffect({required String message}) {
+  void showSnackBarEffect(String title, {required String message, required ContentType contentType}) {
     logger.i("ShowSnackbar with message: $message");
-    addEffect(ShowSnackbarEffect(message));
+    addEffect(ShowSnackbarEffect(title, message: message, contentType: contentType));
   }
 
   void replaceRouteEffect({required String path}) {

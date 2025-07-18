@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_model.dart';
+part of 'anilist_user_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
-  name: json['name'] as String,
-  avatarImage: json['avatarImage'] as String,
-  accessToken: json['accessToken'] as String,
-  refreshToken: json['refreshToken'] as String,
-);
+_AnilistUserModel _$AnilistUserModelFromJson(Map<String, dynamic> json) =>
+    _AnilistUserModel(
+      name: json['name'] as String,
+      avatarImage: json['avatarImage'] as String,
+      accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String,
+    );
 
-Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
+Map<String, dynamic> _$AnilistUserModelToJson(_AnilistUserModel instance) =>
     <String, dynamic>{
       'name': instance.name,
       'avatarImage': instance.avatarImage,

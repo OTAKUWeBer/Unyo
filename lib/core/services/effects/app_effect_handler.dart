@@ -1,5 +1,6 @@
 // External dependencies
 import 'package:auto_route/auto_route.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -26,7 +27,7 @@ class AppEffectHandler {
   void handle(AppEffect effect, BuildContext context) {
     switch (effect) {
       case ShowSnackbarEffect showSnackBarEffect:
-        _handleShowSnackbarEffect(showSnackBarEffect);
+        _handleShowSnackbarEffect(context, showSnackBarEffect);
       case ReplaceRouteEffect replaceRouteEffect:
         _handleReplaceRouteEffect(replaceRouteEffect, context);
       case PushRouteEffect pushRouteEffect:
@@ -45,14 +46,13 @@ class AppEffectHandler {
     BuildContext context,
   ) {
     _logger.d("Handling ShowWidgetDialogEffect");
-    showDialog(
-      context: context,
-      builder:
-          (dialogContext) => effect.dialog
-    );
+    showDialog(context: context, builder: (dialogContext) => effect.dialog);
   }
 
-  void _handleCloseDialogEffect(CloseDialogEffect effect, BuildContext context) {
+  void _handleCloseDialogEffect(
+    CloseDialogEffect effect,
+    BuildContext context,
+  ) {
     _logger.d("Handling CloseDialogEffect");
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
@@ -61,8 +61,27 @@ class AppEffectHandler {
     }
   }
 
-  void _handleShowSnackbarEffect(ShowSnackbarEffect effect) {
+  void _handleShowSnackbarEffect(
+    BuildContext context,
+    ShowSnackbarEffect effect,
+  ) {
     _logger.d("Handling ShowSnackbarEffect");
+    final snackBar = MaterialBanner(
+                  elevation: double.maxFinite,
+                  backgroundColor: Colors.transparent,
+                  forceActionsBelow: true,
+                  content: AwesomeSnackbarContent(
+                    title: effect.title,
+                    message: effect.message,
+                    contentType: effect.contentType,
+                    inMaterialBanner: true,
+                  ),
+                  actions: [SizedBox.shrink()],
+                );
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(snackBar);
   }
 
   void _handleReplaceRouteEffect(

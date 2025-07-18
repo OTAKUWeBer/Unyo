@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   bonsoir_windows
-  connectivity_plus
   dynamic_color
   fvp
   url_launcher_windows

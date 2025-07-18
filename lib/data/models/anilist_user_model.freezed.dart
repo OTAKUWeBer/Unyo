@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user_model.dart';
+part of 'anilist_user_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,22 +13,22 @@ part of 'user_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$UserModel {
+mixin _$AnilistUserModel {
 
  String get name; String get avatarImage; String get accessToken; String get refreshToken;
-/// Create a copy of UserModel
+/// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$UserModelCopyWith<UserModel> get copyWith => _$UserModelCopyWithImpl<UserModel>(this as UserModel, _$identity);
+$AnilistUserModelCopyWith<AnilistUserModel> get copyWith => _$AnilistUserModelCopyWithImpl<AnilistUserModel>(this as AnilistUserModel, _$identity);
 
-  /// Serializes this UserModel to a JSON map.
+  /// Serializes this AnilistUserModel to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistUserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,name,avatarImage,accessToken,refresh
 
 @override
 String toString() {
-  return 'UserModel(name: $name, avatarImage: $avatarImage, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'AnilistUserModel(name: $name, avatarImage: $avatarImage, accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $UserModelCopyWith<$Res>  {
-  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) = _$UserModelCopyWithImpl;
+abstract mixin class $AnilistUserModelCopyWith<$Res>  {
+  factory $AnilistUserModelCopyWith(AnilistUserModel value, $Res Function(AnilistUserModel) _then) = _$AnilistUserModelCopyWithImpl;
 @useResult
 $Res call({
  String name, String avatarImage, String accessToken, String refreshToken
@@ -56,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$UserModelCopyWithImpl<$Res>
-    implements $UserModelCopyWith<$Res> {
-  _$UserModelCopyWithImpl(this._self, this._then);
+class _$AnilistUserModelCopyWithImpl<$Res>
+    implements $AnilistUserModelCopyWith<$Res> {
+  _$AnilistUserModelCopyWithImpl(this._self, this._then);
 
-  final UserModel _self;
-  final $Res Function(UserModel) _then;
+  final AnilistUserModel _self;
+  final $Res Function(AnilistUserModel) _then;
 
-/// Create a copy of UserModel
+/// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? avatarImage = null,Object? accessToken = null,Object? refreshToken = null,}) {
   return _then(_self.copyWith(
@@ -78,8 +78,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [UserModel].
-extension UserModelPatterns on UserModel {
+/// Adds pattern-matching-related methods to [AnilistUserModel].
+extension AnilistUserModelPatterns on AnilistUserModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -92,10 +92,10 @@ extension UserModelPatterns on UserModel {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UserModel value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AnilistUserModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _UserModel() when $default != null:
+case _AnilistUserModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -114,10 +114,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UserModel value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AnilistUserModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _UserModel():
+case _AnilistUserModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -135,10 +135,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UserModel value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AnilistUserModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _UserModel() when $default != null:
+case _AnilistUserModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -158,7 +158,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String avatarImage,  String accessToken,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _UserModel() when $default != null:
+case _AnilistUserModel() when $default != null:
 return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToken);case _:
   return orElse();
 
@@ -179,7 +179,7 @@ return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToke
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String avatarImage,  String accessToken,  String refreshToken)  $default,) {final _that = this;
 switch (_that) {
-case _UserModel():
+case _AnilistUserModel():
 return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToken);case _:
   throw StateError('Unexpected subclass');
 
@@ -199,7 +199,7 @@ return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToke
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String avatarImage,  String accessToken,  String refreshToken)?  $default,) {final _that = this;
 switch (_that) {
-case _UserModel() when $default != null:
+case _AnilistUserModel() when $default != null:
 return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToken);case _:
   return null;
 
@@ -211,29 +211,29 @@ return $default(_that.name,_that.avatarImage,_that.accessToken,_that.refreshToke
 /// @nodoc
 @JsonSerializable()
 
-class _UserModel extends UserModel {
-  const _UserModel({required this.name, required this.avatarImage, required this.accessToken, required this.refreshToken}): super._();
-  factory _UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+class _AnilistUserModel extends AnilistUserModel {
+  const _AnilistUserModel({required this.name, required this.avatarImage, required this.accessToken, required this.refreshToken}): super._();
+  factory _AnilistUserModel.fromJson(Map<String, dynamic> json) => _$AnilistUserModelFromJson(json);
 
 @override final  String name;
 @override final  String avatarImage;
 @override final  String accessToken;
 @override final  String refreshToken;
 
-/// Create a copy of UserModel
+/// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$UserModelCopyWith<_UserModel> get copyWith => __$UserModelCopyWithImpl<_UserModel>(this, _$identity);
+_$AnilistUserModelCopyWith<_AnilistUserModel> get copyWith => __$AnilistUserModelCopyWithImpl<_AnilistUserModel>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$UserModelToJson(this, );
+  return _$AnilistUserModelToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistUserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -242,15 +242,15 @@ int get hashCode => Object.hash(runtimeType,name,avatarImage,accessToken,refresh
 
 @override
 String toString() {
-  return 'UserModel(name: $name, avatarImage: $avatarImage, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'AnilistUserModel(name: $name, avatarImage: $avatarImage, accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
-  factory _$UserModelCopyWith(_UserModel value, $Res Function(_UserModel) _then) = __$UserModelCopyWithImpl;
+abstract mixin class _$AnilistUserModelCopyWith<$Res> implements $AnilistUserModelCopyWith<$Res> {
+  factory _$AnilistUserModelCopyWith(_AnilistUserModel value, $Res Function(_AnilistUserModel) _then) = __$AnilistUserModelCopyWithImpl;
 @override @useResult
 $Res call({
  String name, String avatarImage, String accessToken, String refreshToken
@@ -261,17 +261,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$UserModelCopyWithImpl<$Res>
-    implements _$UserModelCopyWith<$Res> {
-  __$UserModelCopyWithImpl(this._self, this._then);
+class __$AnilistUserModelCopyWithImpl<$Res>
+    implements _$AnilistUserModelCopyWith<$Res> {
+  __$AnilistUserModelCopyWithImpl(this._self, this._then);
 
-  final _UserModel _self;
-  final $Res Function(_UserModel) _then;
+  final _AnilistUserModel _self;
+  final $Res Function(_AnilistUserModel) _then;
 
-/// Create a copy of UserModel
+/// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? avatarImage = null,Object? accessToken = null,Object? refreshToken = null,}) {
-  return _then(_UserModel(
+  return _then(_AnilistUserModel(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
 as String,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable

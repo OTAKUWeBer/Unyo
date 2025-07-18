@@ -15,7 +15,7 @@ class UserRepositoryLocal implements UserRepository {
   }
 
   @override
-  Future<void> createUser() {
+  Future<void> attemptCreateUser() {
     throw UnimplementedError();
   }
 
