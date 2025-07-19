@@ -111,6 +111,8 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
 
   void _init() {
     _newUserCreatedSubscription = _newUserNotifier.userStream.listen((newLoggedUser) {
+      //In case of user update!!
+      emit(state.copyWith(availableUsers: [...state.availableUsers.where((user) => user.name != newLoggedUser.name)]));
       emit(state.copyWith(availableUsers: [...state.availableUsers, newLoggedUser])); // Update state on new data
     });
   }
