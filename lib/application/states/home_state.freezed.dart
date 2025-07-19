@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeState {
 
- User get loggedUser; List<AppEffect> get effects;
+ User get loggedUser; SelectedMenuOption get selectedMenuOption; List<AppEffect> get effects;
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $HomeStateCopyWith<HomeState> get copyWith => _$HomeStateCopyWithImpl<HomeState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMenuOption,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'HomeState(loggedUser: $loggedUser, effects: $effects)';
+  return 'HomeState(loggedUser: $loggedUser, selectedMenuOption: $selectedMenuOption, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $HomeStateCopyWith<$Res>  {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) _then) = _$HomeStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, List<AppEffect> effects
+ User loggedUser, SelectedMenuOption selectedMenuOption, List<AppEffect> effects
 });
 
 
@@ -62,10 +62,11 @@ class _$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMenuOption = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
-as User,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as User,selectedMenuOption: null == selectedMenuOption ? _self.selectedMenuOption : selectedMenuOption // ignore: cast_nullable_to_non_nullable
+as SelectedMenuOption,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -151,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  SelectedMenuOption selectedMenuOption,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.loggedUser,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMenuOption,_that.effects);case _:
   return orElse();
 
 }
@@ -172,10 +173,10 @@ return $default(_that.loggedUser,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  SelectedMenuOption selectedMenuOption,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _HomeState():
-return $default(_that.loggedUser,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMenuOption,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +193,10 @@ return $default(_that.loggedUser,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  SelectedMenuOption selectedMenuOption,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _HomeState() when $default != null:
-return $default(_that.loggedUser,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMenuOption,_that.effects);case _:
   return null;
 
 }
@@ -207,10 +208,11 @@ return $default(_that.loggedUser,_that.effects);case _:
 
 
 class _HomeState extends HomeState {
-  const _HomeState({required this.loggedUser, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _HomeState({required this.loggedUser, required this.selectedMenuOption, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
 @override final  User loggedUser;
+@override final  SelectedMenuOption selectedMenuOption;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
@@ -229,16 +231,16 @@ _$HomeStateCopyWith<_HomeState> get copyWith => __$HomeStateCopyWithImpl<_HomeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMenuOption,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'HomeState(loggedUser: $loggedUser, effects: $effects)';
+  return 'HomeState(loggedUser: $loggedUser, selectedMenuOption: $selectedMenuOption, effects: $effects)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Re
   factory _$HomeStateCopyWith(_HomeState value, $Res Function(_HomeState) _then) = __$HomeStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, List<AppEffect> effects
+ User loggedUser, SelectedMenuOption selectedMenuOption, List<AppEffect> effects
 });
 
 
@@ -266,10 +268,11 @@ class __$HomeStateCopyWithImpl<$Res>
 
 /// Create a copy of HomeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMenuOption = null,Object? effects = null,}) {
   return _then(_HomeState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
-as User,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as User,selectedMenuOption: null == selectedMenuOption ? _self.selectedMenuOption : selectedMenuOption // ignore: cast_nullable_to_non_nullable
+as SelectedMenuOption,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

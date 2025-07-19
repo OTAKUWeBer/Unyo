@@ -10,6 +10,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/data/models/models.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -26,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   HomeCubit(
     this._loggedUserNotifier,
-  ) : super(HomeState(loggedUser: UserModel.empty())) {
+  ) : super(HomeState(loggedUser: UserModel.empty(), selectedMenuOption: SelectedMenuOption.about)) {
     _init();
   }
 
@@ -42,6 +43,10 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   Future<void> close() {
     _newLoggedUserSubscription.cancel();
     return super.close();
+  }
+
+  void selectMenuOption(SelectedMenuOption option) {
+    emit(state.copyWith(selectedMenuOption: option));
   }
 
   void _init() {

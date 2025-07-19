@@ -7,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/application/cubits/home_cubit.dart';
 import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/text/texts.dart';
 
 @RoutePage()
@@ -50,9 +52,28 @@ class _HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return Column(children: [
-          TextLabelMedium(text: state.loggedUser.toString())
-        ]);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              UnyoMenuBar(
+                avatarImage: state.loggedUser.avatarImage,
+                icons: [
+                  UnyoMenuIcon(
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.about,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.about),
+                      icon: Icons.add_a_photo_sharp
+                  ),
+                  UnyoMenuIcon(
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.settings,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.settings),
+                      icon: Icons.settings
+                  )
+                ],
+              )
+          // TextLabelMedium(text: state.loggedUser.toString())
+            ]
+        );
       },
     );
   }
