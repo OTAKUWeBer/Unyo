@@ -10,7 +10,6 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
-import 'package:unyo/presentation/widgets/text/texts.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {

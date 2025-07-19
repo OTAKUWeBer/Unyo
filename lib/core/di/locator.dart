@@ -12,6 +12,7 @@ import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/cubits/home_cubit.dart';
 
@@ -25,6 +26,7 @@ void setupLocator() {
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<GraphQLService>(() => GraphQLService(httpService: sl<HttpService>(), endpoint: config.anilistGraphQLEndpoint), instanceName: config.anilistGraphQlService);
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
+  sl.registerLazySingleton<ThemeService>(() => ThemeService());
   sl.registerLazySingletonAsync<Directory>(() => getApplicationSupportDirectory(), instanceName: config.applicationSupportDirectory);
 
   // Notifiers
