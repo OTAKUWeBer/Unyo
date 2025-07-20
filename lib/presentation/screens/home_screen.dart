@@ -2,6 +2,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Internal dependencies
 import 'package:unyo/application/cubits/home_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/styled/anime_card.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 
 @RoutePage()
@@ -53,45 +55,79 @@ class _HomeView extends StatelessWidget {
       builder: (context, state) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UnyoMenuBar(
-                avatarImage: state.loggedUser.avatarImage,
-                icons: [
-                  UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.home,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.home),
-                      unselectedIcon: Icons.home_outlined,
-                      selectedIcon: Icons.home
-                  ),
-                  UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.anime,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.anime),
-                      unselectedIcon: Icons.movie_outlined,
-                      selectedIcon: Icons.movie
-                  ),
-                  UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.manga,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.manga),
-                      unselectedIcon: Icons.menu_book_outlined,
-                      selectedIcon: Icons.menu_book
-                  ),
-                  UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.library,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.library),
-                      unselectedIcon: Icons.local_library_outlined,
-                      selectedIcon: Icons.local_library
-                  ),
-                  UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.extensions,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.extensions),
-                      unselectedIcon: Icons.extension_outlined,
-                      selectedIcon: Icons.extension
-                  ),
-                ],
-              )
-          // TextLabelMedium(text: state.loggedUser.toString())
-            ]
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UnyoMenuBar(
+              avatarImage: state.loggedUser.avatarImage,
+              icons: [
+                UnyoMenuIcon(
+                  isSelected:
+                      state.selectedMenuOption == SelectedMenuOption.home,
+                  onPressed:
+                      () => context.read<HomeCubit>().selectMenuOption(
+                        SelectedMenuOption.home,
+                      ),
+                  unselectedIcon: Icons.home_outlined,
+                  selectedIcon: Icons.home,
+                ),
+                UnyoMenuIcon(
+                  isSelected:
+                      state.selectedMenuOption == SelectedMenuOption.anime,
+                  onPressed:
+                      () => context.read<HomeCubit>().selectMenuOption(
+                        SelectedMenuOption.anime,
+                      ),
+                  unselectedIcon: Icons.movie_outlined,
+                  selectedIcon: Icons.movie,
+                ),
+                UnyoMenuIcon(
+                  isSelected:
+                      state.selectedMenuOption == SelectedMenuOption.manga,
+                  onPressed:
+                      () => context.read<HomeCubit>().selectMenuOption(
+                        SelectedMenuOption.manga,
+                      ),
+                  unselectedIcon: Icons.menu_book_outlined,
+                  selectedIcon: Icons.menu_book,
+                ),
+                UnyoMenuIcon(
+                  isSelected:
+                      state.selectedMenuOption == SelectedMenuOption.library,
+                  onPressed:
+                      () => context.read<HomeCubit>().selectMenuOption(
+                        SelectedMenuOption.library,
+                      ),
+                  unselectedIcon: Icons.local_library_outlined,
+                  selectedIcon: Icons.local_library,
+                ),
+                UnyoMenuIcon(
+                  isSelected:
+                      state.selectedMenuOption == SelectedMenuOption.extensions,
+                  onPressed:
+                      () => context.read<HomeCubit>().selectMenuOption(
+                        SelectedMenuOption.extensions,
+                      ),
+                  unselectedIcon: Icons.extension_outlined,
+                  selectedIcon: Icons.extension,
+                ),
+              ],
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+
+                AnimeCard(
+                  title: "This is a title",
+                  score: 100,
+                  coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1735-kGfVm0YqCPcu.png",
+                  onPressed: () {},
+                  status: "RELEASING",
+                  year: "02/02/2022",
+                  format: "",
+                ),
+              ],
+            ),
+          ],
         );
       },
     );

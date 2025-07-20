@@ -27,6 +27,7 @@ _AnilistAnimeModel _$AnilistAnimeModelFromJson(
   popularity: (json['popularity'] as num).toInt(),
   meanScore: (json['meanScore'] as num).toInt(),
   season: json['season'] as String,
+  status: json['status'] as String,
   isFavourite: json['isFavourite'] as bool,
   nextAiringEpisode: const AiringEpisodeConverter().fromJson(
     json['nextAiringEpisode'] as Map<String, dynamic>,
@@ -53,6 +54,7 @@ Map<String, dynamic> _$AnilistAnimeModelToJson(_AnilistAnimeModel instance) =>
       'popularity': instance.popularity,
       'meanScore': instance.meanScore,
       'season': instance.season,
+      'status': instance.status,
       'isFavourite': instance.isFavourite,
       'nextAiringEpisode': const AiringEpisodeConverter().toJson(
         instance.nextAiringEpisode,

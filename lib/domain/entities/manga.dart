@@ -17,6 +17,7 @@ abstract class Manga {
   final bool isAdult;
   final int popularity;
   final int meanScore;
+  final String status;
   final bool isFavourite;
 
   const Manga({
@@ -36,11 +37,12 @@ abstract class Manga {
     required this.isAdult,
     required this.popularity,
     required this.meanScore,
+    required this.status,
     required this.isFavourite,
   });
 
   @override
   String toString() {
-    return 'Manga(id: $id, idMal: $idMal, title: $title, averageScore: $averageScore, bannerImage: $bannerImage, chapters: $chapters, countryOfOrigin: $countryOfOrigin, coverImage: $coverImage, description: $description, endDate: $endDate, startDate: $startDate, genres: $genres, format: $format, isAdult: $isAdult, popularity: $popularity, meanScore: $meanScore, isFavourite: $isFavourite)';
+    return 'Manga(id: $id, idMal: $idMal, title: $title, averageScore: $averageScore, bannerImage: $bannerImage, chapters: $chapters, countryOfOrigin: $countryOfOrigin, coverImage: $coverImage, description: $description, endDate: $endDate, startDate: $startDate, genres: $genres, format: $format, isAdult: $isAdult, popularity: $popularity, meanScore: $meanScore, status: $status, isFavourite: $isFavourite)';
   }
 }

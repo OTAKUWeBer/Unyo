@@ -9,7 +9,7 @@ class HoverAnimatedContainer extends StatefulWidget {
   final Curve curve;
   final Decoration decoration;
   final Decoration hoverDecoration;
-  final SystemMouseCursor cursor;
+  final SystemMouseCursor hoverCursor;
   final Widget child;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry hoverMargin;
@@ -26,7 +26,7 @@ class HoverAnimatedContainer extends StatefulWidget {
     required this.hoverDecoration,
     required this.child,
     this.curve = Curves.linear,
-    this.cursor = SystemMouseCursors.basic,
+    this.hoverCursor = SystemMouseCursors.basic,
     this.margin = EdgeInsets.zero,
     this.hoverMargin = EdgeInsets.zero,
     this.duration = const Duration(milliseconds: 200),
@@ -47,7 +47,7 @@ class _HoverAnimatedContainerState extends State<HoverAnimatedContainer> {
     return MouseRegion(
       onEnter: (_) => _onHover(true),
       onExit: (_) => _onHover(false),
-      cursor: widget.cursor,
+      cursor: hovering ? widget.hoverCursor : SystemMouseCursors.basic,
       child: AnimatedContainer(
         duration: widget.duration,
         curve: widget.curve,

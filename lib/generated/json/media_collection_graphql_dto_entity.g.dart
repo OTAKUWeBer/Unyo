@@ -206,7 +206,7 @@ MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia $MediaCollecti
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
         .bannerImage = bannerImage;
   }
-  final dynamic chapters = json['chapters'];
+  final int? chapters = json['chapters'];
   if (chapters != null) {
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia.chapters =
         chapters;
@@ -292,6 +292,11 @@ MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia $MediaCollecti
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
         .isFavourite = isFavourite;
   }
+  final String? status = jsonConvert.convert<String>(json['status']);
+  if (status != null) {
+    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
+        .status = status;
+  }
   final dynamic nextAiringEpisode = json['nextAiringEpisode'];
   if (nextAiringEpisode != null) {
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
@@ -324,6 +329,7 @@ Map<String,
   data['meanScore'] = entity.meanScore;
   data['season'] = entity.season;
   data['isFavourite'] = entity.isFavourite;
+  data['status'] = entity.status;
   data['nextAiringEpisode'] = entity.nextAiringEpisode;
   return data;
 }
@@ -335,7 +341,7 @@ extension MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaExten
     MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle? title,
     int? averageScore,
     String? bannerImage,
-    dynamic chapters,
+    int? chapters,
     String? countryOfOrigin,
     MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaCoverImage? coverImage,
     String? description,
@@ -350,6 +356,7 @@ extension MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaExten
     int? meanScore,
     String? season,
     bool? isFavourite,
+    String? status,
     dynamic nextAiringEpisode,
   }) {
     return MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia()
@@ -373,6 +380,7 @@ extension MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaExten
       ..meanScore = meanScore ?? this.meanScore
       ..season = season ?? this.season
       ..isFavourite = isFavourite ?? this.isFavourite
+      ..status = status ?? this.status
       ..nextAiringEpisode = nextAiringEpisode ?? this.nextAiringEpisode;
   }
 }

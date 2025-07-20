@@ -94,7 +94,7 @@ class MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia {
 	late MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle title;
 	late int averageScore = 0;
 	late String bannerImage = '';
-	dynamic chapters;
+	late int? chapters;
 	late String countryOfOrigin = '';
 	late MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaCoverImage coverImage;
 	late String description = '';
@@ -109,7 +109,9 @@ class MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia {
 	late int meanScore = 0;
 	late String season = '';
 	late bool isFavourite = false;
+	late String status = '';
 	dynamic nextAiringEpisode;
+
 
 	MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia();
 

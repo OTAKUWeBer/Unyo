@@ -63,6 +63,7 @@ query MediaListCollection(\$userName: String, \$userId: Int, \$type: MediaType) 
             episode
             airingAt
           }
+          status
         }
       }
       name

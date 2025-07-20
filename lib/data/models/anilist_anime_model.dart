@@ -30,6 +30,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
     required int popularity,
     required int meanScore,
     required String season,
+    required String status,
     required bool isFavourite,
     @AiringEpisodeConverter()
     required AiringEpisode nextAiringEpisode,

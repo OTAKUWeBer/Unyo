@@ -21,6 +21,7 @@ abstract class Anime {
   final int meanScore;
   final String season;
   final bool isFavourite;
+  final String status;
   final AiringEpisode nextAiringEpisode;
 
   const Anime({
@@ -43,11 +44,12 @@ abstract class Anime {
     required this.meanScore,
     required this.season,
     required this.isFavourite,
+    required this.status,
     required this.nextAiringEpisode,
   });
 
   @override
   String toString() {
-    return 'Anime(id: $id, idMal: $idMal, title: $title, averageScore: $averageScore, bannerImage: $bannerImage, countryOfOrigin: $countryOfOrigin, coverImage: $coverImage, description: $description, duration: $duration, endDate: $endDate, startDate: $startDate, episodes: $episodes, genres: $genres, format: $format, isAdult: $isAdult, popularity: $popularity, meanScore: $meanScore, season: $season, isFavourite: $isFavourite, nextAiringEpisode: $nextAiringEpisode)';
+    return 'Anime(id: $id, idMal: $idMal, title: $title, averageScore: $averageScore, bannerImage: $bannerImage, countryOfOrigin: $countryOfOrigin, coverImage: $coverImage, description: $description, duration: $duration, endDate: $endDate, startDate: $startDate, episodes: $episodes, genres: $genres, format: $format, isAdult: $isAdult, popularity: $popularity, meanScore: $meanScore, season: $season, isFavourite: $isFavourite, status: $status, nextAiringEpisode: $nextAiringEpisode)';
   }
 }

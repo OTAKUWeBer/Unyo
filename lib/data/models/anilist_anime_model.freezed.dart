@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnilistAnimeModel {
 
- int get id; int get idMal;@TitleConverter() Title get title; int get averageScore; String get bannerImage; String get countryOfOrigin; String get coverImage; String get description; int get duration; String get endDate; String get startDate; int get episodes; List<String> get genres; String get format; bool get isAdult; int get popularity; int get meanScore; String get season; bool get isFavourite;@AiringEpisodeConverter() AiringEpisode get nextAiringEpisode;
+ int get id; int get idMal;@TitleConverter() Title get title; int get averageScore; String get bannerImage; String get countryOfOrigin; String get coverImage; String get description; int get duration; String get endDate; String get startDate; int get episodes; List<String> get genres; String get format; bool get isAdult; int get popularity; int get meanScore; String get season; String get status; bool get isFavourite;@AiringEpisodeConverter() AiringEpisode get nextAiringEpisode;
 /// Create a copy of AnilistAnimeModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,12 +28,12 @@ $AnilistAnimeModelCopyWith<AnilistAnimeModel> get copyWith => _$AnilistAnimeMode
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistAnimeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.idMal, idMal) || other.idMal == idMal)&&(identical(other.title, title) || other.title == title)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.countryOfOrigin, countryOfOrigin) || other.countryOfOrigin == countryOfOrigin)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.description, description) || other.description == description)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.episodes, episodes) || other.episodes == episodes)&&const DeepCollectionEquality().equals(other.genres, genres)&&(identical(other.format, format) || other.format == format)&&(identical(other.isAdult, isAdult) || other.isAdult == isAdult)&&(identical(other.popularity, popularity) || other.popularity == popularity)&&(identical(other.meanScore, meanScore) || other.meanScore == meanScore)&&(identical(other.season, season) || other.season == season)&&(identical(other.isFavourite, isFavourite) || other.isFavourite == isFavourite)&&(identical(other.nextAiringEpisode, nextAiringEpisode) || other.nextAiringEpisode == nextAiringEpisode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistAnimeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.idMal, idMal) || other.idMal == idMal)&&(identical(other.title, title) || other.title == title)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.countryOfOrigin, countryOfOrigin) || other.countryOfOrigin == countryOfOrigin)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.description, description) || other.description == description)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.episodes, episodes) || other.episodes == episodes)&&const DeepCollectionEquality().equals(other.genres, genres)&&(identical(other.format, format) || other.format == format)&&(identical(other.isAdult, isAdult) || other.isAdult == isAdult)&&(identical(other.popularity, popularity) || other.popularity == popularity)&&(identical(other.meanScore, meanScore) || other.meanScore == meanScore)&&(identical(other.season, season) || other.season == season)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFavourite, isFavourite) || other.isFavourite == isFavourite)&&(identical(other.nextAiringEpisode, nextAiringEpisode) || other.nextAiringEpisode == nextAiringEpisode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,idMal,title,averageScore,bannerImage,countryOfOrigin,coverImage,description,duration,endDate,startDate,episodes,const DeepCollectionEquality().hash(genres),format,isAdult,popularity,meanScore,season,isFavourite,nextAiringEpisode]);
+int get hashCode => Object.hashAll([runtimeType,id,idMal,title,averageScore,bannerImage,countryOfOrigin,coverImage,description,duration,endDate,startDate,episodes,const DeepCollectionEquality().hash(genres),format,isAdult,popularity,meanScore,season,status,isFavourite,nextAiringEpisode]);
 
 
 
@@ -44,7 +44,7 @@ abstract mixin class $AnilistAnimeModelCopyWith<$Res>  {
   factory $AnilistAnimeModelCopyWith(AnilistAnimeModel value, $Res Function(AnilistAnimeModel) _then) = _$AnilistAnimeModelCopyWithImpl;
 @useResult
 $Res call({
- int id, int idMal,@TitleConverter() Title title, int averageScore, String bannerImage, String countryOfOrigin, String coverImage, String description, int duration, String endDate, String startDate, int episodes, List<String> genres, String format, bool isAdult, int popularity, int meanScore, String season, bool isFavourite,@AiringEpisodeConverter() AiringEpisode nextAiringEpisode
+ int id, int idMal,@TitleConverter() Title title, int averageScore, String bannerImage, String countryOfOrigin, String coverImage, String description, int duration, String endDate, String startDate, int episodes, List<String> genres, String format, bool isAdult, int popularity, int meanScore, String season, String status, bool isFavourite,@AiringEpisodeConverter() AiringEpisode nextAiringEpisode
 });
 
 
@@ -61,7 +61,7 @@ class _$AnilistAnimeModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistAnimeModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? idMal = null,Object? title = null,Object? averageScore = null,Object? bannerImage = null,Object? countryOfOrigin = null,Object? coverImage = null,Object? description = null,Object? duration = null,Object? endDate = null,Object? startDate = null,Object? episodes = null,Object? genres = null,Object? format = null,Object? isAdult = null,Object? popularity = null,Object? meanScore = null,Object? season = null,Object? isFavourite = null,Object? nextAiringEpisode = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? idMal = null,Object? title = null,Object? averageScore = null,Object? bannerImage = null,Object? countryOfOrigin = null,Object? coverImage = null,Object? description = null,Object? duration = null,Object? endDate = null,Object? startDate = null,Object? episodes = null,Object? genres = null,Object? format = null,Object? isAdult = null,Object? popularity = null,Object? meanScore = null,Object? season = null,Object? status = null,Object? isFavourite = null,Object? nextAiringEpisode = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,idMal: null == idMal ? _self.idMal : idMal // ignore: cast_nullable_to_non_nullable
@@ -81,6 +81,7 @@ as String,isAdult: null == isAdult ? _self.isAdult : isAdult // ignore: cast_nul
 as bool,popularity: null == popularity ? _self.popularity : popularity // ignore: cast_nullable_to_non_nullable
 as int,meanScore: null == meanScore ? _self.meanScore : meanScore // ignore: cast_nullable_to_non_nullable
 as int,season: null == season ? _self.season : season // ignore: cast_nullable_to_non_nullable
+as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,isFavourite: null == isFavourite ? _self.isFavourite : isFavourite // ignore: cast_nullable_to_non_nullable
 as bool,nextAiringEpisode: null == nextAiringEpisode ? _self.nextAiringEpisode : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
 as AiringEpisode,
@@ -168,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  String status,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnilistAnimeModel() when $default != null:
-return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.isFavourite,_that.nextAiringEpisode);case _:
+return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.status,_that.isFavourite,_that.nextAiringEpisode);case _:
   return orElse();
 
 }
@@ -189,10 +190,10 @@ return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.banner
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  String status,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)  $default,) {final _that = this;
 switch (_that) {
 case _AnilistAnimeModel():
-return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.isFavourite,_that.nextAiringEpisode);case _:
+return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.status,_that.isFavourite,_that.nextAiringEpisode);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +210,10 @@ return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.banner
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int idMal, @TitleConverter()  Title title,  int averageScore,  String bannerImage,  String countryOfOrigin,  String coverImage,  String description,  int duration,  String endDate,  String startDate,  int episodes,  List<String> genres,  String format,  bool isAdult,  int popularity,  int meanScore,  String season,  String status,  bool isFavourite, @AiringEpisodeConverter()  AiringEpisode nextAiringEpisode)?  $default,) {final _that = this;
 switch (_that) {
 case _AnilistAnimeModel() when $default != null:
-return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.isFavourite,_that.nextAiringEpisode);case _:
+return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.bannerImage,_that.countryOfOrigin,_that.coverImage,_that.description,_that.duration,_that.endDate,_that.startDate,_that.episodes,_that.genres,_that.format,_that.isAdult,_that.popularity,_that.meanScore,_that.season,_that.status,_that.isFavourite,_that.nextAiringEpisode);case _:
   return null;
 
 }
@@ -224,7 +225,7 @@ return $default(_that.id,_that.idMal,_that.title,_that.averageScore,_that.banner
 @JsonSerializable()
 
 class _AnilistAnimeModel extends AnilistAnimeModel {
-   _AnilistAnimeModel({required this.id, required this.idMal, @TitleConverter() required this.title, required this.averageScore, required this.bannerImage, required this.countryOfOrigin, required this.coverImage, required this.description, required this.duration, required this.endDate, required this.startDate, required this.episodes, required final  List<String> genres, required this.format, required this.isAdult, required this.popularity, required this.meanScore, required this.season, required this.isFavourite, @AiringEpisodeConverter() required this.nextAiringEpisode}): _genres = genres,super._();
+   _AnilistAnimeModel({required this.id, required this.idMal, @TitleConverter() required this.title, required this.averageScore, required this.bannerImage, required this.countryOfOrigin, required this.coverImage, required this.description, required this.duration, required this.endDate, required this.startDate, required this.episodes, required final  List<String> genres, required this.format, required this.isAdult, required this.popularity, required this.meanScore, required this.season, required this.status, required this.isFavourite, @AiringEpisodeConverter() required this.nextAiringEpisode}): _genres = genres,super._();
   factory _AnilistAnimeModel.fromJson(Map<String, dynamic> json) => _$AnilistAnimeModelFromJson(json);
 
 @override final  int id;
@@ -251,6 +252,7 @@ class _AnilistAnimeModel extends AnilistAnimeModel {
 @override final  int popularity;
 @override final  int meanScore;
 @override final  String season;
+@override final  String status;
 @override final  bool isFavourite;
 @override@AiringEpisodeConverter() final  AiringEpisode nextAiringEpisode;
 
@@ -267,12 +269,12 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistAnimeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.idMal, idMal) || other.idMal == idMal)&&(identical(other.title, title) || other.title == title)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.countryOfOrigin, countryOfOrigin) || other.countryOfOrigin == countryOfOrigin)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.description, description) || other.description == description)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.episodes, episodes) || other.episodes == episodes)&&const DeepCollectionEquality().equals(other._genres, _genres)&&(identical(other.format, format) || other.format == format)&&(identical(other.isAdult, isAdult) || other.isAdult == isAdult)&&(identical(other.popularity, popularity) || other.popularity == popularity)&&(identical(other.meanScore, meanScore) || other.meanScore == meanScore)&&(identical(other.season, season) || other.season == season)&&(identical(other.isFavourite, isFavourite) || other.isFavourite == isFavourite)&&(identical(other.nextAiringEpisode, nextAiringEpisode) || other.nextAiringEpisode == nextAiringEpisode));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistAnimeModel&&(identical(other.id, id) || other.id == id)&&(identical(other.idMal, idMal) || other.idMal == idMal)&&(identical(other.title, title) || other.title == title)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.countryOfOrigin, countryOfOrigin) || other.countryOfOrigin == countryOfOrigin)&&(identical(other.coverImage, coverImage) || other.coverImage == coverImage)&&(identical(other.description, description) || other.description == description)&&(identical(other.duration, duration) || other.duration == duration)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.episodes, episodes) || other.episodes == episodes)&&const DeepCollectionEquality().equals(other._genres, _genres)&&(identical(other.format, format) || other.format == format)&&(identical(other.isAdult, isAdult) || other.isAdult == isAdult)&&(identical(other.popularity, popularity) || other.popularity == popularity)&&(identical(other.meanScore, meanScore) || other.meanScore == meanScore)&&(identical(other.season, season) || other.season == season)&&(identical(other.status, status) || other.status == status)&&(identical(other.isFavourite, isFavourite) || other.isFavourite == isFavourite)&&(identical(other.nextAiringEpisode, nextAiringEpisode) || other.nextAiringEpisode == nextAiringEpisode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,id,idMal,title,averageScore,bannerImage,countryOfOrigin,coverImage,description,duration,endDate,startDate,episodes,const DeepCollectionEquality().hash(_genres),format,isAdult,popularity,meanScore,season,isFavourite,nextAiringEpisode]);
+int get hashCode => Object.hashAll([runtimeType,id,idMal,title,averageScore,bannerImage,countryOfOrigin,coverImage,description,duration,endDate,startDate,episodes,const DeepCollectionEquality().hash(_genres),format,isAdult,popularity,meanScore,season,status,isFavourite,nextAiringEpisode]);
 
 
 
@@ -283,7 +285,7 @@ abstract mixin class _$AnilistAnimeModelCopyWith<$Res> implements $AnilistAnimeM
   factory _$AnilistAnimeModelCopyWith(_AnilistAnimeModel value, $Res Function(_AnilistAnimeModel) _then) = __$AnilistAnimeModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int idMal,@TitleConverter() Title title, int averageScore, String bannerImage, String countryOfOrigin, String coverImage, String description, int duration, String endDate, String startDate, int episodes, List<String> genres, String format, bool isAdult, int popularity, int meanScore, String season, bool isFavourite,@AiringEpisodeConverter() AiringEpisode nextAiringEpisode
+ int id, int idMal,@TitleConverter() Title title, int averageScore, String bannerImage, String countryOfOrigin, String coverImage, String description, int duration, String endDate, String startDate, int episodes, List<String> genres, String format, bool isAdult, int popularity, int meanScore, String season, String status, bool isFavourite,@AiringEpisodeConverter() AiringEpisode nextAiringEpisode
 });
 
 
@@ -300,7 +302,7 @@ class __$AnilistAnimeModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistAnimeModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? idMal = null,Object? title = null,Object? averageScore = null,Object? bannerImage = null,Object? countryOfOrigin = null,Object? coverImage = null,Object? description = null,Object? duration = null,Object? endDate = null,Object? startDate = null,Object? episodes = null,Object? genres = null,Object? format = null,Object? isAdult = null,Object? popularity = null,Object? meanScore = null,Object? season = null,Object? isFavourite = null,Object? nextAiringEpisode = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? idMal = null,Object? title = null,Object? averageScore = null,Object? bannerImage = null,Object? countryOfOrigin = null,Object? coverImage = null,Object? description = null,Object? duration = null,Object? endDate = null,Object? startDate = null,Object? episodes = null,Object? genres = null,Object? format = null,Object? isAdult = null,Object? popularity = null,Object? meanScore = null,Object? season = null,Object? status = null,Object? isFavourite = null,Object? nextAiringEpisode = null,}) {
   return _then(_AnilistAnimeModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,idMal: null == idMal ? _self.idMal : idMal // ignore: cast_nullable_to_non_nullable
@@ -320,6 +322,7 @@ as String,isAdult: null == isAdult ? _self.isAdult : isAdult // ignore: cast_nul
 as bool,popularity: null == popularity ? _self.popularity : popularity // ignore: cast_nullable_to_non_nullable
 as int,meanScore: null == meanScore ? _self.meanScore : meanScore // ignore: cast_nullable_to_non_nullable
 as int,season: null == season ? _self.season : season // ignore: cast_nullable_to_non_nullable
+as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,isFavourite: null == isFavourite ? _self.isFavourite : isFavourite // ignore: cast_nullable_to_non_nullable
 as bool,nextAiringEpisode: null == nextAiringEpisode ? _self.nextAiringEpisode : nextAiringEpisode // ignore: cast_nullable_to_non_nullable
 as AiringEpisode,
