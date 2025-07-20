@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnilistUserModel {
 
- String get name; String get avatarImage; String get accessCode; String get accessToken; String get refreshToken;
+ String get id; String get name; String get avatarImage; String get bannerImage; String get accessCode; String get accessToken; String get refreshToken;
 /// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AnilistUserModelCopyWith<AnilistUserModel> get copyWith => _$AnilistUserModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistUserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessCode, accessCode) || other.accessCode == accessCode)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.accessCode, accessCode) || other.accessCode == accessCode)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,avatarImage,accessCode,accessToken,refreshToken);
+int get hashCode => Object.hash(runtimeType,id,name,avatarImage,bannerImage,accessCode,accessToken,refreshToken);
 
 @override
 String toString() {
-  return 'AnilistUserModel(name: $name, avatarImage: $avatarImage, accessCode: $accessCode, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'AnilistUserModel(id: $id, name: $name, avatarImage: $avatarImage, bannerImage: $bannerImage, accessCode: $accessCode, accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AnilistUserModelCopyWith<$Res>  {
   factory $AnilistUserModelCopyWith(AnilistUserModel value, $Res Function(AnilistUserModel) _then) = _$AnilistUserModelCopyWithImpl;
 @useResult
 $Res call({
- String name, String avatarImage, String accessCode, String accessToken, String refreshToken
+ String id, String name, String avatarImage, String bannerImage, String accessCode, String accessToken, String refreshToken
 });
 
 
@@ -65,10 +65,12 @@ class _$AnilistUserModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? avatarImage = null,Object? accessCode = null,Object? accessToken = null,Object? refreshToken = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? avatarImage = null,Object? bannerImage = null,Object? accessCode = null,Object? accessToken = null,Object? refreshToken = null,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
+as String,bannerImage: null == bannerImage ? _self.bannerImage : bannerImage // ignore: cast_nullable_to_non_nullable
 as String,accessCode: null == accessCode ? _self.accessCode : accessCode // ignore: cast_nullable_to_non_nullable
 as String,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable
@@ -157,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String avatarImage,  String accessCode,  String accessToken,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String avatarImage,  String bannerImage,  String accessCode,  String accessToken,  String refreshToken)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnilistUserModel() when $default != null:
-return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
   return orElse();
 
 }
@@ -178,10 +180,10 @@ return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String avatarImage,  String accessCode,  String accessToken,  String refreshToken)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String avatarImage,  String bannerImage,  String accessCode,  String accessToken,  String refreshToken)  $default,) {final _that = this;
 switch (_that) {
 case _AnilistUserModel():
-return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +200,10 @@ return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String avatarImage,  String accessCode,  String accessToken,  String refreshToken)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String avatarImage,  String bannerImage,  String accessCode,  String accessToken,  String refreshToken)?  $default,) {final _that = this;
 switch (_that) {
 case _AnilistUserModel() when $default != null:
-return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
+return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage,_that.accessCode,_that.accessToken,_that.refreshToken);case _:
   return null;
 
 }
@@ -213,11 +215,13 @@ return $default(_that.name,_that.avatarImage,_that.accessCode,_that.accessToken,
 @JsonSerializable()
 
 class _AnilistUserModel extends AnilistUserModel {
-  const _AnilistUserModel({required this.name, required this.avatarImage, required this.accessCode, required this.accessToken, required this.refreshToken}): super._();
+  const _AnilistUserModel({required this.id, required this.name, required this.avatarImage, required this.bannerImage, required this.accessCode, required this.accessToken, required this.refreshToken}): super._();
   factory _AnilistUserModel.fromJson(Map<String, dynamic> json) => _$AnilistUserModelFromJson(json);
 
+@override final  String id;
 @override final  String name;
 @override final  String avatarImage;
+@override final  String bannerImage;
 @override final  String accessCode;
 @override final  String accessToken;
 @override final  String refreshToken;
@@ -235,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistUserModel&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.accessCode, accessCode) || other.accessCode == accessCode)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage)&&(identical(other.accessCode, accessCode) || other.accessCode == accessCode)&&(identical(other.accessToken, accessToken) || other.accessToken == accessToken)&&(identical(other.refreshToken, refreshToken) || other.refreshToken == refreshToken));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,avatarImage,accessCode,accessToken,refreshToken);
+int get hashCode => Object.hash(runtimeType,id,name,avatarImage,bannerImage,accessCode,accessToken,refreshToken);
 
 @override
 String toString() {
-  return 'AnilistUserModel(name: $name, avatarImage: $avatarImage, accessCode: $accessCode, accessToken: $accessToken, refreshToken: $refreshToken)';
+  return 'AnilistUserModel(id: $id, name: $name, avatarImage: $avatarImage, bannerImage: $bannerImage, accessCode: $accessCode, accessToken: $accessToken, refreshToken: $refreshToken)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$AnilistUserModelCopyWith<$Res> implements $AnilistUserMod
   factory _$AnilistUserModelCopyWith(_AnilistUserModel value, $Res Function(_AnilistUserModel) _then) = __$AnilistUserModelCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String avatarImage, String accessCode, String accessToken, String refreshToken
+ String id, String name, String avatarImage, String bannerImage, String accessCode, String accessToken, String refreshToken
 });
 
 
@@ -272,10 +276,12 @@ class __$AnilistUserModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistUserModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? avatarImage = null,Object? accessCode = null,Object? accessToken = null,Object? refreshToken = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? avatarImage = null,Object? bannerImage = null,Object? accessCode = null,Object? accessToken = null,Object? refreshToken = null,}) {
   return _then(_AnilistUserModel(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
+as String,bannerImage: null == bannerImage ? _self.bannerImage : bannerImage // ignore: cast_nullable_to_non_nullable
 as String,accessCode: null == accessCode ? _self.accessCode : accessCode // ignore: cast_nullable_to_non_nullable
 as String,accessToken: null == accessToken ? _self.accessToken : accessToken // ignore: cast_nullable_to_non_nullable
 as String,refreshToken: null == refreshToken ? _self.refreshToken : refreshToken // ignore: cast_nullable_to_non_nullable

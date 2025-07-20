@@ -13,18 +13,26 @@ class ThemeService {
 
   ThemeData get current => _themeSubject.value;
 
-  void updateTheme(
+  void updateThemeFromColors(
       {required Color primary, Color? secondary, Color? tertiary}) {
     final newTheme = _defaultTheme.copyWith(
       colorScheme: ColorScheme.dark(
         primary: primary,
-        secondary: secondary ?? Colors.grey[300]!,
-        tertiary: secondary ?? Colors.grey[300]!,
+        secondary: secondary ?? ColorScheme.fromSeed(seedColor: primary).secondary,
+        tertiary: tertiary ?? ColorScheme.fromSeed(seedColor: primary).tertiary,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onTertiary: Colors.white,
       ),
       appBarTheme: AppBarTheme(backgroundColor: primary),
+    );
+    _themeSubject.add(newTheme);
+  }
+
+  void updateThemeFromColorScheme(
+      {required ColorScheme newcolorScheme}) {
+    final newTheme = _defaultTheme.copyWith(
+      colorScheme: newcolorScheme,
     );
     _themeSubject.add(newTheme);
   }
@@ -35,14 +43,14 @@ class ThemeService {
 final _defaultTheme = ThemeData(
   brightness: Brightness.dark,
   scaffoldBackgroundColor: const Color.fromARGB(255, 44, 44, 44),
-  colorScheme: ColorScheme.dark(
-    primary: Colors.grey[200]!,
-    secondary: Colors.grey[300]!,
-    tertiary: Colors.grey[300]!,
-    onPrimary: Colors.white,
-    onSecondary: Colors.white,
-    onTertiary: Colors.white,
-  ),
+  // colorScheme: ColorScheme.dark(
+  //   primary: Colors.grey[200]!,
+  //   secondary: Colors.grey[300]!,
+  //   tertiary: Colors.grey[300]!,
+  //   onPrimary: Colors.white,
+  //   onSecondary: Colors.white,
+  //   onTertiary: Colors.white,
+  // ),
   textTheme: TextTheme(
     // Display styles (largest) - white
     displayLarge: TextStyle(

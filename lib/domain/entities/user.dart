@@ -1,15 +1,29 @@
-/// Represents a user entity.
-///
-/// The [User] type defines the basic properties of a user, including:
-/// - [id]: The unique identifier for the user.
-/// - [name]: The user's display name.
-/// - [email]: The user's email address.
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'user.freezed.dart';
+
 abstract class User {
+  final String id;
   final String name;
   final String avatarImage;
-  final String accessCode;
-  final String accessToken;
-  final String refreshToken;
+  final String bannerImage;
 
-  User({required this.name, required this.avatarImage, required this.accessCode, required this.accessToken, required this.refreshToken});
+  User(this.id, {required this.name, required this.avatarImage, required this.bannerImage});
+}
+
+@freezed
+abstract class UserModel with _$UserModel implements User {
+  const factory UserModel({
+    required String id,
+    required String name,
+    required String avatarImage,
+    required String bannerImage,
+  }) = _UserModel;
+
+  factory UserModel.empty() => const UserModel(
+    id: '',
+    name: '',
+    avatarImage: 'https://i.imgur.com/EKtChtm.png',
+    bannerImage: '',
+  );
 }

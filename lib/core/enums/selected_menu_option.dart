@@ -1,10 +1,11 @@
 enum SelectedMenuOption {
   home,
+  anime,
+  manga,
   search,
-  notifications,
-  profile,
+  library,
+  calendar,
+  extensions,
   settings,
-  help,
-  about,
-  logout,
+  exit
 }

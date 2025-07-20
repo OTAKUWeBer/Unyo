@@ -99,8 +99,10 @@ class UserRepositoryAnilist implements UserRepository {
       );
     _throwIfGraphQlError(viewerDto);
     AnilistUserModel newAnilistUser = AnilistUserModel(
+        id: viewerDto.data.viewer.id.toString(),
         name: viewerDto.data.viewer.name,
         avatarImage: viewerDto.data.viewer.avatar.medium,
+        bannerImage: viewerDto.data.viewer.bannerImage,
         accessCode: accessCode,
         accessToken: authToken.data.accessToken,
         refreshToken: authToken.data.refreshToken

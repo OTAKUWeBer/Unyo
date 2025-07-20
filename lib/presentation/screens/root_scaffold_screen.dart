@@ -23,7 +23,7 @@ class RootScaffoldScreen extends StatelessWidget {
                   // Color(0xFF1B132A),
                   // Color(0xFF3C2C5B),
                   Colors.transparent,
-                  /*const Color.fromARGB(255, 82, 70, 118)*/ColorScheme.of(context).primary
+                  /*const Color.fromARGB(255, 82, 70, 118)*/ColorScheme.of(context).primary.withValues(alpha: 140)
                 ],
               ),
             ),
@@ -36,7 +36,7 @@ class RootScaffoldScreen extends StatelessWidget {
                   center: Alignment.topLeft,
                   radius: 0.7,
                   colors: [
-                    /*const Color.fromARGB(255,82,70,118)*/ColorScheme.of(context).primary,
+                    /*const Color.fromARGB(255,82,70,118)*/ColorScheme.of(context).primary.withValues(alpha: 140),
                     Colors.transparent,
                   ],
                 ),

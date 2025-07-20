@@ -122,15 +122,10 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     switch (user) {
       case AnilistUserModel anilistUserModel:
         _logger.d("Getting anilist user's theme");
-        List<Color> userColors = await _colorImageService.getColorsFromImage(NetworkImage(anilistUserModel.avatarImage));
-        _themeService.updateTheme(primary: userColors.first);
+        List<Color> userColors = await _colorImageService.getColorsFromPalleteGenerator(NetworkImage(anilistUserModel.bannerImage));
+        _themeService.updateThemeFromColors(primary: userColors[0], secondary: userColors[1], tertiary: userColors[2]);
       case LocalUserModel localUserModel:
         _logger.d("Getting local user's theme");
-      default:
-        // handleError(
-        //   "Unsupported user type for login: ${user.runtimeType}",
-        //   contentType: ContentType.warning,
-        // );
     }
   }
 
@@ -146,14 +141,14 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     emit(state.copyWith(availableUsers: users));
   }
 
-  Future<void> _loginAnilistUser(User user) async {
+  Future<void> _loginAnilistUser(AnilistUserModel user) async {
     DateTime dateTime = JwtDecoder.getExpirationDate(user.accessToken);
     if (dateTime.isBefore(DateTime.now())) {
       _logger.w("Anilist User token is expired, getting new accessToken");
       try {
         ApiResponse<AuthTokenDto> authToken = await _userRepositoryAnilist
             .getAuthToken(user.accessCode);
-        User updatedUser = (user as AnilistUserModel).copyWith(
+        User updatedUser = user.copyWith(
           accessToken: authToken.data.accessToken,
           refreshToken: authToken.data.refreshToken,
         );
@@ -167,6 +162,8 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
         return;
       }
     }
+    // print(user.accessToken);
+    // print(user.id);
     _loggedUserNotifier.updateUser(user);
   }
 

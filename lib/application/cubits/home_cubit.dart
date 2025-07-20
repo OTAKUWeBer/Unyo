@@ -27,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   HomeCubit(
     this._loggedUserNotifier,
-  ) : super(HomeState(loggedUser: UserModel.empty(), selectedMenuOption: SelectedMenuOption.about)) {
+  ) : super(HomeState(loggedUser: UserModel.empty(), selectedMenuOption: SelectedMenuOption.home)) {
     _init();
   }
 

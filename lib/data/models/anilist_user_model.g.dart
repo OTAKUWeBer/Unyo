@@ -8,8 +8,10 @@ part of 'anilist_user_model.dart';
 
 _AnilistUserModel _$AnilistUserModelFromJson(Map<String, dynamic> json) =>
     _AnilistUserModel(
+      id: json['id'] as String,
       name: json['name'] as String,
       avatarImage: json['avatarImage'] as String,
+      bannerImage: json['bannerImage'] as String,
       accessCode: json['accessCode'] as String,
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
@@ -17,8 +19,10 @@ _AnilistUserModel _$AnilistUserModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AnilistUserModelToJson(_AnilistUserModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'avatarImage': instance.avatarImage,
+      'bannerImage': instance.bannerImage,
       'accessCode': instance.accessCode,
       'accessToken': instance.accessToken,
       'refreshToken': instance.refreshToken,

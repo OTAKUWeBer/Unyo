@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class UnyoMenuIcon extends StatelessWidget {
   final bool isSelected;
-  final IconData icon;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
   final void Function() onPressed;
   const UnyoMenuIcon({
     super.key,
     required this.isSelected,
-    required this.icon,
+    required this.unselectedIcon,
+    required this.selectedIcon,
     required this.onPressed
   });
 
@@ -23,7 +25,7 @@ class UnyoMenuIcon extends StatelessWidget {
           height: 50.0,
           // duration: Duration(milliseconds: 2000),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(.25),
+            color: isSelected ? Colors.white.withOpacity(.10) : Colors.transparent,
             borderRadius: BorderRadius.circular(15.0),
 
           ),
@@ -35,13 +37,14 @@ class UnyoMenuIcon extends StatelessWidget {
                 duration: Duration(milliseconds: 200),
                 width: 3.5,
                 decoration: BoxDecoration(
-                  color: /*const Color.fromARGB(255,132,120,168)*/ColorScheme.of(context).primary
+                  color: ColorScheme.of(context).tertiary,
                 ),
               ),
               SizedBox(width: isSelected ? 10.0 : 9.5),
               Icon(
-                icon,
-                color: const Color.fromARGB(255,132,120,168),
+                isSelected ? selectedIcon : unselectedIcon,
+                size: 27,
+                color: isSelected ? ColorScheme.of(context).tertiary : Colors.white,
               ),
             ],
           ),

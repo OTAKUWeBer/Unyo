@@ -59,15 +59,35 @@ class _HomeView extends StatelessWidget {
                 avatarImage: state.loggedUser.avatarImage,
                 icons: [
                   UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.about,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.about),
-                      icon: Icons.add_a_photo_sharp
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.home,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.home),
+                      unselectedIcon: Icons.home_outlined,
+                      selectedIcon: Icons.home
                   ),
                   UnyoMenuIcon(
-                      isSelected: state.selectedMenuOption == SelectedMenuOption.settings,
-                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.settings),
-                      icon: Icons.settings
-                  )
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.anime,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.anime),
+                      unselectedIcon: Icons.movie_outlined,
+                      selectedIcon: Icons.movie
+                  ),
+                  UnyoMenuIcon(
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.manga,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.manga),
+                      unselectedIcon: Icons.menu_book_outlined,
+                      selectedIcon: Icons.menu_book
+                  ),
+                  UnyoMenuIcon(
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.library,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.library),
+                      unselectedIcon: Icons.local_library_outlined,
+                      selectedIcon: Icons.local_library
+                  ),
+                  UnyoMenuIcon(
+                      isSelected: state.selectedMenuOption == SelectedMenuOption.extensions,
+                      onPressed:() => context.read<HomeCubit>().selectMenuOption(SelectedMenuOption.extensions),
+                      unselectedIcon: Icons.extension_outlined,
+                      selectedIcon: Icons.extension
+                  ),
                 ],
               )
           // TextLabelMedium(text: state.loggedUser.toString())

@@ -8,18 +8,16 @@ part of 'local_user_model.dart';
 
 _LocalUserModel _$LocalUserModelFromJson(Map<String, dynamic> json) =>
     _LocalUserModel(
+      id: json['id'] as String,
       name: json['name'] as String,
       avatarImage: json['avatarImage'] as String,
-      accessCode: json['accessCode'] as String,
-      accessToken: json['accessToken'] as String,
-      refreshToken: json['refreshToken'] as String,
+      bannerImage: json['bannerImage'] as String,
     );
 
 Map<String, dynamic> _$LocalUserModelToJson(_LocalUserModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'avatarImage': instance.avatarImage,
-      'accessCode': instance.accessCode,
-      'accessToken': instance.accessToken,
-      'refreshToken': instance.refreshToken,
+      'bannerImage': instance.bannerImage,
     };

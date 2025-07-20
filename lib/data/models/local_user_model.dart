@@ -13,20 +13,11 @@ abstract class LocalUserModel with _$LocalUserModel implements User {
   const LocalUserModel._();
 
   const factory LocalUserModel({
+    required String id,
     required String name,
     required String avatarImage,
-    required String accessCode,
-    required String accessToken,
-    required String refreshToken,
+    required String bannerImage,
   }) = _LocalUserModel;
-
-  factory LocalUserModel.empty() => const LocalUserModel(
-    name: '',
-    avatarImage: 'https://i.imgur.com/EKtChtm.png',
-    accessCode: '',
-    accessToken: '',
-    refreshToken: '',
-  );
 
   factory LocalUserModel.fromJson(Map<String, dynamic> json) =>
       _$LocalUserModelFromJson(json);
@@ -36,8 +27,7 @@ abstract class LocalUserModel with _$LocalUserModel implements User {
       _$LocalUserModelToJson(this as _LocalUserModel);
 }
 
-class LocalUserModelConverter
-    implements JsonConverter<User, Map<String, dynamic>> {
+class LocalUserModelConverter implements JsonConverter<User, Map<String, dynamic>> {
   const LocalUserModelConverter();
 
   @override

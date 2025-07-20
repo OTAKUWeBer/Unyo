@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 // Internal dependencies
 import 'package:unyo/core/di/locator.dart';
-import 'package:unyo/data/models/user_model.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class UserNotifier {
