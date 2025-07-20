@@ -35,7 +35,7 @@ class UnyoMenuIcon extends StatelessWidget {
                 duration: Duration(milliseconds: 200),
                 width: 3.5,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255,132,120,168)
+                  color: /*const Color.fromARGB(255,132,120,168)*/ColorScheme.of(context).primary
                 ),
               ),
               SizedBox(width: isSelected ? 10.0 : 9.5),

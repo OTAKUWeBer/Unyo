@@ -15,6 +15,8 @@ import 'package:unyo/core/enums/login_card_type.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
+import 'package:unyo/core/theme/color_image_service.dart';
+import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/models/models.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -32,11 +34,17 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   final UserNotifier _newUserNotifier;
   late StreamSubscription<User> _newUserCreatedSubscription;
 
+  //Services
+  final ColorImageService _colorImageService;
+  final ThemeService _themeService;
+
   LoginCubit(
     this._userRepositoryLocal,
     this._loggedUserNotifier,
     this._newUserNotifier,
     this._userRepositoryAnilist,
+    this._colorImageService,
+    this._themeService
   ) : super(
         LoginState(
           availableUsers: [],
@@ -84,6 +92,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
           contentType: ContentType.warning,
         );
     }
+    setUsersTheme(user);
     replaceRouteEffect(path: "/home");
   }
 
@@ -107,6 +116,22 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     List<User> usersAvailableAnilist =
         (await _userRepositoryAnilist.fetchAllLoggedInUsers()).cast<User>();
     _updateAvailableUsers(usersAvailableAnilist + usersAvailableLocal);
+  }
+
+  void setUsersTheme(User user) async{
+    switch (user) {
+      case AnilistUserModel anilistUserModel:
+        _logger.d("Getting anilist user's theme");
+        List<Color> userColors = await _colorImageService.getColorsFromImage(NetworkImage(anilistUserModel.avatarImage));
+        _themeService.updateTheme(primary: userColors.first);
+      case LocalUserModel localUserModel:
+        _logger.d("Getting local user's theme");
+      default:
+        // handleError(
+        //   "Unsupported user type for login: ${user.runtimeType}",
+        //   contentType: ContentType.warning,
+        // );
+    }
   }
 
   void _init() {

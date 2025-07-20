@@ -27,7 +27,7 @@ void setupLocator() {
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<GraphQLService>(() => GraphQLService(httpService: sl<HttpService>(), endpoint: config.anilistGraphQLEndpoint), instanceName: config.anilistGraphQlService);
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
-  sl.registerLazySingleton<ThemeService>(() => ThemeService());
+  sl.registerSingleton<ThemeService>(ThemeService());
   sl.registerLazySingleton<ColorImageService>(() => ColorImageService());
   sl.registerLazySingletonAsync<Directory>(() => getApplicationSupportDirectory(), instanceName: config.applicationSupportDirectory);
 
@@ -41,10 +41,12 @@ void setupLocator() {
 
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(() => LoginCubit(
-      sl(),
+      sl<UserRepositoryLocal>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<UserNotifier>(instanceName: config.newUserNotifier),
-      sl()
+      sl<UserRepositoryAnilist>(),
+      sl<ColorImageService>(),
+      sl<ThemeService>()
     )
   );
   sl.registerFactory<HomeCubit>(() => HomeCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier)));

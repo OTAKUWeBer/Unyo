@@ -5,9 +5,10 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
+import 'package:url_launcher/url_launcher.dart';
+//Internal dependencies
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_exception.dart';
-//Internal dependencies
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
@@ -17,7 +18,6 @@ import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:unyo/domain/repositories/repositories.dart';
 import 'package:unyo/domain/entities/user.dart';
 

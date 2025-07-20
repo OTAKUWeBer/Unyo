@@ -1,14 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ThemeService {
-  final _themeSubject = BehaviorSubject<ThemeData>.seeded(_defaultTheme);
+  final BehaviorSubject<ThemeData> _themeSubject;
+
+  /*= BehaviorSubject<ThemeData>.seeded(_defaultTheme);*/
+  ThemeService()
+      : _themeSubject = BehaviorSubject<ThemeData>.seeded(_defaultTheme);
+
 
   Stream<ThemeData> get theme$ => _themeSubject.stream;
+
   ThemeData get current => _themeSubject.value;
 
-  void updateTheme({required Color primary, Color? secondary, Color? tertiary}) {
+  void updateTheme(
+      {required Color primary, Color? secondary, Color? tertiary}) {
     final newTheme = _defaultTheme.copyWith(
       colorScheme: ColorScheme.dark(
         primary: primary,
@@ -20,7 +26,6 @@ class ThemeService {
       ),
       appBarTheme: AppBarTheme(backgroundColor: primary),
     );
-
     _themeSubject.add(newTheme);
   }
 

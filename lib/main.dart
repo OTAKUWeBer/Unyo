@@ -14,11 +14,11 @@ import 'package:unyo/data/adapters/adapters.dart';
 final _appRouter = AppRouter();
 
 void main() async {
+  // Inject dependencies before running the app
+  setupLocator();
   // Initialize Flutter bindings
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // Inject dependencies before running the app
-  setupLocator();
   // Initialize Hive and register adapters
   await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
   Hive
@@ -52,13 +52,30 @@ class MyApp extends StatelessWidget {
     return StreamBuilder<ThemeData>(
       stream: sl<ThemeService>().theme$,
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) {
+        // Handle loading and error states
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return MaterialApp(
+            home: Scaffold(body: Center(child: CircularProgressIndicator())),
+            debugShowCheckedModeBanner: false,
+          );
+        }
+
+        if (snapshot.hasError) {
+          print("Theme stream error: ${snapshot.error}");
+          return MaterialApp(
+            theme: ThemeData.dark(),
+            home: Scaffold(body: Center(child: Text("Error loading theme"))),
+            debugShowCheckedModeBanner: false,
+          );
+        }
         return MaterialApp.router(
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
           title: "Unyo",
-          theme: snapshot.data,
+          theme: snapshot.requireData,
+          // Use fallback theme
           routerConfig: _appRouter.config(),
         );
       },
