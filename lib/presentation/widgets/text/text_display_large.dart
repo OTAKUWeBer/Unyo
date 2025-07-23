@@ -21,7 +21,7 @@ class TextDisplayLarge extends StatelessWidget {
     final baseStyle = Theme.of(context).textTheme.displayLarge;
     return Text(
       text,
-      style: style?.merge(baseStyle) ?? baseStyle,
+      style: style != null ? baseStyle!.merge(style) : baseStyle,
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,

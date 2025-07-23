@@ -5,6 +5,11 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
+import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/data/models/anilist_anime_model.dart';
+import 'package:unyo/data/models/anilist_manga_model.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
 import 'package:url_launcher/url_launcher.dart';
 //Internal dependencies
 import 'package:unyo/core/notifier/user_notifier.dart';
@@ -54,6 +59,44 @@ class UserRepositoryAnilist implements UserRepository {
     } else {
       _logger.e("Could not launch ${config.anilistAuthUrl}");
     }
+  }
+
+  @override
+  Future<List<Anime>> getUserWatchingList(User user) async {
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection = await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+      query: queries.mediaListCollectionQuery,
+      fromJson: MediaCollectionGraphqlDtoData.fromJson,
+      variables: {
+        "userName": user.name,
+        "userId": user.id,
+        "type": "ANIME"
+      }
+    );
+    _throwIfGraphQlError(mediaCollection);
+    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
+        mediaCollection.data.mediaListCollection.lists
+            .where(((collection) => collection.name == "Watching")).first.entries
+            .map((entry) => entry.media).toList();
+    return mediaEntries.map((mediaEntry) => AnilistAnimeModel.fromMediaEntry(mediaEntry)).toList();
+  }
+
+  @override
+  Future<List<Manga>> getUserReadingList(User user) async {
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection = await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+        query: queries.mediaListCollectionQuery,
+        fromJson: MediaCollectionGraphqlDtoData.fromJson,
+        variables: {
+          "userName": user.name,
+          "userId": user.id,
+          "type": "MANGA"
+        }
+    );
+    _throwIfGraphQlError(mediaCollection);
+    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
+    mediaCollection.data.mediaListCollection.lists
+        .where(((collection) => collection.name == "Reading")).first.entries
+        .map((entry) => entry.media).toList();
+    return mediaEntries.map((mediaEntry) => AnilistMangaModel.fromMediaEntry(mediaEntry)).toList();
   }
 
   Future<ApiResponse<AuthTokenDto>> getAuthToken(String accessCode) async {

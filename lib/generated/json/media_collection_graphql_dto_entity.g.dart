@@ -206,7 +206,7 @@ MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia $MediaCollecti
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
         .bannerImage = bannerImage;
   }
-  final int? chapters = json['chapters'];
+  final int? chapters = jsonConvert.convert<int>(json['chapters']);
   if (chapters != null) {
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia.chapters =
         chapters;
@@ -294,8 +294,8 @@ MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia $MediaCollecti
   }
   final String? status = jsonConvert.convert<String>(json['status']);
   if (status != null) {
-    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
-        .status = status;
+    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia.status =
+        status;
   }
   final dynamic nextAiringEpisode = json['nextAiringEpisode'];
   if (nextAiringEpisode != null) {
@@ -393,6 +393,22 @@ MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle $MediaCol
     mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle
         .english = english;
   }
+  final String? userPreferred = jsonConvert.convert<String>(
+      json['userPreferred']);
+  if (userPreferred != null) {
+    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle
+        .userPreferred = userPreferred;
+  }
+  final String? romaji = jsonConvert.convert<String>(json['romaji']);
+  if (romaji != null) {
+    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle
+        .romaji = romaji;
+  }
+  final String? native = jsonConvert.convert<String>(json['native']);
+  if (native != null) {
+    mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle
+        .native = native;
+  }
   return mediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle;
 }
 
@@ -401,6 +417,9 @@ Map<String,
     MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['english'] = entity.english;
+  data['userPreferred'] = entity.userPreferred;
+  data['romaji'] = entity.romaji;
+  data['native'] = entity.native;
   return data;
 }
 
@@ -408,9 +427,15 @@ extension MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle
   MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle copyWith(
       {
         String? english,
+        String? userPreferred,
+        String? romaji,
+        String? native,
       }) {
     return MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle()
-      ..english = english ?? this.english;
+      ..english = english ?? this.english
+      ..userPreferred = userPreferred ?? this.userPreferred
+      ..romaji = romaji ?? this.romaji
+      ..native = native ?? this.native;
   }
 }
 

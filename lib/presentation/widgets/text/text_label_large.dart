@@ -21,7 +21,7 @@ class TextLabelLarge extends StatelessWidget {
     final baseStyle = Theme.of(context).textTheme.labelLarge;
     return Text(
       text,
-      style: style?.merge(baseStyle) ?? baseStyle,
+      style: style != null ? baseStyle!.merge(style) : baseStyle,
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,

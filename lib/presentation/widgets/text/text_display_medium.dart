@@ -21,7 +21,7 @@ class TextDisplayMedium extends StatelessWidget {
     final baseStyle = Theme.of(context).textTheme.displayMedium;
     return Text(
       text,
-      style: style?.merge(baseStyle) ?? baseStyle,
+      style: style != null ? baseStyle!.merge(style) : baseStyle,
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: overflow,

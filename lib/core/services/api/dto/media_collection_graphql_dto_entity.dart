@@ -94,7 +94,7 @@ class MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia {
 	late MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle title;
 	late int averageScore = 0;
 	late String bannerImage = '';
-	late int? chapters;
+	late int? chapters = 0;
 	late String countryOfOrigin = '';
 	late MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaCoverImage coverImage;
 	late String description = '';
@@ -128,6 +128,9 @@ class MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia {
 @JsonSerializable()
 class MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle {
 	late String english = '';
+	late String userPreferred = '';
+	late String romaji = '';
+	late String native = '';
 
 	MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMediaTitle();
 

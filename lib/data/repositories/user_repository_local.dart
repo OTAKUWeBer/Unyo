@@ -3,7 +3,9 @@ import 'package:logger/logger.dart';
 
 // Internal Dependencies
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/entities.dart';
+import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/repositories/user_repository.dart';
 
 class UserRepositoryLocal implements UserRepository {
@@ -16,6 +18,17 @@ class UserRepositoryLocal implements UserRepository {
 
   @override
   Future<void> attemptCreateUser() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Anime>> getUserWatchingList(User user) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Manga>> getUserReadingList(User user) {
+    // TODO: implement getUserReadingList
     throw UnimplementedError();
   }
 

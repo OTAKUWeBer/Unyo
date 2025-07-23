@@ -1,17 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
-import 'package:unyo/domain/entities/airing_episode.dart';
-import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/title.dart';
 
-part 'anilist_anime_model.freezed.dart';
-part 'anilist_anime_model.g.dart';
+part 'anilist_manga_model.freezed.dart';
+part 'anilist_manga_model.g.dart';
 
 @freezed
-abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
-  const AnilistAnimeModel._();
+abstract class AnilistMangaModel with _$AnilistMangaModel implements Manga {
+  const AnilistMangaModel._();
 
-  factory AnilistAnimeModel({
+  factory AnilistMangaModel({
     required int id,
     required int idMal,
     @TitleConverter() required Title title,
@@ -23,26 +22,24 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
     required int duration,
     required String endDate,
     required String startDate,
-    required int episodes,
+    required int chapters,
     required List<String> genres,
     required String format,
     required bool isAdult,
     required int popularity,
     required int meanScore,
-    required String season,
     required String status,
     required bool isFavourite,
-    @AiringEpisodeConverter() required AiringEpisode nextAiringEpisode,
-  }) = _AnilistAnimeModel;
+  }) = _AnilistMangaModel;
 
-  factory AnilistAnimeModel.fromJson(Map<String, dynamic> json) =>
-      _$AnilistAnimeModelFromJson(json);
+  factory AnilistMangaModel.fromJson(Map<String, dynamic> json) =>
+      _$AnilistMangaModelFromJson(json);
 
-  factory AnilistAnimeModel.fromMediaEntry(
+  factory AnilistMangaModel.fromMediaEntry(
     MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
     mediaEntry,
   ) {
-    return AnilistAnimeModel(
+    return AnilistMangaModel(
       id: mediaEntry.id,
       idMal: mediaEntry.idMal,
       title: TitleModel(
@@ -61,23 +58,18 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
           "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
       startDate:
           "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
-      episodes: mediaEntry.episodes,
+      chapters: mediaEntry.chapters ?? 0,
       genres: mediaEntry.genres,
       format: mediaEntry.format,
       isAdult: mediaEntry.isAdult,
       popularity: mediaEntry.popularity,
       meanScore: mediaEntry.meanScore,
-      season: mediaEntry.season,
       status: mediaEntry.status,
       isFavourite: mediaEntry.isFavourite,
-      nextAiringEpisode: AiringEpisodeModel(
-        episode: mediaEntry.nextAiringEpisode?['episode'] ?? -1,
-        airingAt: mediaEntry.nextAiringEpisode?['airingAt'].toString() ?? "",
-      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() =>
-      _$AnilistAnimeModelToJson(this as _AnilistAnimeModel);
+      _$AnilistMangaModelToJson(this as _AnilistMangaModel);
 }

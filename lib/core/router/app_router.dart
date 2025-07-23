@@ -12,8 +12,21 @@ class AppRouter extends RootStackRouter {
       page: RootScaffoldRoute.page,
       path: '/',
       children: [
-        AutoRoute(page: LoginRoute.page, path: 'login', initial: true),
-        AutoRoute(page: HomeRoute.page, path: 'home')
+        CustomRoute(
+          page: LoginRoute.page,
+          path: 'login',
+          initial: true,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          duration: Duration.zero,
+          reverseDuration: Duration.zero
+        ),
+        CustomRoute(
+          page: HomeRoute.page,
+          path: 'home',
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          duration: Duration.zero,
+          reverseDuration: Duration.zero
+        ),
       ],
     ),
   ];

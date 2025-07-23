@@ -31,6 +31,9 @@ query MediaListCollection(\$userName: String, \$userId: Int, \$type: MediaType) 
           idMal
           title {
             english
+            native
+            romaji
+            userPreferred
           }
           averageScore
           bannerImage

@@ -6,6 +6,7 @@ import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 part 'home_state.freezed.dart';
@@ -15,9 +16,10 @@ abstract class HomeState with _$HomeState implements HasEffects{
   const factory HomeState({
     required User loggedUser,
     required SelectedMenuOption selectedMenuOption,
-    //TODO recommended anime
+    //TODO recommended anime / manga
     required List<Anime> continueWatching,
-    required List<Anime> continueReading,
+    required List<Manga> continueReading,
+    required bool isLoading,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _HomeState;
 
