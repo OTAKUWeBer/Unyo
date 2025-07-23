@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:logger/src/logger.dart';
+import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_state.dart';

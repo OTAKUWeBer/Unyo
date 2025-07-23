@@ -7,6 +7,7 @@ import 'package:unyo/application/cubits/root_scaffold_cubit.dart';
 import 'package:unyo/application/states/root_scaffold_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
+import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_menu_bar.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_menu_icon.dart';
 
@@ -18,13 +19,33 @@ class RootScaffoldScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<RootScaffoldCubit>(),
-      child: const RootScaffoldView(),
+      child: const _RootScaffoldListener(),
     );
   }
 }
 
-class RootScaffoldView extends StatelessWidget {
-  const RootScaffoldView({super.key});
+class _RootScaffoldListener extends StatelessWidget {
+  const _RootScaffoldListener({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<RootScaffoldCubit, RootScaffoldState>(
+      listener: (context, state) {
+        if (state.effects.isNotEmpty) {
+          sl<AppEffectHandler>().handleEffects(
+            context,
+            state.effects,
+            context.read<RootScaffoldCubit>().clearEffects,
+          );
+        }
+      },
+      child: _RootScaffoldView(),
+    );
+  }
+}
+
+class _RootScaffoldView extends StatelessWidget {
+  const _RootScaffoldView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +63,10 @@ class RootScaffoldView extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       Colors.transparent,
-                      ColorScheme.of(context).primary.withValues(alpha: 140),
+                      ColorScheme
+                          .of(context)
+                          .primary
+                          .withValues(alpha: 140),
                     ],
                   ),
                 ),
@@ -55,7 +79,10 @@ class RootScaffoldView extends StatelessWidget {
                       center: Alignment.topLeft,
                       radius: 0.7,
                       colors: [
-                        ColorScheme.of(context).primary.withValues(alpha: 140),
+                        ColorScheme
+                            .of(context)
+                            .primary
+                            .withValues(alpha: 140),
                         Colors.transparent,
                       ],
                     ),
@@ -71,83 +98,83 @@ class RootScaffoldView extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment:
-                    state.showMenuBar
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.center,
+                state.showMenuBar
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   state.showMenuBar
                       ? UnyoMenuBar(
-                        avatarImage: state.loggedUser.avatarImage,
-                        icons: [
-                          UnyoMenuIcon(
-                            isSelected:
-                                state.selectedMenuOption ==
-                                SelectedMenuOption.home,
-                            onPressed:
-                                () => context
-                                    .read<RootScaffoldCubit>()
-                                    .selectMenuOption(SelectedMenuOption.home),
-                            unselectedIcon: Icons.home_outlined,
-                            selectedIcon: Icons.home,
-                          ),
-                          UnyoMenuIcon(
-                            isSelected:
-                                state.selectedMenuOption ==
-                                SelectedMenuOption.anime,
-                            onPressed:
-                                () => context
-                                    .read<RootScaffoldCubit>()
-                                    .selectMenuOption(SelectedMenuOption.anime),
-                            unselectedIcon: Icons.movie_outlined,
-                            selectedIcon: Icons.movie,
-                          ),
-                          UnyoMenuIcon(
-                            isSelected:
-                                state.selectedMenuOption ==
-                                SelectedMenuOption.manga,
-                            onPressed:
-                                () => context
-                                    .read<RootScaffoldCubit>()
-                                    .selectMenuOption(SelectedMenuOption.manga),
-                            unselectedIcon: Icons.menu_book_outlined,
-                            selectedIcon: Icons.menu_book,
-                          ),
-                          UnyoMenuIcon(
-                            isSelected:
-                                state.selectedMenuOption ==
-                                SelectedMenuOption.library,
-                            onPressed:
-                                () => context
-                                    .read<RootScaffoldCubit>()
-                                    .selectMenuOption(
-                                      SelectedMenuOption.library,
-                                    ),
-                            unselectedIcon: Icons.local_library_outlined,
-                            selectedIcon: Icons.local_library,
-                          ),
-                          UnyoMenuIcon(
-                            isSelected:
-                                state.selectedMenuOption ==
-                                SelectedMenuOption.extensions,
-                            onPressed:
-                                () => context
-                                    .read<RootScaffoldCubit>()
-                                    .selectMenuOption(
-                                      SelectedMenuOption.extensions,
-                                    ),
-                            unselectedIcon: Icons.extension_outlined,
-                            selectedIcon: Icons.extension,
-                          ),
-                        ],
-                      )
+                    avatarImage: state.loggedUser.avatarImage,
+                    icons: [
+                      UnyoMenuIcon(
+                        isSelected:
+                        state.selectedMenuOption ==
+                            SelectedMenuOption.home,
+                        onPressed:
+                            () =>
+                            context
+                                .read<RootScaffoldCubit>()
+                                .selectMenuOption(SelectedMenuOption.home),
+                        unselectedIcon: Icons.home_outlined,
+                        selectedIcon: Icons.home,
+                      ),
+                      UnyoMenuIcon(
+                        isSelected:
+                        state.selectedMenuOption ==
+                            SelectedMenuOption.anime,
+                        onPressed:
+                            () =>
+                            context
+                                .read<RootScaffoldCubit>()
+                                .selectMenuOption(SelectedMenuOption.anime),
+                        unselectedIcon: Icons.movie_outlined,
+                        selectedIcon: Icons.movie,
+                      ),
+                      UnyoMenuIcon(
+                        isSelected:
+                        state.selectedMenuOption ==
+                            SelectedMenuOption.manga,
+                        onPressed:
+                            () =>
+                            context
+                                .read<RootScaffoldCubit>()
+                                .selectMenuOption(SelectedMenuOption.manga),
+                        unselectedIcon: Icons.menu_book_outlined,
+                        selectedIcon: Icons.menu_book,
+                      ),
+                      UnyoMenuIcon(
+                        isSelected:
+                        state.selectedMenuOption ==
+                            SelectedMenuOption.library,
+                        onPressed:
+                            () =>
+                            context
+                                .read<RootScaffoldCubit>()
+                                .selectMenuOption(
+                              SelectedMenuOption.library,
+                            ),
+                        unselectedIcon: Icons.local_library_outlined,
+                        selectedIcon: Icons.local_library,
+                      ),
+                      UnyoMenuIcon(
+                        isSelected:
+                        state.selectedMenuOption ==
+                            SelectedMenuOption.extensions,
+                        onPressed:
+                            () =>
+                            context
+                                .read<RootScaffoldCubit>()
+                                .selectMenuOption(
+                              SelectedMenuOption.extensions,
+                            ),
+                        unselectedIcon: Icons.extension_outlined,
+                        selectedIcon: Icons.extension,
+                      ),
+                    ],
+                  )
                       : const SizedBox.shrink(),
-                  Expanded(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: AutoRouter(),
-                    ),
-                  ),
+                  Expanded(child: AutoRouter()),
                 ],
               ),
             ],

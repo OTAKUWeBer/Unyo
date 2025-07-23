@@ -30,6 +30,8 @@ class AppEffectHandler {
         _handleShowSnackbarEffect(context, showSnackBarEffect);
       case ReplaceRouteEffect replaceRouteEffect:
         _handleReplaceRouteEffect(replaceRouteEffect, context);
+      case NavigateRouteEffect navigateRouteEffect:
+        _handleNavigateRouteEffect(navigateRouteEffect, context);
       case PushRouteEffect pushRouteEffect:
         _handlePushRouteEffect(pushRouteEffect, context);
       case ShowWidgetDialogEffect showWidgetDialogEffect:
@@ -89,7 +91,18 @@ class AppEffectHandler {
     BuildContext context,
   ) {
     _logger.d("Handling ReplaceRouteEffect");
-    context.router.root.replacePath(
+    AutoRouter.of(context).replacePath(
+      effect.routeName.replaceFirst("/", ""),
+      onFailure: _handleRouteFailure,
+    );
+  }
+
+  void _handleNavigateRouteEffect(
+      NavigateRouteEffect effect,
+      BuildContext context,
+      ) {
+    _logger.d("Handling NavigateRouteEffect");
+    AutoRouter.of(context).navigatePath(
       effect.routeName.replaceFirst("/", ""),
       onFailure: _handleRouteFailure,
     );
@@ -97,7 +110,7 @@ class AppEffectHandler {
 
   void _handlePushRouteEffect(PushRouteEffect effect, BuildContext context) {
     _logger.d("Handling PushRouteEffect");
-    context.router.root.pushPath(
+    AutoRouter.of(context).pushPath(
       effect.routeName.replaceFirst("/", ""),
       onFailure: _handleRouteFailure,
     );

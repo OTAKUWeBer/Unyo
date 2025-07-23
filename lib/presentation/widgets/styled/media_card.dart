@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:unyo/presentation/widgets/styled/hover_animated_container.dart';
 
 class MediaCard extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -6,7 +7,7 @@ import 'package:unyo/domain/entities/user.dart';
 part 'root_scaffold_state.freezed.dart';
 
 @freezed
-abstract class RootScaffoldState with _$RootScaffoldState {
+abstract class RootScaffoldState with _$RootScaffoldState implements HasEffects {
   const factory RootScaffoldState({
     required SelectedMenuOption selectedMenuOption,
     required bool showMenuBar,
@@ -16,4 +17,6 @@ abstract class RootScaffoldState with _$RootScaffoldState {
 
   const RootScaffoldState._();
 
+  @override
+  List<AppEffect> get stateEffects => effects;
 }

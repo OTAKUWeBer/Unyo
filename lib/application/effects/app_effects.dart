@@ -18,6 +18,13 @@ class PushRouteEffect extends AppEffect {
   PushRouteEffect(this.routeName, {this.arguments});
 }
 
+class NavigateRouteEffect extends AppEffect {
+  final String routeName;
+  final Object? arguments;
+
+  NavigateRouteEffect(this.routeName, {this.arguments});
+}
+
 // Dialogs Effects
 class ShowWidgetDialogEffect extends AppEffect {
   final Widget dialog;
