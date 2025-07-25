@@ -1,19 +1,239 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class UnyoBannerCarousel extends StatelessWidget {
-  final ScrollController controller;
-  const UnyoBannerCarousel({super.key, required this.controller});
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/presentation/widgets/text/texts.dart';
+
+class UnyoBannerCarousel extends StatefulWidget {
+  final List<Anime>? animeList;
+  final List<Manga>? mangaList;
+
+  const UnyoBannerCarousel({super.key, this.animeList, this.mangaList});
+
+  @override
+  State<UnyoBannerCarousel> createState() => _UnyoBannerCarouselState();
+}
+
+class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
+  int _currentPage = 0;
+  bool _isForward = true;
+  late Timer _autoScrollTimer;
+  final Map<String, bool> _loadedImages = {};
+  final PageController controller = PageController(
+    initialPage: 0,
+    viewportFraction: 1.00,
+  );
+
+  @override
+  void initState() {
+    _startAutoScroll();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void _startAutoScroll() {
+    _autoScrollTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (controller.hasClients) {
+        final itemCount =
+            widget.animeList?.length ?? widget.mangaList?.length ?? 0;
+        if (itemCount <= 1) return;
+
+        if (_isForward) {
+          if (_currentPage < itemCount - 1) {
+            controller.animateToPage(
+              _currentPage + 1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            _isForward = false;
+            controller.animateToPage(
+              _currentPage - 1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+            );
+          }
+        } else {
+          if (_currentPage > 0) {
+            controller.animateToPage(
+              _currentPage - 1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            _isForward = true;
+            controller.animateToPage(
+              _currentPage + 1,
+              duration: const Duration(milliseconds: 800),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20)
-         ),
+    return widget.animeList?.isNotEmpty ?? false || widget.mangaList!.isNotEmpty
+        ? Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 350,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: PageView.builder(
+                controller: controller,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemCount: widget.animeList?.length ?? widget.mangaList!.length,
+                itemBuilder:
+                    (context, index) => Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50.0.r),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              // The image
+                              Image.network(
+                                widget.animeList?[index].bannerImage ??
+                                    widget.mangaList![index].bannerImage,
+                                fit: BoxFit.cover,
+                              ),
+
+                              // Dark overlay
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.4),
+                                  // Adjust opacity as needed
+                                  // Optional: add gradient for more dramatic effect
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.transparent,
+                                      Colors.black.withOpacity(0.8),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Circular position indicators with current one larger
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0.r),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextTitleSmall(
+                        text:
+                            widget
+                                .animeList?[_currentPage]
+                                .title
+                                .userPreferred ??
+                            widget.mangaList![_currentPage].title.userPreferred,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Container(
+                        width: 50,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: ColorScheme.of(context).tertiary,
+                              size: 17,
+                            ),
+                            TextLabelLarge(
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                              text:
+                                  widget.animeList?[_currentPage].meanScore
+                                      .toString() ??
+                                  widget.mangaList![_currentPage].meanScore
+                                      .toString(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 55,
+                        child: TextBodyMedium(
+                          text:
+                              widget.animeList?[_currentPage].description ??
+                              widget.mangaList![_currentPage].description,
+                          maxLines: 5,
+                          overflow: TextOverflow.fade,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                widget.animeList?.length ?? widget.mangaList!.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  height: _currentPage == index ? 8 : 6,
+                  // Make current one larger
+                  width: _currentPage == index ? 8 : 6,
+                  // Make current one larger
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle, // Make them circular
+                    color:
+                        _currentPage == index
+                            ? ColorScheme.of(context).tertiary
+                            : Colors.grey.withOpacity(0.8),
+                  ),
+                ),
+              ),
+            ),
+          ],
         )
-      ],
-    );
+        : const SizedBox.shrink();
   }
 }

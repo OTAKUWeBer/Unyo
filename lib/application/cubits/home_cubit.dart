@@ -48,7 +48,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((user) async{
       await _getUserInfo(user);
       _menuBarNotifier.showMenuBar(true);
-      emit(state.copyWith(loggedUser: user)); // Update state on new data
+      emit(state.copyWith(loggedUser: user, isLoading: false)); // Update state on new data
     });
   }
 
@@ -77,7 +77,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
           _logger.i("Fetching Anilist User lists");
           List<Anime> watchingList = await _userRepositoryAnilist.getUserWatchingList(user);
           List<Manga> readingList = await _userRepositoryAnilist.getUserReadingList(user);
-          emit(state.copyWith(continueWatching: watchingList, continueReading: readingList, isLoading: false));
+          emit(state.copyWith(continueWatching: watchingList, continueReading: readingList));
         case LocalUserModel localUserModel:
       }  
     } catch (e, stackTrace) {

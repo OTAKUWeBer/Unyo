@@ -70,85 +70,80 @@ class _HomeViewState extends State<_HomeView> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 25.0.h, left: 20.0.w),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(
-                      width: 1.sw - 140,
-                      child: Column(
+        return Padding(
+          padding: EdgeInsets.only(left: 15.0.w),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(height: 25.0.h,),
+                SizedBox(
+                  width: 1.sw - 140,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              TextDisplaySmall(text: "Welcome back "),
-                              TextDisplaySmall(
-                                text: state.loggedUser.name,
-                                style: TextStyle(
-                                  color: ColorScheme.of(context).tertiary,
-                                ),
-                              ),
-                              TextDisplaySmall(text: " , enjoy your journey!"),
-                              Spacer(),
-                            ],
+                          TextDisplaySmall(text: "Welcome back "),
+                          TextDisplaySmall(
+                            text: state.loggedUser.name,
+                            style: TextStyle(
+                              color: ColorScheme.of(context).tertiary,
+                            ),
                           ),
-                          Row(
-                            children: [
-                              TextBodyLarge(
-                                text: "Find your next favorite anime or manga!",
-                              ),
-                            ],
+                          TextDisplaySmall(text: " , enjoy your journey!"),
+                          Spacer(),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          TextBodyLarge(
+                            text: "Find your next favorite anime or manga!",
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 50),
-                    SizedBox(
-                      height: 90,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MediaButton(
-                            onPressed: () {},
-                            image:
-                                "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
-                            text: "Anime List",
-                          ),
-                          SizedBox(width: 50.w),
-                          MediaButton(
-                            onPressed: () {},
-                            image:
-                                "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
-                            text: "Manga List",
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    AnimeCardList(
-                      listTitle: "Continue Watching",
-                      animeList: state.continueWatching,
-                      controller: continueWatchingController,
-                      loadMore: false,
-                    ),
-                    const SizedBox(height: 20),
-                    MangaCardList(
-                      listTitle: "Continue Reading",
-                      mangaList: state.continueReading,
-                      controller: continueReadingController,
-                      loadMore: false,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 50),
+                SizedBox(
+                  height: 90,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MediaButton(
+                        onPressed: () {},
+                        image:
+                            "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
+                        text: "Anime List",
+                      ),
+                      SizedBox(width: 50.w),
+                      MediaButton(
+                        onPressed: () {},
+                        image:
+                            "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
+                        text: "Manga List",
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+                AnimeCardList(
+                  listTitle: "Continue Watching",
+                  animeList: state.continueWatching,
+                  controller: continueWatchingController,
+                  loadMore: false,
+                ),
+                const SizedBox(height: 20),
+                MangaCardList(
+                  listTitle: "Continue Reading",
+                  mangaList: state.continueReading,
+                  controller: continueReadingController,
+                  loadMore: false,
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );

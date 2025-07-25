@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LocalUserModel {
 
- String get id; String get name; String get avatarImage; String get bannerImage;
+@HiveField(0) String get id;@HiveField(1) String get name;@SettingsConverter()@HiveField(2) Settings get settings;@HiveField(3) String get avatarImage;@HiveField(4) String get bannerImage;
 /// Create a copy of LocalUserModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $LocalUserModelCopyWith<LocalUserModel> get copyWith => _$LocalUserModelCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,avatarImage,bannerImage);
+int get hashCode => Object.hash(runtimeType,id,name,settings,avatarImage,bannerImage);
 
 @override
 String toString() {
-  return 'LocalUserModel(id: $id, name: $name, avatarImage: $avatarImage, bannerImage: $bannerImage)';
+  return 'LocalUserModel(id: $id, name: $name, settings: $settings, avatarImage: $avatarImage, bannerImage: $bannerImage)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $LocalUserModelCopyWith<$Res>  {
   factory $LocalUserModelCopyWith(LocalUserModel value, $Res Function(LocalUserModel) _then) = _$LocalUserModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String avatarImage, String bannerImage
+@HiveField(0) String id,@HiveField(1) String name,@SettingsConverter()@HiveField(2) Settings settings,@HiveField(3) String avatarImage,@HiveField(4) String bannerImage
 });
 
 
@@ -65,11 +65,12 @@ class _$LocalUserModelCopyWithImpl<$Res>
 
 /// Create a copy of LocalUserModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? avatarImage = null,Object? bannerImage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? settings = null,Object? avatarImage = null,Object? bannerImage = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
+as String,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
+as Settings,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
 as String,bannerImage: null == bannerImage ? _self.bannerImage : bannerImage // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -156,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String avatarImage,  String bannerImage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String id, @HiveField(1)  String name, @SettingsConverter()@HiveField(2)  Settings settings, @HiveField(3)  String avatarImage, @HiveField(4)  String bannerImage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LocalUserModel() when $default != null:
-return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
+return $default(_that.id,_that.name,_that.settings,_that.avatarImage,_that.bannerImage);case _:
   return orElse();
 
 }
@@ -177,10 +178,10 @@ return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String avatarImage,  String bannerImage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String id, @HiveField(1)  String name, @SettingsConverter()@HiveField(2)  Settings settings, @HiveField(3)  String avatarImage, @HiveField(4)  String bannerImage)  $default,) {final _that = this;
 switch (_that) {
 case _LocalUserModel():
-return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
+return $default(_that.id,_that.name,_that.settings,_that.avatarImage,_that.bannerImage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -197,10 +198,10 @@ return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String avatarImage,  String bannerImage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String id, @HiveField(1)  String name, @SettingsConverter()@HiveField(2)  Settings settings, @HiveField(3)  String avatarImage, @HiveField(4)  String bannerImage)?  $default,) {final _that = this;
 switch (_that) {
 case _LocalUserModel() when $default != null:
-return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
+return $default(_that.id,_that.name,_that.settings,_that.avatarImage,_that.bannerImage);case _:
   return null;
 
 }
@@ -212,13 +213,14 @@ return $default(_that.id,_that.name,_that.avatarImage,_that.bannerImage);case _:
 @JsonSerializable()
 
 class _LocalUserModel extends LocalUserModel {
-  const _LocalUserModel({required this.id, required this.name, required this.avatarImage, required this.bannerImage}): super._();
+  const _LocalUserModel({@HiveField(0) required this.id, @HiveField(1) required this.name, @SettingsConverter()@HiveField(2) required this.settings, @HiveField(3) required this.avatarImage, @HiveField(4) required this.bannerImage}): super._();
   factory _LocalUserModel.fromJson(Map<String, dynamic> json) => _$LocalUserModelFromJson(json);
 
-@override final  String id;
-@override final  String name;
-@override final  String avatarImage;
-@override final  String bannerImage;
+@override@HiveField(0) final  String id;
+@override@HiveField(1) final  String name;
+@override@SettingsConverter()@HiveField(2) final  Settings settings;
+@override@HiveField(3) final  String avatarImage;
+@override@HiveField(4) final  String bannerImage;
 
 /// Create a copy of LocalUserModel
 /// with the given fields replaced by the non-null parameter values.
@@ -233,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalUserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.avatarImage, avatarImage) || other.avatarImage == avatarImage)&&(identical(other.bannerImage, bannerImage) || other.bannerImage == bannerImage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,avatarImage,bannerImage);
+int get hashCode => Object.hash(runtimeType,id,name,settings,avatarImage,bannerImage);
 
 @override
 String toString() {
-  return 'LocalUserModel(id: $id, name: $name, avatarImage: $avatarImage, bannerImage: $bannerImage)';
+  return 'LocalUserModel(id: $id, name: $name, settings: $settings, avatarImage: $avatarImage, bannerImage: $bannerImage)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$LocalUserModelCopyWith<$Res> implements $LocalUserModelCo
   factory _$LocalUserModelCopyWith(_LocalUserModel value, $Res Function(_LocalUserModel) _then) = __$LocalUserModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String avatarImage, String bannerImage
+@HiveField(0) String id,@HiveField(1) String name,@SettingsConverter()@HiveField(2) Settings settings,@HiveField(3) String avatarImage,@HiveField(4) String bannerImage
 });
 
 
@@ -270,11 +272,12 @@ class __$LocalUserModelCopyWithImpl<$Res>
 
 /// Create a copy of LocalUserModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? avatarImage = null,Object? bannerImage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? settings = null,Object? avatarImage = null,Object? bannerImage = null,}) {
   return _then(_LocalUserModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
+as String,settings: null == settings ? _self.settings : settings // ignore: cast_nullable_to_non_nullable
+as Settings,avatarImage: null == avatarImage ? _self.avatarImage : avatarImage // ignore: cast_nullable_to_non_nullable
 as String,bannerImage: null == bannerImage ? _self.bannerImage : bannerImage // ignore: cast_nullable_to_non_nullable
 as String,
   ));

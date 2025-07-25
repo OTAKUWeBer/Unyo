@@ -19,6 +19,8 @@ import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
+import 'package:unyo/data/repositories/anime_repository_anilist.dart';
+import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/cubits/home_cubit.dart';
 
@@ -30,34 +32,76 @@ void setupLocator() {
 
   // Services
   sl.registerLazySingleton<HttpService>(() => HttpService());
-  sl.registerLazySingleton<GraphQLService>(() => GraphQLService(httpService: sl<HttpService>(), endpoint: config.anilistGraphQLEndpoint), instanceName: config.anilistGraphQlService);
+  sl.registerLazySingleton<GraphQLService>(
+    () => GraphQLService(
+      httpService: sl<HttpService>(),
+      endpoint: config.anilistGraphQLEndpoint,
+    ),
+    instanceName: config.anilistGraphQlService,
+  );
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
   sl.registerSingleton<ThemeService>(ThemeService());
   sl.registerLazySingleton<ColorImageService>(() => ColorImageService());
-  sl.registerLazySingletonAsync<Directory>(() => getApplicationSupportDirectory(), instanceName: config.applicationSupportDirectory);
+  sl.registerLazySingletonAsync<Directory>(
+    () => getApplicationSupportDirectory(),
+    instanceName: config.applicationSupportDirectory,
+  );
 
   // Notifiers
-  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.loggedUserNotifier);
-  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
+  sl.registerLazySingleton<UserNotifier>(
+    () => UserNotifier(),
+    instanceName: config.loggedUserNotifier,
+  );
+  sl.registerLazySingleton<UserNotifier>(
+    () => UserNotifier(),
+    instanceName: config.newUserNotifier,
+  );
   sl.registerLazySingleton<MenuBarNotifier>(() => MenuBarNotifier());
 
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
-  sl.registerLazySingleton<UserRepositoryAnilist>(() => UserRepositoryAnilist(sl<UserNotifier>(instanceName: config.newUserNotifier)));
+  sl.registerLazySingleton<UserRepositoryAnilist>(
+    () => UserRepositoryAnilist(
+      sl<UserNotifier>(instanceName: config.newUserNotifier),
+    ),
+  );
+  sl.registerLazySingleton<AnimeRepositoryAnilist>(
+    () => AnimeRepositoryAnilist(),
+  );
+  sl.registerLazySingleton<MangaRepositoryAnilist>(
+    () => MangaRepositoryAnilist(),
+  );
 
   // Cubits / Blocs
-  sl.registerFactory<LoginCubit>(() => LoginCubit(
+  sl.registerFactory<LoginCubit>(
+    () => LoginCubit(
       sl<UserRepositoryLocal>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<UserNotifier>(instanceName: config.newUserNotifier),
       sl<UserRepositoryAnilist>(),
       sl<ColorImageService>(),
-      sl<ThemeService>()
-    )
+      sl<ThemeService>(),
+    ),
   );
-  sl.registerFactory<HomeCubit>(() => HomeCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier), sl<UserRepositoryAnilist>(), sl<MenuBarNotifier>()));
-  sl.registerFactory<RootScaffoldCubit>(() => RootScaffoldCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier), sl<MenuBarNotifier>()));
-  sl.registerFactory<AnimeCubit>(() => AnimeCubit());
+  sl.registerFactory<HomeCubit>(
+    () => HomeCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<UserRepositoryAnilist>(),
+      sl<MenuBarNotifier>(),
+    ),
+  );
+  sl.registerFactory<RootScaffoldCubit>(
+    () => RootScaffoldCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<MenuBarNotifier>(),
+    ),
+  );
+  sl.registerFactory<AnimeCubit>(
+    () => AnimeCubit(
+      sl<AnimeRepositoryAnilist>(),
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+    ),
+  );
   sl.registerFactory<MangaCubit>(() => MangaCubit());
   sl.registerFactory<MediaListCubit>(() => MediaListCubit());
 }

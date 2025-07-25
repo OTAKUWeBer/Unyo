@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
 import 'package:unyo/domain/entities/airing_episode.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/title.dart';
@@ -73,6 +74,45 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       nextAiringEpisode: AiringEpisodeModel(
         episode: mediaEntry.nextAiringEpisode?['episode'] ?? -1,
         airingAt: mediaEntry.nextAiringEpisode?['airingAt'].toString() ?? "",
+      ),
+    );
+  }
+
+  factory AnilistAnimeModel.fromScheduleEntry(
+      MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules
+      schedule,
+      ) {
+    return AnilistAnimeModel(
+      id: schedule.media.id,
+      idMal: schedule.media.idMal,
+      title: TitleModel(
+        romaji: schedule.media.title.romaji,
+        english: schedule.media.title.english,
+        userPreferred: schedule.media.title.userPreferred,
+        nativeTitle: schedule.media.title.native,
+      ),
+      averageScore: schedule.media.averageScore,
+      bannerImage: schedule.media.bannerImage,
+      countryOfOrigin: schedule.media.countryOfOrigin,
+      coverImage: schedule.media.coverImage.large,
+      description: schedule.media.description,
+      duration: schedule.media.duration,
+      endDate:
+      "${schedule.media.endDate.day}/${schedule.media.endDate.month}/${schedule.media.endDate.year}",
+      startDate:
+      "${schedule.media.startDate.day}/${schedule.media.startDate.month}/${schedule.media.startDate.year}",
+      episodes: schedule.media.episodes ?? 0,
+      genres: schedule.media.genres,
+      format: schedule.media.format,
+      isAdult: schedule.media.isAdult,
+      popularity: schedule.media.popularity,
+      meanScore: schedule.media.meanScore,
+      season: schedule.media.season,
+      status: schedule.media.status,
+      isFavourite: schedule.media.isFavourite,
+      nextAiringEpisode: AiringEpisodeModel(
+        episode: schedule.media.nextAiringEpisode.episode,
+        airingAt: schedule.media.nextAiringEpisode.airingAt.toString(),
       ),
     );
   }

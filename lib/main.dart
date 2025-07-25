@@ -2,14 +2,19 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
+import 'package:logger/logger.dart';
 
 //Internal dependencies
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/router/app_router.dart';
 import 'package:unyo/core/theme/theme_service.dart';
-import 'package:unyo/data/adapters/adapters.dart';
+
+import 'core/enums/service.dart';
+import 'data/models/anilist_user_model.dart';
+import 'data/models/local_user_model.dart';
+import 'domain/entities/settings.dart';
 
 final _appRouter = AppRouter();
 
@@ -24,6 +29,8 @@ void main() async {
   Hive
     ..init(sl<Directory>(instanceName: config.applicationSupportDirectory).path)
     ..registerAdapter(AnilistUserModelAdapter())
+    ..registerAdapter(SettingsModelAdapter())
+    ..registerAdapter(ServiceEnumAdapter())
     ..registerAdapter(LocalUserModelAdapter());
   //Run Flutter app with localization and screen utilities
   runApp(
@@ -61,7 +68,7 @@ class MyApp extends StatelessWidget {
         }
 
         if (snapshot.hasError) {
-          print("Theme stream error: ${snapshot.error}");
+          sl<Logger>().e("Theme stream error: ${snapshot.error}");
           return MaterialApp(
             theme: ThemeData.dark(),
             home: Scaffold(body: Center(child: Text("Error loading theme"))),

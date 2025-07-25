@@ -1,6 +1,6 @@
 // External dependencies
 import 'dart:io';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
@@ -8,12 +8,13 @@ import 'package:shelf/shelf_io.dart' as shelfio;
 import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
 import 'package:unyo/data/models/anilist_anime_model.dart';
 import 'package:unyo/data/models/anilist_manga_model.dart';
+import 'package:unyo/data/repositories/repository_mixin.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 //Internal dependencies
 import 'package:unyo/core/notifier/user_notifier.dart';
-import 'package:unyo/core/services/api/graphql/graphql_exception.dart';
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
@@ -26,7 +27,7 @@ import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/domain/repositories/repositories.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-class UserRepositoryAnilist implements UserRepository {
+class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
   final Logger _logger = sl<Logger>();
   final HttpService _httpService = sl<HttpService>();
   final GraphQLService _anilistGraphQLService = sl<GraphQLService>(instanceName: config.anilistGraphQlService);
@@ -72,7 +73,7 @@ class UserRepositoryAnilist implements UserRepository {
         "type": "ANIME"
       }
     );
-    _throwIfGraphQlError(mediaCollection);
+    throwIfGraphQlError(mediaCollection);
     List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
         mediaCollection.data.mediaListCollection.lists
             .where(((collection) => collection.name == "Watching")).first.entries
@@ -91,7 +92,7 @@ class UserRepositoryAnilist implements UserRepository {
           "type": "MANGA"
         }
     );
-    _throwIfGraphQlError(mediaCollection);
+    throwIfGraphQlError(mediaCollection);
     List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
     mediaCollection.data.mediaListCollection.lists
         .where(((collection) => collection.name == "Reading")).first.entries
@@ -140,10 +141,11 @@ class UserRepositoryAnilist implements UserRepository {
           fromJson: ViewerGraphqlDtoEntity.fromJson,
           headers: graphQlHeaders
       );
-    _throwIfGraphQlError(viewerDto);
+    throwIfGraphQlError(viewerDto);
     AnilistUserModel newAnilistUser = AnilistUserModel(
         id: viewerDto.data.viewer.id.toString(),
         name: viewerDto.data.viewer.name,
+        settings: SettingsModel.empty(),
         avatarImage: viewerDto.data.viewer.avatar.medium,
         bannerImage: viewerDto.data.viewer.bannerImage,
         accessCode: accessCode,
@@ -152,11 +154,5 @@ class UserRepositoryAnilist implements UserRepository {
     );
     _anilistUsersBox.put(viewerDto.data.viewer.name, newAnilistUser);
     _newUserNotifier.updateUser(newAnilistUser);
-  }
-
-  void _throwIfGraphQlError<T>(ApiGraphQLResponse<T> graphQlResponse) {
-    if (graphQlResponse.errors != null && graphQlResponse.errors!.isNotEmpty) {
-      throw GraphQLException(graphQlResponse.errors!);
-    }
   }
 }
