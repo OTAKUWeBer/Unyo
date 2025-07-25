@@ -61,7 +61,7 @@ class _AnimeViewState extends State<_AnimeView> {
             children: [
               SizedBox(height: 20.0.h),
               UnyoBannerCarousel(
-                animeList: state.recentlyReleased.$2
+                animeList: state.recentlyReleased.$2.where((anime) => anime.bannerImage != "").toList(),
               ),
               const SizedBox(height: 50,),
               Row(

@@ -35,14 +35,20 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     airingSchedules = await _anilistGraphQLService.query(
       query: queries.animeRecentlyReleasedQuery,
       fromJson: MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
-      variables: {"sort": "TIME_DESC", "page": page, "perPage": 30},
+      variables: {"sort": "TIME_DESC", "page": page, "perPage": 30, "notYetAired": false},
     );
     throwIfGraphQlError(airingSchedules);
     List<Anime> recentlyReleasedAnimes =
-        airingSchedules.data.data.page.airingSchedules
+        airingSchedules.data.page.airingSchedules
             .map((schedule) => AnilistAnimeModel.fromScheduleEntry(schedule))
             .toList();
-    return (true, recentlyReleasedAnimes);
+    Map<int, Anime> uniqueRecentlyReleasedAnimes = {};
+    recentlyReleasedAnimes.forEach((anime) {
+      if (!uniqueRecentlyReleasedAnimes.containsKey(anime.id)) {
+        uniqueRecentlyReleasedAnimes[anime.id] = anime;
+      }
+    });
+    return (true, uniqueRecentlyReleasedAnimes.values.toList());
   }
 
   @override

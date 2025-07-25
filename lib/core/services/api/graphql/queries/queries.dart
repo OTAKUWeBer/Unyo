@@ -86,9 +86,9 @@ query MediaListCollection(\$userName: String, \$userId: Int, \$type: MediaType) 
 //   "perPage": 50,
 // }
 const animeRecentlyReleasedQuery = '''
-query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int) {
+query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$notYetAired: Boolean) {
   Page(page: \$page, perPage: \$perPage) {
-    airingSchedules(sort: \$sort) {
+    airingSchedules(sort: \$sort, notYetAired: \$notYetAired) {
       media {
         nextAiringEpisode {
           episode

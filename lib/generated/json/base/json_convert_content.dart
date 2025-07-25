@@ -288,79 +288,71 @@ class JsonConvert {
           MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson(e))
           .toList() as M;
     }
-    if (<MediaCollectionRecentlyReleasedGraphqlDtoData>[] is M) {
+    if (<MediaCollectionRecentlyReleasedGraphqlDtoPage>[] is M) {
       return data
-          .map<MediaCollectionRecentlyReleasedGraphqlDtoData>((
+          .map<MediaCollectionRecentlyReleasedGraphqlDtoPage>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoData.fromJson(e))
+          MediaCollectionRecentlyReleasedGraphqlDtoPage.fromJson(e))
           .toList() as M;
     }
-    if (<MediaCollectionRecentlyReleasedGraphqlDtoDataPage>[] is M) {
-      return data
-          .map<MediaCollectionRecentlyReleasedGraphqlDtoDataPage>((
+    if (<MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules>[] is M) {
+      return data.map<
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPage.fromJson(e))
-          .toList() as M;
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules.fromJson(
+              e)).toList() as M;
     }
-    if (<MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules>[
+    if (<MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules
-              .fromJson(e)).toList() as M;
-    }
-    if (<MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia>[
-    ] is M) {
-      return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia>((
-          Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia
               .fromJson(e)).toList() as M;
     }
     if (<
-        MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode>[
+        MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode
               .fromJson(e)).toList() as M;
     }
     if (<
-        MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate>[
+        MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate
               .fromJson(e)).toList() as M;
     }
     if (<
-        MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate>[
+        MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate
               .fromJson(e)).toList() as M;
     }
     if (<
-        MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage>[
+        MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage
               .fromJson(e)).toList() as M;
     }
     if (<
-        MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle>[
+        MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle>[
     ] is M) {
       return data.map<
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle>((
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle>((
           Map<String, dynamic> e) =>
-          MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle
+          MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle
               .fromJson(e)).toList() as M;
     }
     if (<MediaCollectionTrendingOrPopularGraphqlDtoEntity>[] is M) {
@@ -584,30 +576,28 @@ class JsonConvertClassCollection {
         .fromJson,
     (MediaCollectionRecentlyReleasedGraphqlDtoEntity)
         .toString(): MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoData)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoData.fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPage)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPage.fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules
+    (MediaCollectionRecentlyReleasedGraphqlDtoPage)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPage.fromJson,
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage
         .fromJson,
-    (MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle)
-        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle
+    (MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle)
+        .toString(): MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle
         .fromJson,
     (MediaCollectionTrendingOrPopularGraphqlDtoEntity)
         .toString(): MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,

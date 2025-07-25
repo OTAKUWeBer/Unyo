@@ -114,7 +114,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                             children: [
                               // The image
                               Image.network(
-                                widget.animeList?[index].bannerImage ??
+                                widget.animeList?[index].bannerImage  ??
                                     widget.mangaList![index].bannerImage,
                                 fit: BoxFit.cover,
                               ),

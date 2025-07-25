@@ -5,7 +5,8 @@ export 'package:unyo/generated/json/media_collection_recently_released_graphql_d
 
 @JsonSerializable()
 class MediaCollectionRecentlyReleasedGraphqlDtoEntity {
-	late MediaCollectionRecentlyReleasedGraphqlDtoData data;
+	@JSONField(name: "Page")
+	late MediaCollectionRecentlyReleasedGraphqlDtoPage page;
 
 	MediaCollectionRecentlyReleasedGraphqlDtoEntity();
 
@@ -20,31 +21,14 @@ class MediaCollectionRecentlyReleasedGraphqlDtoEntity {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoData {
-	@JSONField(name: "Page")
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPage page;
+class MediaCollectionRecentlyReleasedGraphqlDtoPage {
+	late List<MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules> airingSchedules = [];
 
-	MediaCollectionRecentlyReleasedGraphqlDtoData();
+	MediaCollectionRecentlyReleasedGraphqlDtoPage();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoData.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPage {
-	late List<MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules> airingSchedules = [];
-
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPage();
-
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageToJson(this);
 
 	@override
 	String toString() {
@@ -53,14 +37,14 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPage {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules {
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia media;
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules {
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia media;
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesToJson(this);
 
 	@override
 	String toString() {
@@ -69,8 +53,8 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia {
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode nextAiringEpisode;
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia {
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode nextAiringEpisode = MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode();
 	late String status = '';
 	late bool isFavourite = false;
 	late String season = '';
@@ -81,23 +65,23 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia {
 	late int popularity = 0;
 	late List<String> genres = [];
 	late String format = '';
-	dynamic episodes;
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate endDate;
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate startDate;
+	late int episodes = 0;
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate endDate;
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate startDate;
 	late int duration = 0;
 	late String description = '';
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage coverImage;
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage coverImage;
 	late String countryOfOrigin = '';
-	dynamic chapters;
+	late int chapters;
 	late String bannerImage = '';
 	late int averageScore = 0;
-	late MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle title;
+	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle title;
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaToJson(this);
 
 	@override
 	String toString() {
@@ -106,33 +90,15 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMedia {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode {
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode {
 	late int episode = 0;
 	late int airingAt = 0;
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisode.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisodeFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisode.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisodeFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaNextAiringEpisodeToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate {
-	dynamic day;
-	dynamic month;
-	dynamic year;
-
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate();
-
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDateFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextAiringEpisodeToJson(this);
 
 	@override
 	String toString() {
@@ -141,16 +107,16 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaEndDa
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate {
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate {
 	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDateFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStartDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDateToJson(this);
 
 	@override
 	String toString() {
@@ -159,14 +125,32 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaStart
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage {
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate {
+	late int day = 0;
+	late int month = 0;
+	late int year = 0;
+
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate();
+
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDateFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaStartDateToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage {
 	late String large = '';
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImageFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCoverImageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImageToJson(this);
 
 	@override
 	String toString() {
@@ -175,17 +159,17 @@ class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaCover
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle {
-	dynamic english;
+class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle {
+	late String english = '';
 	late String native = '';
 	late String romaji = '';
 	late String userPreferred = '';
 
-	MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle();
+	MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle();
 
-	factory MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitleFromJson(json);
+	factory MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitleFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedulesMediaTitleToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitleToJson(this);
 
 	@override
 	String toString() {

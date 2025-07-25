@@ -79,7 +79,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
   }
 
   factory AnilistAnimeModel.fromScheduleEntry(
-      MediaCollectionRecentlyReleasedGraphqlDtoDataPageAiringSchedules
+      MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules
       schedule,
       ) {
     return AnilistAnimeModel(
@@ -101,7 +101,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       "${schedule.media.endDate.day}/${schedule.media.endDate.month}/${schedule.media.endDate.year}",
       startDate:
       "${schedule.media.startDate.day}/${schedule.media.startDate.month}/${schedule.media.startDate.year}",
-      episodes: schedule.media.episodes ?? 0,
+      episodes: schedule.media.episodes,
       genres: schedule.media.genres,
       format: schedule.media.format,
       isAdult: schedule.media.isAdult,
