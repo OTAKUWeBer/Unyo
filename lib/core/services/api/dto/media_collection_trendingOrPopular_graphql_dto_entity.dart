@@ -5,7 +5,8 @@ export 'package:unyo/generated/json/media_collection_trendingOrPopular_graphql_d
 
 @JsonSerializable()
 class MediaCollectionTrendingOrPopularGraphqlDtoEntity {
-	late MediaCollectionTrendingOrPopularGraphqlDtoData data;
+	@JSONField(name: "Page")
+	late MediaCollectionTrendingOrPopularGraphqlDtoPage page;
 
 	MediaCollectionTrendingOrPopularGraphqlDtoEntity();
 
@@ -20,31 +21,14 @@ class MediaCollectionTrendingOrPopularGraphqlDtoEntity {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoData {
-	@JSONField(name: "Page")
-	late MediaCollectionTrendingOrPopularGraphqlDtoDataPage page;
+class MediaCollectionTrendingOrPopularGraphqlDtoPage {
+	late List<MediaCollectionTrendingOrPopularGraphqlDtoPageMedia> media = [];
 
-	MediaCollectionTrendingOrPopularGraphqlDtoData();
+	MediaCollectionTrendingOrPopularGraphqlDtoPage();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoData.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPage.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPage {
-	late List<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia> media = [];
-
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPage();
-
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPage.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageToJson(this);
 
 	@override
 	String toString() {
@@ -53,7 +37,7 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPage {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia {
+class MediaCollectionTrendingOrPopularGraphqlDtoPageMedia {
 	dynamic nextAiringEpisode;
 	late String status = '';
 	late bool isFavourite = false;
@@ -66,22 +50,22 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia {
 	late List<String> genres = [];
 	late String format = '';
 	late int episodes = 0;
-	late MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate endDate;
-	late MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate startDate;
+	late MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate endDate;
+	late MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate startDate;
 	late int duration = 0;
 	late String description = '';
-	late MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage coverImage;
+	late MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage coverImage;
 	late String countryOfOrigin = '';
-	late int? chapters;
+	late int chapters = 0;
 	late String bannerImage = '';
 	late int averageScore = 0;
-	late MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle title;
+	late MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle title;
 
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia();
+	MediaCollectionTrendingOrPopularGraphqlDtoPageMedia();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaToJson(this);
 
 	@override
 	String toString() {
@@ -90,16 +74,16 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate {
+class MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate {
 	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate();
+	MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDateFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDateToJson(this);
 
 	@override
 	String toString() {
@@ -108,16 +92,16 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate {
+class MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate {
 	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate();
+	MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDateFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDateToJson(this);
 
 	@override
 	String toString() {
@@ -126,14 +110,14 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage {
+class MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage {
 	late String large = '';
 
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage();
+	MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImageFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImageToJson(this);
 
 	@override
 	String toString() {
@@ -142,17 +126,17 @@ class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage {
 }
 
 @JsonSerializable()
-class MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle {
+class MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle {
 	late String english = '';
 	late String native = '';
 	late String romaji = '';
 	late String userPreferred = '';
 
-	MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle();
+	MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle();
 
-	factory MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitleFromJson(json);
+	factory MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitleFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitleToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitleToJson(this);
 
 	@override
 	String toString() {

@@ -57,6 +57,8 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
       emit(state.copyWith(loggedUser: loggedUser, isLoading: false));
     });
     _fetchRecentlyReleased(1);
+    _fetchPopular(1);
+    _fetchTrending(1);
   }
 
   Future<void> _fetchRecentlyReleased(int page) async {
@@ -86,7 +88,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
           _logger.i("Fetching Anilist trending anime");
           (bool, List<Anime>) trending = await _animeRepositoryAnilist.getTrendingAnimes(page);
           emit(state.copyWith(trending: trending));
-          emit(state.copyWith(banners: trending.$2));
+          emit(state.copyWith(banners: trending.$2.where((anime) => anime.bannerImage != "").toList()));
         case Service.mal:
         case Service.kitsu:
         case Service.shikimori:

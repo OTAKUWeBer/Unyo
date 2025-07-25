@@ -156,7 +156,7 @@ MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia $MediaCollecti
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia.format =
         format;
   }
-  final int? episodes = json['episodes'];
+  final int? episodes = jsonConvert.convert<int>(json['episodes']);
   if (episodes != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia.episodes =
         episodes;
@@ -201,7 +201,7 @@ MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia $MediaCollecti
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia
         .countryOfOrigin = countryOfOrigin;
   }
-  final int? chapters = json['chapters'];
+  final int? chapters = jsonConvert.convert<int>(json['chapters']);
   if (chapters != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia.chapters =
         chapters;
@@ -347,17 +347,17 @@ extension MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaNextA
 MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDateFromJson(
     Map<String, dynamic> json) {
   final MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate = MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate();
-  final int? day = json['day'];
+  final int? day = jsonConvert.convert<int>(json['day']);
   if (day != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate
         .day = day;
   }
-  final int? month = json['month'];
+  final int? month = jsonConvert.convert<int>(json['month']);
   if (month != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate
         .month = month;
   }
-  final int? year = json['year'];
+  final int? year = jsonConvert.convert<int>(json['year']);
   if (year != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaEndDate
         .year = year;
@@ -466,7 +466,7 @@ extension MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCover
 MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle $MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitleFromJson(
     Map<String, dynamic> json) {
   final MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle = MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle();
-  final String? english = json['english'];
+  final String? english = jsonConvert.convert<String>(json['english']);
   if (english != null) {
     mediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle
         .english = english;

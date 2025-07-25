@@ -196,7 +196,7 @@ class MediaCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         fontSize:
                             format == "TV_SHORT" || format == "SPECIAL" || format == "MANGA"
-                                ? 10
+                                ? 8
                                 : 14,
                       ),
                     ),

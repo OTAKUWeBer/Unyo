@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
+import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
@@ -20,8 +21,19 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   final Logger _logger = sl<Logger>();
 
   @override
-  Future<(bool, List<Anime>)> getPopularAnimes(int page) {
-    throw UnimplementedError();
+  Future<(bool, List<Anime>)> getPopularAnimes(int page) async{
+    ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
+    popularMediaCollection = await _anilistGraphQLService.query(
+      query: queries.mediaTrendingOrPopularQuery,
+      fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
+      variables: {"sort": "POPULARITY_DESC", "page": page, "perPage": 50, "type": "ANIME"},
+    );
+    throwIfGraphQlError(popularMediaCollection);
+    List<Anime> popularAnimes =
+    popularMediaCollection.data.page.media
+        .map((mediaEntry) => AnilistAnimeModel.fromPopularOrTrendingMediaEntry(mediaEntry))
+        .toList();
+    return (true, popularAnimes);
   }
 
   @override
@@ -35,7 +47,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     airingSchedules = await _anilistGraphQLService.query(
       query: queries.animeRecentlyReleasedQuery,
       fromJson: MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
-      variables: {"sort": "TIME_DESC", "page": page, "perPage": 30, "notYetAired": false},
+      variables: {"sort": "TIME_DESC", "page": page, "perPage": 50, "notYetAired": false},
     );
     throwIfGraphQlError(airingSchedules);
     List<Anime> recentlyReleasedAnimes =
@@ -52,8 +64,19 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
-  Future<(bool, List<Anime>)> getTrendingAnimes(int page) {
-    throw UnimplementedError();
+  Future<(bool, List<Anime>)> getTrendingAnimes(int page) async {
+    ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
+    trendingMediaCollection = await _anilistGraphQLService.query(
+      query: queries.mediaTrendingOrPopularQuery,
+      fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
+      variables: {"sort": "TRENDING_DESC", "page": page, "perPage": 50, "type": "ANIME"},
+    );
+    throwIfGraphQlError(trendingMediaCollection);
+    List<Anime> trendingAnimes =
+    trendingMediaCollection.data.page.media
+        .map((mediaEntry) => AnilistAnimeModel.fromPopularOrTrendingMediaEntry(mediaEntry))
+        .toList();
+    return (true, trendingAnimes);
   }
 
   @override

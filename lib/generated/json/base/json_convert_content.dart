@@ -362,57 +362,49 @@ class JsonConvert {
           MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson(e))
           .toList() as M;
     }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoData>[] is M) {
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPage>[] is M) {
       return data
-          .map<MediaCollectionTrendingOrPopularGraphqlDtoData>((
+          .map<MediaCollectionTrendingOrPopularGraphqlDtoPage>((
           Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoData.fromJson(e))
+          MediaCollectionTrendingOrPopularGraphqlDtoPage.fromJson(e))
           .toList() as M;
     }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPage>[] is M) {
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPageMedia>[] is M) {
       return data
-          .map<MediaCollectionTrendingOrPopularGraphqlDtoDataPage>((
+          .map<MediaCollectionTrendingOrPopularGraphqlDtoPageMedia>((
           Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPage.fromJson(e))
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMedia.fromJson(e))
           .toList() as M;
     }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia>[] is M) {
-      return data
-          .map<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia>((
-          Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia.fromJson(e))
-          .toList() as M;
-    }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate>[
-    ] is M) {
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate>[] is M) {
       return data.map<
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate>((
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate>((
           Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate
-              .fromJson(e)).toList() as M;
-    }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate>[
-    ] is M) {
-      return data.map<
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate>((
-          Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate
-              .fromJson(e)).toList() as M;
-    }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage>[
-    ] is M) {
-      return data.map<
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage>((
-          Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage
-              .fromJson(e)).toList() as M;
-    }
-    if (<MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle>[] is M) {
-      return data.map<
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle>((
-          Map<String, dynamic> e) =>
-          MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle.fromJson(
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate.fromJson(
               e)).toList() as M;
+    }
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate>[] is M) {
+      return data.map<
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate>((
+          Map<String, dynamic> e) =>
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate.fromJson(
+              e)).toList() as M;
+    }
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage>[
+    ] is M) {
+      return data.map<
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage>((
+          Map<String, dynamic> e) =>
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage
+              .fromJson(e)).toList() as M;
+    }
+    if (<MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle>[] is M) {
+      return data
+          .map<
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle>((
+          Map<String, dynamic> e) =>
+          MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle.fromJson(e))
+          .toList() as M;
     }
     if (<MediaCollectionUpcomingGraphqlDtoEntity>[] is M) {
       return data.map<MediaCollectionUpcomingGraphqlDtoEntity>((
@@ -601,25 +593,22 @@ class JsonConvertClassCollection {
         .fromJson,
     (MediaCollectionTrendingOrPopularGraphqlDtoEntity)
         .toString(): MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoData)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoData.fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPage)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPage
+    (MediaCollectionTrendingOrPopularGraphqlDtoPage)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPage.fromJson,
+    (MediaCollectionTrendingOrPopularGraphqlDtoPageMedia)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPageMedia
         .fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPageMedia
+    (MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPageMediaEndDate
         .fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaEndDate
+    (MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPageMediaStartDate
         .fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaStartDate
+    (MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPageMediaCoverImage
         .fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaCoverImage
-        .fromJson,
-    (MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle)
-        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoDataPageMediaTitle
+    (MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle)
+        .toString(): MediaCollectionTrendingOrPopularGraphqlDtoPageMediaTitle
         .fromJson,
     (MediaCollectionUpcomingGraphqlDtoEntity)
         .toString(): MediaCollectionUpcomingGraphqlDtoEntity.fromJson,

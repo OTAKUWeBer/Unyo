@@ -6,6 +6,7 @@ import 'package:unyo/application/cubits/anime_cubit.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/styled/anime_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_button.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner_carousel.dart';
 
@@ -43,6 +44,7 @@ class _AnimeListener extends StatelessWidget {
 }
 
 class _AnimeView extends StatefulWidget {
+
   const _AnimeView({super.key});
 
   @override
@@ -50,6 +52,16 @@ class _AnimeView extends StatefulWidget {
 }
 
 class _AnimeViewState extends State<_AnimeView> {
+  final ScrollController recentlyReleasedController = ScrollController();
+  final ScrollController trendingController = ScrollController();
+  final ScrollController popularController = ScrollController();
+  @override
+  void dispose() {
+    recentlyReleasedController.dispose();
+    trendingController.dispose();
+    popularController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeCubit, AnimeState>(
@@ -61,7 +73,7 @@ class _AnimeViewState extends State<_AnimeView> {
             children: [
               SizedBox(height: 20.0.h),
               UnyoBannerCarousel(
-                animeList: state.recentlyReleased.$2.where((anime) => anime.bannerImage != "").toList(),
+                animeList: state.banners,
               ),
               const SizedBox(height: 50,),
               Row(
@@ -82,6 +94,26 @@ class _AnimeViewState extends State<_AnimeView> {
                   ),
                 ],
               ),
+              const SizedBox(height: 40,),
+              state.recentlyReleased.$1 ? AnimeCardList(
+                listTitle: "Recently Released",
+                animeList: state.recentlyReleased.$2,
+                controller: recentlyReleasedController,
+                loadMore: false,
+              ) : const SizedBox.shrink(),
+              const SizedBox(height: 20),
+              state.popular.$1 ? AnimeCardList(
+                listTitle: "Popular Animes",
+                animeList: state.popular.$2,
+                controller: popularController,
+                loadMore: false,
+              ) : const SizedBox.shrink(),
+              state.popular.$1 ? AnimeCardList(
+                listTitle: "Trending Animes",
+                animeList: state.trending.$2,
+                controller: trendingController,
+                loadMore: false,
+              ) : const SizedBox.shrink()
             ],
           ),
         );

@@ -78,7 +78,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
         mediaCollection.data.mediaListCollection.lists
             .where(((collection) => collection.name == "Watching")).first.entries
             .map((entry) => entry.media).toList();
-    return mediaEntries.map((mediaEntry) => AnilistAnimeModel.fromMediaEntry(mediaEntry)).toList();
+    return mediaEntries.map((mediaEntry) => AnilistAnimeModel.fromUserMediaEntry(mediaEntry)).toList();
   }
 
   @override
