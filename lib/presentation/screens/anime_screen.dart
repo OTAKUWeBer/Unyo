@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:unyo/application/cubits/anime_cubit.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/views/loading_view.dart';
 import 'package:unyo/presentation/widgets/styled/anime_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_button.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner_carousel.dart';
@@ -38,7 +41,9 @@ class _AnimeListener extends StatelessWidget {
           );
         }
       },
-      child: _AnimeView(),
+      child: BlocBuilder<AnimeCubit, AnimeState>(
+      builder: (context, state) => state.isLoading ? LoadingView() : _AnimeView(),
+      )
     );
   }
 }
@@ -54,7 +59,9 @@ class _AnimeView extends StatefulWidget {
 class _AnimeViewState extends State<_AnimeView> {
   final ScrollController recentlyReleasedController = ScrollController();
   final ScrollController trendingController = ScrollController();
+  final ScrollController recentlyCompletedController = ScrollController();
   final ScrollController popularController = ScrollController();
+  final ScrollController upcomingController = ScrollController();
   @override
   void dispose() {
     recentlyReleasedController.dispose();
@@ -75,24 +82,27 @@ class _AnimeViewState extends State<_AnimeView> {
               UnyoBannerCarousel(
                 animeList: state.banners,
               ),
-              const SizedBox(height: 50,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  MediaButton(
-                    onPressed: () {},
-                    image:
-                        "https://s4.anilist.co/file/anilistcdn/media/anime/banner/97938-cT6wkSRifTEC.jpg",
-                    text: "Calendar",
-                  ),
-                  const SizedBox(width: 30,),
-                  MediaButton(
-                    onPressed: () {},
-                    image:
-                        "https://s4.anilist.co/file/anilistcdn/media/anime/banner/1735.jpg",
-                    text: "Advanced Search",
-                  ),
-                ],
+              const SizedBox(height: 40,),
+              SizedBox(
+                height: 90,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MediaButton(
+                      onPressed: () {},
+                      image:
+                          state.banners.isNotEmpty ? state.banners[Random().nextInt(state.banners.length)].bannerImage : "",
+                      text: "Calendar",
+                    ),
+                    const SizedBox(width: 30,),
+                    MediaButton(
+                      onPressed: () {},
+                      image:
+                          state.banners.isNotEmpty ? state.banners[Random().nextInt(state.banners.length)].bannerImage : "",
+                      text: "Advanced Search",
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 40,),
               state.recentlyReleased.$1 ? AnimeCardList(
@@ -102,18 +112,33 @@ class _AnimeViewState extends State<_AnimeView> {
                 loadMore: false,
               ) : const SizedBox.shrink(),
               const SizedBox(height: 20),
+              state.trending.$1 ? AnimeCardList(
+                listTitle: "Trending Animes",
+                animeList: state.trending.$2,
+                controller: trendingController,
+                loadMore: false,
+              ) : const SizedBox.shrink(),
+              const SizedBox(height: 20),
+              state.recentlyCompleted.$1 ? AnimeCardList(
+                listTitle: "Recently Completed Animes",
+                animeList: state.recentlyCompleted.$2,
+                controller: recentlyCompletedController,
+                loadMore: false,
+              ) : const SizedBox.shrink(),
+              const SizedBox(height: 20),
               state.popular.$1 ? AnimeCardList(
                 listTitle: "Popular Animes",
                 animeList: state.popular.$2,
                 controller: popularController,
                 loadMore: false,
               ) : const SizedBox.shrink(),
-              state.popular.$1 ? AnimeCardList(
-                listTitle: "Trending Animes",
-                animeList: state.trending.$2,
-                controller: trendingController,
+              const SizedBox(height: 20),
+              state.upcoming.$1 ? AnimeCardList(
+                listTitle: "Upcoming Animes",
+                animeList: state.upcoming.$2,
+                controller: upcomingController,
                 loadMore: false,
-              ) : const SizedBox.shrink()
+              ) : const SizedBox.shrink(),
             ],
           ),
         );

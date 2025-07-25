@@ -5,7 +5,8 @@ export 'package:unyo/generated/json/media_collection_upcoming_graphql_dto_entity
 
 @JsonSerializable()
 class MediaCollectionUpcomingGraphqlDtoEntity {
-	late MediaCollectionUpcomingGraphqlDtoData data;
+	@JSONField(name: "Page")
+	late MediaCollectionUpcomingGraphqlDtoPage page;
 
 	MediaCollectionUpcomingGraphqlDtoEntity();
 
@@ -20,31 +21,14 @@ class MediaCollectionUpcomingGraphqlDtoEntity {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoData {
-	@JSONField(name: "Page")
-	late MediaCollectionUpcomingGraphqlDtoDataPage page;
+class MediaCollectionUpcomingGraphqlDtoPage {
+	late List<MediaCollectionUpcomingGraphqlDtoPageMedia> media = [];
 
-	MediaCollectionUpcomingGraphqlDtoData();
+	MediaCollectionUpcomingGraphqlDtoPage();
 
-	factory MediaCollectionUpcomingGraphqlDtoData.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPage.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPage {
-	late List<MediaCollectionUpcomingGraphqlDtoDataPageMedia> media = [];
-
-	MediaCollectionUpcomingGraphqlDtoDataPage();
-
-	factory MediaCollectionUpcomingGraphqlDtoDataPage.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageToJson(this);
 
 	@override
 	String toString() {
@@ -53,8 +37,8 @@ class MediaCollectionUpcomingGraphqlDtoDataPage {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMedia {
-	late MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisode nextAiringEpisode;
+class MediaCollectionUpcomingGraphqlDtoPageMedia {
+	late MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisode nextAiringEpisode = MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisode();
 	late String status = '';
 	late bool isFavourite = false;
 	late String season = '';
@@ -66,22 +50,22 @@ class MediaCollectionUpcomingGraphqlDtoDataPageMedia {
 	late List<String> genres = [];
 	late String format = '';
 	late int episodes = 0;
-	late MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDate endDate;
-	late MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDate startDate;
-	late int? duration;
+	late MediaCollectionUpcomingGraphqlDtoPageMediaEndDate endDate;
+	late MediaCollectionUpcomingGraphqlDtoPageMediaStartDate startDate;
+	late int duration = 0;
 	late String description = '';
-	late MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImage coverImage;
+	late MediaCollectionUpcomingGraphqlDtoPageMediaCoverImage coverImage;
 	late String countryOfOrigin = '';
-	late int? chapters;
+	late int chapters = 0;
 	late String bannerImage = '';
 	late int averageScore = 0;
-	late MediaCollectionUpcomingGraphqlDtoDataPageMediaTitle title;
+	late MediaCollectionUpcomingGraphqlDtoPageMediaTitle title;
 
-	MediaCollectionUpcomingGraphqlDtoDataPageMedia();
+	MediaCollectionUpcomingGraphqlDtoPageMedia();
 
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaToJson(this);
 
 	@override
 	String toString() {
@@ -90,33 +74,15 @@ class MediaCollectionUpcomingGraphqlDtoDataPageMedia {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisode {
+class MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisode {
 	late int episode = 0;
 	late int airingAt = 0;
 
-	MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisode();
+	MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisode();
 
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisode.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisodeFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisode.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisodeFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaNextAiringEpisodeToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDate {
-	dynamic day;
-	dynamic month;
-	dynamic year;
-
-	MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDate();
-
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDateFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisodeToJson(this);
 
 	@override
 	String toString() {
@@ -125,16 +91,16 @@ class MediaCollectionUpcomingGraphqlDtoDataPageMediaEndDate {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDate {
-	dynamic day;
+class MediaCollectionUpcomingGraphqlDtoPageMediaEndDate {
+	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDate();
+	MediaCollectionUpcomingGraphqlDtoPageMediaEndDate();
 
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDateFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaEndDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaEndDateToJson(this);
 
 	@override
 	String toString() {
@@ -143,14 +109,32 @@ class MediaCollectionUpcomingGraphqlDtoDataPageMediaStartDate {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImage {
+class MediaCollectionUpcomingGraphqlDtoPageMediaStartDate {
+	late int day = 0;
+	late int month = 0;
+	late int year = 0;
+
+	MediaCollectionUpcomingGraphqlDtoPageMediaStartDate();
+
+	factory MediaCollectionUpcomingGraphqlDtoPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaStartDateFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaStartDateToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaCollectionUpcomingGraphqlDtoPageMediaCoverImage {
 	late String large = '';
 
-	MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImage();
+	MediaCollectionUpcomingGraphqlDtoPageMediaCoverImage();
 
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImageFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaCoverImageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaCoverImageToJson(this);
 
 	@override
 	String toString() {
@@ -159,17 +143,17 @@ class MediaCollectionUpcomingGraphqlDtoDataPageMediaCoverImage {
 }
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoDataPageMediaTitle {
+class MediaCollectionUpcomingGraphqlDtoPageMediaTitle {
 	late String english = '';
 	late String native = '';
 	late String romaji = '';
 	late String userPreferred = '';
 
-	MediaCollectionUpcomingGraphqlDtoDataPageMediaTitle();
+	MediaCollectionUpcomingGraphqlDtoPageMediaTitle();
 
-	factory MediaCollectionUpcomingGraphqlDtoDataPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoDataPageMediaTitleFromJson(json);
+	factory MediaCollectionUpcomingGraphqlDtoPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoPageMediaTitleFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoDataPageMediaTitleToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoPageMediaTitleToJson(this);
 
 	@override
 	String toString() {

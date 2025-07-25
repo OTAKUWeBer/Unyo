@@ -72,7 +72,7 @@ class MediaCard extends StatelessWidget {
                     ),
                     child: Stack(
                       children: [
-                        Align(
+                        score != 0 ? Align(
                           alignment: Alignment.bottomRight,
                           child: Opacity(
                             opacity: 0.8,
@@ -119,7 +119,7 @@ class MediaCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ) : const SizedBox.shrink(),
                         SizedBox(
                           // width: 128.w,
                           child: Padding(
@@ -130,10 +130,10 @@ class MediaCard extends StatelessWidget {
                                 backgroundColor:
                                     status == "RELEASING"
                                         ? Colors.green
-                                        : status == "RELEASING"
-                                        ? Colors.yellow
+                                        : status == "NOT_YET_RELEASED"
+                                        ? Colors.amber
                                         : Colors.transparent,
-                                maxRadius: 8,
+                                maxRadius: 6,
                               ),
                             ),
                           ),

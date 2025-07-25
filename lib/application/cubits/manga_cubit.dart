@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'effect_mixin.dart';
 
 class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
-  MangaCubit() : super(MangaState(recentlyReleased: []));
+  MangaCubit() : super(MangaState(/*recentlyReleased: []*/));
 
   @override
   MangaState copyStateWithEffects(MangaState state, List<AppEffect> effects) {

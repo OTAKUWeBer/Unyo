@@ -5,7 +5,8 @@ export 'package:unyo/generated/json/media_collection_recently_completed_graphql_
 
 @JsonSerializable()
 class MediaCollectionRecentlyCompletedGraphqlDtoEntity {
-	late MediaCollectionRecentlyCompletedGraphqlDtoData data;
+	@JSONField(name: "Page")
+	late MediaCollectionRecentlyCompletedGraphqlDtoPage page;
 
 	MediaCollectionRecentlyCompletedGraphqlDtoEntity();
 
@@ -20,31 +21,14 @@ class MediaCollectionRecentlyCompletedGraphqlDtoEntity {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoData {
-	@JSONField(name: "Page")
-	late MediaCollectionRecentlyCompletedGraphqlDtoDataPage page;
+class MediaCollectionRecentlyCompletedGraphqlDtoPage {
+	late List<MediaCollectionRecentlyCompletedGraphqlDtoPageMedia> media = [];
 
-	MediaCollectionRecentlyCompletedGraphqlDtoData();
+	MediaCollectionRecentlyCompletedGraphqlDtoPage();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoData.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataToJson(this);
-
-	@override
-	String toString() {
-		return jsonEncode(this);
-	}
-}
-
-@JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPage {
-	late List<MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia> media = [];
-
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPage();
-
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageFromJson(json);
-
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageToJson(this);
 
 	@override
 	String toString() {
@@ -53,7 +37,7 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPage {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia {
+class MediaCollectionRecentlyCompletedGraphqlDtoPageMedia {
 	dynamic nextAiringEpisode;
 	late String status = '';
 	late bool isFavourite = false;
@@ -66,22 +50,22 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia {
 	late List<String> genres = [];
 	late String format = '';
 	late int episodes = 0;
-	late MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDate endDate;
-	late MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDate startDate;
+	late MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDate endDate;
+	late MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDate startDate;
 	late int duration = 0;
 	late String description = '';
-	late MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImage coverImage;
+	late MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImage coverImage;
 	late String countryOfOrigin = '';
 	late int chapters = 0;
 	late String bannerImage = '';
 	late int averageScore = 0;
-	late MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitle title;
+	late MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitle title;
 
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia();
+	MediaCollectionRecentlyCompletedGraphqlDtoPageMedia();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPageMedia.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaToJson(this);
 
 	@override
 	String toString() {
@@ -90,16 +74,16 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMedia {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDate {
+class MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDate {
 	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDate();
+	MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDate();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDateFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaEndDateToJson(this);
 
 	@override
 	String toString() {
@@ -108,16 +92,16 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaEndDate {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDate {
+class MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDate {
 	late int day = 0;
 	late int month = 0;
 	late int year = 0;
 
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDate();
+	MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDate();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDateFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDate.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDateFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDateToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaStartDateToJson(this);
 
 	@override
 	String toString() {
@@ -126,14 +110,14 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaStartDate {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImage {
+class MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImage {
 	late String large = '';
 
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImage();
+	MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImage();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImageFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImage.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImageFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImageToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaCoverImageToJson(this);
 
 	@override
 	String toString() {
@@ -142,17 +126,17 @@ class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaCoverImage {
 }
 
 @JsonSerializable()
-class MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitle {
+class MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitle {
 	late String english = '';
 	late String native = '';
 	late String romaji = '';
 	late String userPreferred = '';
 
-	MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitle();
+	MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitle();
 
-	factory MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitleFromJson(json);
+	factory MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitle.fromJson(Map<String, dynamic> json) => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitleFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoDataPageMediaTitleToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionRecentlyCompletedGraphqlDtoPageMediaTitleToJson(this);
 
 	@override
 	String toString() {

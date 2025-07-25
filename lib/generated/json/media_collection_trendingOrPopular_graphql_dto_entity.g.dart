@@ -147,7 +147,7 @@ MediaCollectionTrendingOrPopularGraphqlDtoPageMedia $MediaCollectionTrendingOrPo
     mediaCollectionTrendingOrPopularGraphqlDtoPageMedia.countryOfOrigin =
         countryOfOrigin;
   }
-  final int? chapters = json['chapters'];
+  final int? chapters = jsonConvert.convert<int>(json['chapters']);
   if (chapters != null) {
     mediaCollectionTrendingOrPopularGraphqlDtoPageMedia.chapters = chapters;
   }

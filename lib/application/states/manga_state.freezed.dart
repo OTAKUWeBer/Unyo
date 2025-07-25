@@ -14,7 +14,14 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MangaState {
 
- List<Manga> get recentlyReleased; List<AppEffect> get effects;
+// required (bool, List<Manga>) popular,
+// required (bool, List<Manga>) trending,
+// required (bool, List<Manga>) recentlyCompleted,
+// required (bool, List<Manga>) upcoming,
+// required List<Manga> banners,
+// required User loggedUser,
+// required bool isLoading,
+ List<AppEffect> get effects;
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +32,16 @@ $MangaStateCopyWith<MangaState> get copyWith => _$MangaStateCopyWithImpl<MangaSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaState&&const DeepCollectionEquality().equals(other.recentlyReleased, recentlyReleased)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaState&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(recentlyReleased),const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'MangaState(recentlyReleased: $recentlyReleased, effects: $effects)';
+  return 'MangaState(effects: $effects)';
 }
 
 
@@ -45,7 +52,7 @@ abstract mixin class $MangaStateCopyWith<$Res>  {
   factory $MangaStateCopyWith(MangaState value, $Res Function(MangaState) _then) = _$MangaStateCopyWithImpl;
 @useResult
 $Res call({
- List<Manga> recentlyReleased, List<AppEffect> effects
+ List<AppEffect> effects
 });
 
 
@@ -62,10 +69,9 @@ class _$MangaStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? recentlyReleased = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? effects = null,}) {
   return _then(_self.copyWith(
-recentlyReleased: null == recentlyReleased ? _self.recentlyReleased : recentlyReleased // ignore: cast_nullable_to_non_nullable
-as List<Manga>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -151,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Manga> recentlyReleased,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MangaState() when $default != null:
-return $default(_that.recentlyReleased,_that.effects);case _:
+return $default(_that.effects);case _:
   return orElse();
 
 }
@@ -172,10 +178,10 @@ return $default(_that.recentlyReleased,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Manga> recentlyReleased,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _MangaState():
-return $default(_that.recentlyReleased,_that.effects);case _:
+return $default(_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -192,10 +198,10 @@ return $default(_that.recentlyReleased,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Manga> recentlyReleased,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _MangaState() when $default != null:
-return $default(_that.recentlyReleased,_that.effects);case _:
+return $default(_that.effects);case _:
   return null;
 
 }
@@ -207,17 +213,24 @@ return $default(_that.recentlyReleased,_that.effects);case _:
 
 
 class _MangaState extends MangaState {
-  const _MangaState({required final  List<Manga> recentlyReleased, final  List<AppEffect> effects = const <AppEffect>[]}): _recentlyReleased = recentlyReleased,_effects = effects,super._();
+  const _MangaState({final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
- final  List<Manga> _recentlyReleased;
-@override List<Manga> get recentlyReleased {
-  if (_recentlyReleased is EqualUnmodifiableListView) return _recentlyReleased;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_recentlyReleased);
-}
-
+// required (bool, List<Manga>) popular,
+// required (bool, List<Manga>) trending,
+// required (bool, List<Manga>) recentlyCompleted,
+// required (bool, List<Manga>) upcoming,
+// required List<Manga> banners,
+// required User loggedUser,
+// required bool isLoading,
  final  List<AppEffect> _effects;
+// required (bool, List<Manga>) popular,
+// required (bool, List<Manga>) trending,
+// required (bool, List<Manga>) recentlyCompleted,
+// required (bool, List<Manga>) upcoming,
+// required List<Manga> banners,
+// required User loggedUser,
+// required bool isLoading,
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
   // ignore: implicit_dynamic_type
@@ -235,16 +248,16 @@ _$MangaStateCopyWith<_MangaState> get copyWith => __$MangaStateCopyWithImpl<_Man
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaState&&const DeepCollectionEquality().equals(other._recentlyReleased, _recentlyReleased)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaState&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_recentlyReleased),const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'MangaState(recentlyReleased: $recentlyReleased, effects: $effects)';
+  return 'MangaState(effects: $effects)';
 }
 
 
@@ -255,7 +268,7 @@ abstract mixin class _$MangaStateCopyWith<$Res> implements $MangaStateCopyWith<$
   factory _$MangaStateCopyWith(_MangaState value, $Res Function(_MangaState) _then) = __$MangaStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<Manga> recentlyReleased, List<AppEffect> effects
+ List<AppEffect> effects
 });
 
 
@@ -272,10 +285,9 @@ class __$MangaStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? recentlyReleased = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? effects = null,}) {
   return _then(_MangaState(
-recentlyReleased: null == recentlyReleased ? _self._recentlyReleased : recentlyReleased // ignore: cast_nullable_to_non_nullable
-as List<Manga>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
