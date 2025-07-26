@@ -54,13 +54,14 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) {
-      emit(state.copyWith(loggedUser: loggedUser, isLoading: false));
+      emit(state.copyWith(loggedUser: loggedUser));
     });
     _fetchRecentlyReleased(1);
     _fetchTrending(1);
     _fetchRecentlyCompleted(1);
     _fetchPopular(1);
     _fetchUpcoming(1);
+    emit(state.copyWith(isLoading: false));
   }
 
   Future<void> _fetchRecentlyReleased(int page) async {

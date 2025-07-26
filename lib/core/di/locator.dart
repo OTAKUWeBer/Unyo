@@ -102,6 +102,11 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<MangaCubit>(() => MangaCubit());
+  sl.registerFactory<MangaCubit>(
+    () => MangaCubit(
+      sl<MangaRepositoryAnilist>(),
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+    ),
+  );
   sl.registerFactory<MediaListCubit>(() => MediaListCubit());
 }

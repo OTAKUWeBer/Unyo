@@ -62,13 +62,17 @@ class _AnimeViewState extends State<_AnimeView> {
   final ScrollController recentlyCompletedController = ScrollController();
   final ScrollController popularController = ScrollController();
   final ScrollController upcomingController = ScrollController();
+
   @override
   void dispose() {
     recentlyReleasedController.dispose();
     trendingController.dispose();
+    recentlyCompletedController.dispose();
     popularController.dispose();
+    upcomingController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeCubit, AnimeState>(

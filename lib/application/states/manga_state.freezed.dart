@@ -14,14 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MangaState {
 
-// required (bool, List<Manga>) popular,
-// required (bool, List<Manga>) trending,
-// required (bool, List<Manga>) recentlyCompleted,
-// required (bool, List<Manga>) upcoming,
-// required List<Manga> banners,
-// required User loggedUser,
-// required bool isLoading,
- List<AppEffect> get effects;
+ (bool, List<Manga>) get trending; (bool, List<Manga>) get recentlyCompleted; (bool, List<Manga>) get popular; (bool, List<Manga>) get upcoming; List<Manga> get banners; User get loggedUser; bool get isLoading; List<AppEffect> get effects;
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +25,16 @@ $MangaStateCopyWith<MangaState> get copyWith => _$MangaStateCopyWithImpl<MangaSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaState&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaState&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,trending,recentlyCompleted,popular,upcoming,const DeepCollectionEquality().hash(banners),loggedUser,isLoading,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'MangaState(effects: $effects)';
+  return 'MangaState(trending: $trending, recentlyCompleted: $recentlyCompleted, popular: $popular, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -52,7 +45,7 @@ abstract mixin class $MangaStateCopyWith<$Res>  {
   factory $MangaStateCopyWith(MangaState value, $Res Function(MangaState) _then) = _$MangaStateCopyWithImpl;
 @useResult
 $Res call({
- List<AppEffect> effects
+ (bool, List<Manga>) trending, (bool, List<Manga>) recentlyCompleted, (bool, List<Manga>) popular, (bool, List<Manga>) upcoming, List<Manga> banners, User loggedUser, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -69,9 +62,16 @@ class _$MangaStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? trending = null,Object? recentlyCompleted = null,Object? popular = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_self.copyWith(
-effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+trending: null == trending ? _self.trending : trending // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),recentlyCompleted: null == recentlyCompleted ? _self.recentlyCompleted : recentlyCompleted // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),upcoming: null == upcoming ? _self.upcoming : upcoming // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),banners: null == banners ? _self.banners : banners // ignore: cast_nullable_to_non_nullable
+as List<Manga>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -157,10 +157,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( (bool, List<Manga>) trending,  (bool, List<Manga>) recentlyCompleted,  (bool, List<Manga>) popular,  (bool, List<Manga>) upcoming,  List<Manga> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MangaState() when $default != null:
-return $default(_that.effects);case _:
+return $default(_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   return orElse();
 
 }
@@ -178,10 +178,10 @@ return $default(_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( (bool, List<Manga>) trending,  (bool, List<Manga>) recentlyCompleted,  (bool, List<Manga>) popular,  (bool, List<Manga>) upcoming,  List<Manga> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _MangaState():
-return $default(_that.effects);case _:
+return $default(_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +198,10 @@ return $default(_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( (bool, List<Manga>) trending,  (bool, List<Manga>) recentlyCompleted,  (bool, List<Manga>) popular,  (bool, List<Manga>) upcoming,  List<Manga> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _MangaState() when $default != null:
-return $default(_that.effects);case _:
+return $default(_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   return null;
 
 }
@@ -213,24 +213,23 @@ return $default(_that.effects);case _:
 
 
 class _MangaState extends MangaState {
-  const _MangaState({final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _MangaState({required this.trending, required this.recentlyCompleted, required this.popular, required this.upcoming, required final  List<Manga> banners, required this.loggedUser, required this.isLoading, final  List<AppEffect> effects = const <AppEffect>[]}): _banners = banners,_effects = effects,super._();
   
 
-// required (bool, List<Manga>) popular,
-// required (bool, List<Manga>) trending,
-// required (bool, List<Manga>) recentlyCompleted,
-// required (bool, List<Manga>) upcoming,
-// required List<Manga> banners,
-// required User loggedUser,
-// required bool isLoading,
+@override final  (bool, List<Manga>) trending;
+@override final  (bool, List<Manga>) recentlyCompleted;
+@override final  (bool, List<Manga>) popular;
+@override final  (bool, List<Manga>) upcoming;
+ final  List<Manga> _banners;
+@override List<Manga> get banners {
+  if (_banners is EqualUnmodifiableListView) return _banners;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_banners);
+}
+
+@override final  User loggedUser;
+@override final  bool isLoading;
  final  List<AppEffect> _effects;
-// required (bool, List<Manga>) popular,
-// required (bool, List<Manga>) trending,
-// required (bool, List<Manga>) recentlyCompleted,
-// required (bool, List<Manga>) upcoming,
-// required List<Manga> banners,
-// required User loggedUser,
-// required bool isLoading,
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
   // ignore: implicit_dynamic_type
@@ -248,16 +247,16 @@ _$MangaStateCopyWith<_MangaState> get copyWith => __$MangaStateCopyWithImpl<_Man
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaState&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaState&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,trending,recentlyCompleted,popular,upcoming,const DeepCollectionEquality().hash(_banners),loggedUser,isLoading,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'MangaState(effects: $effects)';
+  return 'MangaState(trending: $trending, recentlyCompleted: $recentlyCompleted, popular: $popular, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -268,7 +267,7 @@ abstract mixin class _$MangaStateCopyWith<$Res> implements $MangaStateCopyWith<$
   factory _$MangaStateCopyWith(_MangaState value, $Res Function(_MangaState) _then) = __$MangaStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<AppEffect> effects
+ (bool, List<Manga>) trending, (bool, List<Manga>) recentlyCompleted, (bool, List<Manga>) popular, (bool, List<Manga>) upcoming, List<Manga> banners, User loggedUser, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -285,9 +284,16 @@ class __$MangaStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? trending = null,Object? recentlyCompleted = null,Object? popular = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_MangaState(
-effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+trending: null == trending ? _self.trending : trending // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),recentlyCompleted: null == recentlyCompleted ? _self.recentlyCompleted : recentlyCompleted // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),upcoming: null == upcoming ? _self.upcoming : upcoming // ignore: cast_nullable_to_non_nullable
+as (bool, List<Manga>),banners: null == banners ? _self._banners : banners // ignore: cast_nullable_to_non_nullable
+as List<Manga>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

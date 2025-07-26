@@ -10,9 +10,9 @@ part 'anime_state.freezed.dart';
 abstract class AnimeState with _$AnimeState implements HasEffects{
   const factory AnimeState({
     required (bool, List<Anime>) recentlyReleased,
-    required (bool, List<Anime>) popular,
     required (bool, List<Anime>) trending,
     required (bool, List<Anime>) recentlyCompleted,
+    required (bool, List<Anime>) popular,
     required (bool, List<Anime>) upcoming,
     required List<Anime> banners,
     required User loggedUser,

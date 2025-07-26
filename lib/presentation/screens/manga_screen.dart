@@ -1,10 +1,20 @@
+// External dependencies
+import 'dart:math';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+// Internal dependencies
 import 'package:unyo/application/cubits/manga_cubit.dart';
 import 'package:unyo/application/states/manga_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/views/loading_view.dart';
+import 'package:unyo/presentation/widgets/styled/manga_card_list.dart';
+import 'package:unyo/presentation/widgets/styled/media_button.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_banner_carousel.dart';
 
 @RoutePage()
 class MangaScreen extends StatelessWidget {
@@ -34,7 +44,10 @@ class _MangaListener extends StatelessWidget {
           );
         }
       },
-      child: _MangaView(),
+      child: BlocBuilder<MangaCubit, MangaState>(
+        builder:
+            (context, state) => state.isLoading ? LoadingView() : _MangaView(),
+      ),
     );
   }
 }
@@ -47,8 +60,105 @@ class _MangaView extends StatefulWidget {
 }
 
 class _MangaViewState extends State<_MangaView> {
+  final ScrollController trendingController = ScrollController();
+  final ScrollController recentlyCompletedController = ScrollController();
+  final ScrollController popularController = ScrollController();
+  final ScrollController upcomingController = ScrollController();
+
+  @override
+  void dispose() {
+    trendingController.dispose();
+    recentlyCompletedController.dispose();
+    popularController.dispose();
+    upcomingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return BlocBuilder<MangaCubit, MangaState>(
+      builder: (context, state) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(height: 20.0.h),
+              UnyoBannerCarousel(mangaList: state.banners),
+              const SizedBox(height: 40),
+              SizedBox(
+                height: 90,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MediaButton(
+                      onPressed: () {},
+                      image:
+                          state.banners.isNotEmpty
+                              ? state
+                                  .banners[Random().nextInt(
+                                    state.banners.length,
+                                  )]
+                                  .bannerImage
+                              : "",
+                      text: "Calendar",
+                    ),
+                    const SizedBox(width: 30),
+                    MediaButton(
+                      onPressed: () {},
+                      image:
+                          state.banners.isNotEmpty
+                              ? state
+                                  .banners[Random().nextInt(
+                                    state.banners.length,
+                                  )]
+                                  .bannerImage
+                              : "",
+                      text: "Advanced Search",
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+              state.trending.$1
+                  ? MangaCardList(
+                    listTitle: "Trending Mangas",
+                    mangaList: state.trending.$2,
+                    controller: trendingController,
+                    loadMore: false,
+                  )
+                  : const SizedBox.shrink(),
+              const SizedBox(height: 20),
+              state.recentlyCompleted.$1
+                  ? MangaCardList(
+                    listTitle: "Recently Completed Mangas",
+                    mangaList: state.recentlyCompleted.$2,
+                    controller: recentlyCompletedController,
+                    loadMore: false,
+                  )
+                  : const SizedBox.shrink(),
+              const SizedBox(height: 20),
+              state.popular.$1
+                  ? MangaCardList(
+                    listTitle: "Popular Mangas",
+                    mangaList: state.popular.$2,
+                    controller: popularController,
+                    loadMore: false,
+                  )
+                  : const SizedBox.shrink(),
+              const SizedBox(height: 20),
+              state.upcoming.$1
+                  ? MangaCardList(
+                    listTitle: "Upcoming Mangas",
+                    mangaList: state.upcoming.$2,
+                    controller: upcomingController,
+                    loadMore: false,
+                  )
+                  : const SizedBox.shrink(),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,11 +1,37 @@
+import 'dart:async';
+
 import 'package:logger/logger.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/manga_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/data/repositories/manga_repository_anilist.dart';
+import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/user.dart';
 import 'effect_mixin.dart';
 
 class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
-  MangaCubit() : super(MangaState(/*recentlyReleased: []*/));
+  final MangaRepositoryAnilist _mangaRepositoryAnilist;
+  final UserNotifier _loggedUserNotifier;
+  late StreamSubscription<User> _loggedUserSubscription;
+  final Logger _logger = sl<Logger>();
+
+  MangaCubit(this._mangaRepositoryAnilist, this._loggedUserNotifier)
+    : super(
+        MangaState(
+          trending: (false, []),
+          popular: (false, []),
+          recentlyCompleted: (false, []),
+          upcoming: (false, []),
+          banners: [],
+          loggedUser: UserModel.empty(),
+          isLoading: true,
+        ),
+      ) {
+    _init();
+  }
 
   @override
   MangaState copyStateWithEffects(MangaState state, List<AppEffect> effects) {
@@ -13,6 +39,103 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
   }
 
   @override
-  // TODO: implement logger
-  Logger get logger => throw UnimplementedError();
+  Logger get logger => _logger;
+
+  void _init() {
+    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
+      loggedUser,
+    ) {
+      emit(state.copyWith(loggedUser: loggedUser));
+    });
+    _fetchTrending(1);
+    _fetchRecentlyCompleted(1);
+    _fetchPopular(1);
+    _fetchUpcoming(1);
+    emit(state.copyWith(isLoading: false));
+  }
+
+  Future<void> _fetchTrending(int page) async {
+    try {
+      switch (state.loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Anilist trending manga");
+          (bool, List<Manga>) trending = await _mangaRepositoryAnilist
+              .getTrendingMangas(page);
+          emit(state.copyWith(trending: trending));
+          if (page == 1) {
+            emit(
+              state.copyWith(
+                banners:
+                    trending.$2
+                        .where((manga) => manga.bannerImage != "")
+                        .toList(),
+              ),
+            );
+          }
+        case Service.mal:
+        case Service.kitsu:
+        case Service.shikimori:
+        case Service.simkl:
+      }
+    } catch (e, stackTrace) {
+      handleError("Failed to fetch trending manga $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _fetchPopular(int page) async {
+    try {
+      switch (state.loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Anilist popular manga");
+          (bool, List<Manga>) popular = await _mangaRepositoryAnilist
+              .getPopularMangas(page);
+          emit(state.copyWith(popular: popular));
+        case Service.mal:
+        case Service.kitsu:
+        case Service.shikimori:
+        case Service.simkl:
+      }
+    } catch (e, stackTrace) {
+      handleError("Failed to fetch popular manga $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _fetchRecentlyCompleted(int page) async {
+    try {
+      switch (state.loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Anilist recently completed manga");
+          (bool, List<Manga>) recentlyCompleted = await _mangaRepositoryAnilist
+              .getRecentlyCompletedMangas(page);
+          emit(state.copyWith(recentlyCompleted: recentlyCompleted));
+        case Service.mal:
+        case Service.kitsu:
+        case Service.shikimori:
+        case Service.simkl:
+      }
+    } catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch recently completed manga $e",
+        stackTrace: stackTrace,
+      );
+    }
+  }
+
+  Future<void> _fetchUpcoming(int page) async {
+    try {
+      switch (state.loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Anilist upcoming manga");
+          (bool, List<Manga>) upcoming = await _mangaRepositoryAnilist
+              .getUpcomingMangas(page);
+          emit(state.copyWith(upcoming: upcoming));
+        case Service.mal:
+        case Service.kitsu:
+        case Service.shikimori:
+        case Service.simkl:
+      }
+    } catch (e, stackTrace) {
+      handleError("Failed to fetch upcoming manga $e", stackTrace: stackTrace);
+    }
+  }
 }

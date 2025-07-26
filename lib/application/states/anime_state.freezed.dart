@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimeState {
 
- (bool, List<Anime>) get recentlyReleased; (bool, List<Anime>) get popular; (bool, List<Anime>) get trending; (bool, List<Anime>) get recentlyCompleted; (bool, List<Anime>) get upcoming; List<Anime> get banners; User get loggedUser; bool get isLoading; List<AppEffect> get effects;
+ (bool, List<Anime>) get recentlyReleased; (bool, List<Anime>) get trending; (bool, List<Anime>) get recentlyCompleted; (bool, List<Anime>) get popular; (bool, List<Anime>) get upcoming; List<Anime> get banners; User get loggedUser; bool get isLoading; List<AppEffect> get effects;
 /// Create a copy of AnimeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $AnimeStateCopyWith<AnimeState> get copyWith => _$AnimeStateCopyWithImpl<AnimeSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeState&&(identical(other.recentlyReleased, recentlyReleased) || other.recentlyReleased == recentlyReleased)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeState&&(identical(other.recentlyReleased, recentlyReleased) || other.recentlyReleased == recentlyReleased)&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,recentlyReleased,popular,trending,recentlyCompleted,upcoming,const DeepCollectionEquality().hash(banners),loggedUser,isLoading,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,recentlyReleased,trending,recentlyCompleted,popular,upcoming,const DeepCollectionEquality().hash(banners),loggedUser,isLoading,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'AnimeState(recentlyReleased: $recentlyReleased, popular: $popular, trending: $trending, recentlyCompleted: $recentlyCompleted, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
+  return 'AnimeState(recentlyReleased: $recentlyReleased, trending: $trending, recentlyCompleted: $recentlyCompleted, popular: $popular, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $AnimeStateCopyWith<$Res>  {
   factory $AnimeStateCopyWith(AnimeState value, $Res Function(AnimeState) _then) = _$AnimeStateCopyWithImpl;
 @useResult
 $Res call({
- (bool, List<Anime>) recentlyReleased, (bool, List<Anime>) popular, (bool, List<Anime>) trending, (bool, List<Anime>) recentlyCompleted, (bool, List<Anime>) upcoming, List<Anime> banners, User loggedUser, bool isLoading, List<AppEffect> effects
+ (bool, List<Anime>) recentlyReleased, (bool, List<Anime>) trending, (bool, List<Anime>) recentlyCompleted, (bool, List<Anime>) popular, (bool, List<Anime>) upcoming, List<Anime> banners, User loggedUser, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -62,12 +62,12 @@ class _$AnimeStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? recentlyReleased = null,Object? popular = null,Object? trending = null,Object? recentlyCompleted = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? recentlyReleased = null,Object? trending = null,Object? recentlyCompleted = null,Object? popular = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 recentlyReleased: null == recentlyReleased ? _self.recentlyReleased : recentlyReleased // ignore: cast_nullable_to_non_nullable
-as (bool, List<Anime>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),trending: null == trending ? _self.trending : trending // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),recentlyCompleted: null == recentlyCompleted ? _self.recentlyCompleted : recentlyCompleted // ignore: cast_nullable_to_non_nullable
+as (bool, List<Anime>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),upcoming: null == upcoming ? _self.upcoming : upcoming // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),banners: null == banners ? _self.banners : banners // ignore: cast_nullable_to_non_nullable
 as List<Anime>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
@@ -158,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) popular,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) popular,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimeState() when $default != null:
-return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recentlyCompleted,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
+return $default(_that.recentlyReleased,_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   return orElse();
 
 }
@@ -179,10 +179,10 @@ return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recent
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) popular,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) popular,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _AnimeState():
-return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recentlyCompleted,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
+return $default(_that.recentlyReleased,_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +199,10 @@ return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recent
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) popular,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( (bool, List<Anime>) recentlyReleased,  (bool, List<Anime>) trending,  (bool, List<Anime>) recentlyCompleted,  (bool, List<Anime>) popular,  (bool, List<Anime>) upcoming,  List<Anime> banners,  User loggedUser,  bool isLoading,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimeState() when $default != null:
-return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recentlyCompleted,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
+return $default(_that.recentlyReleased,_that.trending,_that.recentlyCompleted,_that.popular,_that.upcoming,_that.banners,_that.loggedUser,_that.isLoading,_that.effects);case _:
   return null;
 
 }
@@ -214,13 +214,13 @@ return $default(_that.recentlyReleased,_that.popular,_that.trending,_that.recent
 
 
 class _AnimeState extends AnimeState {
-  const _AnimeState({required this.recentlyReleased, required this.popular, required this.trending, required this.recentlyCompleted, required this.upcoming, required final  List<Anime> banners, required this.loggedUser, required this.isLoading, final  List<AppEffect> effects = const <AppEffect>[]}): _banners = banners,_effects = effects,super._();
+  const _AnimeState({required this.recentlyReleased, required this.trending, required this.recentlyCompleted, required this.popular, required this.upcoming, required final  List<Anime> banners, required this.loggedUser, required this.isLoading, final  List<AppEffect> effects = const <AppEffect>[]}): _banners = banners,_effects = effects,super._();
   
 
 @override final  (bool, List<Anime>) recentlyReleased;
-@override final  (bool, List<Anime>) popular;
 @override final  (bool, List<Anime>) trending;
 @override final  (bool, List<Anime>) recentlyCompleted;
+@override final  (bool, List<Anime>) popular;
 @override final  (bool, List<Anime>) upcoming;
  final  List<Anime> _banners;
 @override List<Anime> get banners {
@@ -249,16 +249,16 @@ _$AnimeStateCopyWith<_AnimeState> get copyWith => __$AnimeStateCopyWithImpl<_Ani
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeState&&(identical(other.recentlyReleased, recentlyReleased) || other.recentlyReleased == recentlyReleased)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeState&&(identical(other.recentlyReleased, recentlyReleased) || other.recentlyReleased == recentlyReleased)&&(identical(other.trending, trending) || other.trending == trending)&&(identical(other.recentlyCompleted, recentlyCompleted) || other.recentlyCompleted == recentlyCompleted)&&(identical(other.popular, popular) || other.popular == popular)&&(identical(other.upcoming, upcoming) || other.upcoming == upcoming)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,recentlyReleased,popular,trending,recentlyCompleted,upcoming,const DeepCollectionEquality().hash(_banners),loggedUser,isLoading,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,recentlyReleased,trending,recentlyCompleted,popular,upcoming,const DeepCollectionEquality().hash(_banners),loggedUser,isLoading,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'AnimeState(recentlyReleased: $recentlyReleased, popular: $popular, trending: $trending, recentlyCompleted: $recentlyCompleted, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
+  return 'AnimeState(recentlyReleased: $recentlyReleased, trending: $trending, recentlyCompleted: $recentlyCompleted, popular: $popular, upcoming: $upcoming, banners: $banners, loggedUser: $loggedUser, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -269,7 +269,7 @@ abstract mixin class _$AnimeStateCopyWith<$Res> implements $AnimeStateCopyWith<$
   factory _$AnimeStateCopyWith(_AnimeState value, $Res Function(_AnimeState) _then) = __$AnimeStateCopyWithImpl;
 @override @useResult
 $Res call({
- (bool, List<Anime>) recentlyReleased, (bool, List<Anime>) popular, (bool, List<Anime>) trending, (bool, List<Anime>) recentlyCompleted, (bool, List<Anime>) upcoming, List<Anime> banners, User loggedUser, bool isLoading, List<AppEffect> effects
+ (bool, List<Anime>) recentlyReleased, (bool, List<Anime>) trending, (bool, List<Anime>) recentlyCompleted, (bool, List<Anime>) popular, (bool, List<Anime>) upcoming, List<Anime> banners, User loggedUser, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -286,12 +286,12 @@ class __$AnimeStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? recentlyReleased = null,Object? popular = null,Object? trending = null,Object? recentlyCompleted = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? recentlyReleased = null,Object? trending = null,Object? recentlyCompleted = null,Object? popular = null,Object? upcoming = null,Object? banners = null,Object? loggedUser = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_AnimeState(
 recentlyReleased: null == recentlyReleased ? _self.recentlyReleased : recentlyReleased // ignore: cast_nullable_to_non_nullable
-as (bool, List<Anime>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),trending: null == trending ? _self.trending : trending // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),recentlyCompleted: null == recentlyCompleted ? _self.recentlyCompleted : recentlyCompleted // ignore: cast_nullable_to_non_nullable
+as (bool, List<Anime>),popular: null == popular ? _self.popular : popular // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),upcoming: null == upcoming ? _self.upcoming : upcoming // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),banners: null == banners ? _self._banners : banners // ignore: cast_nullable_to_non_nullable
 as List<Anime>,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
