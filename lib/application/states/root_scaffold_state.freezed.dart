@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RootScaffoldState {
 
- SelectedMenuOption get selectedMenuOption; bool get showMenuBar; User get loggedUser; List<AppEffect> get effects;
+ SelectedMenuOption get selectedMenuOption; bool get showMenuBar; bool get showTabView; User get loggedUser; List<AppEffect> get effects;
 /// Create a copy of RootScaffoldState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RootScaffoldStateCopyWith<RootScaffoldState> get copyWith => _$RootScaffoldStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RootScaffoldState&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&(identical(other.showMenuBar, showMenuBar) || other.showMenuBar == showMenuBar)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RootScaffoldState&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&(identical(other.showMenuBar, showMenuBar) || other.showMenuBar == showMenuBar)&&(identical(other.showTabView, showTabView) || other.showTabView == showTabView)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedMenuOption,showMenuBar,loggedUser,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,selectedMenuOption,showMenuBar,showTabView,loggedUser,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'RootScaffoldState(selectedMenuOption: $selectedMenuOption, showMenuBar: $showMenuBar, loggedUser: $loggedUser, effects: $effects)';
+  return 'RootScaffoldState(selectedMenuOption: $selectedMenuOption, showMenuBar: $showMenuBar, showTabView: $showTabView, loggedUser: $loggedUser, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RootScaffoldStateCopyWith<$Res>  {
   factory $RootScaffoldStateCopyWith(RootScaffoldState value, $Res Function(RootScaffoldState) _then) = _$RootScaffoldStateCopyWithImpl;
 @useResult
 $Res call({
- SelectedMenuOption selectedMenuOption, bool showMenuBar, User loggedUser, List<AppEffect> effects
+ SelectedMenuOption selectedMenuOption, bool showMenuBar, bool showTabView, User loggedUser, List<AppEffect> effects
 });
 
 
@@ -62,10 +62,11 @@ class _$RootScaffoldStateCopyWithImpl<$Res>
 
 /// Create a copy of RootScaffoldState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? selectedMenuOption = null,Object? showMenuBar = null,Object? loggedUser = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedMenuOption = null,Object? showMenuBar = null,Object? showTabView = null,Object? loggedUser = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 selectedMenuOption: null == selectedMenuOption ? _self.selectedMenuOption : selectedMenuOption // ignore: cast_nullable_to_non_nullable
 as SelectedMenuOption,showMenuBar: null == showMenuBar ? _self.showMenuBar : showMenuBar // ignore: cast_nullable_to_non_nullable
+as bool,showTabView: null == showTabView ? _self.showTabView : showTabView // ignore: cast_nullable_to_non_nullable
 as bool,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  User loggedUser,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  bool showTabView,  User loggedUser,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RootScaffoldState() when $default != null:
-return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_that.effects);case _:
+return $default(_that.selectedMenuOption,_that.showMenuBar,_that.showTabView,_that.loggedUser,_that.effects);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  User loggedUser,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  bool showTabView,  User loggedUser,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _RootScaffoldState():
-return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_that.effects);case _:
+return $default(_that.selectedMenuOption,_that.showMenuBar,_that.showTabView,_that.loggedUser,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  User loggedUser,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SelectedMenuOption selectedMenuOption,  bool showMenuBar,  bool showTabView,  User loggedUser,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _RootScaffoldState() when $default != null:
-return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_that.effects);case _:
+return $default(_that.selectedMenuOption,_that.showMenuBar,_that.showTabView,_that.loggedUser,_that.effects);case _:
   return null;
 
 }
@@ -209,11 +210,12 @@ return $default(_that.selectedMenuOption,_that.showMenuBar,_that.loggedUser,_tha
 
 
 class _RootScaffoldState extends RootScaffoldState {
-  const _RootScaffoldState({required this.selectedMenuOption, required this.showMenuBar, required this.loggedUser, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _RootScaffoldState({required this.selectedMenuOption, required this.showMenuBar, required this.showTabView, required this.loggedUser, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
 @override final  SelectedMenuOption selectedMenuOption;
 @override final  bool showMenuBar;
+@override final  bool showTabView;
 @override final  User loggedUser;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
@@ -233,16 +235,16 @@ _$RootScaffoldStateCopyWith<_RootScaffoldState> get copyWith => __$RootScaffoldS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RootScaffoldState&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&(identical(other.showMenuBar, showMenuBar) || other.showMenuBar == showMenuBar)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RootScaffoldState&&(identical(other.selectedMenuOption, selectedMenuOption) || other.selectedMenuOption == selectedMenuOption)&&(identical(other.showMenuBar, showMenuBar) || other.showMenuBar == showMenuBar)&&(identical(other.showTabView, showTabView) || other.showTabView == showTabView)&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedMenuOption,showMenuBar,loggedUser,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,selectedMenuOption,showMenuBar,showTabView,loggedUser,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'RootScaffoldState(selectedMenuOption: $selectedMenuOption, showMenuBar: $showMenuBar, loggedUser: $loggedUser, effects: $effects)';
+  return 'RootScaffoldState(selectedMenuOption: $selectedMenuOption, showMenuBar: $showMenuBar, showTabView: $showTabView, loggedUser: $loggedUser, effects: $effects)';
 }
 
 
@@ -253,7 +255,7 @@ abstract mixin class _$RootScaffoldStateCopyWith<$Res> implements $RootScaffoldS
   factory _$RootScaffoldStateCopyWith(_RootScaffoldState value, $Res Function(_RootScaffoldState) _then) = __$RootScaffoldStateCopyWithImpl;
 @override @useResult
 $Res call({
- SelectedMenuOption selectedMenuOption, bool showMenuBar, User loggedUser, List<AppEffect> effects
+ SelectedMenuOption selectedMenuOption, bool showMenuBar, bool showTabView, User loggedUser, List<AppEffect> effects
 });
 
 
@@ -270,10 +272,11 @@ class __$RootScaffoldStateCopyWithImpl<$Res>
 
 /// Create a copy of RootScaffoldState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? selectedMenuOption = null,Object? showMenuBar = null,Object? loggedUser = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? selectedMenuOption = null,Object? showMenuBar = null,Object? showTabView = null,Object? loggedUser = null,Object? effects = null,}) {
   return _then(_RootScaffoldState(
 selectedMenuOption: null == selectedMenuOption ? _self.selectedMenuOption : selectedMenuOption // ignore: cast_nullable_to_non_nullable
 as SelectedMenuOption,showMenuBar: null == showMenuBar ? _self.showMenuBar : showMenuBar // ignore: cast_nullable_to_non_nullable
+as bool,showTabView: null == showTabView ? _self.showTabView : showTabView // ignore: cast_nullable_to_non_nullable
 as bool,loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,

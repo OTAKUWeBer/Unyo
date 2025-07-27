@@ -9,6 +9,11 @@ import 'package:unyo/application/effects/app_effects.dart';
 mixin EffectMixin<State> on Cubit<State> {
   State copyStateWithEffects(State state, List<AppEffect> effects);
   Logger get logger;
+  static const Map<String, int> _routesIndexMapper = {
+    "/home" : 0,
+    "/anime" : 1,
+    "/manga" : 2,
+  };
 
   void addEffect(AppEffect effect) {
     logger.d("Adding AppEffect: $effect");
@@ -57,6 +62,14 @@ mixin EffectMixin<State> on Cubit<State> {
   void pushRouteEffect({required String path}) {
     logger.i("PushRoute with path: $path");
     addEffect(PushRouteEffect(path));
+  }
+
+  void changeRouteTabEffect( BuildContext context, {required String path}) {
+    if (!_routesIndexMapper.containsKey(path)) {
+      logger.e("Route with path $path is not in AutoTabsRouter, therefore not allowed");
+    }
+    logger.i("ChangeRouteTab with path: $path");
+    addEffect(ChangeTabRouteEffect(_routesIndexMapper[path]!, context));
   }
 
   // Handle errors and others

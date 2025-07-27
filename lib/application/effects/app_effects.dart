@@ -25,6 +25,12 @@ class NavigateRouteEffect extends AppEffect {
   NavigateRouteEffect(this.routeName, {this.arguments});
 }
 
+class ChangeTabRouteEffect extends AppEffect {
+  final int routeIndex;
+  final BuildContext context;
+  ChangeTabRouteEffect(this.routeIndex, this.context);
+}
+
 // Dialogs Effects
 class ShowWidgetDialogEffect extends AppEffect {
   final Widget dialog;

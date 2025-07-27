@@ -6,12 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:path/path.dart';
 
 // Internal dependencies
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/login_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/login_card_type.dart';
+import 'package:unyo/core/notifier/tab_view_notifier.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
@@ -32,6 +34,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
   final UserNotifier _newUserNotifier;
+  final TabViewNotifier _tabViewNotifier;
   late StreamSubscription<User> _newUserCreatedSubscription;
 
   //Services
@@ -42,16 +45,16 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     this._userRepositoryLocal,
     this._loggedUserNotifier,
     this._newUserNotifier,
+    this._tabViewNotifier,
     this._userRepositoryAnilist,
     this._colorImageService,
-    this._themeService
+    this._themeService,
   ) : super(
         LoginState(
           availableUsers: [],
           selectedLoginCard: LoginCardType.anilist,
         ),
-      )
-  {
+      ) {
     _init();
   }
 
@@ -79,7 +82,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     emit(state.copyWith(selectedLoginCard: type));
   }
 
-  Future<void> loginUser(User user) async {
+  Future<void> loginUser(User user, BuildContext context) async {
     switch (user) {
       case AnilistUserModel anilistUserModel:
         _logger.i("Logging in Anilist User: ${anilistUserModel.name}");
@@ -93,7 +96,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
         );
     }
     setUsersTheme(user);
-    replaceRouteEffect(path: "/home");
+    _tabViewNotifier.showTabView(true);
   }
 
   Future<void> attemptToCreateUser(BuildContext context) async {
@@ -118,22 +121,43 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     _updateAvailableUsers(usersAvailableAnilist + usersAvailableLocal);
   }
 
-  void setUsersTheme(User user) async{
+  void setUsersTheme(User user) async {
     switch (user) {
       case AnilistUserModel anilistUserModel:
         _logger.d("Getting anilist user's theme");
-        List<Color> userColors = await _colorImageService.getColorsFromPalleteGenerator(NetworkImage(anilistUserModel.bannerImage));
-        _themeService.updateThemeFromColors(primary: userColors[0], secondary: userColors[1], tertiary: userColors[2]);
+        List<Color> userColors = await _colorImageService
+            .getColorsFromPalleteGenerator(
+              NetworkImage(anilistUserModel.bannerImage),
+            );
+        _themeService.updateThemeFromColors(
+          primary: userColors[0],
+          secondary: userColors[1],
+          tertiary: userColors[2],
+        );
       case LocalUserModel localUserModel:
         _logger.d("Getting local user's theme");
     }
   }
 
   void _init() {
-    _newUserCreatedSubscription = _newUserNotifier.userStream.listen((newLoggedUser) {
+    _newUserCreatedSubscription = _newUserNotifier.userStream.listen((
+      newLoggedUser,
+    ) {
       //In case of user update!!
-      emit(state.copyWith(availableUsers: [...state.availableUsers.where((user) => user.name != newLoggedUser.name)]));
-      emit(state.copyWith(availableUsers: [...state.availableUsers, newLoggedUser])); // Update state on new data
+      emit(
+        state.copyWith(
+          availableUsers: [
+            ...state.availableUsers.where(
+              (user) => user.name != newLoggedUser.name,
+            ),
+          ],
+        ),
+      );
+      emit(
+        state.copyWith(
+          availableUsers: [...state.availableUsers, newLoggedUser],
+        ),
+      ); // Update state on new data
     });
   }
 

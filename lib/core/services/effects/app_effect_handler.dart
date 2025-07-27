@@ -38,6 +38,8 @@ class AppEffectHandler {
         _handleShowWidgetDialogEffect(showWidgetDialogEffect, context);
       case CloseDialogEffect closeDialogEffect:
         _handleCloseDialogEffect(effect, closeDialogEffect.context);
+      case ChangeTabRouteEffect changeTabRouteEffect:
+        _handleChangeTabRouteEffect(effect);
       default:
         _handleUnkownEffect(effect);
     }
@@ -113,6 +115,13 @@ class AppEffectHandler {
     AutoRouter.of(context).pushPath(
       effect.routeName.replaceFirst("/", ""),
       onFailure: _handleRouteFailure,
+    );
+  }
+
+  void _handleChangeTabRouteEffect(ChangeTabRouteEffect effect) {
+    _logger.d("Handling PushRouteEffect");
+    AutoTabsRouter.of(effect.context).setActiveIndex(
+      effect.routeIndex
     );
   }
 

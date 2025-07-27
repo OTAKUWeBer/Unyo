@@ -11,6 +11,7 @@ abstract class RootScaffoldState with _$RootScaffoldState implements HasEffects 
   const factory RootScaffoldState({
     required SelectedMenuOption selectedMenuOption,
     required bool showMenuBar,
+    required bool showTabView,
     required User loggedUser,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _RootScaffoldState;

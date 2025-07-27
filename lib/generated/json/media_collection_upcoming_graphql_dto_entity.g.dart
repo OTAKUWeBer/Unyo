@@ -146,7 +146,7 @@ MediaCollectionUpcomingGraphqlDtoPageMedia $MediaCollectionUpcomingGraphqlDtoPag
     mediaCollectionUpcomingGraphqlDtoPageMedia.countryOfOrigin =
         countryOfOrigin;
   }
-  final int? chapters = json['chapters'];
+  final int? chapters = jsonConvert.convert<int>(json['chapters']);
   if (chapters != null) {
     mediaCollectionUpcomingGraphqlDtoPageMedia.chapters = chapters;
   }
@@ -284,15 +284,15 @@ extension MediaCollectionUpcomingGraphqlDtoPageMediaNextAiringEpisodeExtension o
 MediaCollectionUpcomingGraphqlDtoPageMediaEndDate $MediaCollectionUpcomingGraphqlDtoPageMediaEndDateFromJson(
     Map<String, dynamic> json) {
   final MediaCollectionUpcomingGraphqlDtoPageMediaEndDate mediaCollectionUpcomingGraphqlDtoPageMediaEndDate = MediaCollectionUpcomingGraphqlDtoPageMediaEndDate();
-  final int? day = json['day'];
+  final int? day = jsonConvert.convert<int>(json['day']);
   if (day != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaEndDate.day = day;
   }
-  final int? month = json['month'];
+  final int? month = jsonConvert.convert<int>(json['month']);
   if (month != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaEndDate.month = month;
   }
-  final int? year = json['year'];
+  final int? year = jsonConvert.convert<int>(json['year']);
   if (year != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaEndDate.year = year;
   }
@@ -324,11 +324,11 @@ extension MediaCollectionUpcomingGraphqlDtoPageMediaEndDateExtension on MediaCol
 MediaCollectionUpcomingGraphqlDtoPageMediaStartDate $MediaCollectionUpcomingGraphqlDtoPageMediaStartDateFromJson(
     Map<String, dynamic> json) {
   final MediaCollectionUpcomingGraphqlDtoPageMediaStartDate mediaCollectionUpcomingGraphqlDtoPageMediaStartDate = MediaCollectionUpcomingGraphqlDtoPageMediaStartDate();
-  final int? day = json['day'];
+  final int? day = jsonConvert.convert<int>(json['day']);
   if (day != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaStartDate.day = day;
   }
-  final int? month = json['month'];
+  final int? month = jsonConvert.convert<int>(json['month']);
   if (month != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaStartDate.month = month;
   }
@@ -391,7 +391,7 @@ extension MediaCollectionUpcomingGraphqlDtoPageMediaCoverImageExtension on Media
 MediaCollectionUpcomingGraphqlDtoPageMediaTitle $MediaCollectionUpcomingGraphqlDtoPageMediaTitleFromJson(
     Map<String, dynamic> json) {
   final MediaCollectionUpcomingGraphqlDtoPageMediaTitle mediaCollectionUpcomingGraphqlDtoPageMediaTitle = MediaCollectionUpcomingGraphqlDtoPageMediaTitle();
-  final String? english = json['english'];
+  final String? english = jsonConvert.convert<String>(json['english']);
   if (english != null) {
     mediaCollectionUpcomingGraphqlDtoPageMediaTitle.english = english;
   }

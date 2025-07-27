@@ -92,7 +92,7 @@ class _LoginViewState extends State<_LoginView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     ...state.availableUsers.map(
-                          (user) => UserAvatar(user: user, onPressed: () => context.read<LoginCubit>().loginUser(user)),
+                          (user) => UserAvatar(user: user, onPressed: () => context.read<LoginCubit>().loginUser(user, context)),
                     ),
                     AddUserAvatar(onPressed: () => context.read<LoginCubit>().initiateAccountCreation(context)),
                     // Display existing users
