@@ -1,14 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/user.dart';
 
 part 'media_list_state.freezed.dart';
 
 @freezed
 abstract class MediaListState with _$MediaListState implements HasEffects{
   const factory MediaListState({
-    // required List<Anime> continueWatching,
-    // required List<Manga> continueReading,
+    required Map<String, List<Anime>> userAnimeLists,
+    required Map<String, List<Manga>> userMangaLists,
+    required User loggedUser,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _MediaListState;
 

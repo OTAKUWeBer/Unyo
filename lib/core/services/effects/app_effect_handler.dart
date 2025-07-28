@@ -10,8 +10,13 @@ import 'package:unyo/core/di/locator.dart';
 
 class AppEffectHandler {
   final _logger = sl<Logger>();
+  late BuildContext rootContext;
 
   AppEffectHandler();
+
+  void attachRootContext(BuildContext context) {
+    rootContext = context;
+  }
 
   void handleEffects(
     BuildContext context,
@@ -37,9 +42,9 @@ class AppEffectHandler {
       case ShowWidgetDialogEffect showWidgetDialogEffect:
         _handleShowWidgetDialogEffect(showWidgetDialogEffect, context);
       case CloseDialogEffect closeDialogEffect:
-        _handleCloseDialogEffect(effect, closeDialogEffect.context);
+        _handleCloseDialogEffect(closeDialogEffect, closeDialogEffect.context);
       case ChangeTabRouteEffect changeTabRouteEffect:
-        _handleChangeTabRouteEffect(effect);
+        _handleChangeTabRouteEffect(changeTabRouteEffect);
       default:
         _handleUnkownEffect(effect);
     }
@@ -71,17 +76,17 @@ class AppEffectHandler {
   ) {
     _logger.d("Handling ShowSnackbarEffect");
     final snackBar = MaterialBanner(
-                  elevation: double.maxFinite,
-                  backgroundColor: Colors.transparent,
-                  forceActionsBelow: true,
-                  content: AwesomeSnackbarContent(
-                    title: effect.title,
-                    message: effect.message,
-                    contentType: effect.contentType,
-                    inMaterialBanner: true,
-                  ),
-                  actions: [SizedBox.shrink()],
-                );
+      elevation: double.maxFinite,
+      backgroundColor: Colors.transparent,
+      forceActionsBelow: true,
+      content: AwesomeSnackbarContent(
+        title: effect.title,
+        message: effect.message,
+        contentType: effect.contentType,
+        inMaterialBanner: true,
+      ),
+      actions: [SizedBox.shrink()],
+    );
 
     ScaffoldMessenger.of(context)
       ..hideCurrentMaterialBanner()
@@ -100,9 +105,9 @@ class AppEffectHandler {
   }
 
   void _handleNavigateRouteEffect(
-      NavigateRouteEffect effect,
-      BuildContext context,
-      ) {
+    NavigateRouteEffect effect,
+    BuildContext context,
+  ) {
     _logger.d("Handling NavigateRouteEffect");
     AutoRouter.of(context).navigatePath(
       effect.routeName.replaceFirst("/", ""),
@@ -119,14 +124,12 @@ class AppEffectHandler {
   }
 
   void _handleChangeTabRouteEffect(ChangeTabRouteEffect effect) {
-    _logger.d("Handling PushRouteEffect");
-    AutoTabsRouter.of(effect.context).setActiveIndex(
-      effect.routeIndex
-    );
+    _logger.d("Handling ChangeTabRouteEffect");
+    AutoTabsRouter.of(effect.context).setActiveIndex(effect.routeIndex);
   }
 
   void _handleRouteFailure(NavigationFailure failure) {
-    _logger.e("Navigation failure: ${failure.toString()}");
+    _logger.e("Navigation failure: ${failure.toString()}, type: ${failure.runtimeType}");
   }
 
   void _handleUnkownEffect(AppEffect effect) {

@@ -42,8 +42,9 @@ class _HomeListener extends StatelessWidget {
         }
       },
       child: BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) => state.isLoading ? LoadingView() : _HomeView(),
-      )
+        builder:
+            (context, state) => state.isLoading ? LoadingView() : _HomeView(),
+      ),
     );
   }
 }
@@ -77,7 +78,7 @@ class _HomeViewState extends State<_HomeView> {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                SizedBox(height: 25.0.h,),
+                SizedBox(height: 25.0.h),
                 SizedBox(
                   width: 1.sw - 140,
                   child: Column(
@@ -112,14 +113,20 @@ class _HomeViewState extends State<_HomeView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MediaButton(
-                        onPressed: () {},
+                        onPressed:
+                            () => context
+                                .read<HomeCubit>()
+                                .navigateToUserAnimeList(context),
                         image:
                             "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
                         text: "Anime List",
                       ),
                       SizedBox(width: 50.w),
                       MediaButton(
-                        onPressed: () {},
+                        onPressed:
+                            () => context
+                                .read<HomeCubit>()
+                                .navigateToUserMangaList(context),
                         image:
                             "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
                         text: "Manga List",

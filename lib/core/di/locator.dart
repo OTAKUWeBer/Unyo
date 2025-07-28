@@ -6,14 +6,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:unyo/application/cubits/anime_cubit.dart';
 import 'package:unyo/application/cubits/manga_cubit.dart';
 import 'package:unyo/application/cubits/media_list_cubit.dart';
-import 'package:unyo/application/cubits/root_scaffold_cubit.dart';
+import 'package:unyo/application/cubits/tabs_cubit.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/log/logger.dart';
 import 'package:unyo/core/notifier/menu_bar_notifier.dart';
-import 'package:unyo/core/notifier/tab_view_notifier.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
@@ -58,7 +57,6 @@ void setupLocator() {
     instanceName: config.newUserNotifier,
   );
   sl.registerLazySingleton<MenuBarNotifier>(() => MenuBarNotifier());
-  sl.registerLazySingleton<TabViewNotifier>(() => TabViewNotifier());
 
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
@@ -80,7 +78,6 @@ void setupLocator() {
       sl<UserRepositoryLocal>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<UserNotifier>(instanceName: config.newUserNotifier),
-      sl<TabViewNotifier>(),
       sl<UserRepositoryAnilist>(),
       sl<ColorImageService>(),
       sl<ThemeService>(),
@@ -93,11 +90,10 @@ void setupLocator() {
       sl<MenuBarNotifier>(),
     ),
   );
-  sl.registerFactory<RootScaffoldCubit>(
-    () => RootScaffoldCubit(
+  sl.registerFactory<TabsCubit>(
+    () => TabsCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<MenuBarNotifier>(),
-        sl<TabViewNotifier>()
     ),
   );
   sl.registerFactory<AnimeCubit>(

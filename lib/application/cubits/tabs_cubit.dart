@@ -5,29 +5,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
-import 'package:unyo/application/states/root_scaffold_state.dart';
+import 'package:unyo/application/states/tabs_state.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/notifier/menu_bar_notifier.dart';
-import 'package:unyo/core/notifier/tab_view_notifier.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-class RootScaffoldCubit extends Cubit<RootScaffoldState>
-    with EffectMixin<RootScaffoldState> {
+class TabsCubit extends Cubit<TabsState>
+    with EffectMixin<TabsState> {
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
-  final TabViewNotifier _tabViewNotifier;
   final Logger _logger = Logger();
   late StreamSubscription<User> _newLoggedUserSubscription;
   late StreamSubscription<bool> _showMenuBarSubscription;
-  late StreamSubscription<bool> _showTabViewSubscription;
 
-  RootScaffoldCubit(
+  TabsCubit(
     this._loggedUserNotifier,
     this._menuBarNotifier,
-    this._tabViewNotifier,
   ) : super(
-        RootScaffoldState(
+        TabsState(
           selectedMenuOption: SelectedMenuOption.home,
           showMenuBar: false,
           showTabView: false,
@@ -38,8 +34,8 @@ class RootScaffoldCubit extends Cubit<RootScaffoldState>
   }
 
   @override
-  RootScaffoldState copyStateWithEffects(
-    RootScaffoldState state,
+  TabsState copyStateWithEffects(
+    TabsState state,
     List<AppEffect> effects,
   ) {
     return state.copyWith(effects: effects);
@@ -60,18 +56,12 @@ class RootScaffoldCubit extends Cubit<RootScaffoldState>
     ) {
       emit(state.copyWith(showMenuBar: showMenuBar));
     });
-    _showMenuBarSubscription = _tabViewNotifier.tabViewStream.listen((
-      showTabView,
-    ) {
-      emit(state.copyWith(showTabView: showTabView));
-    });
   }
 
   @override
   Future<void> close() {
     _newLoggedUserSubscription.cancel();
     _showMenuBarSubscription.cancel();
-    _showTabViewSubscription.cancel();
     return super.close();
   }
 

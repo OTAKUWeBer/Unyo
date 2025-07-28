@@ -41,16 +41,17 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
   @override
   Logger get logger => _logger;
 
-  void _init() {
+  //TODO develop some loading states for the widgets and remove the awaits to make the load look faster
+  void _init() async{
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) {
       emit(state.copyWith(loggedUser: loggedUser));
     });
-    _fetchTrending(1);
-    _fetchRecentlyCompleted(1);
-    _fetchPopular(1);
-    _fetchUpcoming(1);
+    await _fetchTrending(1);
+    await _fetchRecentlyCompleted(1);
+    await _fetchPopular(1);
+    await _fetchUpcoming(1);
     emit(state.copyWith(isLoading: false));
   }
 

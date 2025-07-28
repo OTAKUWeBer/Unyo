@@ -50,17 +50,18 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     return super.close();
   }
 
-  void _init() {
+  //TODO develop some loading states for the widgets and remove the awaits to make the load look faster
+  void _init() async{
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) {
       emit(state.copyWith(loggedUser: loggedUser));
     });
-    _fetchRecentlyReleased(1);
-    _fetchTrending(1);
-    _fetchRecentlyCompleted(1);
-    _fetchPopular(1);
-    _fetchUpcoming(1);
+    await _fetchRecentlyReleased(1);
+    await _fetchTrending(1);
+    await _fetchRecentlyCompleted(1);
+    await _fetchPopular(1);
+    await _fetchUpcoming(1);
     emit(state.copyWith(isLoading: false));
   }
 

@@ -6,14 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:path/path.dart';
 
 // Internal dependencies
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/login_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/login_card_type.dart';
-import 'package:unyo/core/notifier/tab_view_notifier.dart';
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/dto/api_dtos.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
@@ -34,7 +32,6 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
   final UserNotifier _newUserNotifier;
-  final TabViewNotifier _tabViewNotifier;
   late StreamSubscription<User> _newUserCreatedSubscription;
 
   //Services
@@ -45,7 +42,6 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     this._userRepositoryLocal,
     this._loggedUserNotifier,
     this._newUserNotifier,
-    this._tabViewNotifier,
     this._userRepositoryAnilist,
     this._colorImageService,
     this._themeService,
@@ -96,7 +92,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
         );
     }
     setUsersTheme(user);
-    _tabViewNotifier.showTabView(true);
+    replaceRouteEffect(path: "/tabs");
   }
 
   Future<void> attemptToCreateUser(BuildContext context) async {

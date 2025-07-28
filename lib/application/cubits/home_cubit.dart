@@ -2,6 +2,7 @@
 import 'dart:async';
 
 // External dependencies
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
@@ -24,15 +25,18 @@ import 'package:unyo/domain/entities/user.dart';
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   //Repositories
   final UserRepositoryAnilist _userRepositoryAnilist;
+
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
   late StreamSubscription<User> _newLoggedUserSubscription;
-
   final Logger _logger = sl<Logger>();
 
-  HomeCubit(this._loggedUserNotifier, this._userRepositoryAnilist, this._menuBarNotifier)
-    : super(
+  HomeCubit(
+    this._loggedUserNotifier,
+    this._userRepositoryAnilist,
+    this._menuBarNotifier,
+  ) : super(
         HomeState(
           loggedUser: UserModel.empty(),
           selectedMenuOption: SelectedMenuOption.home,
@@ -45,10 +49,14 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   }
 
   void _init() {
-    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((user) async{
+    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
+      user,
+    ) async {
       await _getUserInfo(user);
       _menuBarNotifier.showMenuBar(true);
-      emit(state.copyWith(loggedUser: user, isLoading: false)); // Update state on new data
+      emit(
+        state.copyWith(loggedUser: user, isLoading: false),
+      ); // Update state on new data
     });
   }
 
@@ -70,20 +78,36 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     emit(state.copyWith(selectedMenuOption: option));
   }
 
-  Future<void> _getUserInfo(User user) async{
+  Future<void> _getUserInfo(User user) async {
     try {
       switch (user) {
         case AnilistUserModel anilistUserModel:
           _logger.i("Fetching Anilist User lists");
-          List<Anime> watchingList = await _userRepositoryAnilist.getUserWatchingList(user);
-          List<Manga> readingList = await _userRepositoryAnilist.getUserReadingList(user);
-          emit(state.copyWith(continueWatching: watchingList, continueReading: readingList));
+          List<Anime> watchingList = await _userRepositoryAnilist
+              .getUserWatchingList(user);
+          List<Manga> readingList = await _userRepositoryAnilist
+              .getUserReadingList(user);
+          emit(
+            state.copyWith(
+              continueWatching: watchingList,
+              continueReading: readingList,
+            ),
+          );
         case LocalUserModel localUserModel:
-      }  
+      }
     } catch (e, stackTrace) {
-     handleError("Error fetching user info: $e", stackTrace: stackTrace);
-     replaceRouteEffect(path: "/login");
+      handleError("Error fetching user info: $e", stackTrace: stackTrace);
+      replaceRouteEffect(path: "/login");
     }
-    
+  }
+
+  void navigateToUserAnimeList(BuildContext context) {
+    _logger.i("Navigating to User Anime List");
+    pushRouteEffect(path: "/userlist?type=anime");
+  }
+
+  void navigateToUserMangaList(BuildContext context) {
+    _logger.i("Navigating to User Manga List");
+    pushRouteEffect(path: "/userlist?type=anime");
   }
 }
