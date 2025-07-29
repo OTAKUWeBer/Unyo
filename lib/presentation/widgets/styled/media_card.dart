@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/presentation/widgets/styled/hover_animated_container.dart';
 
 class MediaCard extends StatelessWidget {
@@ -28,16 +27,9 @@ class MediaCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: tag,
-      child: HoverAnimatedContainer(
-        width: 144.08/*.w.clamp(144.08, 181.7)*/,
-        hoverWidth: 156.49/*.w.clamp(156.49, 199.1)*/,
-        height: 259.07/*.h.clamp(259.07, 342.7)*/,
-        hoverHeight: 259.07/*.h.clamp(259.07, 342.7)*/,
-        decoration: BoxDecoration(),
-        hoverDecoration: BoxDecoration(),
-        margin: EdgeInsets.symmetric(horizontal: 4.5.w),
-        curve: Curves.easeOut,
-        duration: Duration(milliseconds: 170),
+      child: SizedBox(
+        width: 152.5,
+        height: 256,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -50,14 +42,14 @@ class MediaCard extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   HoverAnimatedContainer(
-                    width: 144.08/*.w.clamp(144.08, 181.7)*/,
-                    hoverWidth: 156.49/*.w.clamp(156.49, 199.1)*/,
-                    height: 200.44/*.h.clamp(200.44, 260.6)*/,
-                    hoverHeight: 206.03/*.h.clamp(206.03, 268.44)*/,
+                    width: 140.0/*.w.clamp(144.08, 181.7)*/,
+                    hoverWidth: 152.5/*.w.clamp(156.49, 199.1)*/,
+                    height: 200.5/*.h.clamp(200.44, 260.6)*/,
+                    hoverHeight: 213.0/*.h.clamp(206.03, 268.44)*/,
                     hoverCursor: SystemMouseCursors.click,
                     hoverDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(color: Colors.white, width: 2.6),
                       image: DecorationImage(
                         image: NetworkImage(coverImage),
                         fit: BoxFit.fill,
@@ -145,7 +137,8 @@ class MediaCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 144.08/*.w.clamp(144.08, 181.7)*/,
+              width: 140.0/*.w.clamp(144.08, 181.7)*/,
+              height: 24,
               child: Center(
                 child: Tooltip(
                   message: title,
@@ -163,7 +156,8 @@ class MediaCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 144.08/*.w.clamp(144.08, 181.7)*/,
+              width: 140.0/*.w.clamp(144.08, 181.7)*/,
+              height: 18,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
@@ -195,7 +189,7 @@ class MediaCard extends StatelessWidget {
                         ).tertiary.withOpacity(0.8),
                         overflow: TextOverflow.ellipsis,
                         fontSize:
-                            format == "TV_SHORT" || format == "SPECIAL" || format == "MANGA"
+                            format == "TV_SHORT" || format == "SPECIAL" || format == "MANGA" || format == "MOVIE"
                                 ? 8
                                 : 14,
                       ),

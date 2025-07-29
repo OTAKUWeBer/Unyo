@@ -23,6 +23,7 @@ class MediaListArrows extends StatelessWidget {
             icon: const Icon(Icons.arrow_left),
             color: Colors.white,
           ),
+          const SizedBox(width: 2),
           IconButton(
             onPressed: () {
               controller.animateTo(controller.offset + 400,

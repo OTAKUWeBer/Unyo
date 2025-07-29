@@ -128,7 +128,7 @@ class _MangaViewState extends State<_MangaView> {
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               state.recentlyCompleted.$1
                   ? MangaCardList(
                     listTitle: "Recently Completed Mangas",
@@ -137,7 +137,7 @@ class _MangaViewState extends State<_MangaView> {
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               state.popular.$1
                   ? MangaCardList(
                     listTitle: "Popular Mangas",
@@ -146,7 +146,7 @@ class _MangaViewState extends State<_MangaView> {
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               state.upcoming.$1
                   ? MangaCardList(
                     listTitle: "Upcoming Mangas",

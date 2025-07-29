@@ -100,6 +100,9 @@ class _HomeViewState extends State<_HomeView> {
                         children: [
                           TextBodyLarge(
                             text: "Find your next favorite anime or manga!",
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -141,7 +144,7 @@ class _HomeViewState extends State<_HomeView> {
                   controller: continueWatchingController,
                   loadMore: false,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 MangaCardList(
                   listTitle: "Continue Reading",
                   mangaList: state.continueReading,

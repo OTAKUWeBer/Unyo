@@ -7,4 +7,6 @@ abstract class UserRepository {
   Future<void> attemptCreateUser();
   Future<List<Anime>> getUserWatchingList(User user);
   Future<List<Manga>> getUserReadingList(User user);
+  Future<Map<String, List<Anime>>> getUserAnimeLists(User user);
+  Future<Map<String, List<Manga>>> getUserMangaLists(User user);
 }

@@ -56,9 +56,9 @@ class AppRouter extends RootStackRouter {
         CustomRoute(
           page: MediaListRoute.page,
           path: 'userlist',
-          transitionsBuilder: TransitionsBuilders.zoomIn,
-          duration: const Duration(milliseconds: 100),
-          reverseDuration: const Duration(milliseconds: 100),
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+          duration: const Duration(milliseconds: 200),
+          reverseDuration: const Duration(milliseconds: 200),
         ),
       ],
     ),

@@ -28,7 +28,16 @@ class UserRepositoryLocal implements UserRepository {
 
   @override
   Future<List<Manga>> getUserReadingList(User user) {
-    // TODO: implement getUserReadingList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, List<Anime>>> getUserAnimeLists(User user) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, List<Manga>>> getUserMangaLists(User user) {
     throw UnimplementedError();
   }
 

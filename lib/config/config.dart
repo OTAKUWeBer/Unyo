@@ -19,6 +19,5 @@ const Set<String> cacheDisabledEndpoints = <String>{
 const Set<String> cacheIgnoredHeaders = <String>{
   'Authorization'
 };
-
 // TODO move to an asset
 const plusImageUrl = "https://i.ibb.co/Kj8CQZH/cross.png";

@@ -108,6 +108,6 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   void navigateToUserMangaList(BuildContext context) {
     _logger.i("Navigating to User Manga List");
-    pushRouteEffect(path: "/userlist?type=anime");
+    pushRouteEffect(path: "/userlist?type=manga");
   }
 }

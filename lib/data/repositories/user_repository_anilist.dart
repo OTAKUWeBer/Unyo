@@ -13,6 +13,7 @@ import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 //Internal dependencies
 import 'package:unyo/core/notifier/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
@@ -27,10 +28,12 @@ import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/domain/repositories/repositories.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
+class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
   final Logger _logger = sl<Logger>();
   final HttpService _httpService = sl<HttpService>();
-  final GraphQLService _anilistGraphQLService = sl<GraphQLService>(instanceName: config.anilistGraphQlService);
+  final GraphQLService _anilistGraphQLService = sl<GraphQLService>(
+    instanceName: config.anilistGraphQlService,
+  );
   final UserNotifier _newUserNotifier;
   late Box<User> _anilistUsersBox;
   late HttpServer _server;
@@ -48,9 +51,19 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
     _logger.i("Creating Anilist user");
     try {
       _logger.d("Opening Anilist login server at http://localhost:9999");
-      _server = await shelfio.serve(_handleLoginRequest, 'localhost', 9999);
+      _server = await shelfio.serve(
+        _handleLoginRequest,
+        'localhost',
+        9999,
+        shared: true,
+      );
     } catch (e, stackTrace) {
       _logger.e("Error attempting to open server: $e", stackTrace: stackTrace);
+      if (await canLaunchUrl(Uri.parse(config.anilistAuthUrl))) {
+        await launchUrl(Uri.parse(config.anilistAuthUrl));
+      } else {
+        _logger.e("Could not launch ${config.anilistAuthUrl}");
+      }
       rethrow;
     }
 
@@ -64,40 +77,130 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
 
   @override
   Future<List<Anime>> getUserWatchingList(User user) async {
-    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection = await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
+    };
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
+        await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+          query: queries.mediaListCollectionQuery,
+          fromJson: MediaCollectionGraphqlDtoData.fromJson,
+          variables: {
+            "userName": user.name,
+            "userId": user.id,
+            "type": "ANIME",
+          },
+          headers: graphQlHeaders,
+        );
+    throwIfGraphQlError(mediaCollection);
+    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia>
+    mediaEntries =
+        mediaCollection.data.mediaListCollection.lists
+            .where(((collection) => collection.name == "Watching"))
+            .first
+            .entries
+            .map((entry) => entry.media)
+            .toList();
+    return mediaEntries
+        .map((mediaEntry) => AnilistAnimeModel.fromUserMediaEntry(mediaEntry))
+        .toList();
+  }
+
+  @override
+  Future<List<Manga>> getUserReadingList(User user) async {
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
+    };
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
+        await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+          query: queries.mediaListCollectionQuery,
+          fromJson: MediaCollectionGraphqlDtoData.fromJson,
+          variables: {
+            "userName": user.name,
+            "userId": user.id,
+            "type": "MANGA",
+          },
+          headers: graphQlHeaders,
+        );
+    throwIfGraphQlError(mediaCollection);
+    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia>
+    mediaEntries =
+        mediaCollection.data.mediaListCollection.lists
+            .where(((collection) => collection.name == "Reading"))
+            .first
+            .entries
+            .map((entry) => entry.media)
+            .toList();
+    return mediaEntries
+        .map((mediaEntry) => AnilistMangaModel.fromUserMediaEntry(mediaEntry))
+        .toList();
+  }
+
+  @override
+  Future<Map<String, List<Anime>>> getUserAnimeLists(User user) async {
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
+    };
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
+        await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
+          query: queries.mediaListCollectionQuery,
+          fromJson: MediaCollectionGraphqlDtoData.fromJson,
+          variables: {
+            "userName": user.name,
+            "userId": user.id,
+            "type": "ANIME",
+          },
+          headers: graphQlHeaders
+        );
+    throwIfGraphQlError(mediaCollection);
+    Map<String, List<Anime>> userAnimeLists = Map.fromEntries(
+      mediaCollection.data.mediaListCollection.lists.map(
+        (collection) => MapEntry(
+          collection.name,
+          collection.entries
+                  .map(
+                    (entry) =>
+                        AnilistAnimeModel.fromUserMediaEntry(entry.media),
+                  )
+                  .toList()
+              as List<Anime>,
+        ),
+      ),
+    );
+    return userAnimeLists;
+  }
+
+  @override
+  Future<Map<String, List<Manga>>> getUserMangaLists(User user) async {
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
+    };
+    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
+        await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
       query: queries.mediaListCollectionQuery,
       fromJson: MediaCollectionGraphqlDtoData.fromJson,
       variables: {
         "userName": user.name,
         "userId": user.id,
-        "type": "ANIME"
-      }
+        "type": "MANGA",
+      },
+      headers: graphQlHeaders
     );
     throwIfGraphQlError(mediaCollection);
-    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
-        mediaCollection.data.mediaListCollection.lists
-            .where(((collection) => collection.name == "Watching")).first.entries
-            .map((entry) => entry.media).toList();
-    return mediaEntries.map((mediaEntry) => AnilistAnimeModel.fromUserMediaEntry(mediaEntry)).toList();
-  }
-
-  @override
-  Future<List<Manga>> getUserReadingList(User user) async {
-    ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection = await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
-        query: queries.mediaListCollectionQuery,
-        fromJson: MediaCollectionGraphqlDtoData.fromJson,
-        variables: {
-          "userName": user.name,
-          "userId": user.id,
-          "type": "MANGA"
-        }
+    Map<String, List<Manga>> userMangaLists = Map.fromEntries(
+      mediaCollection.data.mediaListCollection.lists.map(
+            (collection) => MapEntry(
+          collection.name,
+          collection.entries
+              .map(
+                (entry) =>
+                AnilistMangaModel.fromUserMediaEntry(entry.media),
+          )
+              .toList()
+          as List<Manga>,
+        ),
+      ),
     );
-    throwIfGraphQlError(mediaCollection);
-    List<MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia> mediaEntries =
-    mediaCollection.data.mediaListCollection.lists
-        .where(((collection) => collection.name == "Reading")).first.entries
-        .map((entry) => entry.media).toList();
-    return mediaEntries.map((mediaEntry) => AnilistMangaModel.fromMediaEntry(mediaEntry)).toList();
+    return userMangaLists;
   }
 
   Future<ApiResponse<AuthTokenDto>> getAuthToken(String accessCode) async {
@@ -108,12 +211,18 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
       "redirect_uri": config.anilistRedirectUri,
       "code": accessCode,
     };
-    return _httpService.post<AuthTokenDto>(config.anilistOAuthEndpoint, fromJson: AuthTokenDto.fromJson, body: body);
+    return _httpService.post<AuthTokenDto>(
+      config.anilistOAuthEndpoint,
+      fromJson: AuthTokenDto.fromJson,
+      body: body,
+    );
   }
 
   Future<shelf.Response> _handleLoginRequest(shelf.Request request) async {
     try {
-      _logger.i("Handling login request from Anilist at ${request.requestedUri.path}");
+      _logger.i(
+        "Handling login request from Anilist at ${request.requestedUri.path}",
+      );
       String accessCode = request.requestedUri.queryParameters['code']!;
       await _createUser(accessCode);
       return shelf.Response.ok(
@@ -134,23 +243,25 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository{
   Future<void> _createUser(String accessCode) async {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
     ApiResponse<AuthTokenDto> authToken = await getAuthToken(accessCode);
-    Map<String, String> graphQlHeaders = {"Authorization": "Bearer ${authToken.data.accessToken}"};
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${authToken.data.accessToken}",
+    };
     ApiGraphQLResponse<ViewerGraphqlDtoEntity> viewerDto =
-      await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
+        await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
           query: queries.viewerQuery,
           fromJson: ViewerGraphqlDtoEntity.fromJson,
-          headers: graphQlHeaders
-      );
+          headers: graphQlHeaders,
+        );
     throwIfGraphQlError(viewerDto);
     AnilistUserModel newAnilistUser = AnilistUserModel(
-        id: viewerDto.data.viewer.id.toString(),
-        name: viewerDto.data.viewer.name,
-        settings: SettingsModel.empty(),
-        avatarImage: viewerDto.data.viewer.avatar.medium,
-        bannerImage: viewerDto.data.viewer.bannerImage,
-        accessCode: accessCode,
-        accessToken: authToken.data.accessToken,
-        refreshToken: authToken.data.refreshToken
+      id: viewerDto.data.viewer.id.toString(),
+      name: viewerDto.data.viewer.name,
+      settings: SettingsModel.empty(),
+      avatarImage: viewerDto.data.viewer.avatar.medium,
+      bannerImage: viewerDto.data.viewer.bannerImage,
+      accessCode: accessCode,
+      accessToken: authToken.data.accessToken,
+      refreshToken: authToken.data.refreshToken,
     );
     _anilistUsersBox.put(viewerDto.data.viewer.name, newAnilistUser);
     _newUserNotifier.updateUser(newAnilistUser);

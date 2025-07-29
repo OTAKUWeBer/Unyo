@@ -39,7 +39,7 @@ abstract class AnilistMangaModel with _$AnilistMangaModel implements Manga {
   factory AnilistMangaModel.fromJson(Map<String, dynamic> json) =>
       _$AnilistMangaModelFromJson(json);
 
-  factory AnilistMangaModel.fromMediaEntry(
+  factory AnilistMangaModel.fromUserMediaEntry(
     MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
     mediaEntry,
   ) {

@@ -108,5 +108,5 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<MediaListCubit>(() => MediaListCubit());
+  sl.registerFactory<MediaListCubit>(() => MediaListCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier), sl<UserRepositoryAnilist>()));
 }

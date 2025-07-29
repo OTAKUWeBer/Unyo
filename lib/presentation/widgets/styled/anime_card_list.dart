@@ -55,7 +55,7 @@ class AnimeCardList extends StatelessWidget {
         ),
         SizedBox(height: 10.h,),
         SizedBox(
-          height: 270,
+          height: 260,
           width: 1.sw - 140,
           child: ListView(
             scrollDirection: Axis.horizontal,

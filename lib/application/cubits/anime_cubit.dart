@@ -93,7 +93,8 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
           (bool, List<Anime>) trending = await _animeRepositoryAnilist.getTrendingAnimes(page);
           emit(state.copyWith(trending: trending));
           if (page == 1) {
-            emit(state.copyWith(banners: trending.$2.where((anime) => anime.bannerImage != "").toList()));
+            List<Anime> banners = trending.$2.where((anime) => anime.bannerImage != "").toList();
+            emit(state.copyWith(banners: banners.sublist(0, banners.length > 20 ? 20 : banners.length)));
           }
         case Service.mal:
         case Service.kitsu:

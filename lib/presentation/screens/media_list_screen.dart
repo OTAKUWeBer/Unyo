@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,10 @@ import 'package:unyo/application/states/media_list_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/media_type.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
-import 'package:unyo/presentation/widgets/styled/dark_unyo_button.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/presentation/widgets/styled/media_card.dart';
+import 'package:unyo/presentation/widgets/text/texts.dart';
 
 @RoutePage()
 class MediaListScreen extends StatelessWidget {
@@ -71,39 +73,61 @@ class _MediaListViewState extends State<_MediaListView>
         );
         return Column(
           children: [
-            DarkUnyoButton(onPressed: AutoRouter.of(context).pop, text: "Back"),
+            const SizedBox(height: 15),
             SizedBox(
               width: double.infinity,
               height: 50,
               child: Row(
                 children: [
-                  Text(
-                    "Hi! ",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                  Text(
-                    state.loggedUser.name,
-                    style: TextStyle(
+                  const SizedBox(width: 5),
+                  IconButton(
+                    onPressed: () => AutoRouter.of(context).pop(),
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
                       color: ColorScheme.of(context).tertiary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
                     ),
                   ),
-                  Text(
-                    ", welcome to your ${widget.type == MediaType.anime ? "Anime" : "Manga"} Lists!",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                    ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TextHeadlineMedium(
+                            text: "Hi ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextHeadlineMedium(
+                            text: "${state.loggedUser.name}! ",
+                            style: TextStyle(
+                              color: ColorScheme.of(context).tertiary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextHeadlineMedium(
+                            text:
+                                "Welcome to your ${widget.type == MediaType.anime ? "Anime" : "Manga"} Lists!",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TextBodyLarge(
+                            text:
+                                "You can find and remember your favorite ${widget.type == MediaType.anime ? "anime" : "manga"} here",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               height: 50,
@@ -123,23 +147,90 @@ class _MediaListViewState extends State<_MediaListView>
                       .entries
                       .map((entry) {
                         String title = entry.key;
-                        return SizedBox(width: 150, child: Tab(text: title));
+                        return SizedBox(
+                          width: 150,
+                          child: Tab(text: "$title (${entry.value.length})"),
+                        );
                       }),
                 ],
               ),
             ),
             SizedBox(
-              height: 1.sh - 100,
-              child: TabBarView(
-                controller: tabController,
-                children: [
-                  ListView.builder(
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return Text("a");
-                    },
-                  ),
-                ],
+              height: 1.sh - 135,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 15.0.w,
+                  right: 15.0.w,
+                  top: 15.0.h,
+                ),
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ...(widget.type == MediaType.anime
+                            ? state.userAnimeLists
+                            : state.userMangaLists)
+                        .entries
+                        .map((entry) {
+                          List<Anime>? animeList =
+                              widget.type == MediaType.anime
+                                  ? entry.value as List<Anime>
+                                  : null;
+                          List<Manga>? mangaList =
+                              widget.type == MediaType.manga
+                                  ? entry.value as List<Manga>
+                                  : null;
+                          return GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            gridDelegate:
+                                SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 165,
+                                  mainAxisExtent: 260,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 15
+                                ),
+                            itemCount:
+                                animeList != null
+                                    ? animeList.length
+                                    : mangaList!.length,
+                            itemBuilder:
+                                (context, index) => SizedBox(
+                                  width: 165,
+                                  child: MediaCard(
+                                    title:
+                                        animeList != null
+                                            ? animeList[index].title.userPreferred
+                                            : mangaList![index]
+                                                .title
+                                                .userPreferred,
+                                    score:
+                                        animeList != null
+                                            ? animeList[index].averageScore
+                                            : mangaList![index].averageScore,
+                                    coverImage:
+                                        animeList != null
+                                            ? animeList[index].coverImage
+                                            : mangaList![index].coverImage,
+                                    onPressed: () {},
+                                    status:
+                                        animeList != null
+                                            ? animeList[index].status
+                                            : mangaList![index].status,
+                                    year:
+                                        animeList != null
+                                            ? animeList[index].startDate
+                                            : mangaList![index].startDate,
+                                    format:
+                                        animeList != null
+                                            ? animeList[index].format
+                                            : mangaList![index].format,
+                                    tag:
+                                        "$index-${animeList != null ? animeList[index].title.userPreferred : mangaList![index].title.userPreferred}",
+                                  ),
+                                ),
+                          );
+                        }),
+                  ],
+                ),
               ),
             ),
           ],
