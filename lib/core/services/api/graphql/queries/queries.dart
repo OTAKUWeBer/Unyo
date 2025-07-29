@@ -1,3 +1,4 @@
+// User specific
 const viewerQuery =
 '''
 query Viewer {
@@ -80,6 +81,9 @@ query MediaListCollection(\$userName: String, \$userId: Int, \$type: MediaType) 
   }
 }
 ''';
+
+// Media Specific
+
 // {
 //   "sort": "TIME_DESC",
 //   "page": 1,
@@ -298,6 +302,63 @@ query Page(\$page: Int, \$perPage: Int, \$sort: [MediaSort], \$type: MediaType, 
           romaji
           userPreferred
         }
+    }
+  }
+}
+''';
+// {
+//   "sort": "TIME_DESC",
+//   "page": 1,
+//   "perPage": 50,
+//   "airingAtGreater": 1700000000, milliseconds since epoch
+//   "airingAtLesser": 1800000000, milliseconds since epoch
+// }
+const calendarQuery = '''
+query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$airingAtGreater: Int, \$airingAtLesser: Int) {
+  Page(page: \$page, perPage: \$perPage) {
+    airingSchedules(sort: \$sort, airingAt_greater: \$airingAtGreater, airingAt_lesser: \$airingAtLesser) {
+      media {
+        nextAiringEpisode {
+          episode
+          airingAt
+        }
+        status
+        isFavourite
+        season
+        id
+        idMal
+        isAdult
+        meanScore
+        popularity
+        genres
+        format
+        episodes
+        endDate {
+          day
+          month
+          year
+        }
+        startDate {
+          day
+          month
+          year
+        }
+        duration
+        description
+        coverImage {
+          large
+        }
+        countryOfOrigin
+        chapters
+        bannerImage
+        averageScore
+        title {
+          english
+          native
+          romaji
+          userPreferred
+        }
+      }
     }
   }
 }

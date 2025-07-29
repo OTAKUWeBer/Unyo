@@ -1,6 +1,7 @@
 // External dependencies
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 
 // Internal dependencies
@@ -57,6 +58,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     ) {
       emit(state.copyWith(loggedUser: loggedUser));
     });
+    // TODO move inside the subscription to make sure the correct user is used
     await _fetchRecentlyReleased(1);
     await _fetchTrending(1);
     await _fetchRecentlyCompleted(1);
@@ -167,5 +169,10 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         stackTrace: stackTrace,
       );
     }
+  }
+
+  void navigateToCalendar(BuildContext context) {
+    _logger.i("Navigating to Anime Calendar");
+    pushRouteEffect(path: "/calendar");
   }
 }

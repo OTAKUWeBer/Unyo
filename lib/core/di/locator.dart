@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:unyo/application/cubits/anime_cubit.dart';
+import 'package:unyo/application/cubits/calendar_cubit.dart';
 import 'package:unyo/application/cubits/manga_cubit.dart';
 import 'package:unyo/application/cubits/media_list_cubit.dart';
 import 'package:unyo/application/cubits/tabs_cubit.dart';
@@ -108,5 +109,16 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<MediaListCubit>(() => MediaListCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier), sl<UserRepositoryAnilist>()));
+  sl.registerFactory<MediaListCubit>(
+    () => MediaListCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<UserRepositoryAnilist>(),
+    ),
+  );
+  sl.registerFactory<CalendarCubit>(
+    () => CalendarCubit(
+      sl<AnimeRepositoryAnilist>(),
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+    ),
+  );
 }

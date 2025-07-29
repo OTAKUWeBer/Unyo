@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 // Internal dependencies
@@ -13,6 +14,7 @@ import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/data/models/anilist_anime_model.dart';
 import 'package:unyo/data/repositories/repository_mixin.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/anime_repository.dart';
 
 class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
@@ -142,5 +144,75 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
         .map((mediaEntry) => AnilistAnimeModel.fromUpcomingMediaEntry(mediaEntry))
         .toList();
     return (true, upcomingAnimes);
+  }
+
+  @override
+  Future<Map<String, List<Anime>>> getCalendarReleases(int page, User user, {List<Anime>? calendarReleasePortion}) async {
+    List<Anime> calendarReleasesList = await getCalendarReleasesPage(page);
+    if (calendarReleasesList.length == 50){
+      // has next page
+      return await getCalendarReleases(page + 1, user, calendarReleasePortion: [...calendarReleasesList, ...(calendarReleasePortion ?? [])]);
+    }
+    String localeTag = user.settings.language;
+    Map<String, List<Anime>> calendarReleases = {};
+    for (Anime anime in calendarReleasePortion ?? calendarReleasesList) {
+      DateTime episodeRelease = DateTime.fromMillisecondsSinceEpoch(int.parse(anime.nextAiringEpisode.airingAt) * 1000);
+      String dateKey =  DateFormat('EEEE, MMMM d, y', localeTag).format(episodeRelease);
+      if (!calendarReleases.containsKey(dateKey)) {
+        calendarReleases.addAll({
+         dateKey : [anime]
+        });
+      } else {
+        calendarReleases[dateKey]!.add(anime);
+      }
+    }
+    // Sort each list by airing time
+    calendarReleases.forEach((date, animeList) {
+      animeList.sort((a, b) {
+        return a.nextAiringEpisode.airingAt
+            .compareTo(b.nextAiringEpisode.airingAt);
+      });
+    });
+   // Sort the map entries by weekday and create a new ordered map
+  final sortedEntries = calendarReleases.entries.toList()
+    ..sort((a, b) {
+      // Parse the date strings to get the DateTime objects
+      final dateA = DateFormat('EEEE, MMMM d, y', localeTag).parse(a.key);
+      final dateB = DateFormat('EEEE, MMMM d, y', localeTag).parse(b.key);
+      // Sort by the weekday (1 = Monday, 7 = Sunday)
+      return dateA.millisecondsSinceEpoch.compareTo(dateB.millisecondsSinceEpoch);
+    });
+
+  return Map.fromEntries(sortedEntries);
+  }
+
+  Future<List<Anime>> getCalendarReleasesPage(int page) async {
+    DateTime now = DateTime.now();
+    // Calculate yesterday 00:00:00
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0, 0).subtract(Duration(days: 1));
+
+    // Calculate today + 6 days
+    DateTime end = start.add(Duration(days: 6));
+    end = DateTime(end.year, end.month, end.day, 23, 59, 59, 999);
+
+    // Unix timestamps
+    int startTimestamp = start.millisecondsSinceEpoch ~/ 1000;
+    int endTimestamp = end.millisecondsSinceEpoch ~/ 1000;
+    ApiGraphQLResponse<MediaCollectionRecentlyReleasedGraphqlDtoEntity>
+    airingSchedules = await _anilistGraphQLService.query(
+      query: queries.calendarQuery,
+      fromJson: MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
+      variables: {
+        "sort": "TIME_DESC",
+        "page": page,
+        "perPage": 50,
+        "airingAtGreater" : startTimestamp,
+        "airingAtLesser" : endTimestamp
+      },
+    );
+    throwIfGraphQlError(airingSchedules);
+    return airingSchedules.data.page.airingSchedules
+        .map((schedule) => AnilistAnimeModel.fromScheduleEntry(schedule))
+        .toList();
   }
 }

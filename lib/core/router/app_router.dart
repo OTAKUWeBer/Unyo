@@ -60,6 +60,13 @@ class AppRouter extends RootStackRouter {
           duration: const Duration(milliseconds: 200),
           reverseDuration: const Duration(milliseconds: 200),
         ),
+        CustomRoute(
+          page: CalendarRoute.page,
+          path: 'calendar',
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+          duration: const Duration(milliseconds: 200),
+          reverseDuration: const Duration(milliseconds: 200),
+        ),
       ],
     ),
   ];

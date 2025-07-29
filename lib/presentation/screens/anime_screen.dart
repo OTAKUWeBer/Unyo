@@ -93,7 +93,7 @@ class _AnimeViewState extends State<_AnimeView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MediaButton(
-                      onPressed: () {},
+                      onPressed: () => context.read<AnimeCubit>().navigateToCalendar(context),
                       image:
                           state.banners.isNotEmpty ? state.banners[Random().nextInt(state.banners.length)].bannerImage : "",
                       text: "Calendar",

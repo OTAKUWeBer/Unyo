@@ -49,9 +49,9 @@ class MediaListCubit extends Cubit<MediaListState> with EffectMixin<MediaListSta
   }
 
   void _init() async {
-    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((user) {
-      emit(state.copyWith(loggedUser: user));
-      _getUserLists(state.loggedUser);
+    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
+      emit(state.copyWith(loggedUser: loggedUser));
+      _getUserLists(loggedUser);
     });
   }
 
@@ -74,7 +74,6 @@ class MediaListCubit extends Cubit<MediaListState> with EffectMixin<MediaListSta
       }
     } catch (e, stackTrace) {
       handleError("Error fetching user info: $e", stackTrace: stackTrace);
-      replaceRouteEffect(path: "/login");
     }
   }
 }

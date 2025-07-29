@@ -147,9 +147,13 @@ class _MediaListViewState extends State<_MediaListView>
                       .entries
                       .map((entry) {
                         String title = entry.key;
-                        return SizedBox(
-                          width: 150,
-                          child: Tab(text: "$title (${entry.value.length})"),
+                        return Tooltip(
+                          waitDuration: const Duration(milliseconds: 1000),
+                          message: "$title (${entry.value.length})",
+                          child: SizedBox(
+                            width: 150,
+                            child: Tab(text: "$title (${entry.value.length})"),
+                          ),
                         );
                       }),
                 ],

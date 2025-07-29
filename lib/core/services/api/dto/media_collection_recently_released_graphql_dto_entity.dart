@@ -72,7 +72,7 @@ class MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMedia {
 	late String description = '';
 	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaCoverImage coverImage;
 	late String countryOfOrigin = '';
-	late int chapters;
+	late int chapters = 0;
 	late String bannerImage = '';
 	late int averageScore = 0;
 	late MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedulesMediaTitle title;

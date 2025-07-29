@@ -10,11 +10,10 @@ import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/router/app_router.dart';
 import 'package:unyo/core/theme/theme_service.dart';
-
-import 'core/enums/service.dart';
-import 'data/models/anilist_user_model.dart';
-import 'data/models/local_user_model.dart';
-import 'domain/entities/settings.dart';
+import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
+import 'package:unyo/data/models/local_user_model.dart';
+import 'package:unyo/domain/entities/settings.dart';
 
 final _appRouter = AppRouter();
 
