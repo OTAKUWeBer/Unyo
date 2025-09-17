@@ -6,7 +6,7 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/media_list_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/core/di/locator.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/data/repositories/user_repository_anilist.dart';

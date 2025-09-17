@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
-
 // Internal dependencies
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -51,7 +50,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     return super.close();
   }
 
-  //TODO develop some loading states for the widgets and remove the awaits to make the load look faster
+  // TODO develop some loading states for the widgets and remove the awaits to make the load look faster
   void _init() async{
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,

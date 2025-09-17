@@ -1,5 +1,9 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'airing_episode.dart';
 import 'title.dart';
+
+part 'anime.freezed.dart';
 
 abstract class Anime {
   final int id;
@@ -52,4 +56,55 @@ abstract class Anime {
   String toString() {
     return 'Anime(id: $id, idMal: $idMal, title: $title, averageScore: $averageScore, bannerImage: $bannerImage, countryOfOrigin: $countryOfOrigin, coverImage: $coverImage, description: $description, duration: $duration, endDate: $endDate, startDate: $startDate, episodes: $episodes, genres: $genres, format: $format, isAdult: $isAdult, popularity: $popularity, meanScore: $meanScore, season: $season, isFavourite: $isFavourite, status: $status, nextAiringEpisode: $nextAiringEpisode)';
   }
+}
+
+@freezed
+abstract class AnimeModel with _$AnimeModel implements Anime {
+  const factory AnimeModel({
+    required int id,
+    required int idMal,
+    required Title title,
+    required int averageScore,
+    required String bannerImage,
+    required String countryOfOrigin,
+    required String coverImage,
+    required String description,
+    required int duration,
+    required String endDate,
+    required String startDate,
+    required int episodes,
+    required List<String> genres,
+    required String format,
+    required bool isAdult,
+    required int popularity,
+    required int meanScore,
+    required String season,
+    required bool isFavourite,
+    required String status,
+    required AiringEpisode nextAiringEpisode,
+  }) = _AnimeModel;
+
+  factory AnimeModel.empty() => AnimeModel(
+        id: 0,
+        idMal: 0,
+        title: TitleModel.empty(),
+        averageScore: 0,
+        bannerImage: '',
+        countryOfOrigin: '',
+        coverImage: '',
+        description: '',
+        duration: 0,
+        endDate: '',
+        startDate: '',
+        episodes: 0,
+        genres: [],
+        format: '',
+        isAdult: false,
+        popularity: 0,
+        meanScore: 0,
+        season: '',
+        isFavourite: false,
+        status: '',
+        nextAiringEpisode: AiringEpisodeModel.empty(),
+      );
 }

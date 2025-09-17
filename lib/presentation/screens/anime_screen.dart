@@ -1,9 +1,10 @@
+// External dependencies
 import 'dart:math';
-
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// Internal dependencies
 import 'package:unyo/application/cubits/anime_cubit.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';

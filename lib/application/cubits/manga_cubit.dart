@@ -6,7 +6,7 @@ import 'package:unyo/application/states/manga_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/user.dart';

@@ -1,6 +1,7 @@
 // External dependencies
 import 'dart:io';
 import 'package:get_it/get_it.dart';
+import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:unyo/application/cubits/anime_cubit.dart';
@@ -13,8 +14,8 @@ import 'package:unyo/application/cubits/tabs_cubit.dart';
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/log/logger.dart';
-import 'package:unyo/core/notifier/menu_bar_notifier.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/menu_bar_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
@@ -47,7 +48,7 @@ void setupLocator() {
     () => getApplicationSupportDirectory(),
     instanceName: config.applicationSupportDirectory,
   );
-
+  sl.registerSingleton<AniyomiBridge>(AniyomiBridge());
   // Notifiers
   sl.registerLazySingleton<UserNotifier>(
     () => UserNotifier(),

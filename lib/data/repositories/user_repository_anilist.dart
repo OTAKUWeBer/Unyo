@@ -15,7 +15,7 @@ import 'package:unyo/domain/entities/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //Internal dependencies
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/api_dtos.dart';

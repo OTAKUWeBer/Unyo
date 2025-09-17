@@ -67,6 +67,13 @@ class AppRouter extends RootStackRouter {
           duration: const Duration(milliseconds: 200),
           reverseDuration: const Duration(milliseconds: 200),
         ),
+        CustomRoute(
+          page: AnimeDetailsRoute.page,
+          path: 'animedetails',
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+          duration: const Duration(milliseconds: 200),
+          reverseDuration: const Duration(milliseconds: 200),
+        ),
       ],
     ),
   ];

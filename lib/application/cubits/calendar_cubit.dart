@@ -10,7 +10,7 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/calendar_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/user.dart';

@@ -7,8 +7,8 @@ import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/tabs_state.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
-import 'package:unyo/core/notifier/menu_bar_notifier.dart';
-import 'package:unyo/core/notifier/user_notifier.dart';
+import 'package:unyo/core/notification/menu_bar_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class TabsCubit extends Cubit<TabsState>

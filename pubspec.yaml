@@ -68,6 +68,8 @@ dependencies:
   ffigen: ^19.0.0
   meta: ^1.16.0
   jwt_decoder: ^2.0.1
+  k3vinb5_aniyomi_bridge:
+    path: ../k3vinb5_aniyomi_bridge
 # Dev dependencies
 dev_dependencies:
   flutter_test:

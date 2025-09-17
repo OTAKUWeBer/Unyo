@@ -1,11 +1,9 @@
-// Flutter dependencies
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-
 //External dependencies
-import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //Internal dependencies
 import 'package:unyo/application/cubits/login_cubit.dart';

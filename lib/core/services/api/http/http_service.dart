@@ -138,6 +138,10 @@ class HttpService {
     String? body,
     required T Function(Map<String, dynamic>) fromJson,
   }) {
+    if (response.statusCode >= 300) {
+      _logger.w("Not caching response for $endpoint due to client error with status code ${response.statusCode}");
+      return;
+    }
     _logger.d("Caching response for $endpoint");
     final cacheKey = "${method.hashCode}${endpoint.hashCode}${json.encode(_cacheEnabledHeaders(headers)).hashCode}${body.hashCode}${fromJson.runtimeType.hashCode}";
     _apiResponseCache[cacheKey] =

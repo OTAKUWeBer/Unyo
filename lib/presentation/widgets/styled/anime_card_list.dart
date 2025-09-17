@@ -6,6 +6,7 @@ import 'package:unyo/presentation/widgets/styled/media_card.dart';
 import 'package:unyo/presentation/widgets/styled/media_list_arrows.dart';
 
 class AnimeCardList extends StatelessWidget {
+  // final void Function(Anime) onPressed;
   final String listTitle;
   final List<Anime> animeList;
   final ScrollController controller;
@@ -13,6 +14,7 @@ class AnimeCardList extends StatelessWidget {
 
   const AnimeCardList({
     super.key,
+    // required this.onPressed,
     required this.listTitle,
     required this.animeList,
     required this.controller,
@@ -66,6 +68,7 @@ class AnimeCardList extends StatelessWidget {
                   title: anime.title.romaji,
                   score: anime.averageScore,
                   coverImage: anime.coverImage,
+                  // onPressed: () => onPressed(anime),
                   onPressed: (){},
                   status: anime.status,
                   year: anime.startDate,

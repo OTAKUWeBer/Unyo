@@ -67,6 +67,7 @@ mixin EffectMixin<State> on Cubit<State> {
   void changeRouteTabEffect( BuildContext context, {required String path}) {
     if (!_routesIndexMapper.containsKey(path)) {
       logger.e("Route with path $path is not in AutoTabsRouter, therefore not allowed");
+      return;
     }
     logger.i("ChangeRouteTab with path: $path");
     addEffect(ChangeTabRouteEffect(_routesIndexMapper[path]!, context));
