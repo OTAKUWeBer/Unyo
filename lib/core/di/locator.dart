@@ -9,7 +9,6 @@ import 'package:unyo/application/cubits/calendar_cubit.dart';
 import 'package:unyo/application/cubits/manga_cubit.dart';
 import 'package:unyo/application/cubits/media_list_cubit.dart';
 import 'package:unyo/application/cubits/tabs_cubit.dart';
-
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/application/cubits/login_cubit.dart';

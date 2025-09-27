@@ -64,6 +64,11 @@ mixin EffectMixin<State> on Cubit<State> {
     addEffect(PushRouteEffect(path));
   }
 
+  void popRouteEffect() {
+    logger.i("PopRoute attempted");
+    addEffect(PopRouteEffect());
+  }
+
   void changeRouteTabEffect( BuildContext context, {required String path}) {
     if (!_routesIndexMapper.containsKey(path)) {
       logger.e("Route with path $path is not in AutoTabsRouter, therefore not allowed");

@@ -114,6 +114,7 @@ class _AnimeViewState extends State<_AnimeView> {
                 listTitle: "Recently Released",
                 animeList: state.recentlyReleased.$2,
                 controller: recentlyReleasedController,
+                onPressed: () => context.read<AnimeCubit>().navigateTo,
                 loadMore: false,
               ) : const SizedBox.shrink(),
               const SizedBox(height: 30),

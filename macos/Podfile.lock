@@ -7,10 +7,10 @@ PODS:
   - flutter_discord_rpc (0.0.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
-  - fvp (0.33.0):
+  - fvp (0.33.1):
     - Flutter
     - FlutterMacOS
-    - mdk (~> 0.33.0)
+    - mdk (~> 0.33.1)
   - mdk (0.33.1)
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -61,10 +61,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   bonsoir_darwin: 29c7ccf356646118844721f36e1de4b61f6cbd0e
-  dynamic_color: b820c000cc68df65e7ba7ff177cb98404ce56651
+  dynamic_color: cb7c2a300ee67ed3bd96c3e852df3af0300bf610
   flutter_discord_rpc: 90614fcca26f3cebfd33263557ea7875936d184b
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  fvp: 6a1a8e62cd61b90a4afeec44a367892d726bf377
+  fvp: ed100b827d10aff53789fb9cb9dfdd85a87d037d
   mdk: 622e3452cea55a982c0712ec9ce931d8ec718b22
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7

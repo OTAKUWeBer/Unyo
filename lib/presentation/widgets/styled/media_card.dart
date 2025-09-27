@@ -42,10 +42,10 @@ class MediaCard extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   HoverAnimatedContainer(
-                    width: 140.0/*.w.clamp(144.08, 181.7)*/,
-                    hoverWidth: 152.5/*.w.clamp(156.49, 199.1)*/,
-                    height: 200.5/*.h.clamp(200.44, 260.6)*/,
-                    hoverHeight: 213.0/*.h.clamp(206.03, 268.44)*/,
+                    width: 140.0 /*.w.clamp(144.08, 181.7)*/,
+                    hoverWidth: 152.5 /*.w.clamp(156.49, 199.1)*/,
+                    height: 200.5 /*.h.clamp(200.44, 260.6)*/,
+                    hoverHeight: 213.0 /*.h.clamp(206.03, 268.44)*/,
                     hoverCursor: SystemMouseCursors.click,
                     hoverDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
@@ -64,54 +64,59 @@ class MediaCard extends StatelessWidget {
                     ),
                     child: Stack(
                       children: [
-                        score != 0 ? Align(
-                          alignment: Alignment.bottomRight,
-                          child: Opacity(
-                            opacity: 0.8,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ColorScheme.of(context).primary,
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(50),
-                                  topLeft: Radius.circular(50),
+                        score != 0
+                            ? Align(
+                              alignment: Alignment.bottomRight,
+                              child: Opacity(
+                                opacity: 0.8,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: ColorScheme.of(context).primary,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(50),
+                                      topLeft: Radius.circular(50),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6.0,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          "  ${(score / 10)}",
+                                          style: TextStyle(
+                                            color:
+                                                ColorScheme.of(context).primary
+                                                            .computeLuminance() >
+                                                        0.2
+                                                    ? Colors.black
+                                                    : Colors.white.withOpacity(
+                                                      0.8,
+                                                    ),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color:
+                                              ColorScheme.of(context).primary
+                                                          .computeLuminance() >
+                                                      0.2
+                                                  ? Colors.black
+                                                  : Colors.white.withOpacity(
+                                                    0.8,
+                                                  ),
+                                          size: 15,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6.0,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "  ${(score / 10)}",
-                                      style: TextStyle(
-                                        color:
-                                            ColorScheme.of(context).primary
-                                                        .computeLuminance() >
-                                                    0.2
-                                                ? Colors.black
-                                                : Colors.white.withOpacity(0.8),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      color:
-                                          ColorScheme.of(
-                                                    context,
-                                                  ).primary.computeLuminance() >
-                                                  0.2
-                                              ? Colors.black
-                                              : Colors.white.withOpacity(0.8),
-                                      size: 15,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ) : const SizedBox.shrink(),
+                            )
+                            : const SizedBox.shrink(),
                         SizedBox(
                           // width: 128.w,
                           child: Padding(
@@ -137,7 +142,7 @@ class MediaCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 140.0/*.w.clamp(144.08, 181.7)*/,
+              width: 140.0 /*.w.clamp(144.08, 181.7)*/,
               height: 24,
               child: Center(
                 child: Tooltip(
@@ -156,7 +161,7 @@ class MediaCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 140.0/*.w.clamp(144.08, 181.7)*/,
+              width: 140.0 /*.w.clamp(144.08, 181.7)*/,
               height: 18,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -165,9 +170,7 @@ class MediaCard extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.calendar_today,
-                      color: ColorScheme.of(
-                        context,
-                      ).tertiary.withOpacity(0.8),
+                      color: ColorScheme.of(context).tertiary.withOpacity(0.8),
                       size: 17,
                     ),
                     Text(
@@ -189,16 +192,18 @@ class MediaCard extends StatelessWidget {
                         ).tertiary.withOpacity(0.8),
                         overflow: TextOverflow.ellipsis,
                         fontSize:
-                            format == "TV_SHORT" || format == "SPECIAL" || format == "MANGA" || format == "MOVIE"
+                            format == "TV_SHORT" ||
+                                    format == "SPECIAL" ||
+                                    format == "MANGA" ||
+                                    format == "MOVIE" ||
+                                    format == "NOVEL"
                                 ? 8
                                 : 14,
                       ),
                     ),
                     Icon(
                       Icons.tv_rounded,
-                      color: ColorScheme.of(
-                        context,
-                      ).tertiary.withOpacity(0.8),
+                      color: ColorScheme.of(context).tertiary.withOpacity(0.8),
                       size: 17,
                     ),
                   ],

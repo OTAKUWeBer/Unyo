@@ -26,24 +26,23 @@ class _AnimeDetailsListener extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AnimeDetailsCubit, AnimeDetailsState>(
-        listener: (context, state) {
-          if (state.effects.isNotEmpty) {
-            sl<AppEffectHandler>().handleEffects(
-              context,
-              state.effects,
-              context.read<AnimeDetailsCubit>().clearEffects,
-            );
-          }
-        },
-        child: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
-          builder: (context, state) => _AnimeDetailsView(),
-        )
+      listener: (context, state) {
+        if (state.effects.isNotEmpty) {
+          sl<AppEffectHandler>().handleEffects(
+            context,
+            state.effects,
+            context.read<AnimeDetailsCubit>().clearEffects,
+          );
+        }
+      },
+      child: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
+        builder: (context, state) => _AnimeDetailsView(),
+      ),
     );
   }
 }
 
 class _AnimeDetailsView extends StatefulWidget {
-
   const _AnimeDetailsView({super.key});
 
   @override
@@ -51,7 +50,6 @@ class _AnimeDetailsView extends StatefulWidget {
 }
 
 class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
@@ -60,7 +58,22 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
           scrollDirection: Axis.vertical,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [],
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    onPressed:
+                        () =>
+                            context
+                                .read<AnimeDetailsCubit>()
+                                .navigateBackToAnimePage(),
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                  ),
+                ],
+              ),
+              Container(),
+              Container(),
+            ],
           ),
         );
       },

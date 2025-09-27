@@ -11,6 +11,10 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
   const factory AnimeDetailsState({
     required User loggedUser,
     required Anime selectedAnime,
+    // relations
+    // characters
+    // voice actors
+    // recommendations
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeDetailsState;
 
