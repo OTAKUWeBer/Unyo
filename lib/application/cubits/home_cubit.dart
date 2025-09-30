@@ -23,7 +23,7 @@ import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
-  //Repositories
+  // Repositories
   final UserRepositoryAnilist _userRepositoryAnilist;
 
   // Notifiers / Subscriptions
@@ -48,18 +48,6 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     _init();
   }
 
-  void _init() {
-    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
-      user,
-    ) async {
-      await _getUserInfo(user);
-      _menuBarNotifier.showMenuBar(true);
-      emit(
-        state.copyWith(loggedUser: user, isLoading: false),
-      ); // Update state on new data
-    });
-  }
-
   @override
   HomeState copyStateWithEffects(HomeState state, List<AppEffect> effects) {
     return state.copyWith(effects: effects);
@@ -74,8 +62,35 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     return super.close();
   }
 
+  void _init() {
+    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
+      user,
+    ) async {
+      await _getUserInfo(user);
+      _menuBarNotifier.showMenuBar(true);
+      emit(
+        state.copyWith(loggedUser: user, isLoading: false),
+      ); // Update state on new data
+    });
+  }
+
   void selectMenuOption(SelectedMenuOption option) {
     emit(state.copyWith(selectedMenuOption: option));
+  }
+
+  void navigateToAnimeDetails(Anime anime) {
+    _logger.i("Navigating to Anime Details of ${anime.title}");
+    pushRouteEffect(path: "/animedetails");
+  }
+
+  void navigateToUserAnimeList(BuildContext context) {
+    _logger.i("Navigating to User Anime List");
+    pushRouteEffect(path: "/userlist?type=anime");
+  }
+
+  void navigateToUserMangaList(BuildContext context) {
+    _logger.i("Navigating to User Manga List");
+    pushRouteEffect(path: "/userlist?type=manga");
   }
 
   Future<void> _getUserInfo(User user) async {
@@ -101,13 +116,4 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     }
   }
 
-  void navigateToUserAnimeList(BuildContext context) {
-    _logger.i("Navigating to User Anime List");
-    pushRouteEffect(path: "/userlist?type=anime");
-  }
-
-  void navigateToUserMangaList(BuildContext context) {
-    _logger.i("Navigating to User Manga List");
-    pushRouteEffect(path: "/userlist?type=manga");
-  }
 }

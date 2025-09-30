@@ -66,6 +66,16 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     emit(state.copyWith(isLoading: false));
   }
 
+  void navigateToCalendar(BuildContext context) {
+    _logger.i("Navigating to Anime Calendar");
+    pushRouteEffect(path: "/calendar");
+  }
+
+  void navigateToAnimeDetails(Anime anime) {
+    _logger.i("Navigating to Anime Details of ${anime.title}");
+    pushRouteEffect(path: "/animedetails");
+  }
+
   Future<void> _fetchRecentlyReleased(int page, User loggedUser) async {
     try {
       switch (loggedUser.settings.service) {
@@ -172,10 +182,5 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     } catch (e, stackTrace) {
       handleError("Failed to fetch upcoming anime $e", stackTrace: stackTrace);
     }
-  }
-
-  void navigateToCalendar(BuildContext context) {
-    _logger.i("Navigating to Anime Calendar");
-    pushRouteEffect(path: "/calendar");
   }
 }

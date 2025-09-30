@@ -142,6 +142,7 @@ class _HomeViewState extends State<_HomeView> {
                   listTitle: "Continue Watching",
                   animeList: state.continueWatching,
                   controller: continueWatchingController,
+                  onPressed: context.read<HomeCubit>().navigateToAnimeDetails,
                   loadMore: false,
                 ),
                 const SizedBox(height: 30),

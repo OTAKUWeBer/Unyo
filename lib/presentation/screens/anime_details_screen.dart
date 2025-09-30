@@ -1,11 +1,12 @@
-import 'package:auto_route/annotations.dart';
+// External package dependencies
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/annotations.dart';
+// Internal package dependencies
 import 'package:unyo/application/cubits/anime_details_cubit.dart';
 import 'package:unyo/application/states/anime_details_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
-import 'package:unyo/presentation/views/loading_view.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatelessWidget {
