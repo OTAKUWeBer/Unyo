@@ -6,11 +6,13 @@ import 'package:hive_ce/hive.dart';
 import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
+import 'package:unyo/domain/entities/anime_progress.dart';
 import 'package:unyo/domain/entities/settings.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(AnilistUserModelAdapter());
+    registerAdapter(AnimeProgressModelAdapter());
     registerAdapter(LocalUserModelAdapter());
     registerAdapter(ServiceEnumAdapter());
     registerAdapter(SettingsModelAdapter());
@@ -20,6 +22,7 @@ extension HiveRegistrar on HiveInterface {
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(AnilistUserModelAdapter());
+    registerAdapter(AnimeProgressModelAdapter());
     registerAdapter(LocalUserModelAdapter());
     registerAdapter(ServiceEnumAdapter());
     registerAdapter(SettingsModelAdapter());

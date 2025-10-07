@@ -8,6 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/anime_progress.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
@@ -23,6 +24,8 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
         AnimeDetailsState(
           loggedUser: UserModel.empty(),
           selectedAnime: AnimeModel.empty(),
+          animeProgress: AnimeProgressModel.empty(),
+          recommendations: (false, [])
         ),
       ) {
     _init();

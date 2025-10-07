@@ -2,11 +2,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 // Internal package dependencies
 import 'package:unyo/application/cubits/anime_details_cubit.dart';
 import 'package:unyo/application/states/anime_details_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/styled/styled.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_banner.dart';
+import 'package:unyo/presentation/widgets/text/text_body_medium.dart';
+import 'package:unyo/presentation/widgets/text/text_label_large.dart';
+import 'package:unyo/presentation/widgets/text/text_title_small.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatelessWidget {
@@ -55,25 +62,155 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
       builder: (context, state) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              SizedBox(
+                height: 60,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: IconButton(
+                        onPressed:
+                            () =>
+                                context
+                                    .read<AnimeDetailsCubit>()
+                                    .navigateBackToAnimePage(),
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 children: [
-                  IconButton(
-                    onPressed:
-                        () =>
-                            context
-                                .read<AnimeDetailsCubit>()
-                                .navigateBackToAnimePage(),
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                  Expanded(
+                    flex: 75,
+                    child: SizedBox(
+                      height: 1.sh - 60,
+                      child: Column(
+                        children: [
+                          Expanded(child: ListView(children: [UnyoBanner()])),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 35,
+                    child: Container(
+                      height: 1.sh - 60,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 35),
+                          Expanded(
+                            child: ListView(
+                              children: [
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 1 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 1,
+                                  progress: 1,
+                                  released: 1,
+                                  showDivider: false,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                                UnyoEpisodeButton(
+                                  episodeName: "Episode 2 Name",
+                                  episodeImageUrl:
+                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  episodeNumber: 2,
+                                  progress: 1,
+                                  released: 2,
+                                  showDivider: true,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
-              Container(),
-              Container(),
             ],
           ),
         );

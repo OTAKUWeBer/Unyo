@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/anime_progress.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 part 'anime_details_state.freezed.dart';
@@ -14,7 +15,8 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     // relations
     // characters
     // voice actors
-    // recommendations
+    required (bool, List<Anime>) recommendations,
+    required AnimeProgress animeProgress,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeDetailsState;
 

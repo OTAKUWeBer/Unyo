@@ -11,7 +11,7 @@ abstract class Settings {
   final String language;
   final Service service;
 
-  Settings(this.service, {required this.language});
+  const Settings({required this.service, required this.language});
 }
 
 @freezed
