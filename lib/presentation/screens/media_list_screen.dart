@@ -214,7 +214,7 @@ class _MediaListViewState extends State<_MediaListView>
                                         animeList != null
                                             ? animeList[index].coverImage
                                             : mangaList![index].coverImage,
-                                    onPressed: () {},
+                                    onPressed: () => context.read<MediaListCubit>().navigateToMediaDetails(animeList != null ? animeList[index] : mangaList![index]),
                                     status:
                                         animeList != null
                                             ? animeList[index].status

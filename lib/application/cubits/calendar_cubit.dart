@@ -45,6 +45,11 @@ class CalendarCubit extends Cubit<CalendarState>
     });
   }
 
+  void navigateToAnimeDetails(Anime anime) {
+    _logger.i("Navigating to Anime Details of ${anime.title}");
+    pushRouteEffect(path: "/animedetails");
+  }
+
   Future<void> _getCalendarEvents(User loggedUser) async {
     try {
       switch (loggedUser.settings.service) {

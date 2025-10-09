@@ -14,7 +14,8 @@ import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-class MediaListCubit extends Cubit<MediaListState> with EffectMixin<MediaListState> {
+class MediaListCubit extends Cubit<MediaListState>
+    with EffectMixin<MediaListState> {
   final Logger _logger = sl<Logger>();
   final UserRepositoryAnilist _userRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
@@ -49,10 +50,23 @@ class MediaListCubit extends Cubit<MediaListState> with EffectMixin<MediaListSta
   }
 
   void _init() async {
-    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
+    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
+      loggedUser,
+    ) {
       emit(state.copyWith(loggedUser: loggedUser));
       _getUserLists(loggedUser);
     });
+  }
+
+  void navigateToMediaDetails(Object media) {
+    switch (media) {
+      case Anime anime:
+        _logger.i("Navigating to Anime Details of ${anime.title}");
+        pushRouteEffect(path: "/animedetails");
+      case Manga manga:
+        _logger.i("Navigating to Manga Details of ${manga.title}");
+        pushRouteEffect(path: "/mangadetails");
+    }
   }
 
   Future<void> _getUserLists(User user) async {

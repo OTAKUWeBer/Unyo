@@ -189,7 +189,7 @@ class _CalendarViewState extends State<_CalendarView>
                             entry.value[index].averageScore,
                             coverImage:
                             entry.value[index].coverImage,
-                            onPressed: () {},
+                            onPressed: () => context.read<CalendarCubit>().navigateToAnimeDetails(entry.value[index]),
                             status:
                             entry.value[index].status,
                             year:

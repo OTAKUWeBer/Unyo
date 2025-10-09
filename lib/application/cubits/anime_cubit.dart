@@ -62,8 +62,8 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
       await _fetchPopular(1, loggedUser);
       await _fetchUpcoming(1, loggedUser);
       emit(state.copyWith(loggedUser: loggedUser));
+      emit(state.copyWith(isLoading: false));
     });
-    emit(state.copyWith(isLoading: false));
   }
 
   void navigateToCalendar(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/presentation/widgets/text/text_utils.dart';
 import 'package:unyo/presentation/widgets/text/texts.dart';
 
 class UnyoBannerCarousel extends StatefulWidget {
@@ -36,41 +37,6 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
   void dispose() {
     controller.dispose();
     super.dispose();
-  }
-
-  String parseHtmlToPlainText(String html) {
-    if (html.isEmpty) {
-      return '';
-    }
-    String text = html;
-    // Remove common HTML tags
-    text = text.replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n');
-    text = text.replaceAll(RegExp(r'<p[^>]*>', caseSensitive: false), '');
-    text = text.replaceAll(RegExp(r'</p>', caseSensitive: false), '\n\n');
-    text = text.replaceAll(RegExp(r'<div[^>]*>', caseSensitive: false), '');
-    text = text.replaceAll(RegExp(r'</div>', caseSensitive: false), '\n');
-    // Remove inline formatting tags
-    text = text.replaceAll(
-      RegExp(r'<b>|</b>|<strong>|</strong>', caseSensitive: false),
-      '',
-    );
-    text = text.replaceAll(
-      RegExp(r'<i>|</i>|<em>|</em>', caseSensitive: false),
-      '',
-    );
-    text = text.replaceAll(RegExp(r'<u>|</u>', caseSensitive: false), '');
-    // Remove any other HTML tags
-    text = text.replaceAll(RegExp(r'<[^>]*>'), '');
-    // Decode HTML entities
-    text = text.replaceAll('&nbsp;', ' ');
-    text = text.replaceAll('&amp;', '&');
-    text = text.replaceAll('&lt;', '<');
-    text = text.replaceAll('&gt;', '>');
-    text = text.replaceAll('&quot;', '"');
-    text = text.replaceAll('&#39;', "'");
-    // Clean up whitespace
-    text = text.replaceAll(RegExp(r'\n{3,}'), '\n\n');
-    return text.trim();
   }
 
   void _startAutoScroll() {
@@ -234,7 +200,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                     Expanded(
                                       child: TextBodyMedium(
                                         text:
-                                            parseHtmlToPlainText(widget.animeList?[_currentPage].description ??
+                                            TextUtils.parseHtmlToPlainText(widget.animeList?[_currentPage].description ??
                                             widget.mangaList![_currentPage].description),
                                         maxLines: 6,
                                         overflow: TextOverflow.ellipsis,

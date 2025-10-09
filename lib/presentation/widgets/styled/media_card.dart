@@ -37,7 +37,7 @@ class MediaCard extends StatelessWidget {
           children: [
             InkWell(
               onTap: onPressed,
-              //TODO maybe Stack over HoverAnimatedContainer
+              // TODO maybe Stack over HoverAnimatedContainer
               child: Stack(
                 alignment: Alignment.bottomRight,
                 children: [

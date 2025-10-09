@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/text/text_body_medium.dart';
-import 'package:unyo/presentation/widgets/text/text_label_large.dart';
-import 'package:unyo/presentation/widgets/text/text_title_small.dart';
+import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
 class UnyoBanner extends StatelessWidget {
-  const UnyoBanner({super.key});
+  final String imageUrl;
+  final String duration;
+  final String year;
+  final String score;
+  final String description;
+  const UnyoBanner({super.key, required this.imageUrl, required this.duration, required this.year, required this.score, required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +20,17 @@ class UnyoBanner extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: SizedBox(
             width: 800.w,
-            height: 250.h,
+            height: 300.h,
             child: Stack(
               fit: StackFit.expand,
               children: [
-                // The image
                 Image.network(
-                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                  imageUrl,
                   fit: BoxFit.cover,
                 ),
-
-                // Dark overlay
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.4),
-                    // Adjust opacity as needed
-                    // Optional: add gradient for more dramatic effect
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -45,53 +45,31 @@ class UnyoBanner extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 16.h),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50.0.w),
+          padding: EdgeInsets.symmetric(horizontal: 40.0.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TextTitleSmall(
-                    text: "Anime name",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 25,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: ColorScheme.of(context).tertiary,
-                          size: 17,
-                        ),
-                        TextLabelLarge(
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                          text: 10.toString(),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      UnyoBannerIcon(text: duration, iconData: Icons.timelapse_rounded),
+                      UnyoBannerIcon(text: year, iconData: Icons.calendar_month_rounded),
+                      UnyoBannerIcon(text: score, iconData: Icons.star),
+                    ],
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Expanded(
                     child: TextBodyMedium(
-                      text: "description",
+                      text: TextUtils.parseHtmlToPlainText(description),
                       maxLines: 6,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.grey),
