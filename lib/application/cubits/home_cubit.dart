@@ -108,9 +108,9 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
         case AnilistUserModel anilistUserModel:
           _logger.i("Fetching Anilist User lists");
           List<Anime> watchingList = await _userRepositoryAnilist
-              .getUserWatchingList(user);
+              .getUserWatchingList(anilistUserModel);
           List<Manga> readingList = await _userRepositoryAnilist
-              .getUserReadingList(user);
+              .getUserReadingList(anilistUserModel);
           emit(
             state.copyWith(
               continueWatching: watchingList,

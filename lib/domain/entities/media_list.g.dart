@@ -6,9 +6,9 @@ part of 'media_list.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SettingsModelAdapter extends TypeAdapter<MediaListModel> {
+class MediaListModelAdapter extends TypeAdapter<MediaListModel> {
   @override
-  final typeId = 2;
+  final typeId = 5;
 
   @override
   MediaListModel read(BinaryReader reader) {
@@ -38,7 +38,7 @@ class SettingsModelAdapter extends TypeAdapter<MediaListModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SettingsModelAdapter &&
+      other is MediaListModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

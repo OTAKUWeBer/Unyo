@@ -24,10 +24,10 @@ class UnyoBanner extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.network(
+                imageUrl != "" ? Image.network(
                   imageUrl,
                   fit: BoxFit.cover,
-                ),
+                ) : const SizedBox.shrink(),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.4),

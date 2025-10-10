@@ -15,7 +15,7 @@ abstract class MediaList {
 }
 
 @freezed
-@HiveType(typeId: types.settingsAdapterType, adapterName: names.settingsModelAdapterName)
+@HiveType(typeId: types.mediaListAdapterType, adapterName: names.mediaListModelAdapterName)
 abstract class MediaListModel with _$MediaListModel implements MediaList {
   const factory MediaListModel({
     @HiveField(0) required String name,

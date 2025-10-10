@@ -15,8 +15,8 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(AnilistUserModelAdapter());
     registerAdapter(AnimeProgressModelAdapter());
     registerAdapter(LocalUserModelAdapter());
+    registerAdapter(MediaListModelAdapter());
     registerAdapter(ServiceEnumAdapter());
-    registerAdapter(SettingsModelAdapter());
     registerAdapter(SettingsModelAdapter());
   }
 }
@@ -26,8 +26,8 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(AnilistUserModelAdapter());
     registerAdapter(AnimeProgressModelAdapter());
     registerAdapter(LocalUserModelAdapter());
+    registerAdapter(MediaListModelAdapter());
     registerAdapter(ServiceEnumAdapter());
-    registerAdapter(SettingsModelAdapter());
     registerAdapter(SettingsModelAdapter());
   }
 }
