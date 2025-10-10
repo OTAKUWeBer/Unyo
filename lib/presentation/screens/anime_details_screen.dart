@@ -11,6 +11,7 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner.dart';
+import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
 @RoutePage()
 class AnimeDetailsScreen extends StatelessWidget {
@@ -100,23 +101,23 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                             child: ListView(
                               children: [
                                 Stack(
-                                  alignment: Alignment.bottomLeft,
+                                  alignment: Alignment.topLeft,
                                   children: [
                                     UnyoBanner(
-                                      imageUrl: "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                      duration: "23min",
-                                      year: "2022",
-                                      score: "10",
-                                      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                                      imageUrl: state.selectedAnime.bannerImage,
+                                      duration: "${state.selectedAnime.duration}min",
+                                      year: TextUtils.extractYearFromStartDate(state.selectedAnime.startDate, state.loggedUser),
+                                      score: state.selectedAnime.averageScore.toString(),
+                                      description: state.selectedAnime.description,
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 60.w, bottom: 150),
+                                      padding: EdgeInsets.only(left: 60.w, top: 140.h),
                                       child: ImageCard(
                                         coverImage:
-                                            "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx114124-def92qPuIVeK.jpg",
-                                        title: "Anime Title",
-                                        status: "RELEASING",
-                                        tag: "Continue Watching-Lazarus",
+                                            state.selectedAnime.coverImage,
+                                        title: state.selectedAnime.title.userPreferred,
+                                        status: state.selectedAnime.status,
+                                        tag: "${state.selectedMediaList.name}-${state.selectedAnime.id}",
                                       ),
                                     ),
                                   ],

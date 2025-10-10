@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimeDetailsState {
 
- User get loggedUser; Anime get selectedAnime;// relations
+ User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime;// relations
 // characters
 // voice actors
  (bool, List<Anime>) get recommendations; AnimeProgress get animeProgress; List<AppEffect> get effects;
@@ -28,16 +28,16 @@ $AnimeDetailsStateCopyWith<AnimeDetailsState> get copyWith => _$AnimeDetailsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&(identical(other.animeProgress, animeProgress) || other.animeProgress == animeProgress)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&(identical(other.animeProgress, animeProgress) || other.animeProgress == animeProgress)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedAnime,recommendations,animeProgress,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,recommendations,animeProgress,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedAnime: $selectedAnime, recommendations: $recommendations, animeProgress: $animeProgress, effects: $effects)';
+  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, recommendations: $recommendations, animeProgress: $animeProgress, effects: $effects)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AnimeDetailsStateCopyWith<$Res>  {
   factory $AnimeDetailsStateCopyWith(AnimeDetailsState value, $Res Function(AnimeDetailsState) _then) = _$AnimeDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, Anime selectedAnime, (bool, List<Anime>) recommendations, AnimeProgress animeProgress, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, (bool, List<Anime>) recommendations, AnimeProgress animeProgress, List<AppEffect> effects
 });
 
 
@@ -65,10 +65,11 @@ class _$AnimeDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedAnime = null,Object? recommendations = null,Object? animeProgress = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? recommendations = null,Object? animeProgress = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
-as User,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
+as MediaList,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
 as Anime,recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),animeProgress: null == animeProgress ? _self.animeProgress : animeProgress // ignore: cast_nullable_to_non_nullable
 as AnimeProgress,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
@@ -157,10 +158,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
   return orElse();
 
 }
@@ -178,10 +179,10 @@ return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState():
-return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +199,10 @@ return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  (bool, List<Anime>) recommendations,  AnimeProgress animeProgress,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.recommendations,_that.animeProgress,_that.effects);case _:
   return null;
 
 }
@@ -213,10 +214,11 @@ return $default(_that.loggedUser,_that.selectedAnime,_that.recommendations,_that
 
 
 class _AnimeDetailsState extends AnimeDetailsState {
-  const _AnimeDetailsState({required this.loggedUser, required this.selectedAnime, required this.recommendations, required this.animeProgress, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.recommendations, required this.animeProgress, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
 @override final  User loggedUser;
+@override final  MediaList selectedMediaList;
 @override final  Anime selectedAnime;
 // relations
 // characters
@@ -241,16 +243,16 @@ _$AnimeDetailsStateCopyWith<_AnimeDetailsState> get copyWith => __$AnimeDetailsS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&(identical(other.animeProgress, animeProgress) || other.animeProgress == animeProgress)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&(identical(other.animeProgress, animeProgress) || other.animeProgress == animeProgress)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedAnime,recommendations,animeProgress,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,recommendations,animeProgress,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedAnime: $selectedAnime, recommendations: $recommendations, animeProgress: $animeProgress, effects: $effects)';
+  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, recommendations: $recommendations, animeProgress: $animeProgress, effects: $effects)';
 }
 
 
@@ -261,7 +263,7 @@ abstract mixin class _$AnimeDetailsStateCopyWith<$Res> implements $AnimeDetailsS
   factory _$AnimeDetailsStateCopyWith(_AnimeDetailsState value, $Res Function(_AnimeDetailsState) _then) = __$AnimeDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, Anime selectedAnime, (bool, List<Anime>) recommendations, AnimeProgress animeProgress, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, (bool, List<Anime>) recommendations, AnimeProgress animeProgress, List<AppEffect> effects
 });
 
 
@@ -278,10 +280,11 @@ class __$AnimeDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedAnime = null,Object? recommendations = null,Object? animeProgress = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? recommendations = null,Object? animeProgress = null,Object? effects = null,}) {
   return _then(_AnimeDetailsState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
-as User,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
+as MediaList,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
 as Anime,recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as (bool, List<Anime>),animeProgress: null == animeProgress ? _self.animeProgress : animeProgress // ignore: cast_nullable_to_non_nullable
 as AnimeProgress,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable

@@ -8,7 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/application/cubits/calendar_cubit.dart';
 import 'package:unyo/application/states/calendar_state.dart';
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/media_type.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_card.dart';
 import 'package:unyo/presentation/widgets/text/texts.dart';
 
@@ -189,7 +191,7 @@ class _CalendarViewState extends State<_CalendarView>
                             entry.value[index].averageScore,
                             coverImage:
                             entry.value[index].coverImage,
-                            onPressed: () => context.read<CalendarCubit>().navigateToAnimeDetails(entry.value[index]),
+                            onPressed: () => context.read<CalendarCubit>().navigateToAnimeDetails(entry.value[index], MediaListModel(name: "Calendar", mediaType: MediaType.anime)),
                             status:
                             entry.value[index].status,
                             year:
@@ -197,7 +199,7 @@ class _CalendarViewState extends State<_CalendarView>
                             format:
                             entry.value[index].format,
                             tag:
-                            "$index-${entry.value[index].title.userPreferred}",
+                            "Calendar-${entry.value[index].id}",
                           ),
                         ),
                       );

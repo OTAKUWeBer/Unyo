@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/core/enums/media_type.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_card.dart';
 import 'package:unyo/presentation/widgets/styled/media_list_arrows.dart';
 
 class AnimeCardList extends StatelessWidget {
-  final void Function(Anime) onPressed;
+  final void Function(Anime, MediaList) onPressed;
   final String listTitle;
   final List<Anime> animeList;
   final ScrollController controller;
@@ -68,11 +70,11 @@ class AnimeCardList extends StatelessWidget {
                   title: anime.title.romaji,
                   score: anime.averageScore,
                   coverImage: anime.coverImage,
-                  onPressed: () => onPressed(anime),
+                  onPressed: () => onPressed(anime, MediaListModel(name: listTitle, mediaType: MediaType.anime)),
                   status: anime.status,
                   year: anime.startDate,
                   format: anime.format,
-                  tag: "$listTitle-${anime.title.userPreferred}",
+                  tag: "$listTitle-${anime.id}",
                 ),
               ),
               // TODO loadMore Widget

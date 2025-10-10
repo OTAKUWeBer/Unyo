@@ -9,6 +9,7 @@ import 'package:unyo/core/enums/media_type.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_card.dart';
 import 'package:unyo/presentation/widgets/text/texts.dart';
 
@@ -214,7 +215,7 @@ class _MediaListViewState extends State<_MediaListView>
                                         animeList != null
                                             ? animeList[index].coverImage
                                             : mangaList![index].coverImage,
-                                    onPressed: () => context.read<MediaListCubit>().navigateToMediaDetails(animeList != null ? animeList[index] : mangaList![index]),
+                                    onPressed: () => context.read<MediaListCubit>().navigateToMediaDetails(animeList != null ? animeList[index] : mangaList![index], MediaListModel(name: "MediaList", mediaType: animeList != null ? MediaType.anime : MediaType.manga)),
                                     status:
                                         animeList != null
                                             ? animeList[index].status
@@ -228,7 +229,7 @@ class _MediaListViewState extends State<_MediaListView>
                                             ? animeList[index].format
                                             : mangaList![index].format,
                                     tag:
-                                        "$index-${animeList != null ? animeList[index].title.userPreferred : mangaList![index].title.userPreferred}",
+                                        "MediaList-${animeList != null ? animeList[index].id : mangaList![index].id}",
                                   ),
                                 ),
                           );

@@ -18,11 +18,11 @@ import 'package:unyo/domain/entities/settings.dart';
 final _appRouter = AppRouter();
 
 void main() async {
-  // Inject dependencies before running the app
-  setupLocator();
   // Initialize Flutter bindings
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  // Inject dependencies before running the app
+  setupLocator();
   // Initialize Hive and register adapters
   await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
   Hive

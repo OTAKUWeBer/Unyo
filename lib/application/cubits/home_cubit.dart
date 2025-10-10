@@ -12,6 +12,8 @@ import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
+import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -20,6 +22,7 @@ import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
@@ -29,11 +32,15 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
+  final AnimeNotifier _selectedAnimeNotifier;
+  final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _newLoggedUserSubscription;
   final Logger _logger = sl<Logger>();
 
   HomeCubit(
     this._loggedUserNotifier,
+    this._selectedAnimeNotifier,
+    this._selectedMediaListNotifier,
     this._userRepositoryAnilist,
     this._menuBarNotifier,
   ) : super(
@@ -78,8 +85,10 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     emit(state.copyWith(selectedMenuOption: option));
   }
 
-  void navigateToAnimeDetails(Anime anime) {
+  void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
     _logger.i("Navigating to Anime Details of ${anime.title}");
+    _selectedAnimeNotifier.updateSelectedAnime(anime);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");
   }
 

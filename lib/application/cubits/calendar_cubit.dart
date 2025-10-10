@@ -10,9 +10,13 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/calendar_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/services/api/graphql/queries/queries.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class CalendarCubit extends Cubit<CalendarState>
@@ -20,9 +24,11 @@ class CalendarCubit extends Cubit<CalendarState>
   final Logger _logger = sl<Logger>();
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
+  final AnimeNotifier _selectedAnimeNotifier;
+  final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _loggedUserSubscription;
 
-  CalendarCubit(this._animeRepositoryAnilist, this._loggedUserNotifier)
+  CalendarCubit(this._animeRepositoryAnilist, this._loggedUserNotifier, this._selectedAnimeNotifier, this._selectedMediaListNotifier)
     : super(CalendarState(animeCalendarReleases: {}, loggedUser: UserModel.empty())) {
     _init();
   }
@@ -45,8 +51,10 @@ class CalendarCubit extends Cubit<CalendarState>
     });
   }
 
-  void navigateToAnimeDetails(Anime anime) {
+  void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
     _logger.i("Navigating to Anime Details of ${anime.title}");
+    _selectedAnimeNotifier.updateSelectedAnime(anime);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");
   }
 

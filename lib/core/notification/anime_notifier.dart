@@ -12,7 +12,7 @@ class AnimeNotifier {
   // Public stream for Cubits to subscribe
   Stream<Anime> get animeStream => _animeSubject.stream;
 
-  void updateAnime(Anime anime) {
+  void updateSelectedAnime(Anime anime) {
     _logger.d("Anime notifier updated with: $anime");
     _animeSubject.add(anime);
   }

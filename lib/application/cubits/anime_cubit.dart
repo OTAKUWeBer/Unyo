@@ -10,18 +10,23 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
+  final AnimeNotifier _selectedAnimeNotifier;
+  final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _loggedUserSubscription;
   final Logger _logger = sl<Logger>();
 
-  AnimeCubit(this._animeRepositoryAnilist, this._loggedUserNotifier)
+  AnimeCubit(this._animeRepositoryAnilist, this._loggedUserNotifier, this._selectedAnimeNotifier, this._selectedMediaListNotifier)
     : super(
         AnimeState(
           recentlyReleased: (false, []),
@@ -71,8 +76,10 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     pushRouteEffect(path: "/calendar");
   }
 
-  void navigateToAnimeDetails(Anime anime) {
+  void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
     _logger.i("Navigating to Anime Details of ${anime.title}");
+    _selectedAnimeNotifier.updateSelectedAnime(anime);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");
   }
 

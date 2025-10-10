@@ -1,3 +1,6 @@
+import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/domain/entities/user.dart' show User;
+
 class TextUtils {
   static String parseHtmlToPlainText(String html) {
     if (html.isEmpty) {
@@ -32,5 +35,19 @@ class TextUtils {
     // Clean up whitespace
     text = text.replaceAll(RegExp(r'\n{3,}'), '\n\n');
     return text.trim();
+  }
+  static String extractYearFromStartDate(String startDate, User loggedUser) {
+    switch(loggedUser.settings.service) {
+      case Service.anilist:
+         return startDate.split("/").length > 1 ? startDate.split("/")[2] : "";
+      case Service.mal:
+        throw UnimplementedError();
+      case Service.kitsu:
+        throw UnimplementedError();
+      case Service.shikimori:
+        throw UnimplementedError();
+      case Service.simkl:
+        throw UnimplementedError();
+    }
   }
 }

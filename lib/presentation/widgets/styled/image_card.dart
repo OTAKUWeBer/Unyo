@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unyo/presentation/widgets/text/texts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageCard extends StatelessWidget {
 
@@ -31,13 +31,17 @@ class ImageCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 20,),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-              Text(status, style: TextStyle(color: ColorScheme.of(context).primary, fontSize: 12, fontWeight: FontWeight.bold),),
-            ],
+          SizedBox(
+            height: 120,
+            width: 350.w,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, overflow: TextOverflow.fade), maxLines: 2,),
+                Text(status, style: TextStyle(color: ColorScheme.of(context).primary, fontSize: 12, fontWeight: FontWeight.bold),),
+              ],
+            ),
           ),
         ],
       ),

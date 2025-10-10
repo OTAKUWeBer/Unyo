@@ -15,6 +15,7 @@ import 'package:unyo/application/cubits/tabs_cubit.dart';
 import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/log/logger.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
@@ -61,6 +62,7 @@ void setupLocator() {
   );
   sl.registerLazySingleton<MenuBarNotifier>(() => MenuBarNotifier());
   sl.registerLazySingleton<AnimeNotifier>(() => AnimeNotifier());
+  sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
 
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
@@ -90,6 +92,8 @@ void setupLocator() {
   sl.registerFactory<HomeCubit>(
     () => HomeCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<AnimeNotifier>(),
+      sl<MediaListNotifier>(),
       sl<UserRepositoryAnilist>(),
       sl<MenuBarNotifier>(),
     ),
@@ -104,6 +108,8 @@ void setupLocator() {
     () => AnimeCubit(
       sl<AnimeRepositoryAnilist>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<AnimeNotifier>(),
+      sl<MediaListNotifier>(),
     ),
   );
   sl.registerFactory<MangaCubit>(
@@ -116,18 +122,24 @@ void setupLocator() {
     () => MediaListCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<UserRepositoryAnilist>(),
+      sl<AnimeNotifier>(),
+      sl<MediaListNotifier>(),
     ),
   );
   sl.registerFactory<CalendarCubit>(
     () => CalendarCubit(
       sl<AnimeRepositoryAnilist>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<AnimeNotifier>(),
+      sl<MediaListNotifier>(),
     ),
   );
 
   sl.registerFactory<AnimeDetailsCubit>(
       () => AnimeDetailsCubit(
-        sl<AnimeNotifier>()
+        sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+        sl<AnimeNotifier>(),
+        sl<MediaListNotifier>()
       )
   );
 }
