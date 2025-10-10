@@ -14,6 +14,7 @@ import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/domain/entities/settings.dart';
+import 'package:unyo/hive_registrar.g.dart';
 
 final _appRouter = AppRouter();
 
@@ -27,10 +28,7 @@ void main() async {
   await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
   Hive
     ..init(sl<Directory>(instanceName: config.applicationSupportDirectory).path)
-    ..registerAdapter(AnilistUserModelAdapter())
-    ..registerAdapter(SettingsModelAdapter())
-    ..registerAdapter(ServiceEnumAdapter())
-    ..registerAdapter(LocalUserModelAdapter());
+    ..registerAdapters();
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
