@@ -23,11 +23,11 @@ class _UnyoAnimatedImageBannerState extends State<UnyoAnimatedImageBanner> with 
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: const Duration(seconds: 15),
       vsync: this,
     )..repeat(reverse: true);
 
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.5)
+    _scaleAnimation = Tween<double>(begin: 1.2, end: 1.6)
         .animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -38,7 +38,7 @@ class _UnyoAnimatedImageBannerState extends State<UnyoAnimatedImageBanner> with 
   }
 
   void _updateFocalPoint() {
-    if (_animationController.value > 0.95 || _animationController.value < 0.05) {
+    if (_animationController.isCompleted) {
       _selectNewFocalPoint();
     }
   }
@@ -47,8 +47,8 @@ class _UnyoAnimatedImageBannerState extends State<UnyoAnimatedImageBanner> with 
     setState(() {
       _currentFocalPoint = _targetFocalPoint;
       _targetFocalPoint = Offset(
-        _random.nextDouble() * 0.5 + 0.25, // Keep within 0.25-0.75 range for x
-        _random.nextDouble() * 0.5 + 0.25, // Keep within 0.25-0.75 range for y
+        _random.nextDouble() * 0.5 + 0.3,
+        _random.nextDouble() * 0.5 + 0.3,
       );
     });
   }

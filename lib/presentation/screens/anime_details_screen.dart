@@ -12,7 +12,6 @@ import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/anime_recommendations_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner.dart';
-import 'package:unyo/presentation/widgets/styled/unyo_character.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_character_list.dart';
 import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
@@ -78,10 +77,6 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
         return Container(
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.max,

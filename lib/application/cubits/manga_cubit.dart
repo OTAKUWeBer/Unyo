@@ -39,6 +39,12 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
   }
 
   @override
+  Future<void> close() {
+    _loggedUserSubscription.cancel();
+    return super.close();
+  }
+
+  @override
   Logger get logger => _logger;
 
   // TODO develop some loading states for the widgets and remove the awaits to make the load look faster

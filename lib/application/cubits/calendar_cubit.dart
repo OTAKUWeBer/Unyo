@@ -41,6 +41,12 @@ class CalendarCubit extends Cubit<CalendarState>
   }
 
   @override
+  Future<void> close() {
+    _loggedUserSubscription.cancel();
+    return super.close();
+  }
+
+  @override
   Logger get logger => _logger;
 
   void _init() async {

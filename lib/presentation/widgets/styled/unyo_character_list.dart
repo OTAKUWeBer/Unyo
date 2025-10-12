@@ -14,7 +14,7 @@ class UnyoCharacterList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 35.w),
+      padding: EdgeInsets.symmetric(horizontal: 35.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

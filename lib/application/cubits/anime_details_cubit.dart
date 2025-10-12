@@ -11,7 +11,6 @@ import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
-import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
@@ -63,6 +62,14 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
     List<AppEffect> effects,
   ) {
     return state.copyWith(effects: effects);
+  }
+
+  @override
+  Future<void> close() {
+    _loggedUserSubscription.cancel();
+    _selectedAnimeSubscription.cancel();
+    _selectedMediaListSubscription.cancel();
+    return super.close();
   }
 
   @override

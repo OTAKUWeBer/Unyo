@@ -13,7 +13,7 @@ class UnyoBannerIcon extends StatelessWidget {
       padding: EdgeInsets.only(right: 16.0.w),
       child: Container(
         width: 80,
-        height: 25,
+        height: 27,
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.3),
           borderRadius: BorderRadius.circular(8.0),

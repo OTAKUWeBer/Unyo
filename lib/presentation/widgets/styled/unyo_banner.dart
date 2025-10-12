@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_animated_image_banner.dart';
 import 'package:unyo/presentation/widgets/text/text_body_medium.dart';
 import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
@@ -40,10 +41,13 @@ class UnyoBanner extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                imageUrl != "" ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                ) : const SizedBox.shrink(),
+                imageUrl != "" ?
+                // Image.network(
+                //   imageUrl,
+                //   fit: BoxFit.cover,
+                // )
+                UnyoAnimatedImageBanner(imageUrl: imageUrl)
+                    : const SizedBox.shrink(),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
