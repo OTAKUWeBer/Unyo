@@ -1,6 +1,7 @@
 // External dependencies
 import 'package:freezed_annotation/freezed_annotation.dart';
 // Internal dependencies
+import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
@@ -45,9 +46,8 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       _$AnilistAnimeModelFromJson(json);
 
   factory AnilistAnimeModel.fromUserMediaEntry(
-    MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
-    mediaEntry,
-  ) {
+      MediaCollectionGraphqlDtoDataMediaListCollectionListsEntriesMedia
+      mediaEntry,) {
     return AnilistAnimeModel(
       id: mediaEntry.id,
       idMal: mediaEntry.idMal,
@@ -64,9 +64,11 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       description: mediaEntry.description,
       duration: mediaEntry.duration,
       endDate:
-          "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry
+          .endDate.year}",
       startDate:
-          "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry
+          .startDate.year}",
       episodes: mediaEntry.episodes,
       genres: mediaEntry.genres,
       format: mediaEntry.format,
@@ -85,8 +87,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
 
   factory AnilistAnimeModel.fromScheduleEntry(
       MediaCollectionRecentlyReleasedGraphqlDtoPageAiringSchedules
-      schedule,
-      ) {
+      schedule,) {
     return AnilistAnimeModel(
       id: schedule.media.id,
       idMal: schedule.media.idMal,
@@ -103,9 +104,11 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       description: schedule.media.description,
       duration: schedule.media.duration,
       endDate:
-      "${schedule.media.endDate.day}/${schedule.media.endDate.month}/${schedule.media.endDate.year}",
+      "${schedule.media.endDate.day}/${schedule.media.endDate.month}/${schedule
+          .media.endDate.year}",
       startDate:
-      "${schedule.media.startDate.day}/${schedule.media.startDate.month}/${schedule.media.startDate.year}",
+      "${schedule.media.startDate.day}/${schedule.media.startDate
+          .month}/${schedule.media.startDate.year}",
       episodes: schedule.media.episodes,
       genres: schedule.media.genres,
       format: schedule.media.format,
@@ -124,8 +127,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
 
   factory AnilistAnimeModel.fromPopularOrTrendingMediaEntry(
       MediaCollectionTrendingOrPopularGraphqlDtoPageMedia
-      mediaEntry,
-      ) {
+      mediaEntry,) {
     return AnilistAnimeModel(
       id: mediaEntry.id,
       idMal: mediaEntry.idMal,
@@ -142,9 +144,11 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       description: mediaEntry.description,
       duration: mediaEntry.duration,
       endDate:
-      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry
+          .endDate.year}",
       startDate:
-      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry
+          .startDate.year}",
       episodes: mediaEntry.episodes,
       genres: mediaEntry.genres,
       format: mediaEntry.format,
@@ -163,8 +167,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
 
   factory AnilistAnimeModel.fromRecentlyCompletedMediaEntry(
       MediaCollectionRecentlyCompletedGraphqlDtoPageMedia
-      mediaEntry,
-      ) {
+      mediaEntry,) {
     return AnilistAnimeModel(
       id: mediaEntry.id,
       idMal: mediaEntry.idMal,
@@ -181,9 +184,11 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       description: mediaEntry.description,
       duration: mediaEntry.duration,
       endDate:
-      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry
+          .endDate.year}",
       startDate:
-      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry
+          .startDate.year}",
       episodes: mediaEntry.episodes,
       genres: mediaEntry.genres,
       format: mediaEntry.format,
@@ -202,8 +207,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
 
   factory AnilistAnimeModel.fromUpcomingMediaEntry(
       MediaCollectionUpcomingGraphqlDtoPageMedia
-      mediaEntry,
-      ) {
+      mediaEntry,) {
     return AnilistAnimeModel(
       id: mediaEntry.id,
       idMal: mediaEntry.idMal,
@@ -220,9 +224,11 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       description: mediaEntry.description,
       duration: mediaEntry.duration,
       endDate:
-      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry
+          .endDate.year}",
       startDate:
-      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry
+          .startDate.year}",
       episodes: mediaEntry.episodes,
       genres: mediaEntry.genres,
       format: mediaEntry.format,
@@ -235,6 +241,39 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
       nextAiringEpisode: AiringEpisodeModel(
         episode: mediaEntry.nextAiringEpisode.episode,
         airingAt: mediaEntry.nextAiringEpisode.airingAt.toString(),
+      ),
+    );
+  }
+
+  factory AnilistAnimeModel.fromMediaRecommendationNode(
+      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation mediaRecommendation) {
+    return AnilistAnimeModel(
+        id: mediaRecommendation.id,
+        idMal: mediaRecommendation.idMal,
+        title: TitleModel(romaji: mediaRecommendation.title.romaji,
+            english: mediaRecommendation.title.english,
+            nativeTitle: mediaRecommendation.title.native,
+            userPreferred: mediaRecommendation.title.userPreferred),
+        averageScore: mediaRecommendation.averageScore,
+        bannerImage: mediaRecommendation.bannerImage,
+        countryOfOrigin: "Unimplemented",
+        coverImage: mediaRecommendation.coverImage.large,
+        description: mediaRecommendation.description,
+        duration: mediaRecommendation.duration,
+        endDate: "${mediaRecommendation.endDate.day}/${mediaRecommendation.endDate.month}/${mediaRecommendation.endDate.year}",
+        startDate: "${mediaRecommendation.startDate.day}/${mediaRecommendation.startDate.month}/${mediaRecommendation.startDate.year}",
+        episodes: mediaRecommendation.episodes,
+        genres: mediaRecommendation.genres,
+        format: mediaRecommendation.format,
+        isAdult: mediaRecommendation.isAdult,
+        popularity: -1,
+        meanScore: mediaRecommendation.meanScore,
+        season: mediaRecommendation.season,
+        status: mediaRecommendation.status,
+        isFavourite: mediaRecommendation.isFavourite,
+        nextAiringEpisode: AiringEpisodeModel(
+        episode: mediaRecommendation.nextAiringEpisode?['episode'] ?? 0,
+        airingAt: mediaRecommendation.nextAiringEpisode?['airingAt'].toString() ?? "",
       ),
     );
   }

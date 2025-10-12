@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
+import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_upcoming_graphql_dto_entity.dart';
@@ -11,9 +12,12 @@ import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
+import 'package:unyo/data/models/anilist_anime_details.dart';
 import 'package:unyo/data/models/anilist_anime_model.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/repositories/repository_mixin.dart';
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/anime_repository.dart';
 
@@ -148,7 +152,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
 
   @override
   Future<Map<String, List<Anime>>> getCalendarReleases(int page, User user, {List<Anime>? calendarReleasePortion}) async {
-    List<Anime> calendarReleasesList = await getCalendarReleasesPage(page);
+    List<Anime> calendarReleasesList = await _getCalendarReleasesPage(page);
     if (calendarReleasesList.length == 50){
       // has next page
       return await getCalendarReleases(page + 1, user, calendarReleasePortion: [...calendarReleasesList, ...(calendarReleasePortion ?? [])]);
@@ -186,7 +190,31 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   return Map.fromEntries(sortedEntries);
   }
 
-  Future<List<Anime>> getCalendarReleasesPage(int page) async {
+  @override
+  Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user) async{
+    Map<String, String> graphQlHeaders = {
+      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
+    };
+    ApiGraphQLResponse<AnimeDetailsGraphqlDtoData> animeDetailsData =
+        await _anilistGraphQLService.query<AnimeDetailsGraphqlDtoData>(
+      query: queries.animeDetailsQuery,
+      fromJson: AnimeDetailsGraphqlDtoData.fromJson,
+      variables: {
+        "userId": user.id,
+        "type": "ANIME",
+        "mediaId": selectedAnime.id,
+        "page" : 1,
+        "perPage": 20,
+        "sort": "RELEVANCE"
+      },
+      headers: graphQlHeaders,
+    );
+    throwIfGraphQlError(animeDetailsData);
+    AnimeDetails animeDetails = AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(animeDetailsData.data.mediaList);
+    return (true, animeDetails);
+  }
+
+  Future<List<Anime>> _getCalendarReleasesPage(int page) async {
     DateTime now = DateTime.now();
     // Calculate yesterday 00:00:00
     DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0, 0).subtract(Duration(days: 1));

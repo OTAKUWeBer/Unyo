@@ -10,7 +10,23 @@ class UnyoBanner extends StatelessWidget {
   final String year;
   final String score;
   final String description;
-  const UnyoBanner({super.key, required this.imageUrl, required this.duration, required this.year, required this.score, required this.description});
+  final String coverImage;
+  final String title;
+  final String status;
+  final String tag;
+
+  const UnyoBanner({
+    super.key,
+    required this.imageUrl,
+    required this.duration,
+    required this.year,
+    required this.score,
+    required this.description,
+    required this.coverImage,
+    required this.title,
+    required this.status,
+    required this.tag
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +46,24 @@ class UnyoBanner extends StatelessWidget {
                 ) : const SizedBox.shrink(),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.4),
+                    color: Colors.black.withOpacity(0.5),
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        Colors.black.withOpacity(0.8),
+                        Colors.black,
                       ],
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16.h, left: 24.w),
+                  child: ImageCard(
+                    coverImage: coverImage,
+                    title: title,
+                    status: status,
+                    tag: tag,
                   ),
                 ),
               ],

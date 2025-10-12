@@ -137,6 +137,7 @@ void setupLocator() {
 
   sl.registerFactory<AnimeDetailsCubit>(
       () => AnimeDetailsCubit(
+        sl<AnimeRepositoryAnilist>(),
         sl<UserNotifier>(instanceName: config.loggedUserNotifier),
         sl<AnimeNotifier>(),
         sl<MediaListNotifier>()

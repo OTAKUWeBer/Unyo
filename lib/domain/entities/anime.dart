@@ -4,6 +4,7 @@ import 'airing_episode.dart';
 import 'title.dart';
 
 part 'anime.freezed.dart';
+part 'anime.g.dart';
 
 abstract class Anime {
   final int id;
@@ -63,7 +64,7 @@ abstract class AnimeModel with _$AnimeModel implements Anime {
   const factory AnimeModel({
     required int id,
     required int idMal,
-    required Title title,
+    @TitleConverter() required Title title,
     required int averageScore,
     required String bannerImage,
     required String countryOfOrigin,
@@ -81,11 +82,11 @@ abstract class AnimeModel with _$AnimeModel implements Anime {
     required String season,
     required bool isFavourite,
     required String status,
-    required AiringEpisode nextAiringEpisode,
+    @AiringEpisodeConverter() required AiringEpisode nextAiringEpisode,
   }) = _AnimeModel;
 
   factory AnimeModel.empty() => AnimeModel(
-        id: 0,
+        id: -1,
         idMal: 0,
         title: TitleModel.empty(),
         averageScore: 0,
@@ -107,4 +108,21 @@ abstract class AnimeModel with _$AnimeModel implements Anime {
         status: '',
         nextAiringEpisode: AiringEpisodeModel.empty(),
       );
+
+  factory AnimeModel.fromJson(Map<String, dynamic> json) =>
+      _$AnimeModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$AnimeModelToJson(this as _AnimeModel);
+}
+class AnimeConverter implements JsonConverter<Anime, Map<String, dynamic>> {
+  const AnimeConverter();
+
+  @override
+  Anime fromJson(Map<String, dynamic> json) => AnimeModel.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(Anime object) =>
+      (object as AnimeModel).toJson();
 }

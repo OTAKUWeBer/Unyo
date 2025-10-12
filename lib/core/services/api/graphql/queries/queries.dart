@@ -363,3 +363,85 @@ query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$airingAtGreater:
   }
 }
 ''';
+
+// {
+// "userId": 859862,
+// "type": "ANIME",
+// "mediaId": 1735,
+// "page" : 1,
+// "perPage": 20,
+// "sort": "RELEVANCE"
+// }
+const animeDetailsQuery = ''' 
+query Page(\$userId: Int, \$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
+  MediaList(userId: \$userId, type: \$type, mediaId: \$mediaId) {
+    progress
+    score
+    repeat
+    media {
+      recommendations(page: \$page, perPage: \$perPage) {
+        nodes {
+            mediaRecommendation {
+              id
+              idMal
+              startDate {
+                day
+                month
+                year
+              }
+              endDate {
+                day
+                month
+                year
+              }
+              season
+              status
+              isFavourite
+              isAdult
+              episodes
+              title {
+                english
+                native
+                romaji
+                userPreferred
+              }
+              bannerImage
+              coverImage {
+                large
+              }
+              averageScore
+              duration
+              format
+              genres
+              description
+              meanScore
+              nextAiringEpisode {
+                episode
+                airingAt
+              }
+            }
+        }
+      }
+      characters {
+        nodes {
+          id
+          image {
+            large
+          }
+          name {
+            userPreferred
+          }
+          gender
+          description
+          dateOfBirth {
+            day
+            month
+            year
+          }
+          age
+        }
+      }
+    }
+  }
+}
+''';

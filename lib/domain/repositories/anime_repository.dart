@@ -1,4 +1,5 @@
 import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 abstract class AnimeRepository {
@@ -8,4 +9,5 @@ abstract class AnimeRepository {
   Future<(bool, List<Anime>)> getRecentlyCompletedAnimes(int page);
   Future<(bool, List<Anime>)> getUpcomingAnimes(int page);
   Future<Map<String, List<Anime>>> getCalendarReleases(int page, User user);
+  Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user);
 }

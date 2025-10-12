@@ -9,8 +9,11 @@ import 'package:unyo/application/cubits/anime_details_cubit.dart';
 import 'package:unyo/application/states/anime_details_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/styled/anime_recommendations_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_character.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_character_list.dart';
 import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
 @RoutePage()
@@ -37,7 +40,9 @@ class _AnimeDetailsListener extends StatelessWidget {
           sl<AppEffectHandler>().handleEffects(
             context,
             state.effects,
-            context.read<AnimeDetailsCubit>().clearEffects,
+            context
+                .read<AnimeDetailsCubit>()
+                .clearEffects,
           );
         }
       },
@@ -56,6 +61,16 @@ class _AnimeDetailsView extends StatefulWidget {
 }
 
 class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
+  final ScrollController charactersListController = ScrollController();
+  final ScrollController recommendedAnimesController = ScrollController();
+
+  @override
+  void dispose() {
+    charactersListController.dispose();
+    recommendedAnimesController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
@@ -80,9 +95,9 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                       child: IconButton(
                         onPressed:
                             () =>
-                                context
-                                    .read<AnimeDetailsCubit>()
-                                    .navigateBackToAnimePage(),
+                            context
+                                .read<AnimeDetailsCubit>()
+                                .navigateBackToAnimePage(),
                         icon: Icon(Icons.arrow_back, color: Colors.white),
                       ),
                     ),
@@ -100,28 +115,41 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                           Expanded(
                             child: ListView(
                               children: [
-                                Stack(
-                                  alignment: Alignment.topLeft,
-                                  children: [
-                                    UnyoBanner(
-                                      imageUrl: state.selectedAnime.bannerImage,
-                                      duration: "${state.selectedAnime.duration}min",
-                                      year: TextUtils.extractYearFromStartDate(state.selectedAnime.startDate, state.loggedUser),
-                                      score: state.selectedAnime.averageScore.toString(),
-                                      description: state.selectedAnime.description,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 60.w, top: 140.h),
-                                      child: ImageCard(
-                                        coverImage:
-                                            state.selectedAnime.coverImage,
-                                        title: state.selectedAnime.title.userPreferred,
-                                        status: state.selectedAnime.status,
-                                        tag: "${state.selectedMediaList.name}-${state.selectedAnime.id}",
-                                      ),
-                                    ),
-                                  ],
+                                UnyoBanner(
+                                  imageUrl: state.selectedAnime.bannerImage,
+                                  duration:
+                                  "${state.selectedAnime.duration}min",
+                                  year: TextUtils.extractYearFromStartDate(
+                                    state.selectedAnime.startDate,
+                                    state.loggedUser,
+                                  ),
+                                  score:
+                                  state.selectedAnime.averageScore
+                                      .toString(),
+                                  description: state.selectedAnime.description,
+                                  coverImage: state.selectedAnime.coverImage,
+                                  title:
+                                  state.selectedAnime.title.userPreferred,
+                                  status: state.selectedAnime.status,
+                                  tag:
+                                  "${state.selectedMediaList.name}-${state
+                                      .selectedAnime.id}",
                                 ),
+                                SizedBox(height: 50.h),
+                                state.characters.$1
+                                    ? UnyoCharacterList(
+                                  characters: state.characters.$2,
+                                  controller: charactersListController,
+                                )
+                                    : const SizedBox.shrink(),
+                                SizedBox(height: 20.h),
+                                state.recommendations.$1 ? AnimeRecommendationCardList(
+                                    onPressed: context.read<AnimeDetailsCubit>().navigateToAnimeDetails,
+                                    listTitle: "Recommended Animes",
+                                    animeList: state.recommendations.$2,
+                                    controller: recommendedAnimesController,
+                                    loadMore: false
+                                ) : const SizedBox.shrink(),
                               ],
                             ),
                           ),
@@ -149,7 +177,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 1 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 1,
                                   progress: 1,
                                   released: 1,
@@ -158,7 +186,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -167,7 +195,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -176,7 +204,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -185,7 +213,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -194,7 +222,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -203,7 +231,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -212,7 +240,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
@@ -221,7 +249,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 UnyoEpisodeButton(
                                   episodeName: "Episode 2 Name",
                                   episodeImageUrl:
-                                      "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
+                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
                                   episodeNumber: 2,
                                   progress: 1,
                                   released: 2,
