@@ -95,7 +95,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                       : state.selectedAnime.coverImage),
           episodeNumber: i + 1,
           progress: state.progress,
-          released: numEpisodes,
+          released: state.selectedAnime.nextAiringEpisode.episode != 0 ? (state.selectedAnime.nextAiringEpisode.episode - 1) : numEpisodes,
           showDivider: i != 0,
         ),
       );
