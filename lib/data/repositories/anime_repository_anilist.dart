@@ -1,4 +1,7 @@
 // External dependencies
+import 'dart:math';
+
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
@@ -191,6 +194,12 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
+  Future<List<String>> getMediaCoverImages() async{
+    (bool ,List<Anime>) popularAnimes = await getPopularAnimes(1);
+    return popularAnimes.$2.map((anime) => anime.coverImage).where((coverImage) => coverImage != "").shuffled(Random()).toList();
+  }
+
+  @override
   Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user) async{
     Map<String, String> graphQlHeaders = {
       "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
@@ -200,12 +209,10 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       query: queries.animeDetailsQuery,
       fromJson: AnimeDetailsGraphqlDtoData.fromJson,
       variables: {
-        "userId": user.id,
         "type": "ANIME",
         "mediaId": selectedAnime.id,
         "page" : 1,
         "perPage": 20,
-        "sort": "RELEVANCE"
       },
       headers: graphQlHeaders,
     );

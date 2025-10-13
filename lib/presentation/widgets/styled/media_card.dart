@@ -25,23 +25,23 @@ class MediaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: tag,
-      child: SizedBox(
-        width: 152.5,
-        height: 256,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: onPressed,
-              // TODO maybe Stack over HoverAnimatedContainer
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  HoverAnimatedContainer(
+    return SizedBox(
+      width: 152.5,
+      height: 256,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: onPressed,
+            // TODO maybe Stack over HoverAnimatedContainer
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                Hero(
+                  tag: tag,
+                  child: HoverAnimatedContainer(
                     width: 140.0 /*.w.clamp(144.08, 181.7)*/,
                     hoverWidth: 152.5 /*.w.clamp(156.49, 199.1)*/,
                     height: 200.5 /*.h.clamp(200.44, 260.6)*/,
@@ -138,80 +138,80 @@ class MediaCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 140.0 /*.w.clamp(144.08, 181.7)*/,
-              height: 24,
-              child: Center(
-                child: Tooltip(
-                  message: title,
-                  waitDuration: Duration(milliseconds: 1000),
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+          ),
+          SizedBox(
+            width: 140.0 /*.w.clamp(144.08, 181.7)*/,
+            height: 24,
+            child: Center(
+              child: Tooltip(
+                message: title,
+                waitDuration: Duration(milliseconds: 1000),
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              width: 140.0 /*.w.clamp(144.08, 181.7)*/,
-              height: 18,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.calendar_today,
-                      color: ColorScheme.of(context).tertiary.withOpacity(0.8),
-                      size: 17,
+          ),
+          SizedBox(
+            width: 140.0 /*.w.clamp(144.08, 181.7)*/,
+            height: 18,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    color: ColorScheme.of(context).tertiary.withOpacity(0.8),
+                    size: 17,
+                  ),
+                  Text(
+                    " ${year.split("/")[2]}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: ColorScheme.of(
+                        context,
+                      ).tertiary.withOpacity(0.8),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                      " ${year.split("/")[2]}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: ColorScheme.of(
-                          context,
-                        ).tertiary.withOpacity(0.8),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                  ),
+                  Spacer(),
+                  Text(
+                    "${format.replaceAll("_", " ")} ",
+                    style: TextStyle(
+                      color: ColorScheme.of(
+                        context,
+                      ).tertiary.withOpacity(0.8),
+                      overflow: TextOverflow.ellipsis,
+                      fontSize:
+                          format == "TV_SHORT" ||
+                                  format == "SPECIAL" ||
+                                  format == "MANGA" ||
+                                  format == "MOVIE" ||
+                                  format == "NOVEL"
+                              ? 8
+                              : 14,
                     ),
-                    Spacer(),
-                    Text(
-                      "${format.replaceAll("_", " ")} ",
-                      style: TextStyle(
-                        color: ColorScheme.of(
-                          context,
-                        ).tertiary.withOpacity(0.8),
-                        overflow: TextOverflow.ellipsis,
-                        fontSize:
-                            format == "TV_SHORT" ||
-                                    format == "SPECIAL" ||
-                                    format == "MANGA" ||
-                                    format == "MOVIE" ||
-                                    format == "NOVEL"
-                                ? 8
-                                : 14,
-                      ),
-                    ),
-                    Icon(
-                      Icons.tv_rounded,
-                      color: ColorScheme.of(context).tertiary.withOpacity(0.8),
-                      size: 17,
-                    ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.tv_rounded,
+                    color: ColorScheme.of(context).tertiary.withOpacity(0.8),
+                    size: 17,
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

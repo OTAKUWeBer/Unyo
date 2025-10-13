@@ -207,16 +207,21 @@ class HttpService {
       return _handleResponse<T>(response, fromJson);
     } on SocketException {
       _logger.e("SocketException occurred while handling request to $uri");
-      throw HttpNetworkException();
+      rethrow;
     } on TimeoutException {
       _logger.e("TimeoutException occurred while handling request to $uri");
-      throw HttpTimeoutException();
-    } on http.ClientException catch (e, stackTrace) {
+      rethrow;
+    } on http.ClientException {
       _logger.e(
-        "ClientException occurred while handling request to $uri: ${e.message}",
+        "ClientException occurred while handling request to $uri",
+      );
+      rethrow;
+    } catch (e, stackTrace) {
+      _logger.e(
+        "Unexpected error occurred while handling request to $uri: $e",
         stackTrace: stackTrace,
       );
-      throw HttpServerException(500, e.message);
+      rethrow;
     }
   }
 

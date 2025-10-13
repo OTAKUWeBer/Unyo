@@ -79,7 +79,7 @@ mixin EffectMixin<State> on Cubit<State> {
   }
 
   // Handle errors and others
-  void handleError(String message, {ContentType contentType = ContentType.failure, StackTrace? stackTrace}) {
+  void handleError(String message, {ContentType contentType = ContentType.failure, StackTrace? stackTrace, String? responseBody}) {
     logger.e(message, stackTrace: stackTrace);
     showSnackBarEffect(
       "Something went wrong",

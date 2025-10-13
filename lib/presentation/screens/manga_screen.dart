@@ -1,6 +1,4 @@
 // External dependencies
-import 'dart:math';
-
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,9 +94,7 @@ class _MangaViewState extends State<_MangaView> {
                       image:
                           state.banners.isNotEmpty
                               ? state
-                                  .banners[Random().nextInt(
-                                    state.banners.length,
-                                  )]
+                                  .banners[0]
                                   .bannerImage
                               : "",
                       text: "Calendar",
@@ -109,9 +105,7 @@ class _MangaViewState extends State<_MangaView> {
                       image:
                           state.banners.isNotEmpty
                               ? state
-                                  .banners[Random().nextInt(
-                                    state.banners.length,
-                                  )]
+                                  .banners[1]
                                   .bannerImage
                               : "",
                       text: "Advanced Search",

@@ -19,17 +19,20 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     return SettingsModel(
       language: fields[0] as String,
       service: fields[1] as Service,
+      episodeService: fields[2] as EpisodeService,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.language)
       ..writeByte(1)
-      ..write(obj.service);
+      ..write(obj.service)
+      ..writeByte(2)
+      ..write(obj.episodeService);
   }
 
   @override
@@ -51,12 +54,17 @@ _SettingsModel _$SettingsModelFromJson(Map<String, dynamic> json) =>
     _SettingsModel(
       language: json['language'] as String,
       service: $enumDecode(_$ServiceEnumMap, json['service']),
+      episodeService: $enumDecode(
+        _$EpisodeServiceEnumMap,
+        json['episodeService'],
+      ),
     );
 
 Map<String, dynamic> _$SettingsModelToJson(_SettingsModel instance) =>
     <String, dynamic>{
       'language': instance.language,
       'service': _$ServiceEnumMap[instance.service]!,
+      'episodeService': _$EpisodeServiceEnumMap[instance.episodeService]!,
     };
 
 const _$ServiceEnumMap = {
@@ -65,4 +73,9 @@ const _$ServiceEnumMap = {
   Service.kitsu: 'kitsu',
   Service.shikimori: 'shikimori',
   Service.simkl: 'simkl',
+};
+
+const _$EpisodeServiceEnumMap = {
+  EpisodeService.anizip: 'anizip',
+  EpisodeService.kitsu: 'kitsu',
 };

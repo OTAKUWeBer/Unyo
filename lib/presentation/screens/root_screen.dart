@@ -4,9 +4,21 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class RootScreen extends StatelessWidget {
+class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
 
+  @override
+  State<RootScreen> createState() => _RootScreenState();
+}
+
+class _RootScreenState extends State<RootScreen> {
+  final HeroController controller = HeroController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +58,7 @@ class RootScreen extends StatelessWidget {
                   child: Container(color: Colors.transparent),
                 ),
               ),
-              AutoRouter()
+              HeroControllerScope(controller: controller, child: AutoRouter()),
             ]
         )
     );

@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 
 class MediaButton extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final String image;
   final String text;
-  const MediaButton({super.key, required this.onPressed, required this.image, required this.text});
+  final double width;
+  final double height;
+  const MediaButton({super.key, required this.onPressed, required this.image, required this.text, this.width = 300, this.height = 80});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +17,10 @@ class MediaButton extends StatelessWidget {
             child: HoverAnimatedContainer(
               duration: const Duration(milliseconds: 130),
               alignment: Alignment.center,
-              width: 300.w.clamp(250, 310),
-              hoverWidth: 310.w.clamp(260, 320),
-              height: 80.h.clamp(70, 90),
-              hoverHeight: 85.h.clamp(75, 95),
+              width: width.w.clamp(width - 50, width + 10),
+              hoverWidth: (width + 10).w.clamp(width - 40, width + 20),
+              height: height.h.clamp(height - 10, height + 10),
+              hoverHeight: (height + 5).h.clamp(height - 5, height + 15),
               hoverCursor: SystemMouseCursors.click,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(

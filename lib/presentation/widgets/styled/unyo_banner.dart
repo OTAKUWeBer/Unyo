@@ -99,7 +99,7 @@ class UnyoBanner extends StatelessWidget {
                   Expanded(
                     child: TextBodyMedium(
                       text: TextUtils.parseHtmlToPlainText(description),
-                      maxLines: 6,
+                      maxLines: 8,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.grey),
                     ),

@@ -365,16 +365,14 @@ query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$airingAtGreater:
 ''';
 
 // {
-// "userId": 859862,
 // "type": "ANIME",
 // "mediaId": 1735,
 // "page" : 1,
 // "perPage": 20,
-// "sort": "RELEVANCE"
 // }
 const animeDetailsQuery = ''' 
-query Page(\$userId: Int, \$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
-  MediaList(userId: \$userId, type: \$type, mediaId: \$mediaId) {
+query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
+  MediaList(type: \$type, mediaId: \$mediaId) {
     progress
     score
     repeat

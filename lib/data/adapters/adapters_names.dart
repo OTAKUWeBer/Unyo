@@ -4,3 +4,4 @@ const settingsModelAdapterName = 'SettingsModelAdapter';
 const serviceEnumAdapterName = 'ServiceEnumAdapter';
 const anilistAnimeDetailsModelAdapterName = 'AnimeProgressModelAdapter';
 const mediaListModelAdapterName = 'MediaListModelAdapter';
+const episodeServiceEnumAdapterName = 'EpisodeServiceEnumAdapter';

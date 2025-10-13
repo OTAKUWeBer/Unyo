@@ -68,6 +68,28 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     return super.close();
   }
 
+  void _init() {
+    _newUserCreatedSubscription = _newUserNotifier.userStream.listen((
+        newLoggedUser,
+        ) {
+      //In case of user update!!
+      emit(
+        state.copyWith(
+          availableUsers: [
+            ...state.availableUsers.where(
+                  (user) => user.name != newLoggedUser.name,
+            ),
+          ],
+        ),
+      );
+      emit(
+        state.copyWith(
+          availableUsers: [...state.availableUsers, newLoggedUser],
+        ),
+      ); // Update state on new data
+    });
+  }
+
   void initiateAccountCreation(BuildContext context) async {
     showWidgetDialogEffect(dialog: AccountCreationDialog(context));
   }
@@ -79,20 +101,25 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   }
 
   Future<void> loginUser(User user, BuildContext context) async {
-    switch (user) {
-      case AnilistUserModel anilistUserModel:
-        _logger.i("Logging in Anilist User: ${anilistUserModel.name}");
-        await _loginAnilistUser(anilistUserModel);
-      case LocalUserModel localUserModel:
-        _logger.i("Logging in Local User: ${localUserModel.name}");
-      default:
-        handleError(
-          "Unsupported user type for login: ${user.runtimeType}",
-          contentType: ContentType.warning,
-        );
+    try {
+      switch (user) {
+        case AnilistUserModel anilistUserModel:
+          _logger.i("Logging in Anilist User: ${anilistUserModel.name}");
+          await _loginAnilistUser(anilistUserModel);
+        case LocalUserModel localUserModel:
+          _logger.i("Logging in Local User: ${localUserModel.name}");
+        default:
+          handleError(
+            "Unsupported user type for login: ${user.runtimeType}",
+            contentType: ContentType.warning,
+          );
+      }
+      setUsersTheme(user);
+      replaceRouteEffect(path: "/tabs");
+    } catch (e, stackTrace) {
+      handleError("Error logging in user: $e", stackTrace: stackTrace);
+      return;
     }
-    setUsersTheme(user);
-    replaceRouteEffect(path: "/tabs");
   }
 
   Future<void> attemptToCreateUser(BuildContext context) async {
@@ -133,28 +160,6 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
       case LocalUserModel localUserModel:
         _logger.d("Getting local user's theme");
     }
-  }
-
-  void _init() {
-    _newUserCreatedSubscription = _newUserNotifier.userStream.listen((
-      newLoggedUser,
-    ) {
-      //In case of user update!!
-      emit(
-        state.copyWith(
-          availableUsers: [
-            ...state.availableUsers.where(
-              (user) => user.name != newLoggedUser.name,
-            ),
-          ],
-        ),
-      );
-      emit(
-        state.copyWith(
-          availableUsers: [...state.availableUsers, newLoggedUser],
-        ),
-      ); // Update state on new data
-    });
   }
 
   void _updateAvailableUsers(List<User> users) {

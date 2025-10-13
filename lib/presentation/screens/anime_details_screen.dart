@@ -1,4 +1,6 @@
 // External package dependencies
+import 'dart:math';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/annotations.dart';
@@ -39,9 +41,7 @@ class _AnimeDetailsListener extends StatelessWidget {
           sl<AppEffectHandler>().handleEffects(
             context,
             state.effects,
-            context
-                .read<AnimeDetailsCubit>()
-                .clearEffects,
+            context.read<AnimeDetailsCubit>().clearEffects,
           );
         }
       },
@@ -70,14 +70,45 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
     super.dispose();
   }
 
+  List<Widget> _getEpisodeButtonsWidgets(AnimeDetailsState state) {
+    int numEpisodes = max(
+      state.selectedAnime.episodes,
+      state.episodesInfo.length,
+    );
+    List<Widget> episodeButtons = [];
+    for (int i = 0; i < numEpisodes; i++) {
+      episodeButtons.add(
+        UnyoEpisodeButton(
+          episodeName:
+              state.episodesInfo.length > i
+                  ? (state.episodesInfo[i].title.userPreferred != ""
+                      ? state.episodesInfo[i].title.userPreferred
+                      : "Episode ${i + 1}")
+                  : "Episode ${i + 1}",
+          episodeImageUrl:
+              state.episodesInfo.length > i
+                  ? (state.episodesInfo[i].image != ""
+                      ? state.episodesInfo[i].image
+                      : state.alternateImage)
+                  : (state.alternateImage != ""
+                      ? state.alternateImage
+                      : state.selectedAnime.coverImage),
+          episodeNumber: i + 1,
+          progress: state.progress,
+          released: numEpisodes,
+          showDivider: i != 0,
+        ),
+      );
+    }
+    return episodeButtons;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
       builder: (context, state) {
         return Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.3),
-          ),
+          decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -90,9 +121,9 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                       child: IconButton(
                         onPressed:
                             () =>
-                            context
-                                .read<AnimeDetailsCubit>()
-                                .navigateBackToAnimePage(),
+                                context
+                                    .read<AnimeDetailsCubit>()
+                                    .navigateBackToAnimePage(),
                         icon: Icon(Icons.arrow_back, color: Colors.white),
                       ),
                     ),
@@ -111,40 +142,92 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                             child: ListView(
                               children: [
                                 UnyoBanner(
-                                  imageUrl: state.selectedAnime.bannerImage,
+                                  imageUrl:
+                                      state.selectedAnime.bannerImage != ""
+                                          ? state.selectedAnime.bannerImage
+                                          : (state.alternateImage != ""
+                                              ? state.alternateImage
+                                              : state.selectedAnime.coverImage),
                                   duration:
-                                  "${state.selectedAnime.duration}min",
+                                      "${state.selectedAnime.duration}min",
                                   year: TextUtils.extractYearFromStartDate(
                                     state.selectedAnime.startDate,
                                     state.loggedUser,
                                   ),
                                   score:
-                                  state.selectedAnime.averageScore
-                                      .toString(),
+                                      state.selectedAnime.averageScore
+                                          .toString(),
                                   description: state.selectedAnime.description,
-                                  coverImage: state.selectedAnime.coverImage,
+                                  coverImage:
+                                      state.selectedAnime.coverImage != ""
+                                          ? state.selectedAnime.coverImage
+                                          : state.alternateImage,
                                   title:
-                                  state.selectedAnime.title.userPreferred,
+                                      state.selectedAnime.title.userPreferred,
                                   status: state.selectedAnime.status,
                                   tag:
-                                  "${state.selectedMediaList.name}-${state
-                                      .selectedAnime.id}",
+                                      "${state.selectedMediaList.name}-${state.selectedAnime.id}",
                                 ),
-                                SizedBox(height: 50.h),
+                                SizedBox(height: 20.h),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 35.w,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: SizedBox(
+                                      height: 85,
+                                      child: Row(
+                                        children: [
+                                          ...state.selectedAnime.genres
+                                              .mapIndexed(
+                                                (index, genre) => Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 5.w,
+                                                  ),
+                                                  child: SizedBox(
+                                                    width: 210,
+                                                    child: MediaButton(
+                                                      width: 200,
+                                                      height: 70,
+                                                      onPressed: null,
+                                                      image:
+                                                          state
+                                                                  .banners
+                                                                  .isNotEmpty
+                                                              ? state
+                                                                  .banners[index]
+                                                              : "",
+                                                      text: genre,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20.h),
                                 state.characters.$1
                                     ? UnyoCharacterList(
-                                  characters: state.characters.$2,
-                                  controller: charactersListController,
-                                )
+                                      characters: state.characters.$2,
+                                      controller: charactersListController,
+                                    )
                                     : const SizedBox.shrink(),
                                 SizedBox(height: 20.h),
-                                state.recommendations.$1 ? AnimeRecommendationCardList(
-                                    onPressed: context.read<AnimeDetailsCubit>().navigateToAnimeDetails,
-                                    listTitle: "Recommended Animes",
-                                    animeList: state.recommendations.$2,
-                                    controller: recommendedAnimesController,
-                                    loadMore: false
-                                ) : const SizedBox.shrink(),
+                                state.recommendations.$1
+                                    ? AnimeRecommendationCardList(
+                                      onPressed:
+                                          context
+                                              .read<AnimeDetailsCubit>()
+                                              .navigateToAnimeDetails,
+                                      listTitle: "Recommended Animes",
+                                      animeList: state.recommendations.$2,
+                                      controller: recommendedAnimesController,
+                                      loadMore: false,
+                                    )
+                                    : const SizedBox.shrink(),
                               ],
                             ),
                           ),
@@ -168,89 +251,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                           const SizedBox(height: 35),
                           Expanded(
                             child: ListView(
-                              children: [
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 1 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 1,
-                                  progress: 1,
-                                  released: 1,
-                                  showDivider: false,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                                UnyoEpisodeButton(
-                                  episodeName: "Episode 2 Name",
-                                  episodeImageUrl:
-                                  "https://s4.anilist.co/file/anilistcdn/media/anime/banner/114124-44utnIatIX16.jpg",
-                                  episodeNumber: 2,
-                                  progress: 1,
-                                  released: 2,
-                                  showDivider: true,
-                                ),
-                              ],
+                              children: [..._getEpisodeButtonsWidgets(state)],
                             ),
                           ),
                         ],

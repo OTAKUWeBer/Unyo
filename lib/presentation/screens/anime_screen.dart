@@ -1,5 +1,4 @@
 // External dependencies
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -96,14 +95,14 @@ class _AnimeViewState extends State<_AnimeView> {
                     MediaButton(
                       onPressed: () => context.read<AnimeCubit>().navigateToCalendar(context),
                       image:
-                          state.banners.isNotEmpty ? state.banners[Random().nextInt(state.banners.length)].bannerImage : "",
+                          state.banners.isNotEmpty ? state.banners[0].bannerImage : "",
                       text: "Calendar",
                     ),
                     const SizedBox(width: 30,),
                     MediaButton(
                       onPressed: () {},
                       image:
-                          state.banners.isNotEmpty ? state.banners[Random().nextInt(state.banners.length)].bannerImage : "",
+                          state.banners.isNotEmpty ? state.banners[1].bannerImage : "",
                       text: "Advanced Search",
                     ),
                   ],

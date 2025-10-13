@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:unyo/core/enums/episode_service.dart';
 import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/data/adapters/adapters_names.dart' as names;
 import 'package:unyo/data/adapters/adapters_types.dart' as types;
@@ -10,8 +11,9 @@ part 'settings.g.dart';
 abstract class Settings {
   final String language;
   final Service service;
+  final EpisodeService episodeService;
 
-  const Settings({required this.service, required this.language});
+  const Settings(this.episodeService, {required this.service, required this.language});
 }
 
 @freezed
@@ -20,11 +22,13 @@ abstract class SettingsModel with _$SettingsModel implements Settings {
   const factory SettingsModel({
     @HiveField(0) required String language,
     @HiveField(1) required Service service,
+    @HiveField(2) required EpisodeService episodeService,
   }) = _SettingsModel;
 
   factory SettingsModel.empty() => const SettingsModel(
     language: 'en',
-    service: Service.anilist
+    service: Service.anilist,
+    episodeService: EpisodeService.anizip
   );
 
   factory SettingsModel.fromJson(Map<String, dynamic> json) =>

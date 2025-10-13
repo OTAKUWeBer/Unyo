@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:unyo/core/router/app_router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
@@ -70,7 +71,19 @@ class AppRouter extends RootStackRouter {
         CustomRoute(
           page: AnimeDetailsRoute.page,
           path: 'animedetails',
-          transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
+          transitionsBuilder:
+              (
+                BuildContext context,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+                Widget child,
+              ) => ScaleTransition(
+                scale: CurvedAnimation(parent: animation, curve: Curves.decelerate),
+                child: FadeTransition(
+                  opacity: CurvedAnimation(parent: animation, curve: Curves.easeInCubic),
+                  child: child,
+                ),
+              ),
           duration: const Duration(milliseconds: 250),
           reverseDuration: const Duration(milliseconds: 250),
         ),

@@ -120,8 +120,7 @@ class _HomeViewState extends State<_HomeView> {
                             () => context
                                 .read<HomeCubit>()
                                 .navigateToUserAnimeList(context),
-                        image:
-                            "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
+                        image: state.mediaCoverImages.isNotEmpty ? state.mediaCoverImages[0] : "",
                         text: "Anime List",
                       ),
                       SizedBox(width: 50.w),
@@ -131,7 +130,7 @@ class _HomeViewState extends State<_HomeView> {
                                 .read<HomeCubit>()
                                 .navigateToUserMangaList(context),
                         image:
-                            "https://s4.anilist.co/file/anilistcdn/media/anime/banner/170942-v2GO5YNO0Q5I.jpg",
+                            state.mediaCoverImages.isNotEmpty ? state.mediaCoverImages[1] : "",
                         text: "Manga List",
                       ),
                     ],

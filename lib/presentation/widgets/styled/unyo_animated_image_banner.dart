@@ -73,7 +73,7 @@ class _UnyoAnimatedImageBannerState extends State<UnyoAnimatedImageBanner> with 
             )!;
 
         return ImageFiltered(
-          imageFilter: ui.ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+          imageFilter: ui.ImageFilter.blur(sigmaX: 5.5, sigmaY: 5.5),
           child: Transform.scale(
             scale: scale,
             alignment: Alignment(

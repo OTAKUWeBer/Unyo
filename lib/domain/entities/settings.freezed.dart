@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsModel {
 
-@HiveField(0) String get language;@HiveField(1) Service get service;
+@HiveField(0) String get language;@HiveField(1) Service get service;@HiveField(2) EpisodeService get episodeService;
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SettingsModelCopyWith<SettingsModel> get copyWith => _$SettingsModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,language,service);
+int get hashCode => Object.hash(runtimeType,language,service,episodeService);
 
 @override
 String toString() {
-  return 'SettingsModel(language: $language, service: $service)';
+  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SettingsModelCopyWith<$Res>  {
   factory $SettingsModelCopyWith(SettingsModel value, $Res Function(SettingsModel) _then) = _$SettingsModelCopyWithImpl;
 @useResult
 $Res call({
-@HiveField(0) String language,@HiveField(1) Service service
+@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService
 });
 
 
@@ -65,11 +65,12 @@ class _$SettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? language = null,Object? service = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? language = null,Object? service = null,Object? episodeService = null,}) {
   return _then(_self.copyWith(
 language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
 as String,service: null == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
-as Service,
+as Service,episodeService: null == episodeService ? _self.episodeService : episodeService // ignore: cast_nullable_to_non_nullable
+as EpisodeService,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsModel() when $default != null:
-return $default(_that.language,_that.service);case _:
+return $default(_that.language,_that.service,_that.episodeService);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.language,_that.service);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsModel():
-return $default(_that.language,_that.service);case _:
+return $default(_that.language,_that.service,_that.episodeService);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.language,_that.service);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String language, @HiveField(1)  Service service)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsModel() when $default != null:
-return $default(_that.language,_that.service);case _:
+return $default(_that.language,_that.service,_that.episodeService);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.language,_that.service);case _:
 @JsonSerializable()
 
 class _SettingsModel implements SettingsModel {
-  const _SettingsModel({@HiveField(0) required this.language, @HiveField(1) required this.service});
+  const _SettingsModel({@HiveField(0) required this.language, @HiveField(1) required this.service, @HiveField(2) required this.episodeService});
   factory _SettingsModel.fromJson(Map<String, dynamic> json) => _$SettingsModelFromJson(json);
 
 @override@HiveField(0) final  String language;
 @override@HiveField(1) final  Service service;
+@override@HiveField(2) final  EpisodeService episodeService;
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,language,service);
+int get hashCode => Object.hash(runtimeType,language,service,episodeService);
 
 @override
 String toString() {
-  return 'SettingsModel(language: $language, service: $service)';
+  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$SettingsModelCopyWith<$Res> implements $SettingsModelCopy
   factory _$SettingsModelCopyWith(_SettingsModel value, $Res Function(_SettingsModel) _then) = __$SettingsModelCopyWithImpl;
 @override @useResult
 $Res call({
-@HiveField(0) String language,@HiveField(1) Service service
+@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService
 });
 
 
@@ -266,11 +268,12 @@ class __$SettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? language = null,Object? service = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? language = null,Object? service = null,Object? episodeService = null,}) {
   return _then(_SettingsModel(
 language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
 as String,service: null == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
-as Service,
+as Service,episodeService: null == episodeService ? _self.episodeService : episodeService // ignore: cast_nullable_to_non_nullable
+as EpisodeService,
   ));
 }
 

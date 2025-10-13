@@ -12,6 +12,7 @@ import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/states/home_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
+import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
@@ -19,6 +20,7 @@ import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
+import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/manga.dart';
@@ -28,7 +30,7 @@ import 'package:unyo/domain/entities/user.dart';
 class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   // Repositories
   final UserRepositoryAnilist _userRepositoryAnilist;
-
+  final AnimeRepositoryAnilist _animeRepositoryAnilist;
   // Notifiers / Subscriptions
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
@@ -42,6 +44,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     this._selectedAnimeNotifier,
     this._selectedMediaListNotifier,
     this._userRepositoryAnilist,
+    this._animeRepositoryAnilist,
     this._menuBarNotifier,
   ) : super(
         HomeState(
@@ -49,6 +52,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
           selectedMenuOption: SelectedMenuOption.home,
           continueWatching: [],
           continueReading: [],
+          mediaCoverImages: [],
           isLoading: true,
         ),
       ) {
@@ -71,12 +75,13 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
 
   void _init() {
     _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
-      user,
+      loggedUser,
     ) async {
-      await _getUserInfo(user);
+      await _getUserInfo(loggedUser);
+      await _getMediaCoverImages(loggedUser);
       _menuBarNotifier.showMenuBar(true);
       emit(
-        state.copyWith(loggedUser: user, isLoading: false),
+        state.copyWith(loggedUser: loggedUser, isLoading: false),
       ); // Update state on new data
     });
   }
@@ -122,6 +127,27 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     } catch (e, stackTrace) {
       handleError("Error fetching user info: $e", stackTrace: stackTrace);
       replaceRouteEffect(path: "/login");
+    }
+  }
+
+  Future<void> _getMediaCoverImages(User loggedUser) async {
+    try {
+      switch (loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Media Cover Images from AniList");
+          List<String> mediaCoverImages = await _animeRepositoryAnilist.getMediaCoverImages();
+          emit(state.copyWith(mediaCoverImages: mediaCoverImages));
+        case Service.mal:
+          _logger.i("Fetching Media Cover Images from MyAnimeList");
+        case Service.shikimori:
+          _logger.i("Fetching Media Cover Images from Shikimori");
+        case Service.kitsu:
+          _logger.i("Fetching Media Cover Images from Kitsu");
+        case Service.simkl:
+          _logger.i("Fetching Media Cover Images from Simkl");
+      }
+    } catch (e, stackTrace) {
+      handleError("Error fetching media cover images: $e", stackTrace: stackTrace);
     }
   }
 

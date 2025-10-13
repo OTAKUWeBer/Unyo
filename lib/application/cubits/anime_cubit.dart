@@ -13,6 +13,7 @@ import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/services/api/http/http_exception.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/media_list.dart';
@@ -96,6 +97,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.shikimori:
         case Service.simkl:
       }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch recently released anime:",
+        responseBody: e.message,
+        stackTrace: stackTrace,
+      );
     } catch (e, stackTrace) {
       handleError(
         "Failed to fetch recently released anime $e",
@@ -129,6 +136,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.shikimori:
         case Service.simkl:
       }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch trending anime:",
+        responseBody: e.message,
+        stackTrace: stackTrace,
+      );
     } catch (e, stackTrace) {
       handleError("Failed to fetch trending anime $e", stackTrace: stackTrace);
     }
@@ -147,6 +160,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.shikimori:
         case Service.simkl:
       }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch popular anime:",
+        responseBody: e.message,
+        stackTrace: stackTrace,
+      );
     } catch (e, stackTrace) {
       handleError("Failed to fetch popular anime $e", stackTrace: stackTrace);
     }
@@ -165,6 +184,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.shikimori:
         case Service.simkl:
       }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch recently completed anime:",
+        responseBody: e.message,
+        stackTrace: stackTrace,
+      );
     } catch (e, stackTrace) {
       handleError(
         "Failed to fetch recently completed anime $e",
@@ -186,6 +211,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.shikimori:
         case Service.simkl:
       }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError(
+        "Failed to fetch upcoming anime:",
+        responseBody: e.message,
+        stackTrace: stackTrace,
+      );
     } catch (e, stackTrace) {
       handleError("Failed to fetch upcoming anime $e", stackTrace: stackTrace);
     }
