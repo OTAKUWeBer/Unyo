@@ -34,6 +34,7 @@ class AnimeRecommendationCardList extends StatelessWidget {
             width: 0.75.sw,
             child: Row(
               mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   listTitle,

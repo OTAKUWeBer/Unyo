@@ -32,6 +32,7 @@ class AnimeCardList extends StatelessWidget {
           width: 1.sw - 140,
           child: Row(
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 listTitle,
@@ -57,7 +58,7 @@ class AnimeCardList extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10.h,),
+        SizedBox(height: 10.h),
         SizedBox(
           height: 260,
           width: 1.sw - 140,
@@ -70,7 +71,14 @@ class AnimeCardList extends StatelessWidget {
                   title: anime.title.romaji,
                   score: anime.averageScore,
                   coverImage: anime.coverImage,
-                  onPressed: () => onPressed(anime, MediaListModel(name: listTitle, mediaType: MediaType.anime)),
+                  onPressed:
+                      () => onPressed(
+                        anime,
+                        MediaListModel(
+                          name: listTitle,
+                          mediaType: MediaType.anime,
+                        ),
+                      ),
                   status: anime.status,
                   year: anime.startDate,
                   format: anime.format,

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class DarkUnyoButton extends StatelessWidget {
   final String? text;
   final Widget? child;
+  final Color color;
   final bool isEnabled;
   final void Function() onPressed;
 
@@ -13,6 +14,7 @@ class DarkUnyoButton extends StatelessWidget {
     required this.onPressed,
     this.isEnabled = true,
     this.child,
+    this.color = const Color.fromARGB(255, 37, 37, 37),
   });
 
   @override
@@ -21,7 +23,7 @@ class DarkUnyoButton extends StatelessWidget {
       style: ButtonStyle(
         minimumSize: WidgetStatePropertyAll( Size(100.w, 40.h)),
         backgroundColor: WidgetStatePropertyAll(
-          const Color.fromARGB(255, 37, 37, 37),
+          color,
         ),
         foregroundColor: const WidgetStatePropertyAll(Colors.white),
       ),

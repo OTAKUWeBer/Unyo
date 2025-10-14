@@ -13,8 +13,10 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/anime_recommendations_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
-import 'package:unyo/presentation/widgets/styled/unyo_banner.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_dropdown.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_media_banner.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_character_list.dart';
+import 'package:unyo/presentation/widgets/text/text_body_medium.dart';
 import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
 @RoutePage()
@@ -75,6 +77,25 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
       state.selectedAnime.episodes,
       state.episodesInfo.length,
     );
+    if (numEpisodes == 0) {
+      return [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 80.h),
+            Text(
+              "Nothing to see here! Come back later :D",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              maxLines: 3,
+            ),
+          ],
+        ),
+      ];
+    }
     List<Widget> episodeButtons = [];
     for (int i = 0; i < numEpisodes; i++) {
       episodeButtons.add(
@@ -95,7 +116,10 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                       : state.selectedAnime.coverImage),
           episodeNumber: i + 1,
           progress: state.progress,
-          released: state.selectedAnime.nextAiringEpisode.episode != 0 ? (state.selectedAnime.nextAiringEpisode.episode - 1) : numEpisodes,
+          released:
+              state.selectedAnime.nextAiringEpisode.episode != 0
+                  ? (state.selectedAnime.nextAiringEpisode.episode - 1)
+                  : numEpisodes,
           showDivider: i != 0,
         ),
       );
@@ -141,23 +165,13 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                           Expanded(
                             child: ListView(
                               children: [
-                                UnyoBanner(
+                                UnyoMediaBanner(
                                   imageUrl:
                                       state.selectedAnime.bannerImage != ""
                                           ? state.selectedAnime.bannerImage
                                           : (state.alternateImage != ""
                                               ? state.alternateImage
                                               : state.selectedAnime.coverImage),
-                                  duration:
-                                      "${state.selectedAnime.duration}min",
-                                  year: TextUtils.extractYearFromStartDate(
-                                    state.selectedAnime.startDate,
-                                    state.loggedUser,
-                                  ),
-                                  score:
-                                      state.selectedAnime.averageScore
-                                          .toString(),
-                                  description: state.selectedAnime.description,
                                   coverImage:
                                       state.selectedAnime.coverImage != ""
                                           ? state.selectedAnime.coverImage
@@ -167,6 +181,123 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                   status: state.selectedAnime.status,
                                   tag:
                                       "${state.selectedMediaList.name}-${state.selectedAnime.id}",
+                                ),
+                                SizedBox(height: 16.h),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 40.0.w,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              UnyoBannerIcon(
+                                                text:
+                                                    "${state.selectedAnime.duration}min",
+                                                iconData:
+                                                    Icons.timelapse_rounded,
+                                              ),
+                                              UnyoBannerIcon(
+                                                text:
+                                                    TextUtils.extractYearFromStartDate(
+                                                      state
+                                                          .selectedAnime
+                                                          .startDate,
+                                                      state.loggedUser,
+                                                    ),
+                                                iconData:
+                                                    Icons
+                                                        .calendar_month_rounded,
+                                              ),
+                                              UnyoBannerIcon(
+                                                text:
+                                                    state
+                                                        .selectedAnime
+                                                        .averageScore
+                                                        .toString(),
+                                                iconData: Icons.star,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              SizedBox(
+                                                height: 27.h,
+                                                child: DarkUnyoButton(
+                                                  text: "Update Status",
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                              SizedBox(width: 10.w,),
+                                              SizedBox(
+                                                height: 27.h,
+                                                child: DarkUnyoButton(
+                                                  text: "Wrong / No Title",
+                                                  color: Colors.grey.withOpacity(0.3),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                              SizedBox(width: 10.w,),
+                                              UnyoDropdown(
+                                                selected:
+                                                    state.selectedExtension,
+                                                onPressed: null,
+                                                width: 130.w,
+                                                height: 27.h,
+                                                children: [
+                                                  ...state.installedExtensions
+                                                      .map(
+                                                        (extensionName) =>
+                                                            Text(extensionName),
+                                                      ),
+                                                  if (state
+                                                      .installedExtensions
+                                                      .isEmpty)
+                                                    SizedBox(
+                                                      width: 100.w,
+                                                      child: const Text(
+                                                        "No extensions found",
+                                                        overflow: TextOverflow.fade,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 16.h),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextBodyMedium(
+                                              text:
+                                                  TextUtils.parseHtmlToPlainText(
+                                                    state
+                                                        .selectedAnime
+                                                        .description,
+                                                  ),
+                                              maxLines: 8,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(height: 20.h),
                                 Padding(

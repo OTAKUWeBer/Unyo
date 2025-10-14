@@ -3,9 +3,9 @@ enum SelectedMenuOption {
   anime,
   manga,
   search,
+  settings,
+  extensions,
   library,
   calendar,
-  extensions,
-  settings,
   exit
 }

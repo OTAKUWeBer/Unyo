@@ -55,7 +55,7 @@ class ImageCard extends StatelessWidget {
                 maxLines: 2,
               ),
               Text(
-                status,
+                status.replaceAll("_", " "),
                 style: TextStyle(
                   color: ColorScheme.of(context).primary,
                   fontSize: 12,

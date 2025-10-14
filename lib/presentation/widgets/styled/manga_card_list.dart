@@ -27,6 +27,7 @@ class MangaCardList extends StatelessWidget {
           width: 1.sw - 140,
           child: Row(
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 listTitle,

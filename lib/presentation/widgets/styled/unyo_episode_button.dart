@@ -53,7 +53,7 @@ class UnyoEpisodeButton extends StatelessWidget {
                   Row(
                     children: [
                       SizedBox(
-                        width: 100.w,
+                        width: 105.w,
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
                           child: Opacity(
@@ -67,26 +67,34 @@ class UnyoEpisodeButton extends StatelessWidget {
                       ),
                       SizedBox(width: 20.w),
                       SizedBox(
-                        width: 140.w,
+                        width: 120.w,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Episode $episodeNumber",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 13
+                            Tooltip(
+                              message: "Episode $episodeNumber",
+                              waitDuration: const Duration(milliseconds: 1500),
+                              child: Text(
+                                "Episode $episodeNumber",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 13
+                                ),
                               ),
                             ),
-                            Text(
-                              episodeName,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                                overflow: TextOverflow.ellipsis,
+                            Tooltip(
+                              message: episodeName,
+                              waitDuration: const Duration(milliseconds: 1500),
+                              child: Text(
+                                episodeName,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
@@ -101,11 +109,13 @@ class UnyoEpisodeButton extends StatelessWidget {
                       progress >= episodeNumber
                           ? const Icon(Icons.check_rounded, color: Colors.grey)
                           : const SizedBox.shrink(),
-                      SizedBox(width: 20.w),
+                      SizedBox(width: 12.w),
                       Text(
                         released >= episodeNumber
                             ? context.tr("released")
                             : context.tr("not_yet_released"),
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight:

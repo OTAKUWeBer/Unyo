@@ -58,7 +58,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
           recommendations: (false, []),
           episodesInfo: [],
           banners: [],
-          alternateImage: ''
+          alternateImage: '',
+          selectedExtension: 0,
+          installedExtensions: []
         ),
       ) {
     _init();

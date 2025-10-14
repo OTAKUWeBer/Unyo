@@ -23,6 +23,8 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required List<EpisodeInfo> episodesInfo,
     required List<String> banners,
     required String alternateImage,
+    required int selectedExtension,
+    required List<String> installedExtensions,
     // relations
     // voice actors
     @Default(<AppEffect>[]) List<AppEffect> effects,

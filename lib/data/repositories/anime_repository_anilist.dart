@@ -201,9 +201,9 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
 
   @override
   Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user) async{
-    Map<String, String> graphQlHeaders = {
-      "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",
-    };
+    Map<String, String>? graphQlHeaders = user is AnilistUserModel ? {
+      "Authorization": "Bearer ${(user).accessToken}",
+    }: null;
     ApiGraphQLResponse<AnimeDetailsGraphqlDtoData> animeDetailsData =
         await _anilistGraphQLService.query<AnimeDetailsGraphqlDtoData>(
       query: queries.animeDetailsQuery,

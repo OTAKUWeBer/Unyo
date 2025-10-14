@@ -9,7 +9,20 @@ class LoadingView extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Center(child: Image.asset("assets/logo.png", scale: 1)),
+        Center(
+          child: Container(
+            width: 120,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage(
+                  'assets/logo.png',
+                ),
+                colorFilter:
+                    ColorFilter.mode(ColorScheme.of(context).primary, BlendMode.modulate),
+              ),
+            ),
+          )
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 200),
           child: LoadingAnimationWidget.inkDrop(color: Colors.white, size: 30),

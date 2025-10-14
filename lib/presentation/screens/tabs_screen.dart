@@ -107,14 +107,14 @@ class _TabsView extends StatelessWidget {
                         UnyoMenuIcon(
                           isSelected:
                               state.selectedMenuOption ==
-                              SelectedMenuOption.library,
+                              SelectedMenuOption.settings,
                           onPressed:
                               () => context.read<TabsCubit>().selectMenuOption(
-                                SelectedMenuOption.library,
+                                SelectedMenuOption.settings,
                                 context,
                               ),
-                          unselectedIcon: Icons.local_library_outlined,
-                          selectedIcon: Icons.local_library,
+                          unselectedIcon: Icons.settings_outlined,
+                          selectedIcon: Icons.settings,
                         ),
                         UnyoMenuIcon(
                           isSelected:
