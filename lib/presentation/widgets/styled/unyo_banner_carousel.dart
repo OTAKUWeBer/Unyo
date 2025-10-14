@@ -21,7 +21,6 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
   int _currentPage = 0;
   bool _isForward = true;
   late Timer _autoScrollTimer;
-  final Map<String, bool> _loadedImages = {};
   final PageController controller = PageController(
     initialPage: 0,
     viewportFraction: 1.00,

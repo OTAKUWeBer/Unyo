@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'package:collection/collection.dart';
 import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
@@ -20,8 +22,7 @@ import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
-    with EffectMixin<AnimeDetailsState> {
+class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeDetailsState> {
   // Repositories
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final EpisodeRepositoryAnizip _episodeRepositoryAnizip;
@@ -60,17 +61,14 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
           banners: [],
           alternateImage: '',
           selectedExtension: 0,
-          installedExtensions: []
+          installedExtensions: [],
         ),
       ) {
     _init();
   }
 
   @override
-  AnimeDetailsState copyStateWithEffects(
-    AnimeDetailsState state,
-    List<AppEffect> effects,
-  ) {
+  AnimeDetailsState copyStateWithEffects(AnimeDetailsState state, List<AppEffect> effects) {
     return state.copyWith(effects: effects);
   }
 
@@ -91,23 +89,18 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
   }
 
   void _init() {
-    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
-      loggedUser,
-    ) {
+    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
       _getAnimeBanners(loggedUser);
       emit(state.copyWith(loggedUser: loggedUser));
     });
-    _selectedAnimeSubscription = _selectedAnimeNotifier.animeStream.listen((
-      anime,
-    ) {
+    _selectedAnimeSubscription = _selectedAnimeNotifier.animeStream.listen((anime) {
       _getAnimeDetails(state.loggedUser, anime);
       _getEpisodesDetails(state.loggedUser, anime);
       emit(state.copyWith(selectedAnime: anime));
     });
-    _selectedMediaListSubscription = _selectedMediaListNotifier.mediaListStream
-        .listen((mediaList) {
-          emit(state.copyWith(selectedMediaList: mediaList));
-   });
+    _selectedMediaListSubscription = _selectedMediaListNotifier.mediaListStream.listen((mediaList) {
+      emit(state.copyWith(selectedMediaList: mediaList));
+    });
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
@@ -120,11 +113,8 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i(
-            "Fetching Anime Details from AniList for ${state.selectedAnime.title}",
-          );
-          (bool, AnimeDetails) animeDetails = await _animeRepositoryAnilist
-              .getAnimeDetails(selectedAnime, loggedUser);
+          _logger.i("Fetching Anime Details from AniList for ${state.selectedAnime.title}");
+          (bool, AnimeDetails) animeDetails = await _animeRepositoryAnilist.getAnimeDetails(selectedAnime, loggedUser);
           emit(
             state.copyWith(
               characters: (animeDetails.$2.characters.isNotEmpty, animeDetails.$2.characters),
@@ -134,30 +124,22 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
               recommendations: (animeDetails.$2.recommendedAnimes.isNotEmpty, animeDetails.$2.recommendedAnimes),
             ),
           );
+          if (animeDetails.$2.recommendedAnimes.isEmpty) {
+            (bool, List<Anime>) trendingAnimes = await _animeRepositoryAnilist.getTrendingAnimes(1);
+            emit(state.copyWith(recommendations: (trendingAnimes.$1, trendingAnimes.$2.shuffled(Random()))));
+          }
           _getAlternativeImage(loggedUser, selectedAnime);
         case Service.mal:
-          _logger.i(
-            "Fetching Anime Details from MyAnimeList for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Details from MyAnimeList for ${state.selectedAnime.title}");
         case Service.shikimori:
-          _logger.i(
-            "Fetching Anime Details from Shikimori for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Details from Shikimori for ${state.selectedAnime.title}");
         case Service.kitsu:
-          _logger.i(
-            "Fetching Anime Details from Kitsu for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Details from Kitsu for ${state.selectedAnime.title}");
         case Service.simkl:
-          _logger.i(
-            "Fetching Anime Details from Simkl for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Details from Simkl for ${state.selectedAnime.title}");
       }
     } on HttpServerException catch (e, stackTrace) {
-      handleError(
-        "Error fetching Anime details:",
-        responseBody: e.message,
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Anime details:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Details: $e", stackTrace: stackTrace);
     }
@@ -167,34 +149,21 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
     try {
       switch (loggedUser.settings.episodeService) {
         case EpisodeService.anizip:
-          _logger.i(
-            "Fetching Alternative Image from Anizip for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Alternative Image from Anizip for ${state.selectedAnime.title}");
           late String alternateImage;
           if (loggedUser.settings.service == Service.anilist) {
-            alternateImage =
-            await _episodeRepositoryAnizip.getAlternativeImage(malId: -1, anilistId: selectedAnime.id);
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: -1, anilistId: selectedAnime.id);
           } else {
-            alternateImage =
-            await _episodeRepositoryAnizip.getAlternativeImage(malId: selectedAnime.idMal, anilistId: -1);
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: selectedAnime.idMal, anilistId: -1);
           }
           emit(state.copyWith(alternateImage: alternateImage));
         case EpisodeService.kitsu:
-          _logger.i(
-            "Fetching Alternative Image from Kitsu for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Alternative Image from Kitsu for ${state.selectedAnime.title}");
       }
     } on HttpServerException catch (e, stackTrace) {
-      handleError(
-        "Error fetching Alternative Image:",
-        responseBody: e.message,
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Alternative Image:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
-      handleError(
-        "Error fetching Alternative Image: $e",
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Alternative Image: $e", stackTrace: stackTrace);
     }
   }
 
@@ -202,34 +171,21 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
     try {
       switch (loggedUser.settings.episodeService) {
         case EpisodeService.anizip:
-          _logger.i(
-            "Fetching Episodes Details from Anizip for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Episodes Details from Anizip for ${state.selectedAnime.title}");
           late List<EpisodeInfo> episodesInfo;
           if (loggedUser.settings.service == Service.anilist) {
-            episodesInfo =
-            await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedAnime.id);
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedAnime.id);
           } else {
-            episodesInfo =
-            await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedAnime.idMal, anilistId: -1);
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedAnime.idMal, anilistId: -1);
           }
           emit(state.copyWith(episodesInfo: episodesInfo));
         case EpisodeService.kitsu:
-          _logger.i(
-            "Fetching Episodes Details from Kitsu for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedAnime.title}");
       }
     } on HttpServerException catch (e, stackTrace) {
-      handleError(
-        "Error fetching Episodes details:",
-        responseBody: e.message,
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Episodes details:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
-      handleError(
-        "Error fetching Episodes Details: $e",
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Episodes Details: $e", stackTrace: stackTrace);
     }
   }
 
@@ -237,35 +193,20 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState>
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i(
-            "Fetching Anime Banners from AniList for ${state.selectedAnime.title}",
-          );
-          List<String> banners =
-              await _animeRepositoryAnilist.getMediaCoverImages();
+          _logger.i("Fetching Anime Banners from AniList for ${state.selectedAnime.title}");
+          List<String> banners = await _animeRepositoryAnilist.getMediaCoverImages();
           emit(state.copyWith(banners: banners));
         case Service.mal:
-          _logger.i(
-            "Fetching Anime Banners from MyAnimeList for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Banners from MyAnimeList for ${state.selectedAnime.title}");
         case Service.shikimori:
-          _logger.i(
-            "Fetching Anime Banners from Shikimori for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Banners from Shikimori for ${state.selectedAnime.title}");
         case Service.kitsu:
-          _logger.i(
-            "Fetching Anime Banners from Kitsu for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Banners from Kitsu for ${state.selectedAnime.title}");
         case Service.simkl:
-          _logger.i(
-            "Fetching Anime Banners from Simkl for ${state.selectedAnime.title}",
-          );
+          _logger.i("Fetching Anime Banners from Simkl for ${state.selectedAnime.title}");
       }
     } on HttpServerException catch (e, stackTrace) {
-      handleError(
-        "Error fetching Anime banners:",
-        responseBody: e.message,
-        stackTrace: stackTrace,
-      );
+      handleError("Error fetching Anime banners:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Banners: $e", stackTrace: stackTrace);
     }

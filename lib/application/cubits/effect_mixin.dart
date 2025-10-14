@@ -13,6 +13,7 @@ mixin EffectMixin<State> on Cubit<State> {
     "/home" : 0,
     "/anime" : 1,
     "/manga" : 2,
+    "/extensions" : 3,
   };
 
   void addEffect(AppEffect effect) {

@@ -1,0 +1,152 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/application/cubits/extensions_cubit.dart';
+import 'package:unyo/application/states/extensions_state.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/presentation/widgets/text/text_body_large.dart';
+import 'package:unyo/presentation/widgets/text/text_headline_medium.dart';
+
+@RoutePage()
+class ExtensionsScreen extends StatelessWidget {
+  const ExtensionsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(create: (context) => sl<ExtensionsCubit>(), child: const _ExtensionsListener());
+  }
+}
+
+class _ExtensionsListener extends StatelessWidget {
+  const _ExtensionsListener();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<ExtensionsCubit, ExtensionsState>(
+      listener: (context, state) {
+        if (state.effects.isNotEmpty) {
+          sl<AppEffectHandler>().handleEffects(context, state.effects, context.read<ExtensionsCubit>().clearEffects);
+        }
+      },
+      child: const _ExtensionsView(),
+    );
+  }
+}
+
+class _ExtensionsView extends StatefulWidget {
+  const _ExtensionsView();
+
+  @override
+  State<_ExtensionsView> createState() => _ExtensionsViewState();
+}
+
+class _ExtensionsViewState extends State<_ExtensionsView> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ExtensionsCubit, ExtensionsState>(
+      builder: (context, state) {
+        final TabController tabController = TabController(length: 4, vsync: this);
+        return Column(
+          children: [
+            const SizedBox(height: 15),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: Row(
+                children: [
+                  SizedBox(width: 40.w),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const TextHeadlineMedium(text: "Manage your ", style: TextStyle(fontWeight: FontWeight.bold)),
+                          TextHeadlineMedium(
+                            text: "Extensions!",
+                            style: TextStyle(color: ColorScheme.of(context).tertiary, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TextBodyLarge(
+                            text: "You can find and install your favorite extensions here",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: TabBar(
+                labelColor: Colors.white,
+                dividerColor: ColorScheme.of(context).secondary.withOpacity(0.5),
+                indicatorColor: ColorScheme.of(context).primary,
+                unselectedLabelColor: Colors.grey,
+                isScrollable: true,
+                controller: tabController,
+                tabs: const [
+                  Tooltip(
+                    waitDuration: Duration(milliseconds: 1000),
+                    message: "Installed Anime",
+                    child: SizedBox(width: 150, child: Tab(text: "Installed Anime")),
+                  ),
+                  Tooltip(
+                    waitDuration: Duration(milliseconds: 1000),
+                    message: "Available Anime",
+                    child: SizedBox(width: 150, child: Tab(text: "Available Anime")),
+                  ),
+                  Tooltip(
+                    waitDuration: Duration(milliseconds: 1000),
+                    message: "Installed Manga",
+                    child: SizedBox(width: 150, child: Tab(text: "Installed Manga")),
+                  ),
+                  Tooltip(
+                    waitDuration: Duration(milliseconds: 1000),
+                    message: "Available Manga",
+                    child: SizedBox(width: 150, child: Tab(text: "Available Manga")),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 1.sh - 135,
+              child: Padding(
+                padding: EdgeInsets.only(left: 15.0.w, right: 15.0.w, top: 15.0.h),
+                child: TabBarView(
+                  controller: tabController,
+                  children: const [
+                    SizedBox.shrink(),
+                    SizedBox.shrink(),
+                    SizedBox.shrink(),
+                    SizedBox.shrink(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

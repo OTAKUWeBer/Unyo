@@ -57,6 +57,7 @@ class _TabsView extends StatelessWidget {
             HomeRoute(),
             AnimeRoute(),
             MangaRoute(),
+            ExtensionsRoute(),
           ],
           builder: (context, child) {
             sl<AppEffectHandler>().attachRootContext(context);

@@ -52,12 +52,23 @@ class AppRouter extends RootStackRouter {
               duration: Duration.zero,
               reverseDuration: Duration.zero,
             ),
+            CustomRoute(
+              page: ExtensionsRoute.page,
+              path: 'extensions',
+              transitionsBuilder: TransitionsBuilders.noTransition,
+              duration: Duration.zero,
+              reverseDuration: Duration.zero,
+            ),
           ],
         ),
         CustomRoute(
           page: MediaListRoute.page,
           path: 'userlist',
-          transitionsBuilder: TransitionsBuilders.slideRightWithFade,
+          transitionsBuilder:
+              (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) => SlideTransition(
+                position: Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero).animate(animation),
+                child: FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Curves.easeInQuad), child: child),
+              ),
           duration: const Duration(milliseconds: 250),
           reverseDuration: const Duration(milliseconds: 250),
         ),
@@ -72,17 +83,9 @@ class AppRouter extends RootStackRouter {
           page: AnimeDetailsRoute.page,
           path: 'animedetails',
           transitionsBuilder:
-              (
-                BuildContext context,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-                Widget child,
-              ) => ScaleTransition(
+              (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) => ScaleTransition(
                 scale: CurvedAnimation(parent: animation, curve: Curves.decelerate),
-                child: FadeTransition(
-                  opacity: CurvedAnimation(parent: animation, curve: Curves.easeInCubic),
-                  child: child,
-                ),
+                child: FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Curves.easeInCubic), child: child),
               ),
           duration: const Duration(milliseconds: 250),
           reverseDuration: const Duration(milliseconds: 250),

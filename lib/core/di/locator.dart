@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:unyo/application/cubits/extensions_cubit.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
@@ -124,6 +125,7 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
+  sl.registerFactory<ExtensionsCubit>(() => ExtensionsCubit());
   sl.registerFactory<MediaListCubit>(
     () => MediaListCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
