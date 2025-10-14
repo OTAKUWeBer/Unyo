@@ -87,7 +87,7 @@ class AppEffectHandler {
         contentType: effect.contentType,
         inMaterialBanner: true,
       ),
-      actions: [SizedBox.shrink()],
+      actions: const [SizedBox.shrink()],
     );
 
     ScaffoldMessenger.of(context)

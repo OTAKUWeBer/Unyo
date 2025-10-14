@@ -21,13 +21,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<HomeCubit>(),
-      child: _HomeListener(),
+      child: const _HomeListener(),
     );
   }
 }
 
 class _HomeListener extends StatelessWidget {
-  const _HomeListener({super.key});
+  const _HomeListener();
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +43,14 @@ class _HomeListener extends StatelessWidget {
       },
       child: BlocBuilder<HomeCubit, HomeState>(
         builder:
-            (context, state) => state.isLoading ? LoadingView() : _HomeView(),
+            (context, state) => state.isLoading ? const LoadingView() : const _HomeView(),
       ),
     );
   }
 }
 
 class _HomeView extends StatefulWidget {
-  const _HomeView({super.key});
+  const _HomeView();
 
   @override
   State<_HomeView> createState() => _HomeViewState();
@@ -85,18 +85,18 @@ class _HomeViewState extends State<_HomeView> {
                     children: [
                       Row(
                         children: [
-                          TextDisplaySmall(text: "Welcome back "),
+                          const TextDisplaySmall(text: "Welcome back "),
                           TextDisplaySmall(
                             text: state.loggedUser.name,
                             style: TextStyle(
                               color: ColorScheme.of(context).tertiary,
                             ),
                           ),
-                          TextDisplaySmall(text: " , enjoy your journey!"),
-                          Spacer(),
+                          const TextDisplaySmall(text: " , enjoy your journey!"),
+                          const Spacer(),
                         ],
                       ),
-                      Row(
+                      const Row(
                         children: [
                           TextBodyLarge(
                             text: "Find your next favorite anime or manga!",

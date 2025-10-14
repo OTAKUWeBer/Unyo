@@ -44,8 +44,8 @@ class UnyoEpisodeButton extends StatelessWidget {
               width: double.infinity,
               hoverWidth: double.infinity,
               hoverCursor: SystemMouseCursors.click,
-              decoration: BoxDecoration(),
-              hoverDecoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
+              hoverDecoration: const BoxDecoration(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

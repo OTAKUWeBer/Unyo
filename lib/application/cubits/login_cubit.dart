@@ -46,7 +46,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     this._colorImageService,
     this._themeService,
   ) : super(
-        LoginState(
+        const LoginState(
           availableUsers: [],
           selectedLoginCard: LoginCardType.anilist,
         ),

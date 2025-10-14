@@ -58,7 +58,7 @@ class _RootScreenState extends State<RootScreen> {
                   child: Container(color: Colors.transparent),
                 ),
               ),
-              HeroControllerScope(controller: controller, child: AutoRouter()),
+              HeroControllerScope(controller: controller, child: const AutoRouter()),
             ]
         )
     );

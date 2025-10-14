@@ -23,14 +23,14 @@ class CalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => sl<CalendarCubit>(),
-        child: _CalendarListener()
+        child: const _CalendarListener()
     );
   }
 }
 
 class _CalendarListener extends StatelessWidget {
 
-  const _CalendarListener({super.key});
+  const _CalendarListener();
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +46,14 @@ class _CalendarListener extends StatelessWidget {
           );
         }
       },
-      child: _CalendarView(),
+      child: const _CalendarView(),
     );
   }
 }
 
 class _CalendarView extends StatefulWidget {
 
-  const _CalendarView({super.key});
+  const _CalendarView();
 
   @override
   State<_CalendarView> createState() => _CalendarViewState();
@@ -100,14 +100,14 @@ class _CalendarViewState extends State<_CalendarView>
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextHeadlineMedium(
+                          const TextHeadlineMedium(
                             text:
                             " Calendar",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           TextBodyLarge(
@@ -171,7 +171,7 @@ class _CalendarViewState extends State<_CalendarView>
                       return GridView.builder(
                         scrollDirection: Axis.vertical,
                         gridDelegate:
-                        SliverGridDelegateWithMaxCrossAxisExtent(
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 165,
                             mainAxisExtent: 260,
                             crossAxisSpacing: 5,
@@ -191,7 +191,7 @@ class _CalendarViewState extends State<_CalendarView>
                             entry.value[index].averageScore,
                             coverImage:
                             entry.value[index].coverImage,
-                            onPressed: () => context.read<CalendarCubit>().navigateToAnimeDetails(entry.value[index], MediaListModel(name: "Calendar", mediaType: MediaType.anime)),
+                            onPressed: () => context.read<CalendarCubit>().navigateToAnimeDetails(entry.value[index], const MediaListModel(name: "Calendar", mediaType: MediaType.anime)),
                             status:
                             entry.value[index].status,
                             year:

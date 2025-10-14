@@ -40,7 +40,7 @@ class UnyoCharacterList extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 MediaListArrows(
                   controller: controller,
                   visible: characters.length * 144 > (0.75.sw),

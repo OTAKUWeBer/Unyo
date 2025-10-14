@@ -25,7 +25,7 @@ class TabsScreen extends StatelessWidget {
 }
 
 class _TabsListener extends StatelessWidget {
-  const _TabsListener({super.key});
+  const _TabsListener();
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +39,13 @@ class _TabsListener extends StatelessWidget {
           );
         }
       },
-      child: _TabsView(),
+      child: const _TabsView(),
     );
   }
 }
 
 class _TabsView extends StatelessWidget {
-  const _TabsView({super.key});
+  const _TabsView();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _TabsView extends StatelessWidget {
       builder: (context, state) {
         return AutoTabsRouter(
           lazyLoad: true,
-          routes: [
+          routes: const [
             HomeRoute(),
             AnimeRoute(),
             MangaRoute(),
@@ -107,18 +107,6 @@ class _TabsView extends StatelessWidget {
                         UnyoMenuIcon(
                           isSelected:
                               state.selectedMenuOption ==
-                              SelectedMenuOption.settings,
-                          onPressed:
-                              () => context.read<TabsCubit>().selectMenuOption(
-                                SelectedMenuOption.settings,
-                                context,
-                              ),
-                          unselectedIcon: Icons.settings_outlined,
-                          selectedIcon: Icons.settings,
-                        ),
-                        UnyoMenuIcon(
-                          isSelected:
-                              state.selectedMenuOption ==
                               SelectedMenuOption.extensions,
                           onPressed:
                               () => context.read<TabsCubit>().selectMenuOption(
@@ -127,6 +115,18 @@ class _TabsView extends StatelessWidget {
                               ),
                           unselectedIcon: Icons.extension_outlined,
                           selectedIcon: Icons.extension,
+                        ),
+                        UnyoMenuIcon(
+                          isSelected:
+                              state.selectedMenuOption ==
+                              SelectedMenuOption.settings,
+                          onPressed:
+                              () => context.read<TabsCubit>().selectMenuOption(
+                                SelectedMenuOption.settings,
+                                context,
+                              ),
+                          unselectedIcon: Icons.settings_outlined,
+                          selectedIcon: Icons.settings,
                         ),
                       ],
                     )

@@ -38,7 +38,7 @@ class AddUserAvatar extends StatelessWidget {
               child: CircleAvatar(
                 radius: 0.125.sh,
                 backgroundColor: Colors.transparent,
-                backgroundImage: NetworkImage(config.plusImageUrl),
+                backgroundImage: const NetworkImage(config.plusImageUrl),
               ),
             ),
           ),

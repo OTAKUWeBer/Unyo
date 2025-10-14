@@ -72,7 +72,7 @@ class MediaCard extends StatelessWidget {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: ColorScheme.of(context).primary,
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       bottomRight: Radius.circular(50),
                                       topLeft: Radius.circular(50),
                                     ),
@@ -120,7 +120,7 @@ class MediaCard extends StatelessWidget {
                         SizedBox(
                           // width: 128.w,
                           child: Padding(
-                            padding: EdgeInsets.only(bottom: 5.0, left: 5.0),
+                            padding: const EdgeInsets.only(bottom: 5.0, left: 5.0),
                             child: Align(
                               alignment: Alignment.bottomLeft,
                               child: CircleAvatar(
@@ -148,11 +148,11 @@ class MediaCard extends StatelessWidget {
             child: Center(
               child: Tooltip(
                 message: title,
-                waitDuration: Duration(milliseconds: 1000),
+                waitDuration: const Duration(milliseconds: 1000),
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -184,7 +184,7 @@ class MediaCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                     "${format.replaceAll("_", " ")} ",
                     style: TextStyle(

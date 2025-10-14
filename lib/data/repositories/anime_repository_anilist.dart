@@ -98,11 +98,11 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
             .map((schedule) => AnilistAnimeModel.fromScheduleEntry(schedule))
             .toList();
     Map<int, Anime> uniqueRecentlyReleasedAnimes = {};
-    recentlyReleasedAnimes.forEach((anime) {
+    for (var anime in recentlyReleasedAnimes) {
       if (!uniqueRecentlyReleasedAnimes.containsKey(anime.id)) {
         uniqueRecentlyReleasedAnimes[anime.id] = anime;
       }
-    });
+    }
     return (true, uniqueRecentlyReleasedAnimes.values.toList());
   }
 
@@ -224,10 +224,10 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   Future<List<Anime>> _getCalendarReleasesPage(int page) async {
     DateTime now = DateTime.now();
     // Calculate yesterday 00:00:00
-    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0, 0).subtract(Duration(days: 1));
+    DateTime start = DateTime(now.year, now.month, now.day, 0, 0, 0, 0).subtract(const Duration(days: 1));
 
     // Calculate today + 6 days
-    DateTime end = start.add(Duration(days: 6));
+    DateTime end = start.add(const Duration(days: 6));
     end = DateTime(end.year, end.month, end.day, 23, 59, 59, 999);
 
     // Unix timestamps

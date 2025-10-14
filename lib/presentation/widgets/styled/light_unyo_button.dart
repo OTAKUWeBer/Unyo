@@ -20,7 +20,7 @@ class LightUnyoButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         minimumSize: WidgetStatePropertyAll( Size(100.w, 40.h)),
-        backgroundColor: WidgetStatePropertyAll(Colors.white),
+        backgroundColor: const WidgetStatePropertyAll(Colors.white),
         foregroundColor: const WidgetStatePropertyAll(
           Color.fromARGB(255, 37, 37, 37),
         ),

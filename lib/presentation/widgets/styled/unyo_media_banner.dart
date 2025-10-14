@@ -38,7 +38,7 @@ class UnyoMediaBanner extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [Colors.transparent, Colors.black],

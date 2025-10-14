@@ -22,13 +22,13 @@ class MangaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<MangaCubit>(),
-      child: _MangaListener(),
+      child: const _MangaListener(),
     );
   }
 }
 
 class _MangaListener extends StatelessWidget {
-  const _MangaListener({super.key});
+  const _MangaListener();
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +44,14 @@ class _MangaListener extends StatelessWidget {
       },
       child: BlocBuilder<MangaCubit, MangaState>(
         builder:
-            (context, state) => state.isLoading ? LoadingView() : _MangaView(),
+            (context, state) => state.isLoading ? const LoadingView() : const _MangaView(),
       ),
     );
   }
 }
 
 class _MangaView extends StatefulWidget {
-  const _MangaView({super.key});
+  const _MangaView();
 
   @override
   State<_MangaView> createState() => _MangaViewState();

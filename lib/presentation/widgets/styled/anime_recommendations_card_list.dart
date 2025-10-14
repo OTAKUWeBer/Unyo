@@ -52,7 +52,7 @@ class AnimeRecommendationCardList extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 MediaListArrows(
                   controller: controller,
                   visible: animeList.length * 144 > 0.75.sw,

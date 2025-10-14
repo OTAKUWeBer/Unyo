@@ -31,7 +31,7 @@ class MediaListScreen extends StatelessWidget {
 class _MediaListListener extends StatelessWidget {
   final MediaType type;
 
-  const _MediaListListener({super.key, required this.type});
+  const _MediaListListener({required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _MediaListListener extends StatelessWidget {
 class _MediaListView extends StatefulWidget {
   final MediaType type;
 
-  const _MediaListView({super.key, required this.type});
+  const _MediaListView({required this.type});
 
   @override
   State<_MediaListView> createState() => _MediaListViewState();
@@ -95,7 +95,7 @@ class _MediaListViewState extends State<_MediaListView>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          TextHeadlineMedium(
+                          const TextHeadlineMedium(
                             text: "Hi ",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -109,7 +109,7 @@ class _MediaListViewState extends State<_MediaListView>
                           TextHeadlineMedium(
                             text:
                                 "Welcome to your ${widget.type == MediaType.anime ? "Anime" : "Manga"} Lists!",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -119,7 +119,7 @@ class _MediaListViewState extends State<_MediaListView>
                           TextBodyLarge(
                             text:
                                 "You can find and remember your favorite ${widget.type == MediaType.anime ? "anime" : "manga"} here",
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -187,7 +187,7 @@ class _MediaListViewState extends State<_MediaListView>
                           return GridView.builder(
                             scrollDirection: Axis.vertical,
                             gridDelegate:
-                                SliverGridDelegateWithMaxCrossAxisExtent(
+                                const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 165,
                                   mainAxisExtent: 260,
                                   crossAxisSpacing: 5,

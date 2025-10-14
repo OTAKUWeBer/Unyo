@@ -34,7 +34,7 @@ class UnyoMenuIcon extends StatelessWidget {
             children: [
               AnimatedContainer(
                 height: isSelected ? 33.0 : 0,
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 width: 3.5,
                 decoration: BoxDecoration(
                   color: ColorScheme.of(context).tertiary,

@@ -160,7 +160,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                               .title
                                               .userPreferred ??
                                           widget.mangaList![_currentPage].title.userPreferred,
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                     Container(
                                       width: 50,
@@ -178,7 +178,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                             size: 17,
                                           ),
                                           TextLabelLarge(
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white,
@@ -204,7 +204,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                             widget.mangaList![_currentPage].description),
                                         maxLines: 6,
                                         overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(color: Colors.grey),
+                                        style: const TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ],

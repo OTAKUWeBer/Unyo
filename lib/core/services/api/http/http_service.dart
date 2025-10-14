@@ -30,7 +30,7 @@ class HttpService {
     Map<String, String>? headers,
     required T Function(Map<String, dynamic>) fromJson,
   }) async {
-    _logger.i("GET request to $endpoint attempting to return instance of $T");
+    _logger.d("GET request to $endpoint attempting to return instance of $T");
     ApiResponse<T>? cachedApiResponse = _getCachedResponse<T>(
       'GET',
       endpoint,
@@ -38,7 +38,7 @@ class HttpService {
       fromJson: fromJson,
     );
     if (cachedApiResponse != null) {
-      _logger.i("Returning cached response instance of $T for $endpoint ");
+      _logger.d("Returning cached response instance of $T for $endpoint ");
       return cachedApiResponse;
     }
     ApiResponse<T> apiResponse = await _request(
@@ -63,7 +63,7 @@ class HttpService {
     Object? body,
     required T Function(Map<String, dynamic>) fromJson,
   }) async {
-    _logger.i("POST request to $endpoint attempting to return instance of $T");
+    _logger.d("POST request to $endpoint attempting to return instance of $T");
     final encodedBody = json.encode(body);
     ApiResponse<T>? cachedApiResponse = _getCachedResponse<T>(
       'POST',
@@ -73,7 +73,7 @@ class HttpService {
       fromJson: fromJson,
     );
     if (cachedApiResponse != null) {
-      _logger.i("Returning cached response instance of $T for $endpoint ");
+      _logger.d("Returning cached response instance of $T for $endpoint ");
       return cachedApiResponse;
     }
     ApiResponse<T> apiResponse = await _request(

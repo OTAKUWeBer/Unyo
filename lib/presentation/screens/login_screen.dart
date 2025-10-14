@@ -21,13 +21,13 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<LoginCubit>(),
-      child: _LoginListener(),
+      child: const _LoginListener(),
     );
   }
 }
 
 class _LoginListener extends StatelessWidget {
-  const _LoginListener({super.key});
+  const _LoginListener();
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +41,13 @@ class _LoginListener extends StatelessWidget {
           );
         }
       },
-      child: _LoginView(),
+      child: const _LoginView(),
     );
   }
 }
 
 class _LoginView extends StatefulWidget {
-  const _LoginView({super.key});
+  const _LoginView();
 
   @override
   State<_LoginView> createState() => _LoginViewState();
@@ -78,7 +78,7 @@ class _LoginViewState extends State<_LoginView> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
             TextDisplayLarge(text: context.tr("select_user")),
             SizedBox(height: 0.07.sh),
             SizedBox(
@@ -98,7 +98,7 @@ class _LoginViewState extends State<_LoginView> {
                 ),
               ),
             ),
-            Spacer(flex: 1),
+            const Spacer(flex: 1),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

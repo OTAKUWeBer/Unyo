@@ -24,7 +24,7 @@ class UnyoBannerIcon extends StatelessWidget {
             iconData != null ? Icon(iconData, color: ColorScheme.of(context).tertiary, size: 17) : const SizedBox.shrink(),
             const SizedBox(width: 4),
             TextLabelLarge(
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

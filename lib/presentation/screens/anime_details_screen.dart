@@ -27,13 +27,13 @@ class AnimeDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<AnimeDetailsCubit>(),
-      child: _AnimeDetailsListener(),
+      child: const _AnimeDetailsListener(),
     );
   }
 }
 
 class _AnimeDetailsListener extends StatelessWidget {
-  const _AnimeDetailsListener({super.key});
+  const _AnimeDetailsListener();
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +48,14 @@ class _AnimeDetailsListener extends StatelessWidget {
         }
       },
       child: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
-        builder: (context, state) => _AnimeDetailsView(),
+        builder: (context, state) => const _AnimeDetailsView(),
       ),
     );
   }
 }
 
 class _AnimeDetailsView extends StatefulWidget {
-  const _AnimeDetailsView({super.key});
+  const _AnimeDetailsView();
 
   @override
   State<_AnimeDetailsView> createState() => _AnimeDetailsViewState();
@@ -83,7 +83,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 80.h),
-            Text(
+            const Text(
               "Nothing to see here! Come back later :D",
               style: TextStyle(
                 color: Colors.white,
@@ -148,7 +148,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                 context
                                     .read<AnimeDetailsCubit>()
                                     .navigateBackToAnimePage(),
-                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
                       ),
                     ),
                   ],
@@ -234,25 +234,27 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                 height: 27.h,
                                                 child: DarkUnyoButton(
                                                   text: "Update Status",
-                                                  color: Colors.grey.withOpacity(0.3),
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3),
                                                   onPressed: () {},
                                                 ),
                                               ),
-                                              SizedBox(width: 10.w,),
+                                              SizedBox(width: 10.w),
                                               SizedBox(
                                                 height: 27.h,
                                                 child: DarkUnyoButton(
                                                   text: "Wrong / No Title",
-                                                  color: Colors.grey.withOpacity(0.3),
+                                                  color: Colors.grey
+                                                      .withOpacity(0.3),
                                                   onPressed: () {},
                                                 ),
                                               ),
-                                              SizedBox(width: 10.w,),
+                                              SizedBox(width: 10.w),
                                               UnyoDropdown(
                                                 selected:
                                                     state.selectedExtension,
                                                 onPressed: null,
-                                                width: 130.w,
+                                                width: 120.w,
                                                 height: 27.h,
                                                 children: [
                                                   ...state.installedExtensions
@@ -264,10 +266,11 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                       .installedExtensions
                                                       .isEmpty)
                                                     SizedBox(
-                                                      width: 100.w,
+                                                      width: 80.w,
                                                       child: const Text(
                                                         "No extensions found",
-                                                        overflow: TextOverflow.fade,
+                                                        overflow:
+                                                            TextOverflow.fade,
                                                       ),
                                                     ),
                                                 ],
@@ -289,7 +292,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                   ),
                                               maxLines: 8,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 color: Colors.grey,
                                               ),
                                             ),
@@ -372,7 +375,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                       height: 1.sh - 60,
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.3),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12),
                         ),

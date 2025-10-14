@@ -51,7 +51,7 @@ final _defaultTheme = ThemeData(
   //   onSecondary: Colors.white,
   //   onTertiary: Colors.white,
   // ),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     // Display styles (largest) - white
     displayLarge: TextStyle(
       color: Colors.white,

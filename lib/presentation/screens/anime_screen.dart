@@ -21,13 +21,13 @@ class AnimeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sl<AnimeCubit>(),
-      child: _AnimeListener(),
+      child: const _AnimeListener(),
     );
   }
 }
 
 class _AnimeListener extends StatelessWidget {
-  const _AnimeListener({super.key});
+  const _AnimeListener();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _AnimeListener extends StatelessWidget {
         }
       },
       child: BlocBuilder<AnimeCubit, AnimeState>(
-      builder: (context, state) => state.isLoading ? LoadingView() : _AnimeView(),
+      builder: (context, state) => state.isLoading ? const LoadingView() : const _AnimeView(),
       )
     );
   }
@@ -50,7 +50,7 @@ class _AnimeListener extends StatelessWidget {
 
 class _AnimeView extends StatefulWidget {
 
-  const _AnimeView({super.key});
+  const _AnimeView();
 
   @override
   State<_AnimeView> createState() => _AnimeViewState();

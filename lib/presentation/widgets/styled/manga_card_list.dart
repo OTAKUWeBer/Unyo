@@ -45,7 +45,7 @@ class MangaCardList extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               MediaListArrows(
                 controller: controller,
                 visible: mangaList.length * 144 > (1.sw - 140),

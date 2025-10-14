@@ -21,7 +21,7 @@ class GraphQLService {
     Map<String, String>? headers,
     required T Function(Map<String, dynamic>) fromJson,
   }) async {
-    _logger.i("Executing GraphQL QUERY operation");
+    _logger.d("Executing GraphQL QUERY operation");
     return _sendRequest(
       query: query,
       variables: variables,
@@ -36,7 +36,7 @@ class GraphQLService {
     Map<String, String>? headers,
     required T Function(Map<String, dynamic>) fromJson,
   }) async {
-    _logger.i("Executing GraphQL MUTATION operation");
+    _logger.d("Executing GraphQL MUTATION operation");
     return _sendRequest(
       query: query,
       variables: variables,

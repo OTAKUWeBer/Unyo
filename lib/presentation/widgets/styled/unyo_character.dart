@@ -59,11 +59,11 @@ class UnyoCharacter extends StatelessWidget {
               child: Center(
                 child: Tooltip(
                   message: name,
-                  waitDuration: Duration(milliseconds: 1000),
+                  waitDuration: const Duration(milliseconds: 1000),
                   child: Text(
                     name,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

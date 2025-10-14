@@ -28,9 +28,9 @@ void main() async {
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en')],
+      supportedLocales: const [Locale('en')],
       path: 'assets/translations',
-      fallbackLocale: Locale('en'),
+      fallbackLocale: const Locale('en'),
       useOnlyLangCode: true,
       child: ScreenUtilInit(
         designSize: const Size(1280, 720),
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<ThemeData> snapshot) {
         // Handle loading and error states
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return MaterialApp(
+          return const MaterialApp(
             home: Scaffold(body: Center(child: CircularProgressIndicator())),
             debugShowCheckedModeBanner: false,
           );
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
           sl<Logger>().e("Theme stream error: ${snapshot.error}");
           return MaterialApp(
             theme: ThemeData.dark(),
-            home: Scaffold(body: Center(child: Text("Error loading theme"))),
+            home: const Scaffold(body: Center(child: Text("Error loading theme"))),
             debugShowCheckedModeBanner: false,
           );
         }
