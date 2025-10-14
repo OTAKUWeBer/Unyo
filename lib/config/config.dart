@@ -21,5 +21,8 @@ const Set<String> cacheDisabledEndpoints = <String>{
 const Set<String> cacheIgnoredHeaders = <String>{
   'Authorization'
 };
+// Extensions condiguration
+const String aniyomiExtensionsRepositoryUrl = 'https://gitea.k3vinb5.dev/Backups/kohi-den-extensions/raw/branch/main/index.min.json';
+const String tachiyomiExtensionsRepositoryUrl = 'https://gitea.k3vinb5.dev/Backups/keiyoushi-extensions/raw/branch/repo/index.min.json';
 // TODO move to an asset
 const plusImageUrl = "https://i.ibb.co/Kj8CQZH/cross.png";

@@ -27,6 +27,7 @@ import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/data/repositories/episode_repository_anizip.dart';
+import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/cubits/home_cubit.dart';
@@ -83,6 +84,7 @@ void setupLocator() {
   sl.registerLazySingleton<EpisodeRepositoryAnizip>(
     () => EpisodeRepositoryAnizip(),
   );
+  sl.registerLazySingleton<ExtensionRepositoryAniyomi>(() => ExtensionRepositoryAniyomi());
 
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(
@@ -125,7 +127,10 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<ExtensionsCubit>(() => ExtensionsCubit());
+  sl.registerFactory<ExtensionsCubit>(() => ExtensionsCubit(
+    sl<ExtensionRepositoryAniyomi>(),
+    sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+  ));
   sl.registerFactory<MediaListCubit>(
     () => MediaListCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),

@@ -1,19 +1,16 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
 import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart';
 
-AnimeDetailsGraphqlDtoEntity $AnimeDetailsGraphqlDtoEntityFromJson(
-    Map<String, dynamic> json) {
+AnimeDetailsGraphqlDtoEntity $AnimeDetailsGraphqlDtoEntityFromJson(Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoEntity animeDetailsGraphqlDtoEntity = AnimeDetailsGraphqlDtoEntity();
-  final AnimeDetailsGraphqlDtoData? data = jsonConvert.convert<
-      AnimeDetailsGraphqlDtoData>(json['data']);
+  final AnimeDetailsGraphqlDtoData? data = jsonConvert.convert<AnimeDetailsGraphqlDtoData>(json['data']);
   if (data != null) {
     animeDetailsGraphqlDtoEntity.data = data;
   }
   return animeDetailsGraphqlDtoEntity;
 }
 
-Map<String, dynamic> $AnimeDetailsGraphqlDtoEntityToJson(
-    AnimeDetailsGraphqlDtoEntity entity) {
+Map<String, dynamic> $AnimeDetailsGraphqlDtoEntityToJson(AnimeDetailsGraphqlDtoEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['data'] = entity.data.toJson();
   return data;
@@ -28,8 +25,7 @@ extension AnimeDetailsGraphqlDtoEntityExtension on AnimeDetailsGraphqlDtoEntity 
   }
 }
 
-AnimeDetailsGraphqlDtoData $AnimeDetailsGraphqlDtoDataFromJson(
-    Map<String, dynamic> json) {
+AnimeDetailsGraphqlDtoData $AnimeDetailsGraphqlDtoDataFromJson(Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoData animeDetailsGraphqlDtoData = AnimeDetailsGraphqlDtoData();
   final AnimeDetailsGraphqlDtoDataMediaList? mediaList = jsonConvert.convert<
       AnimeDetailsGraphqlDtoDataMediaList>(json['MediaList']);
@@ -39,8 +35,7 @@ AnimeDetailsGraphqlDtoData $AnimeDetailsGraphqlDtoDataFromJson(
   return animeDetailsGraphqlDtoData;
 }
 
-Map<String, dynamic> $AnimeDetailsGraphqlDtoDataToJson(
-    AnimeDetailsGraphqlDtoData entity) {
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataToJson(AnimeDetailsGraphqlDtoData entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['MediaList'] = entity.mediaList.toJson();
   return data;
@@ -55,8 +50,7 @@ extension AnimeDetailsGraphqlDtoDataExtension on AnimeDetailsGraphqlDtoData {
   }
 }
 
-AnimeDetailsGraphqlDtoDataMediaList $AnimeDetailsGraphqlDtoDataMediaListFromJson(
-    Map<String, dynamic> json) {
+AnimeDetailsGraphqlDtoDataMediaList $AnimeDetailsGraphqlDtoDataMediaListFromJson(Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaList animeDetailsGraphqlDtoDataMediaList = AnimeDetailsGraphqlDtoDataMediaList();
   final int? progress = jsonConvert.convert<int>(json['progress']);
   if (progress != null) {
@@ -78,8 +72,7 @@ AnimeDetailsGraphqlDtoDataMediaList $AnimeDetailsGraphqlDtoDataMediaListFromJson
   return animeDetailsGraphqlDtoDataMediaList;
 }
 
-Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListToJson(
-    AnimeDetailsGraphqlDtoDataMediaList entity) {
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListToJson(AnimeDetailsGraphqlDtoDataMediaList entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['progress'] = entity.progress;
   data['score'] = entity.score;
@@ -106,15 +99,13 @@ extension AnimeDetailsGraphqlDtoDataMediaListExtension on AnimeDetailsGraphqlDto
 AnimeDetailsGraphqlDtoDataMediaListMedia $AnimeDetailsGraphqlDtoDataMediaListMediaFromJson(
     Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaListMedia animeDetailsGraphqlDtoDataMediaListMedia = AnimeDetailsGraphqlDtoDataMediaListMedia();
-  final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations? recommendations = jsonConvert
-      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations>(
-      json['recommendations']);
+  final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations? recommendations = jsonConvert.convert<
+      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations>(json['recommendations']);
   if (recommendations != null) {
     animeDetailsGraphqlDtoDataMediaListMedia.recommendations = recommendations;
   }
-  final AnimeDetailsGraphqlDtoDataMediaListMediaCharacters? characters = jsonConvert
-      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaCharacters>(
-      json['characters']);
+  final AnimeDetailsGraphqlDtoDataMediaListMediaCharacters? characters = jsonConvert.convert<
+      AnimeDetailsGraphqlDtoDataMediaListMediaCharacters>(json['characters']);
   if (characters != null) {
     animeDetailsGraphqlDtoDataMediaListMedia.characters = characters;
   }
@@ -143,23 +134,18 @@ extension AnimeDetailsGraphqlDtoDataMediaListMediaExtension on AnimeDetailsGraph
 AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsFromJson(
     Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations animeDetailsGraphqlDtoDataMediaListMediaRecommendations = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations();
-  final List<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes>? nodes = (json['nodes'] as List<
-      dynamic>?)
-      ?.map(
+  final List<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes>? nodes = (json['nodes'] as List<
+      dynamic>?)?.map(
           (e) =>
-      jsonConvert.convert<
-          AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes>(
-          e) as AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes)
-      .toList();
+      jsonConvert.convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes>(
+          e) as AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes).toList();
   if (nodes != null) {
     animeDetailsGraphqlDtoDataMediaListMediaRecommendations.nodes = nodes;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendations;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaRecommendations entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['nodes'] = entity.nodes.map((v) => v.toJson()).toList();
@@ -179,18 +165,15 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes $AnimeDetailsGraphq
     Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes();
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation? mediaRecommendation = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation>(
+      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation>(
       json['mediaRecommendation']);
   if (mediaRecommendation != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes
-        .mediaRecommendation = mediaRecommendation;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes.mediaRecommendation = mediaRecommendation;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodes entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['mediaRecommendation'] = entity.mediaRecommendation.toJson();
@@ -211,117 +194,95 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation 
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation();
   final int? id = jsonConvert.convert<int>(json['id']);
   if (id != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .id = id;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.id = id;
   }
   final int? idMal = jsonConvert.convert<int>(json['idMal']);
   if (idMal != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .idMal = idMal;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.idMal = idMal;
   }
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate? startDate = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate>(
+      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate>(
       json['startDate']);
   if (startDate != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .startDate = startDate;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.startDate = startDate;
   }
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate? endDate = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate>(
+      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate>(
       json['endDate']);
   if (endDate != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .endDate = endDate;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.endDate = endDate;
   }
   final String? season = jsonConvert.convert<String>(json['season']);
   if (season != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .season = season;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.season = season;
   }
   final String? status = jsonConvert.convert<String>(json['status']);
   if (status != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .status = status;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.status = status;
   }
   final bool? isFavourite = jsonConvert.convert<bool>(json['isFavourite']);
   if (isFavourite != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .isFavourite = isFavourite;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.isFavourite = isFavourite;
   }
   final bool? isAdult = jsonConvert.convert<bool>(json['isAdult']);
   if (isAdult != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .isAdult = isAdult;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.isAdult = isAdult;
   }
   final int? episodes = jsonConvert.convert<int>(json['episodes']);
   if (episodes != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .episodes = episodes;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.episodes = episodes;
   }
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle? title = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle>(
+      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle>(
       json['title']);
   if (title != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .title = title;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.title = title;
   }
   final String? bannerImage = jsonConvert.convert<String>(json['bannerImage']);
   if (bannerImage != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .bannerImage = bannerImage;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.bannerImage = bannerImage;
   }
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage? coverImage = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage>(
+      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage>(
       json['coverImage']);
   if (coverImage != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .coverImage = coverImage;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.coverImage = coverImage;
   }
   final int? averageScore = jsonConvert.convert<int>(json['averageScore']);
   if (averageScore != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .averageScore = averageScore;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.averageScore =
+        averageScore;
   }
   final int? duration = jsonConvert.convert<int>(json['duration']);
   if (duration != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .duration = duration;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.duration = duration;
   }
   final String? format = jsonConvert.convert<String>(json['format']);
   if (format != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .format = format;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.format = format;
   }
   final List<String>? genres = (json['genres'] as List<dynamic>?)?.map(
           (e) => jsonConvert.convert<String>(e) as String).toList();
   if (genres != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .genres = genres;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.genres = genres;
   }
   final String? description = jsonConvert.convert<String>(json['description']);
   if (description != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .description = description;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.description = description;
   }
   final int? meanScore = jsonConvert.convert<int>(json['meanScore']);
   if (meanScore != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .meanScore = meanScore;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.meanScore = meanScore;
   }
   final dynamic nextAiringEpisode = json['nextAiringEpisode'];
   if (nextAiringEpisode != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation
-        .nextAiringEpisode = nextAiringEpisode;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation.nextAiringEpisode =
+        nextAiringEpisode;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['id'] = entity.id;
@@ -347,28 +308,27 @@ Map<String,
 }
 
 extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationExtension on AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation {
-  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation copyWith(
-      {
-        int? id,
-        int? idMal,
-        AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate? startDate,
-        AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate? endDate,
-        String? season,
-        String? status,
-        bool? isFavourite,
-        bool? isAdult,
-        int? episodes,
-        AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle? title,
-        String? bannerImage,
-        AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage? coverImage,
-        int? averageScore,
-        int? duration,
-        String? format,
-        List<String>? genres,
-        String? description,
-        int? meanScore,
-        dynamic nextAiringEpisode,
-      }) {
+  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation copyWith({
+    int? id,
+    int? idMal,
+    AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate? startDate,
+    AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate? endDate,
+    String? season,
+    String? status,
+    bool? isFavourite,
+    bool? isAdult,
+    int? episodes,
+    AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle? title,
+    String? bannerImage,
+    AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage? coverImage,
+    int? averageScore,
+    int? duration,
+    String? format,
+    List<String>? genres,
+    String? description,
+    int? meanScore,
+    dynamic nextAiringEpisode,
+  }) {
     return AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendation()
       ..id = id ?? this.id
       ..idMal = idMal ?? this.idMal
@@ -397,18 +357,15 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationS
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate();
   final int? day = jsonConvert.convert<int>(json['day']);
   if (day != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate
-        .day = day;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate.day = day;
   }
   final int? month = jsonConvert.convert<int>(json['month']);
   if (month != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate
-        .month = month;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate.month = month;
   }
   final int? year = jsonConvert.convert<int>(json['year']);
   if (year != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate
-        .year = year;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate.year = year;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate;
 }
@@ -424,12 +381,11 @@ Map<String,
 }
 
 extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDateExtension on AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate {
-  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate copyWith(
-      {
-        int? day,
-        int? month,
-        int? year,
-      }) {
+  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate copyWith({
+    int? day,
+    int? month,
+    int? year,
+  }) {
     return AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationStartDate()
       ..day = day ?? this.day
       ..month = month ?? this.month
@@ -442,18 +398,15 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationE
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate();
   final int? day = jsonConvert.convert<int>(json['day']);
   if (day != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate
-        .day = day;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate.day = day;
   }
   final int? month = jsonConvert.convert<int>(json['month']);
   if (month != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate
-        .month = month;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate.month = month;
   }
   final int? year = jsonConvert.convert<int>(json['year']);
   if (year != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate
-        .year = year;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate.year = year;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate;
 }
@@ -469,12 +422,11 @@ Map<String,
 }
 
 extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDateExtension on AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate {
-  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate copyWith(
-      {
-        int? day,
-        int? month,
-        int? year,
-      }) {
+  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate copyWith({
+    int? day,
+    int? month,
+    int? year,
+  }) {
     return AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationEndDate()
       ..day = day ?? this.day
       ..month = month ?? this.month
@@ -487,24 +439,20 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationT
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle();
   final String? english = jsonConvert.convert<String>(json['english']);
   if (english != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle
-        .english = english;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle.english = english;
   }
   final String? native = jsonConvert.convert<String>(json['native']);
   if (native != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle
-        .native = native;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle.native = native;
   }
   final String? romaji = jsonConvert.convert<String>(json['romaji']);
   if (romaji != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle
-        .romaji = romaji;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle.romaji = romaji;
   }
-  final String? userPreferred = jsonConvert.convert<String>(
-      json['userPreferred']);
+  final String? userPreferred = jsonConvert.convert<String>(json['userPreferred']);
   if (userPreferred != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle
-        .userPreferred = userPreferred;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle.userPreferred =
+        userPreferred;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle;
 }
@@ -521,13 +469,12 @@ Map<String,
 }
 
 extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitleExtension on AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle {
-  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle copyWith(
-      {
-        String? english,
-        String? native,
-        String? romaji,
-        String? userPreferred,
-      }) {
+  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle copyWith({
+    String? english,
+    String? native,
+    String? romaji,
+    String? userPreferred,
+  }) {
     return AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationTitle()
       ..english = english ?? this.english
       ..native = native ?? this.native
@@ -541,8 +488,7 @@ AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationC
   final AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage = AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage();
   final String? large = jsonConvert.convert<String>(json['large']);
   if (large != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage
-        .large = large;
+    animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage.large = large;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage;
 }
@@ -556,10 +502,9 @@ Map<String,
 }
 
 extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImageExtension on AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage {
-  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage copyWith(
-      {
-        String? large,
-      }) {
+  AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage copyWith({
+    String? large,
+  }) {
     return AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecommendationCoverImage()
       ..large = large ?? this.large;
   }
@@ -568,15 +513,11 @@ extension AnimeDetailsGraphqlDtoDataMediaListMediaRecommendationsNodesMediaRecom
 AnimeDetailsGraphqlDtoDataMediaListMediaCharacters $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersFromJson(
     Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaListMediaCharacters animeDetailsGraphqlDtoDataMediaListMediaCharacters = AnimeDetailsGraphqlDtoDataMediaListMediaCharacters();
-  final List<
-      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes>? nodes = (json['nodes'] as List<
-      dynamic>?)
-      ?.map(
+  final List<AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes>? nodes = (json['nodes'] as List<
+      dynamic>?)?.map(
           (e) =>
-      jsonConvert.convert<
-          AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes>(
-          e) as AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes)
-      .toList();
+      jsonConvert.convert<AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes>(
+          e) as AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes).toList();
   if (nodes != null) {
     animeDetailsGraphqlDtoDataMediaListMediaCharacters.nodes = nodes;
   }
@@ -606,15 +547,13 @@ AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes $AnimeDetailsGraphqlDtoD
   if (id != null) {
     animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.id = id;
   }
-  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage? image = jsonConvert
-      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage>(
-      json['image']);
+  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage? image = jsonConvert.convert<
+      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage>(json['image']);
   if (image != null) {
     animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.image = image;
   }
-  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName? name = jsonConvert
-      .convert<AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName>(
-      json['name']);
+  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName? name = jsonConvert.convert<
+      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName>(json['name']);
   if (name != null) {
     animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.name = name;
   }
@@ -624,16 +563,12 @@ AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes $AnimeDetailsGraphqlDtoD
   }
   final String? description = jsonConvert.convert<String>(json['description']);
   if (description != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.description =
-        description;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.description = description;
   }
-  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth? dateOfBirth = jsonConvert
-      .convert<
-      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth>(
-      json['dateOfBirth']);
+  final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth? dateOfBirth = jsonConvert.convert<
+      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth>(json['dateOfBirth']);
   if (dateOfBirth != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.dateOfBirth =
-        dateOfBirth;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes.dateOfBirth = dateOfBirth;
   }
   final String? age = jsonConvert.convert<String>(json['age']);
   if (age != null) {
@@ -642,8 +577,7 @@ AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes $AnimeDetailsGraphqlDtoD
   return animeDetailsGraphqlDtoDataMediaListMediaCharactersNodes;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['id'] = entity.id;
@@ -687,8 +621,7 @@ AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage $AnimeDetailsGraphq
   return animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImageToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImageToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImage entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['large'] = entity.large;
@@ -707,17 +640,14 @@ extension AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesImageExtension 
 AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesNameFromJson(
     Map<String, dynamic> json) {
   final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName = AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName();
-  final String? userPreferred = jsonConvert.convert<String>(
-      json['userPreferred']);
+  final String? userPreferred = jsonConvert.convert<String>(json['userPreferred']);
   if (userPreferred != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName.userPreferred =
-        userPreferred;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName.userPreferred = userPreferred;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesNameToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesNameToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesName entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['userPreferred'] = entity.userPreferred;
@@ -738,24 +668,20 @@ AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth $AnimeDetails
   final AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth = AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth();
   final dynamic day = json['day'];
   if (day != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.day =
-        day;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.day = day;
   }
   final dynamic month = json['month'];
   if (month != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.month =
-        month;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.month = month;
   }
   final dynamic year = json['year'];
   if (year != null) {
-    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.year =
-        year;
+    animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth.year = year;
   }
   return animeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth;
 }
 
-Map<String,
-    dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirthToJson(
+Map<String, dynamic> $AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirthToJson(
     AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodesDateOfBirth entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['day'] = entity.day;

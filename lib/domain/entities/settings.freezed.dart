@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsModel {
 
-@HiveField(0) String get language;@HiveField(1) Service get service;@HiveField(2) EpisodeService get episodeService;
+@HiveField(0) String get language;@HiveField(1) Service get service;@HiveField(2) EpisodeService get episodeService;@HiveField(3)@ExtensionConverter() List<Extension> get installedAnimeExtensions;@HiveField(4)@ExtensionConverter() List<Extension> get installedMangaExtensions;@HiveField(5) String get aniyomiExtensionsRepositoryUrl;@HiveField(6) String get tachiyomiExtensionsRepositoryUrl;
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SettingsModelCopyWith<SettingsModel> get copyWith => _$SettingsModelCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService)&&const DeepCollectionEquality().equals(other.installedAnimeExtensions, installedAnimeExtensions)&&const DeepCollectionEquality().equals(other.installedMangaExtensions, installedMangaExtensions)&&(identical(other.aniyomiExtensionsRepositoryUrl, aniyomiExtensionsRepositoryUrl) || other.aniyomiExtensionsRepositoryUrl == aniyomiExtensionsRepositoryUrl)&&(identical(other.tachiyomiExtensionsRepositoryUrl, tachiyomiExtensionsRepositoryUrl) || other.tachiyomiExtensionsRepositoryUrl == tachiyomiExtensionsRepositoryUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,language,service,episodeService);
+int get hashCode => Object.hash(runtimeType,language,service,episodeService,const DeepCollectionEquality().hash(installedAnimeExtensions),const DeepCollectionEquality().hash(installedMangaExtensions),aniyomiExtensionsRepositoryUrl,tachiyomiExtensionsRepositoryUrl);
 
 @override
 String toString() {
-  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService)';
+  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, aniyomiExtensionsRepositoryUrl: $aniyomiExtensionsRepositoryUrl, tachiyomiExtensionsRepositoryUrl: $tachiyomiExtensionsRepositoryUrl)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SettingsModelCopyWith<$Res>  {
   factory $SettingsModelCopyWith(SettingsModel value, $Res Function(SettingsModel) _then) = _$SettingsModelCopyWithImpl;
 @useResult
 $Res call({
-@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService
+@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService,@HiveField(3)@ExtensionConverter() List<Extension> installedAnimeExtensions,@HiveField(4)@ExtensionConverter() List<Extension> installedMangaExtensions,@HiveField(5) String aniyomiExtensionsRepositoryUrl,@HiveField(6) String tachiyomiExtensionsRepositoryUrl
 });
 
 
@@ -65,12 +65,16 @@ class _$SettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? language = null,Object? service = null,Object? episodeService = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? language = null,Object? service = null,Object? episodeService = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? aniyomiExtensionsRepositoryUrl = null,Object? tachiyomiExtensionsRepositoryUrl = null,}) {
   return _then(_self.copyWith(
 language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
 as String,service: null == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
 as Service,episodeService: null == episodeService ? _self.episodeService : episodeService // ignore: cast_nullable_to_non_nullable
-as EpisodeService,
+as EpisodeService,installedAnimeExtensions: null == installedAnimeExtensions ? _self.installedAnimeExtensions : installedAnimeExtensions // ignore: cast_nullable_to_non_nullable
+as List<Extension>,installedMangaExtensions: null == installedMangaExtensions ? _self.installedMangaExtensions : installedMangaExtensions // ignore: cast_nullable_to_non_nullable
+as List<Extension>,aniyomiExtensionsRepositoryUrl: null == aniyomiExtensionsRepositoryUrl ? _self.aniyomiExtensionsRepositoryUrl : aniyomiExtensionsRepositoryUrl // ignore: cast_nullable_to_non_nullable
+as String,tachiyomiExtensionsRepositoryUrl: null == tachiyomiExtensionsRepositoryUrl ? _self.tachiyomiExtensionsRepositoryUrl : tachiyomiExtensionsRepositoryUrl // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -155,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService, @HiveField(3)@ExtensionConverter()  List<Extension> installedAnimeExtensions, @HiveField(4)@ExtensionConverter()  List<Extension> installedMangaExtensions, @HiveField(5)  String aniyomiExtensionsRepositoryUrl, @HiveField(6)  String tachiyomiExtensionsRepositoryUrl)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsModel() when $default != null:
-return $default(_that.language,_that.service,_that.episodeService);case _:
+return $default(_that.language,_that.service,_that.episodeService,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.aniyomiExtensionsRepositoryUrl,_that.tachiyomiExtensionsRepositoryUrl);case _:
   return orElse();
 
 }
@@ -176,10 +180,10 @@ return $default(_that.language,_that.service,_that.episodeService);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService, @HiveField(3)@ExtensionConverter()  List<Extension> installedAnimeExtensions, @HiveField(4)@ExtensionConverter()  List<Extension> installedMangaExtensions, @HiveField(5)  String aniyomiExtensionsRepositoryUrl, @HiveField(6)  String tachiyomiExtensionsRepositoryUrl)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsModel():
-return $default(_that.language,_that.service,_that.episodeService);case _:
+return $default(_that.language,_that.service,_that.episodeService,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.aniyomiExtensionsRepositoryUrl,_that.tachiyomiExtensionsRepositoryUrl);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +200,10 @@ return $default(_that.language,_that.service,_that.episodeService);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  String language, @HiveField(1)  Service service, @HiveField(2)  EpisodeService episodeService, @HiveField(3)@ExtensionConverter()  List<Extension> installedAnimeExtensions, @HiveField(4)@ExtensionConverter()  List<Extension> installedMangaExtensions, @HiveField(5)  String aniyomiExtensionsRepositoryUrl, @HiveField(6)  String tachiyomiExtensionsRepositoryUrl)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsModel() when $default != null:
-return $default(_that.language,_that.service,_that.episodeService);case _:
+return $default(_that.language,_that.service,_that.episodeService,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.aniyomiExtensionsRepositoryUrl,_that.tachiyomiExtensionsRepositoryUrl);case _:
   return null;
 
 }
@@ -211,12 +215,28 @@ return $default(_that.language,_that.service,_that.episodeService);case _:
 @JsonSerializable()
 
 class _SettingsModel implements SettingsModel {
-  const _SettingsModel({@HiveField(0) required this.language, @HiveField(1) required this.service, @HiveField(2) required this.episodeService});
+  const _SettingsModel({@HiveField(0) this.language = 'en', @HiveField(1) this.service = Service.anilist, @HiveField(2) this.episodeService = EpisodeService.anizip, @HiveField(3)@ExtensionConverter() final  List<Extension> installedAnimeExtensions = const [], @HiveField(4)@ExtensionConverter() final  List<Extension> installedMangaExtensions = const [], @HiveField(5) this.aniyomiExtensionsRepositoryUrl = config.aniyomiExtensionsRepositoryUrl, @HiveField(6) this.tachiyomiExtensionsRepositoryUrl = config.tachiyomiExtensionsRepositoryUrl}): _installedAnimeExtensions = installedAnimeExtensions,_installedMangaExtensions = installedMangaExtensions;
   factory _SettingsModel.fromJson(Map<String, dynamic> json) => _$SettingsModelFromJson(json);
 
-@override@HiveField(0) final  String language;
-@override@HiveField(1) final  Service service;
-@override@HiveField(2) final  EpisodeService episodeService;
+@override@JsonKey()@HiveField(0) final  String language;
+@override@JsonKey()@HiveField(1) final  Service service;
+@override@JsonKey()@HiveField(2) final  EpisodeService episodeService;
+ final  List<Extension> _installedAnimeExtensions;
+@override@JsonKey()@HiveField(3)@ExtensionConverter() List<Extension> get installedAnimeExtensions {
+  if (_installedAnimeExtensions is EqualUnmodifiableListView) return _installedAnimeExtensions;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_installedAnimeExtensions);
+}
+
+ final  List<Extension> _installedMangaExtensions;
+@override@JsonKey()@HiveField(4)@ExtensionConverter() List<Extension> get installedMangaExtensions {
+  if (_installedMangaExtensions is EqualUnmodifiableListView) return _installedMangaExtensions;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_installedMangaExtensions);
+}
+
+@override@JsonKey()@HiveField(5) final  String aniyomiExtensionsRepositoryUrl;
+@override@JsonKey()@HiveField(6) final  String tachiyomiExtensionsRepositoryUrl;
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +251,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsModel&&(identical(other.language, language) || other.language == language)&&(identical(other.service, service) || other.service == service)&&(identical(other.episodeService, episodeService) || other.episodeService == episodeService)&&const DeepCollectionEquality().equals(other._installedAnimeExtensions, _installedAnimeExtensions)&&const DeepCollectionEquality().equals(other._installedMangaExtensions, _installedMangaExtensions)&&(identical(other.aniyomiExtensionsRepositoryUrl, aniyomiExtensionsRepositoryUrl) || other.aniyomiExtensionsRepositoryUrl == aniyomiExtensionsRepositoryUrl)&&(identical(other.tachiyomiExtensionsRepositoryUrl, tachiyomiExtensionsRepositoryUrl) || other.tachiyomiExtensionsRepositoryUrl == tachiyomiExtensionsRepositoryUrl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,language,service,episodeService);
+int get hashCode => Object.hash(runtimeType,language,service,episodeService,const DeepCollectionEquality().hash(_installedAnimeExtensions),const DeepCollectionEquality().hash(_installedMangaExtensions),aniyomiExtensionsRepositoryUrl,tachiyomiExtensionsRepositoryUrl);
 
 @override
 String toString() {
-  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService)';
+  return 'SettingsModel(language: $language, service: $service, episodeService: $episodeService, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, aniyomiExtensionsRepositoryUrl: $aniyomiExtensionsRepositoryUrl, tachiyomiExtensionsRepositoryUrl: $tachiyomiExtensionsRepositoryUrl)';
 }
 
 
@@ -251,7 +271,7 @@ abstract mixin class _$SettingsModelCopyWith<$Res> implements $SettingsModelCopy
   factory _$SettingsModelCopyWith(_SettingsModel value, $Res Function(_SettingsModel) _then) = __$SettingsModelCopyWithImpl;
 @override @useResult
 $Res call({
-@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService
+@HiveField(0) String language,@HiveField(1) Service service,@HiveField(2) EpisodeService episodeService,@HiveField(3)@ExtensionConverter() List<Extension> installedAnimeExtensions,@HiveField(4)@ExtensionConverter() List<Extension> installedMangaExtensions,@HiveField(5) String aniyomiExtensionsRepositoryUrl,@HiveField(6) String tachiyomiExtensionsRepositoryUrl
 });
 
 
@@ -268,12 +288,16 @@ class __$SettingsModelCopyWithImpl<$Res>
 
 /// Create a copy of SettingsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? language = null,Object? service = null,Object? episodeService = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? language = null,Object? service = null,Object? episodeService = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? aniyomiExtensionsRepositoryUrl = null,Object? tachiyomiExtensionsRepositoryUrl = null,}) {
   return _then(_SettingsModel(
 language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
 as String,service: null == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
 as Service,episodeService: null == episodeService ? _self.episodeService : episodeService // ignore: cast_nullable_to_non_nullable
-as EpisodeService,
+as EpisodeService,installedAnimeExtensions: null == installedAnimeExtensions ? _self._installedAnimeExtensions : installedAnimeExtensions // ignore: cast_nullable_to_non_nullable
+as List<Extension>,installedMangaExtensions: null == installedMangaExtensions ? _self._installedMangaExtensions : installedMangaExtensions // ignore: cast_nullable_to_non_nullable
+as List<Extension>,aniyomiExtensionsRepositoryUrl: null == aniyomiExtensionsRepositoryUrl ? _self.aniyomiExtensionsRepositoryUrl : aniyomiExtensionsRepositoryUrl // ignore: cast_nullable_to_non_nullable
+as String,tachiyomiExtensionsRepositoryUrl: null == tachiyomiExtensionsRepositoryUrl ? _self.tachiyomiExtensionsRepositoryUrl : tachiyomiExtensionsRepositoryUrl // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

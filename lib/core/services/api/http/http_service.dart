@@ -232,6 +232,14 @@ class HttpService {
     final status = response.statusCode;
     if (status >= 200 && status < 300) {
       _logger.d("Response from server is successful with status code $status");
+      if (json.decode(response.body) is List<dynamic>) {
+        final jsonList = json.decode(response.body) as List<dynamic>;
+        return ApiResponse(
+            data: fromJson({'list': jsonList}),
+            statusCode: status,
+            headers: response.headers
+        );
+      }
       final jsonMap = json.decode(response.body) as Map<String, dynamic>;
       return ApiResponse(
         data: fromJson(jsonMap),

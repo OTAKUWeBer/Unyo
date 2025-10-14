@@ -5,3 +5,4 @@ const serviceEnumAdapterName = 'ServiceEnumAdapter';
 const anilistAnimeDetailsModelAdapterName = 'AnimeProgressModelAdapter';
 const mediaListModelAdapterName = 'MediaListModelAdapter';
 const episodeServiceEnumAdapterName = 'EpisodeServiceEnumAdapter';
+const extensionModelAdapterName = 'ExtensionModelAdapter';

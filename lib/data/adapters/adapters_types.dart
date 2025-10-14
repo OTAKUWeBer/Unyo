@@ -5,3 +5,4 @@ const serviceAdapterType = 3;
 const anilistAnimeDetailsAdapterType = 4;
 const mediaListAdapterType = 5;
 const episodeServiceAdapterType = 6;
+const extensionAdapterType = 7;
