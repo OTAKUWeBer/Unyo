@@ -41,5 +41,10 @@ class UserRepositoryLocal implements UserRepository {
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> updateUserInfo(User user) {
+    throw UnimplementedError();
+  }
+
 
 }

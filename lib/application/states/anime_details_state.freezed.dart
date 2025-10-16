@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimeDetailsState {
 
- User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime; int get progress; int get score; int get repeat; (bool, List<MediaCharacter>) get characters; (bool, List<Anime>) get recommendations; List<EpisodeInfo> get episodesInfo; List<String> get banners; String get alternateImage; int get selectedExtension; List<String> get installedExtensions;// relations
+ User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime; int get progress; int get score; int get repeat; (bool, List<MediaCharacter>) get characters; (bool, List<Anime>) get recommendations; List<EpisodeInfo> get episodesInfo; List<String> get banners; String get alternateImage; int get selectedExtension; Set<Extension> get installedExtensions;// relations
 // voice actors
  List<AppEffect> get effects;
 /// Create a copy of AnimeDetailsState
@@ -47,7 +47,7 @@ abstract mixin class $AnimeDetailsStateCopyWith<$Res>  {
   factory $AnimeDetailsStateCopyWith(AnimeDetailsState value, $Res Function(AnimeDetailsState) _then) = _$AnimeDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, List<String> installedExtensions, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, Set<Extension> installedExtensions, List<AppEffect> effects
 });
 
 
@@ -79,7 +79,7 @@ as List<EpisodeInfo>,banners: null == banners ? _self.banners : banners // ignor
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable
 as String,selectedExtension: null == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
 as int,installedExtensions: null == installedExtensions ? _self.installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
-as List<String>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as Set<Extension>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -165,7 +165,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  List<String> installedExtensions,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
@@ -186,7 +186,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  List<String> installedExtensions,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState():
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
@@ -206,7 +206,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  List<String> installedExtensions,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
@@ -221,7 +221,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 
 
 class _AnimeDetailsState extends AnimeDetailsState {
-  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.progress, required this.score, required this.repeat, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required this.selectedExtension, required final  List<String> installedExtensions, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_effects = effects,super._();
+  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.progress, required this.score, required this.repeat, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required this.selectedExtension, required final  Set<Extension> installedExtensions, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_effects = effects,super._();
   
 
 @override final  User loggedUser;
@@ -248,11 +248,11 @@ class _AnimeDetailsState extends AnimeDetailsState {
 
 @override final  String alternateImage;
 @override final  int selectedExtension;
- final  List<String> _installedExtensions;
-@override List<String> get installedExtensions {
-  if (_installedExtensions is EqualUnmodifiableListView) return _installedExtensions;
+ final  Set<Extension> _installedExtensions;
+@override Set<Extension> get installedExtensions {
+  if (_installedExtensions is EqualUnmodifiableSetView) return _installedExtensions;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_installedExtensions);
+  return EqualUnmodifiableSetView(_installedExtensions);
 }
 
 // relations
@@ -297,7 +297,7 @@ abstract mixin class _$AnimeDetailsStateCopyWith<$Res> implements $AnimeDetailsS
   factory _$AnimeDetailsStateCopyWith(_AnimeDetailsState value, $Res Function(_AnimeDetailsState) _then) = __$AnimeDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, List<String> installedExtensions, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, Set<Extension> installedExtensions, List<AppEffect> effects
 });
 
 
@@ -329,7 +329,7 @@ as List<EpisodeInfo>,banners: null == banners ? _self._banners : banners // igno
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable
 as String,selectedExtension: null == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
 as int,installedExtensions: null == installedExtensions ? _self._installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
-as List<String>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as Set<Extension>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

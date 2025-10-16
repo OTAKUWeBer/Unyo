@@ -84,7 +84,7 @@ void setupLocator() {
   sl.registerLazySingleton<EpisodeRepositoryAnizip>(
     () => EpisodeRepositoryAnizip(),
   );
-  sl.registerLazySingleton<ExtensionRepositoryAniyomi>(() => ExtensionRepositoryAniyomi());
+  sl.registerLazySingleton<ExtensionRepositoryAniyomi>(() => ExtensionRepositoryAniyomi(sl<UserRepositoryAnilist>()));
 
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(
@@ -155,6 +155,7 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<AnimeNotifier>(),
       sl<MediaListNotifier>(),
+      sl<ExtensionRepositoryAniyomi>()
     ),
   );
 }

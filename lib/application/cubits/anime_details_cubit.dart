@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
-import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -16,9 +16,11 @@ import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/http/http_exception.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/data/repositories/episode_repository_anizip.dart';
+import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
+import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
@@ -26,6 +28,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   // Repositories
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final EpisodeRepositoryAnizip _episodeRepositoryAnizip;
+  final ExtensionRepositoryAniyomi _extensionRepositoryAniyomi;
 
   // Notifiers / Subscriptions
   final AnimeNotifier _selectedAnimeNotifier;
@@ -38,15 +41,13 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   // Logger
   final Logger _logger = sl<Logger>();
 
-  // Services
-  final AniyomiBridge aniyomiBridge = sl<AniyomiBridge>();
-
   AnimeDetailsCubit(
     this._animeRepositoryAnilist,
     this._episodeRepositoryAnizip,
     this._loggedUserNotifier,
     this._selectedAnimeNotifier,
     this._selectedMediaListNotifier,
+    this._extensionRepositoryAniyomi,
   ) : super(
         AnimeDetailsState(
           loggedUser: UserModel.empty(),
@@ -61,7 +62,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           banners: [],
           alternateImage: '',
           selectedExtension: 0,
-          installedExtensions: [],
+          installedExtensions: {},
         ),
       ) {
     _init();
@@ -101,6 +102,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     _selectedMediaListSubscription = _selectedMediaListNotifier.mediaListStream.listen((mediaList) {
       emit(state.copyWith(selectedMediaList: mediaList));
     });
+    _loadInstalledExtensions();
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
@@ -142,6 +144,30 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       handleError("Error fetching Anime details:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Details: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _loadInstalledExtensions() async {
+    try {
+      _logger.i("Loading installed extensions for Aniyomi");
+      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledAnimeExtensions(state.loggedUser);
+      emit(state.copyWith(installedExtensions: installedExtensions));
+    } catch (e, stackTrace) {
+      handleError("Failed to load installed extensions $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _getAnimeInfoFromSelectedExtension() async {
+    try {
+      if (state.installedExtensions.isEmpty) {
+        _logger.w("No installed extensions available to fetch anime info.");
+        showSnackBarEffect("No Installed Extensions", message: "Install some extensions if you want to watch some content", contentType: ContentType.warning);
+        return;
+      }
+      Extension selectedExtension = state.installedExtensions.elementAt(state.selectedExtension);
+      _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title}");
+    } catch (e, stackTrace) {
+      handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
     }
   }
 

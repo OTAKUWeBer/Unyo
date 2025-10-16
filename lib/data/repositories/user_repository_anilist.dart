@@ -76,6 +76,13 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
   }
 
   @override
+  Future<void> updateUserInfo(User user) async{
+    // TODO notifier might be needed here to update user info in the app
+    _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
+    _anilistUsersBox.put(user.name, user);
+  }
+
+  @override
   Future<List<Anime>> getUserWatchingList(User user) async {
     Map<String, String> graphQlHeaders = {
       "Authorization": "Bearer ${(user as AnilistUserModel).accessToken}",

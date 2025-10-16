@@ -3,6 +3,7 @@ import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
+import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -24,7 +25,7 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required List<String> banners,
     required String alternateImage,
     required int selectedExtension,
-    required List<String> installedExtensions,
+    required Set<Extension> installedExtensions,
     // relations
     // voice actors
     @Default(<AppEffect>[]) List<AppEffect> effects,

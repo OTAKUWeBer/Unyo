@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:unyo/core/enums/extension_type.dart';
 import 'package:unyo/data/adapters/adapters_names.dart' as names;
 import 'package:unyo/data/adapters/adapters_types.dart' as types;
 
@@ -56,7 +57,7 @@ abstract class ExtensionModel with _$ExtensionModel implements Extension {
     lang: '',
     version: '',
     nsfw: 0,
-    type: 'Aniyomi',
+    type: ExtensionType.ANIYOMI,
   );
 
   factory ExtensionModel.fromJson(Map<String, dynamic> json) => _$ExtensionModelFromJson(json);

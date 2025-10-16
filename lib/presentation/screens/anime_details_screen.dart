@@ -193,7 +193,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                 width: 120.w,
                                                 height: 27.h,
                                                 children: [
-                                                  ...state.installedExtensions.map((extensionName) => Text(extensionName)),
+                                                  ...state.installedExtensions.map((extension) => Text(extension.name)),
                                                   if (state.installedExtensions.isEmpty)
                                                     SizedBox(
                                                       width: 80.w,

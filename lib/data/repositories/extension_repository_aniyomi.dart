@@ -1,16 +1,34 @@
+import 'package:hive_ce/hive.dart';
+import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/extension_type.dart';
 import 'package:unyo/core/services/api/dto/extensions/aniyomi_repo_json_entity.dart';
 import 'package:unyo/core/services/api/dto/extensions/tachiyomi_repo_json_entity.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
+import 'package:unyo/data/models/local_user_model.dart';
+import 'package:unyo/data/repositories/user_repository_anilist.dart';
 import 'package:unyo/domain/entities/extension.dart';
+import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/extension_repository.dart';
 
 class ExtensionRepositoryAniyomi implements ExtensionRepository {
   final Logger _logger = sl<Logger>();
+
+  // Services
   final HttpService _httpService = sl<HttpService>();
+  final AniyomiBridge aniyomiBridge = sl<AniyomiBridge>();
+
+  // Boxes
+  late Box<Extension> _aniyomiExtensionsBox;
+
+  // Repositories
+  final UserRepositoryAnilist _userRepositoryAnilist;
+
+  ExtensionRepositoryAniyomi(this._userRepositoryAnilist);
 
   @override
   Future<Set<Extension>> getAvailableAnimeExtensions(User user) async {
@@ -26,25 +44,26 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
             name: aniyomiRepoJsonEntity.name.replaceFirst("Aniyomi: ", ""),
             pkg: aniyomiRepoJsonEntity.pkg,
             apk:
-                "${aniyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "apk/")}${aniyomiRepoJsonEntity.apk}.png",
+                "${aniyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "apk/")}${aniyomiRepoJsonEntity.apk}",
             icon:
                 "${aniyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "icon/")}${aniyomiRepoJsonEntity.pkg}.png",
             lang: aniyomiRepoJsonEntity.lang,
             version: aniyomiRepoJsonEntity.version,
             nsfw: aniyomiRepoJsonEntity.nsfw.toInt(),
-            type: 'Aniyomi',
+            type: ExtensionType.ANIYOMI,
           ),
         )
-        .toSet();
+        .toSet()
+        .difference(await getInstalledAnimeExtensions(user));
   }
 
   @override
-  Future<Set<Extension>> getAvailableMangaExtensions(User user) async{
+  Future<Set<Extension>> getAvailableMangaExtensions(User user) async {
     _logger.i("Fetching available manga extensions for AniyomiBridge.");
     final String tachiyomiExtensionsRepositoryUrl = user.settings.tachiyomiExtensionsRepositoryUrl;
     ApiResponse<List<TachiyomiRepoJsonEntity>> repositoryResponse = await _httpService.get(
       tachiyomiExtensionsRepositoryUrl,
-      fromJson:  _parseTachiyomiRepoJsonList,
+      fromJson: _parseTachiyomiRepoJsonList,
     );
     return repositoryResponse.data
         .map(
@@ -52,31 +71,67 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
             name: tachiyomiRepoJsonEntity.name.replaceFirst("Tachiyomi: ", ""),
             pkg: tachiyomiRepoJsonEntity.pkg,
             apk:
-                "${tachiyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "apk/")}${tachiyomiRepoJsonEntity.apk}.png",
+                "${tachiyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "apk/")}${tachiyomiRepoJsonEntity.apk}",
             icon:
                 "${tachiyomiExtensionsRepositoryUrl.replaceFirst("index.min.json", "icon/")}${tachiyomiRepoJsonEntity.pkg}.png",
             lang: tachiyomiRepoJsonEntity.lang,
             version: tachiyomiRepoJsonEntity.version,
             nsfw: tachiyomiRepoJsonEntity.nsfw.toInt(),
-            type: 'Tachiyomi',
+            type: ExtensionType.TACHIYOMI,
           ),
         )
-        .toSet();
+        .toSet()
+        .difference(await getInstalledMangaExtensions(user));
   }
 
   @override
-  Future<Set<Extension>> getInstalledAnimeExtensions(User user) {
-    throw UnimplementedError();
+  Future<Set<Extension>> getInstalledAnimeExtensions(User user) async {
+    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
+    return _aniyomiExtensionsBox.values.where((extension) => extension.type == ExtensionType.ANIYOMI).toSet();
   }
 
   @override
-  Future<Set<Extension>> getInstalledMangaExtensions(User user) {
-    throw UnimplementedError();
+  Future<Set<Extension>> getInstalledMangaExtensions(User user) async {
+    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
+    return _aniyomiExtensionsBox.values.where((extension) => extension.type == ExtensionType.TACHIYOMI).toSet();
   }
 
   @override
-  Future<void> updateRepositoryUrl(String newUrl) {
-    throw UnimplementedError();
+  Future<void> updateAnimeRepositoryUrl(String newUrl, User user) async {
+    switch (user) {
+      case AnilistUserModel():
+        SettingsModel userSettings = user.settings as SettingsModel;
+        await _userRepositoryAnilist.updateUserInfo(
+          user.copyWith(settings: userSettings.copyWith(aniyomiExtensionsRepositoryUrl: newUrl)),
+        );
+      case LocalUserModel():
+    }
+  }
+
+  @override
+  Future<void> updateMangaRepositoryUrl(String newUrl, User user) async {
+    switch (user) {
+      case AnilistUserModel():
+        SettingsModel userSettings = user.settings as SettingsModel;
+        await _userRepositoryAnilist.updateUserInfo(
+          user.copyWith(settings: userSettings.copyWith(tachiyomiExtensionsRepositoryUrl: newUrl)),
+        );
+      case LocalUserModel():
+    }
+  }
+
+  @override
+  Future<void> addExtension(Extension extension) async {
+    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
+    await _aniyomiExtensionsBox.put('${extension.name}-${extension.version}', extension);
+    if (extension.type == ExtensionType.ANIYOMI) {
+      aniyomiBridge.loadAnimeExtension(extension.apk);
+    } else if (extension.type == ExtensionType.TACHIYOMI) {
+      aniyomiBridge.loadMangaExtension(extension.apk);
+    } else {
+      _logger.w("Unknown extension type: ${extension.type}");
+      throw Exception("Unknown extension type: ${extension.type}");
+    }
   }
 
   List<AniyomiRepoJsonEntity> _parseAniyomiRepoJsonList(Map<String, dynamic> json) {
@@ -89,5 +144,20 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     return ((json['list'] as List<dynamic>?) ?? [])
         .map((jsonItem) => TachiyomiRepoJsonEntity.fromJson(jsonItem as Map<String, dynamic>))
         .toList();
+  }
+
+  @override
+  Future<void> removeExtension(Extension extension) async{
+    // TODO implement unload extension from AniyomiBridge when supported
+    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
+    await _aniyomiExtensionsBox.delete('${extension.name}-${extension.version}');
+    // if (extension.type == ExtensionType.ANIYOMI) {
+    //   await aniyomiBridge.unloadAnimeExtension(extension.pkg);
+    // } else if (extension.type == ExtensionType.TACHIYOMI) {
+    //   await aniyomiBridge.unloadMangaExtension(extension.pkg);
+    // } else {
+    //   _logger.w("Unknown extension type: ${extension.type}");
+    //   throw Exception("Unknown extension type: ${extension.type}");
+    // }
   }
 }
