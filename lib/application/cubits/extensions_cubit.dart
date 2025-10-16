@@ -78,7 +78,7 @@ class ExtensionsCubit extends Cubit<ExtensionsState> with EffectMixin<Extensions
             availableMangaExtensions: List.from(state.availableMangaExtensions)..remove(extension)
         ));
       }
-      _extensionRepositoryAniyomi.addExtension(extension);
+      await _extensionRepositoryAniyomi.addExtension(extension);
       if (extension.type == ExtensionType.ANIYOMI) {
         emit(state.copyWith(
             installedAnimeExtensions: [extension, ...state.installedAnimeExtensions]

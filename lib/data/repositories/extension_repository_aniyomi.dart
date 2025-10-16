@@ -28,7 +28,10 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
   // Repositories
   final UserRepositoryAnilist _userRepositoryAnilist;
 
-  ExtensionRepositoryAniyomi(this._userRepositoryAnilist);
+  ExtensionRepositoryAniyomi(this._userRepositoryAnilist) {
+    _loadInstalledAnimeExtensions();
+    _loadInstalledMangaExtensions();
+  }
 
   @override
   Future<Set<Extension>> getAvailableAnimeExtensions(User user) async {
@@ -93,7 +96,9 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
   @override
   Future<Set<Extension>> getInstalledMangaExtensions(User user) async {
     _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
-    return _aniyomiExtensionsBox.values.where((extension) => extension.type == ExtensionType.TACHIYOMI).toSet();
+    return _aniyomiExtensionsBox.values
+        .where((extension) => extension.type == ExtensionType.TACHIYOMI)
+        .toSet();
   }
 
   @override
@@ -134,6 +139,20 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     }
   }
 
+  @override
+  Future<void> removeExtension(Extension extension) async {
+    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
+    await _aniyomiExtensionsBox.delete('${extension.name}-${extension.version}');
+    if (extension.type == ExtensionType.ANIYOMI) {
+      aniyomiBridge.unloadAnimeExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
+    } else if (extension.type == ExtensionType.TACHIYOMI) {
+      aniyomiBridge.unloadMangaExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
+    } else {
+      _logger.w("Unknown extension type: ${extension.type}");
+      throw Exception("Unknown extension type: ${extension.type}");
+    }
+  }
+
   List<AniyomiRepoJsonEntity> _parseAniyomiRepoJsonList(Map<String, dynamic> json) {
     return ((json['list'] as List<dynamic>?) ?? [])
         .map((jsonItem) => AniyomiRepoJsonEntity.fromJson(jsonItem as Map<String, dynamic>))
@@ -146,18 +165,11 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
         .toList();
   }
 
-  @override
-  Future<void> removeExtension(Extension extension) async{
-    // TODO implement unload extension from AniyomiBridge when supported
-    _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
-    await _aniyomiExtensionsBox.delete('${extension.name}-${extension.version}');
-    // if (extension.type == ExtensionType.ANIYOMI) {
-    //   await aniyomiBridge.unloadAnimeExtension(extension.pkg);
-    // } else if (extension.type == ExtensionType.TACHIYOMI) {
-    //   await aniyomiBridge.unloadMangaExtension(extension.pkg);
-    // } else {
-    //   _logger.w("Unknown extension type: ${extension.type}");
-    //   throw Exception("Unknown extension type: ${extension.type}");
-    // }
+  Future<void> _loadInstalledAnimeExtensions() async {
+
+  }
+
+  Future<void> _loadInstalledMangaExtensions() async {
+
   }
 }
