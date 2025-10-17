@@ -41,10 +41,7 @@ void setupLocator() {
   // Services
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<GraphQLService>(
-    () => GraphQLService(
-      httpService: sl<HttpService>(),
-      endpoint: config.anilistGraphQLEndpoint,
-    ),
+    () => GraphQLService(httpService: sl<HttpService>(), endpoint: config.anilistGraphQLEndpoint),
     instanceName: config.anilistGraphQlService,
   );
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
@@ -56,14 +53,8 @@ void setupLocator() {
   );
   sl.registerSingleton<AniyomiBridge>(AniyomiBridge());
   // Notifiers
-  sl.registerLazySingleton<UserNotifier>(
-    () => UserNotifier(),
-    instanceName: config.loggedUserNotifier,
-  );
-  sl.registerLazySingleton<UserNotifier>(
-    () => UserNotifier(),
-    instanceName: config.newUserNotifier,
-  );
+  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.loggedUserNotifier);
+  sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
   sl.registerLazySingleton<MenuBarNotifier>(() => MenuBarNotifier());
   sl.registerLazySingleton<AnimeNotifier>(() => AnimeNotifier());
   sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
@@ -71,20 +62,11 @@ void setupLocator() {
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
   sl.registerLazySingleton<UserRepositoryAnilist>(
-    () => UserRepositoryAnilist(
-      sl<UserNotifier>(instanceName: config.newUserNotifier),
-    ),
+    () => UserRepositoryAnilist(sl<UserNotifier>(instanceName: config.newUserNotifier)),
   );
-  sl.registerLazySingleton<AnimeRepositoryAnilist>(
-    () => AnimeRepositoryAnilist(),
-  );
-  sl.registerLazySingleton<MangaRepositoryAnilist>(
-    () => MangaRepositoryAnilist(),
-  );
-  sl.registerLazySingleton<EpisodeRepositoryAnizip>(
-    () => EpisodeRepositoryAnizip(),
-  );
-  sl.registerLazySingleton<ExtensionRepositoryAniyomi>(() => ExtensionRepositoryAniyomi(sl<UserRepositoryAnilist>()));
+  sl.registerLazySingleton<AnimeRepositoryAnilist>(() => AnimeRepositoryAnilist());
+  sl.registerLazySingleton<MangaRepositoryAnilist>(() => MangaRepositoryAnilist());
+  sl.registerLazySingleton<EpisodeRepositoryAnizip>(() => EpisodeRepositoryAnizip());
 
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(
@@ -108,10 +90,7 @@ void setupLocator() {
     ),
   );
   sl.registerFactory<TabsCubit>(
-    () => TabsCubit(
-      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
-      sl<MenuBarNotifier>(),
-    ),
+    () => TabsCubit(sl<UserNotifier>(instanceName: config.loggedUserNotifier), sl<MenuBarNotifier>()),
   );
   sl.registerFactory<AnimeCubit>(
     () => AnimeCubit(
@@ -122,15 +101,14 @@ void setupLocator() {
     ),
   );
   sl.registerFactory<MangaCubit>(
-    () => MangaCubit(
-      sl<MangaRepositoryAnilist>(),
+    () => MangaCubit(sl<MangaRepositoryAnilist>(), sl<UserNotifier>(instanceName: config.loggedUserNotifier)),
+  );
+  sl.registerFactory<ExtensionsCubit>(
+    () => ExtensionsCubit(
+      sl<ExtensionRepositoryAniyomi>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<ExtensionsCubit>(() => ExtensionsCubit(
-    sl<ExtensionRepositoryAniyomi>(),
-    sl<UserNotifier>(instanceName: config.loggedUserNotifier),
-  ));
   sl.registerFactory<MediaListCubit>(
     () => MediaListCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
@@ -155,7 +133,16 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<AnimeNotifier>(),
       sl<MediaListNotifier>(),
-      sl<ExtensionRepositoryAniyomi>()
+      sl<ExtensionRepositoryAniyomi>(),
+    ),
+  );
+}
+
+void setupLocatorAfterHiveInit() {
+  sl.registerSingleton<ExtensionRepositoryAniyomi>(
+      ExtensionRepositoryAniyomi(
+      sl<UserRepositoryAnilist>(),
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
 }

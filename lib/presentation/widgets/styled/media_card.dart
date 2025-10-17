@@ -197,13 +197,14 @@ class MediaCard extends StatelessWidget {
                                   format == "SPECIAL" ||
                                   format == "MANGA" ||
                                   format == "MOVIE" ||
-                                  format == "NOVEL"
+                                  format == "NOVEL" ||
+                                  format == "MUSIC"
                               ? 8
                               : 14,
                     ),
                   ),
                   Icon(
-                    Icons.tv_rounded,
+                    format != 'MANGA' ? Icons.tv_rounded : Icons.book_rounded,
                     color: ColorScheme.of(context).tertiary.withOpacity(0.8),
                     size: 17,
                   ),

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:hive_ce/hive.dart';
 import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/extension_type.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/dto/extensions/aniyomi_repo_json_entity.dart';
 import 'package:unyo/core/services/api/dto/extensions/tachiyomi_repo_json_entity.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
@@ -20,17 +23,25 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
 
   // Services
   final HttpService _httpService = sl<HttpService>();
-  final AniyomiBridge aniyomiBridge = sl<AniyomiBridge>();
-
+  final AniyomiBridge _aniyomiBridge = sl<AniyomiBridge>();
   // Boxes
   late Box<Extension> _aniyomiExtensionsBox;
-
   // Repositories
   final UserRepositoryAnilist _userRepositoryAnilist;
+  // Notifiers
+  final UserNotifier _loggedUserNotifier;
+  late StreamSubscription<User> _loggedUserSubscription;
 
-  ExtensionRepositoryAniyomi(this._userRepositoryAnilist) {
-    _loadInstalledAnimeExtensions();
-    _loadInstalledMangaExtensions();
+  ExtensionRepositoryAniyomi(this._userRepositoryAnilist, this._loggedUserNotifier) {
+    _init();
+  }
+
+  Future<void> _init() async {
+    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) async {
+        _loadInstalledAnimeExtensions(loggedUser);
+        _loadInstalledMangaExtensions(loggedUser);
+        _closeLoggedUserSubscription();
+    });
   }
 
   @override
@@ -130,9 +141,9 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
     await _aniyomiExtensionsBox.put('${extension.name}-${extension.version}', extension);
     if (extension.type == ExtensionType.ANIYOMI) {
-      aniyomiBridge.loadAnimeExtension(extension.apk);
+      _aniyomiBridge.loadAnimeExtension(extension.apk);
     } else if (extension.type == ExtensionType.TACHIYOMI) {
-      aniyomiBridge.loadMangaExtension(extension.apk);
+      _aniyomiBridge.loadMangaExtension(extension.apk);
     } else {
       _logger.w("Unknown extension type: ${extension.type}");
       throw Exception("Unknown extension type: ${extension.type}");
@@ -144,9 +155,9 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     _aniyomiExtensionsBox = await Hive.openBox<Extension>('aniyomiExtensions');
     await _aniyomiExtensionsBox.delete('${extension.name}-${extension.version}');
     if (extension.type == ExtensionType.ANIYOMI) {
-      aniyomiBridge.unloadAnimeExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
+      _aniyomiBridge.unloadAnimeExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
     } else if (extension.type == ExtensionType.TACHIYOMI) {
-      aniyomiBridge.unloadMangaExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
+      _aniyomiBridge.unloadMangaExtension(extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1), "v${extension.version}");
     } else {
       _logger.w("Unknown extension type: ${extension.type}");
       throw Exception("Unknown extension type: ${extension.type}");
@@ -165,11 +176,21 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
         .toList();
   }
 
-  Future<void> _loadInstalledAnimeExtensions() async {
-
+  Future<void> _loadInstalledAnimeExtensions(User loggedUser) async {
+    Set<Extension> installedExtensions = await getInstalledAnimeExtensions(loggedUser);
+    for (Extension extension in installedExtensions) {
+      _aniyomiBridge.loadAnimeExtension(extension.apk);
+    }
   }
 
-  Future<void> _loadInstalledMangaExtensions() async {
+  Future<void> _loadInstalledMangaExtensions(User loggedUser) async {
+    Set<Extension> installedExtensions = await getInstalledMangaExtensions(loggedUser);
+    for (Extension extension in installedExtensions) {
+      _aniyomiBridge.loadMangaExtension(extension.apk);
+    }
+  }
 
+  Future<void> _closeLoggedUserSubscription() async{
+    _loggedUserSubscription.cancel();
   }
 }

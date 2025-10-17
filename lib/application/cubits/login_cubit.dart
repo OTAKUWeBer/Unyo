@@ -18,6 +18,7 @@ import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/models/models.dart';
+import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -114,6 +115,8 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
             contentType: ContentType.warning,
           );
       }
+      // Init User Extensions
+      _loadUserExtensions();
       setUsersTheme(user);
       replaceRouteEffect(path: "/tabs");
     } catch (e, stackTrace) {
@@ -160,6 +163,10 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
       case LocalUserModel localUserModel:
         _logger.d("Getting local user's theme");
     }
+  }
+
+  Future<void> _loadUserExtensions() async {
+    sl<ExtensionRepositoryAniyomi>();
   }
 
   void _updateAvailableUsers(List<User> users) {

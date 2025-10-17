@@ -25,6 +25,8 @@ void main() async {
   Hive
     ..init(sl<Directory>(instanceName: config.applicationSupportDirectory).path)
     ..registerAdapters();
+  // Inject the remaining dependencies that rely on Hive and are not Lazy
+  setupLocatorAfterHiveInit();
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
