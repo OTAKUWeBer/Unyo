@@ -19,6 +19,7 @@ abstract class Settings {
   final List<Extension> installedMangaExtensions;
   final String aniyomiExtensionsRepositoryUrl;
   final String tachiyomiExtensionsRepositoryUrl;
+  final Map<String, Extension> mediaExtensionConfigs;
 
   const Settings({
     required this.service,
@@ -27,7 +28,8 @@ abstract class Settings {
     required this.installedAnimeExtensions,
     required this.installedMangaExtensions,
     required this.aniyomiExtensionsRepositoryUrl,
-    required this.tachiyomiExtensionsRepositoryUrl
+    required this.tachiyomiExtensionsRepositoryUrl,
+    required this.mediaExtensionConfigs,
   });
 }
 
@@ -42,6 +44,7 @@ abstract class SettingsModel with _$SettingsModel implements Settings {
     @HiveField(4) @ExtensionConverter() @Default([]) List<Extension> installedMangaExtensions,
     @HiveField(5) @Default(config.aniyomiExtensionsRepositoryUrl) String aniyomiExtensionsRepositoryUrl,
     @HiveField(6) @Default(config.tachiyomiExtensionsRepositoryUrl) String tachiyomiExtensionsRepositoryUrl,
+    @HiveField(7) @ExtensionConverter() @Default({}) Map<String, Extension> mediaExtensionConfigs,
   }) = _SettingsModel;
 
   factory SettingsModel.empty() =>

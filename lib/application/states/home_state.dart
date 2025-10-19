@@ -21,6 +21,7 @@ abstract class HomeState with _$HomeState implements HasEffects{
     required List<Manga> continueReading,
     required List<String> mediaCoverImages,
     required bool isLoading,
+    required bool userLoaded,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _HomeState;
 

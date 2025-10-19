@@ -35,10 +35,11 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     instanceName: config.anilistGraphQlService,
   );
   final UserNotifier _newUserNotifier;
+  final UserNotifier _loggedUserNotifier;
   late Box<User> _anilistUsersBox;
   late HttpServer _server;
 
-  UserRepositoryAnilist(this._newUserNotifier);
+  UserRepositoryAnilist(this._newUserNotifier, this._loggedUserNotifier);
 
   @override
   Future<List<User>> fetchAllLoggedInUsers() async {
@@ -77,9 +78,9 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
 
   @override
   Future<void> updateUserInfo(User user) async{
-    // TODO notifier might be needed here to update user info in the app
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
-    _anilistUsersBox.put(user.name, user);
+    await _anilistUsersBox.put(user.name, user);
+    _loggedUserNotifier.updateUser(user);
   }
 
   @override

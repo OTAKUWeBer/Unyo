@@ -14,14 +14,18 @@ import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/http/http_exception.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
+import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/data/repositories/episode_repository_anizip.dart';
 import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
+import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeDetailsState> {
@@ -29,6 +33,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final EpisodeRepositoryAnizip _episodeRepositoryAnizip;
   final ExtensionRepositoryAniyomi _extensionRepositoryAniyomi;
+  final UserRepositoryAnilist _userRepositoryAnilist;
 
   // Notifiers / Subscriptions
   final AnimeNotifier _selectedAnimeNotifier;
@@ -48,6 +53,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     this._selectedAnimeNotifier,
     this._selectedMediaListNotifier,
     this._extensionRepositoryAniyomi,
+    this._userRepositoryAnilist,
   ) : super(
         AnimeDetailsState(
           loggedUser: UserModel.empty(),
@@ -61,8 +67,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           episodesInfo: [],
           banners: [],
           alternateImage: '',
-          selectedExtension: 0,
           installedExtensions: {},
+          selectedExtension: null,
+          userLoaded: false,
         ),
       ) {
     _init();
@@ -91,8 +98,11 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
 
   void _init() {
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
-      _getAnimeBanners(loggedUser);
       emit(state.copyWith(loggedUser: loggedUser));
+      if (!state.userLoaded) {
+        _getAnimeBanners(loggedUser);
+        emit(state.copyWith(userLoaded: true));
+      }
     });
     _selectedAnimeSubscription = _selectedAnimeNotifier.animeStream.listen((anime) {
       _getAnimeDetails(state.loggedUser, anime);
@@ -109,6 +119,26 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     _logger.i("Navigating to Anime Details of ${anime.title}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
+  }
+
+  void selectAnimeExtension(String? selectedAnimeExtensionName) {
+    Extension? selectedExtension = state.installedExtensions.where((extension) => selectedAnimeExtensionName == extension.name).firstOrNull;
+    if (selectedExtension != null) {
+      switch(state.loggedUser) {
+        case AnilistUserModel anilistUserModel:
+          SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
+          Map<String, Extension> mediaExtensionsConfigUpdated = Map.from(userSettings.mediaExtensionConfigs);
+          mediaExtensionsConfigUpdated.addAll({state.selectedAnime.id.toString(): selectedExtension});
+          _userRepositoryAnilist.updateUserInfo(anilistUserModel.copyWith(
+            settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated)
+          ));
+        case LocalUserModel localUserModel:
+      }
+      _getAnimeInfoFromSelectedExtension(selectedExtension);
+    } else {
+      _logger.w("Selected extension $selectedAnimeExtensionName not found among installed extensions.");
+      showSnackBarEffect("Extension Not Found", message: "The selected extension is not installed.", contentType: ContentType.warning);
+    }
   }
 
   Future<void> _getAnimeDetails(User loggedUser, Anime selectedAnime) async {
@@ -152,20 +182,20 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       _logger.i("Loading installed extensions for Aniyomi");
       Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledAnimeExtensions(state.loggedUser);
       emit(state.copyWith(installedExtensions: installedExtensions));
+      _setSelectedExtension(state.loggedUser, state.selectedAnime);
     } catch (e, stackTrace) {
       handleError("Failed to load installed extensions $e", stackTrace: stackTrace);
     }
   }
 
-  Future<void> _getAnimeInfoFromSelectedExtension() async {
+  Future<void> _getAnimeInfoFromSelectedExtension(Extension selectedExtension) async {
     try {
       if (state.installedExtensions.isEmpty) {
         _logger.w("No installed extensions available to fetch anime info.");
         showSnackBarEffect("No Installed Extensions", message: "Install some extensions if you want to watch some content", contentType: ContentType.warning);
         return;
       }
-      Extension selectedExtension = state.installedExtensions.elementAt(state.selectedExtension);
-      _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title}");
+      _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}");
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
     }
@@ -235,6 +265,23 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       handleError("Error fetching Anime banners:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Banners: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _setSelectedExtension(User loggedUser, Anime selectedAnime) async {
+    try {
+      switch (loggedUser) {
+        case AnilistUserModel anilistUserModel:
+          SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
+          Extension? selectedExtension = userSettings.mediaExtensionConfigs[selectedAnime.id.toString()];
+          if (selectedExtension != null) {
+            selectAnimeExtension(selectedExtension.name);
+            emit(state.copyWith(selectedExtension: selectedExtension));
+          }
+        case LocalUserModel localUserModel:
+      }
+    } catch (e, stackTrace) {
+      handleError("Error setting selected extension: $e", stackTrace: stackTrace);
     }
   }
 }

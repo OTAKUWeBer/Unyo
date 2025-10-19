@@ -17,6 +17,7 @@ abstract class AnimeState with _$AnimeState implements HasEffects{
     required List<Anime> banners,
     required User loggedUser,
     required bool isLoading,
+    required bool userLoaded,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeState;
 

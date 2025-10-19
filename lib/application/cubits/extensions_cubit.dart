@@ -32,6 +32,7 @@ class ExtensionsCubit extends Cubit<ExtensionsState> with EffectMixin<Extensions
           installedMangaExtensions: [],
           availableAnimeExtensions: [],
           availableMangaExtensions: [],
+          userLoaded: false,
         ),
       ) {
     _init();
@@ -53,13 +54,16 @@ class ExtensionsCubit extends Cubit<ExtensionsState> with EffectMixin<Extensions
 
   void _init() {
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
-      _fetchAvailableAnimeExtensions(loggedUser);
-      _fetchAvailableMangaExtensions(loggedUser);
-      _fetchInstaledAnimeExtensions(loggedUser);
-      _fetchInstaledMangaExtensions(loggedUser);
       emit(state.copyWith(
           loggedUser: loggedUser
       ));
+      if (!state.userLoaded) {
+        _fetchAvailableAnimeExtensions(loggedUser);
+        _fetchAvailableMangaExtensions(loggedUser);
+        _fetchInstaledAnimeExtensions(loggedUser);
+        _fetchInstaledMangaExtensions(loggedUser);
+        emit(state.copyWith(userLoaded: true));
+      }
     });
   }
 

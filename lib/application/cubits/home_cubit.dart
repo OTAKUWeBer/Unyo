@@ -54,6 +54,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
           continueReading: [],
           mediaCoverImages: [],
           isLoading: true,
+          userLoaded: false,
         ),
       ) {
     _init();
@@ -77,12 +78,15 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
     _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) async {
-      await _getUserInfo(loggedUser);
-      await _getMediaCoverImages(loggedUser);
-      _menuBarNotifier.showMenuBar(true);
       emit(
-        state.copyWith(loggedUser: loggedUser, isLoading: false),
-      ); // Update state on new data
+        state.copyWith(loggedUser: loggedUser),
+      );
+      if (!state.userLoaded) {
+        await _getUserInfo(loggedUser);
+        await _getMediaCoverImages(loggedUser);
+        _menuBarNotifier.showMenuBar(true);
+        emit(state.copyWith(userLoaded: true, isLoading: false));
+      }
     });
   }
 

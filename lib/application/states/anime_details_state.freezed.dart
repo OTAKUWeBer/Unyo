@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnimeDetailsState {
 
- User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime; int get progress; int get score; int get repeat; (bool, List<MediaCharacter>) get characters; (bool, List<Anime>) get recommendations; List<EpisodeInfo> get episodesInfo; List<String> get banners; String get alternateImage; int get selectedExtension; Set<Extension> get installedExtensions;// relations
+ User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime; int get progress; int get score; int get repeat; (bool, List<MediaCharacter>) get characters; (bool, List<Anime>) get recommendations; List<EpisodeInfo> get episodesInfo; List<String> get banners; String get alternateImage; Set<Extension> get installedExtensions; bool get userLoaded; Extension? get selectedExtension;// relations
 // voice actors
  List<AppEffect> get effects;
 /// Create a copy of AnimeDetailsState
@@ -27,16 +27,16 @@ $AnimeDetailsStateCopyWith<AnimeDetailsState> get copyWith => _$AnimeDetailsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other.episodesInfo, episodesInfo)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other.installedExtensions, installedExtensions)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other.episodesInfo, episodesInfo)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other.installedExtensions, installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(episodesInfo),const DeepCollectionEquality().hash(banners),alternateImage,selectedExtension,const DeepCollectionEquality().hash(installedExtensions),const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(episodesInfo),const DeepCollectionEquality().hash(banners),alternateImage,const DeepCollectionEquality().hash(installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, episodesInfo: $episodesInfo, banners: $banners, alternateImage: $alternateImage, selectedExtension: $selectedExtension, installedExtensions: $installedExtensions, effects: $effects)';
+  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, episodesInfo: $episodesInfo, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, effects: $effects)';
 }
 
 
@@ -47,7 +47,7 @@ abstract mixin class $AnimeDetailsStateCopyWith<$Res>  {
   factory $AnimeDetailsStateCopyWith(AnimeDetailsState value, $Res Function(AnimeDetailsState) _then) = _$AnimeDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, Set<Extension> installedExtensions, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<AppEffect> effects
 });
 
 
@@ -64,7 +64,7 @@ class _$AnimeDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? episodesInfo = null,Object? banners = null,Object? alternateImage = null,Object? selectedExtension = null,Object? installedExtensions = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? episodesInfo = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
@@ -77,9 +77,10 @@ as (bool, List<MediaCharacter>),recommendations: null == recommendations ? _self
 as (bool, List<Anime>),episodesInfo: null == episodesInfo ? _self.episodesInfo : episodesInfo // ignore: cast_nullable_to_non_nullable
 as List<EpisodeInfo>,banners: null == banners ? _self.banners : banners // ignore: cast_nullable_to_non_nullable
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable
-as String,selectedExtension: null == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
-as int,installedExtensions: null == installedExtensions ? _self.installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
-as Set<Extension>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as String,installedExtensions: null == installedExtensions ? _self.installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
+as Set<Extension>,userLoaded: null == userLoaded ? _self.userLoaded : userLoaded // ignore: cast_nullable_to_non_nullable
+as bool,selectedExtension: freezed == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
+as Extension?,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -165,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.effects);case _:
   return orElse();
 
 }
@@ -186,10 +187,10 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState():
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -206,10 +207,10 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  int selectedExtension,  Set<Extension> installedExtensions,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.selectedExtension,_that.installedExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.effects);case _:
   return null;
 
 }
@@ -221,7 +222,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 
 
 class _AnimeDetailsState extends AnimeDetailsState {
-  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.progress, required this.score, required this.repeat, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required this.selectedExtension, required final  Set<Extension> installedExtensions, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_effects = effects,super._();
+  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.progress, required this.score, required this.repeat, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required final  Set<Extension> installedExtensions, required this.userLoaded, required this.selectedExtension, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_effects = effects,super._();
   
 
 @override final  User loggedUser;
@@ -247,7 +248,6 @@ class _AnimeDetailsState extends AnimeDetailsState {
 }
 
 @override final  String alternateImage;
-@override final  int selectedExtension;
  final  Set<Extension> _installedExtensions;
 @override Set<Extension> get installedExtensions {
   if (_installedExtensions is EqualUnmodifiableSetView) return _installedExtensions;
@@ -255,6 +255,8 @@ class _AnimeDetailsState extends AnimeDetailsState {
   return EqualUnmodifiableSetView(_installedExtensions);
 }
 
+@override final  bool userLoaded;
+@override final  Extension? selectedExtension;
 // relations
 // voice actors
  final  List<AppEffect> _effects;
@@ -277,16 +279,16 @@ _$AnimeDetailsStateCopyWith<_AnimeDetailsState> get copyWith => __$AnimeDetailsS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other._episodesInfo, _episodesInfo)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other._installedExtensions, _installedExtensions)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnimeDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other._episodesInfo, _episodesInfo)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other._installedExtensions, _installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(_episodesInfo),const DeepCollectionEquality().hash(_banners),alternateImage,selectedExtension,const DeepCollectionEquality().hash(_installedExtensions),const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedAnime,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(_episodesInfo),const DeepCollectionEquality().hash(_banners),alternateImage,const DeepCollectionEquality().hash(_installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, episodesInfo: $episodesInfo, banners: $banners, alternateImage: $alternateImage, selectedExtension: $selectedExtension, installedExtensions: $installedExtensions, effects: $effects)';
+  return 'AnimeDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedAnime: $selectedAnime, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, episodesInfo: $episodesInfo, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, effects: $effects)';
 }
 
 
@@ -297,7 +299,7 @@ abstract mixin class _$AnimeDetailsStateCopyWith<$Res> implements $AnimeDetailsS
   factory _$AnimeDetailsStateCopyWith(_AnimeDetailsState value, $Res Function(_AnimeDetailsState) _then) = __$AnimeDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, int selectedExtension, Set<Extension> installedExtensions, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<AppEffect> effects
 });
 
 
@@ -314,7 +316,7 @@ class __$AnimeDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of AnimeDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? episodesInfo = null,Object? banners = null,Object? alternateImage = null,Object? selectedExtension = null,Object? installedExtensions = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedAnime = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? episodesInfo = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? effects = null,}) {
   return _then(_AnimeDetailsState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
@@ -327,9 +329,10 @@ as (bool, List<MediaCharacter>),recommendations: null == recommendations ? _self
 as (bool, List<Anime>),episodesInfo: null == episodesInfo ? _self._episodesInfo : episodesInfo // ignore: cast_nullable_to_non_nullable
 as List<EpisodeInfo>,banners: null == banners ? _self._banners : banners // ignore: cast_nullable_to_non_nullable
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable
-as String,selectedExtension: null == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
-as int,installedExtensions: null == installedExtensions ? _self._installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
-as Set<Extension>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as String,installedExtensions: null == installedExtensions ? _self._installedExtensions : installedExtensions // ignore: cast_nullable_to_non_nullable
+as Set<Extension>,userLoaded: null == userLoaded ? _self.userLoaded : userLoaded // ignore: cast_nullable_to_non_nullable
+as bool,selectedExtension: freezed == selectedExtension ? _self.selectedExtension : selectedExtension // ignore: cast_nullable_to_non_nullable
+as Extension?,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

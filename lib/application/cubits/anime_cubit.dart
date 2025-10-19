@@ -38,6 +38,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
           banners: [],
           loggedUser: UserModel.empty(),
           isLoading: true,
+          userLoaded: false,
         ),
       ) {
     _init();
@@ -62,13 +63,15 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) async {
-      await _fetchRecentlyReleased(1, loggedUser);
-      await _fetchTrending(1, loggedUser);
-      await _fetchRecentlyCompleted(1, loggedUser);
-      await _fetchPopular(1, loggedUser);
-      await _fetchUpcoming(1, loggedUser);
       emit(state.copyWith(loggedUser: loggedUser));
-      emit(state.copyWith(isLoading: false));
+      if (!state.userLoaded) {
+        await _fetchRecentlyReleased(1, loggedUser);
+        await _fetchTrending(1, loggedUser);
+        await _fetchRecentlyCompleted(1, loggedUser);
+        await _fetchPopular(1, loggedUser);
+        await _fetchUpcoming(1, loggedUser);
+        emit(state.copyWith(userLoaded: true, isLoading: false));
+      }
     });
   }
 

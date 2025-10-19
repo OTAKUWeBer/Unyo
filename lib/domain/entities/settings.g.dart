@@ -35,13 +35,15 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
           fields[6] == null
               ? 'https://gitea.k3vinb5.dev/Backups/keiyoushi-extensions/raw/branch/repo/index.min.json'
               : fields[6] as String,
+      mediaExtensionConfigs:
+          fields[7] == null ? {} : (fields[7] as Map).cast<String, Extension>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.language)
       ..writeByte(1)
@@ -55,7 +57,9 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       ..writeByte(5)
       ..write(obj.aniyomiExtensionsRepositoryUrl)
       ..writeByte(6)
-      ..write(obj.tachiyomiExtensionsRepositoryUrl);
+      ..write(obj.tachiyomiExtensionsRepositoryUrl)
+      ..writeByte(7)
+      ..write(obj.mediaExtensionConfigs);
   }
 
   @override
@@ -104,6 +108,14 @@ _SettingsModel _$SettingsModelFromJson(
   tachiyomiExtensionsRepositoryUrl:
       json['tachiyomiExtensionsRepositoryUrl'] as String? ??
       config.tachiyomiExtensionsRepositoryUrl,
+  mediaExtensionConfigs:
+      (json['mediaExtensionConfigs'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(
+          k,
+          const ExtensionConverter().fromJson(e as Map<String, dynamic>),
+        ),
+      ) ??
+      const {},
 );
 
 Map<String, dynamic> _$SettingsModelToJson(
@@ -122,6 +134,9 @@ Map<String, dynamic> _$SettingsModelToJson(
           .toList(),
   'aniyomiExtensionsRepositoryUrl': instance.aniyomiExtensionsRepositoryUrl,
   'tachiyomiExtensionsRepositoryUrl': instance.tachiyomiExtensionsRepositoryUrl,
+  'mediaExtensionConfigs': instance.mediaExtensionConfigs.map(
+    (k, e) => MapEntry(k, const ExtensionConverter().toJson(e)),
+  ),
 };
 
 const _$ServiceEnumMap = {

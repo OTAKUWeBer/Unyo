@@ -1,52 +1,99 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class UnyoDropdown extends StatelessWidget {
-  final double width;
-  final double height;
-  final void Function(int)? onPressed;
-  final int selected;
-  final List<Widget> children;
-  const UnyoDropdown({super.key, required this.children, required this.selected, required this.onPressed, required this.width, required this.height});
+class UnyoDropdown extends StatefulWidget {
+  final void Function(String?)? onPressed;
+  final List<String> children;
+  final String? selectedValue;
+
+  const UnyoDropdown({
+    super.key,
+    required this.children,
+    required this.onPressed,
+    this.selectedValue
+  });
+
+  @override
+  State<UnyoDropdown> createState() => _UnyoDropdownState();
+}
+
+class _UnyoDropdownState extends State<UnyoDropdown> {
+  late TextEditingController searchController;
+
+  @override
+  void initState() {
+    searchController = TextEditingController();
+    if (widget.selectedValue != null) {
+    searchController.text = widget.selectedValue!;
+    }
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant UnyoDropdown oldWidget) {
+    if(oldWidget.selectedValue != widget.selectedValue) {
+      setState(() {
+        searchController.text = widget.selectedValue!;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ColorScheme.of(context).tertiary),
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      child: SizedBox(
-        width: width,
-        height: height,
-        child: DropdownButton(
-          padding: const EdgeInsets.only(left: 10),
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-          dropdownColor: const Color.fromARGB(255, 46, 45, 46),
-          focusColor: Colors.transparent,
-          underline: const SizedBox(),
-          value: selected,
-          items: [
-            ...children.mapIndexed(
-              (index, widgets) {
-                return DropdownMenuItem(
-                  value: index,
-                  child: widgets,
-                );
-              },
+    return LayoutBuilder(
+      builder:
+          (context, constrains) => DropdownMenu(
+            width: constrains.maxWidth,
+            controller: searchController,
+            onSelected: widget.onPressed,
+            leadingIcon: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 8.0),
+              child: Icon(Icons.search_rounded, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
             ),
-          ],
-          onChanged: (index) {
-            if (index != null && onPressed != null) {
-              onPressed!(index);
-            }
-          },
-        ),
-      ),
+            enableFilter: true,
+            trailingIcon: Icon(
+              Icons.arrow_drop_down,
+              color: ColorScheme.of(context).tertiary.withOpacity(0.7),
+            ),
+            menuStyle: MenuStyle(
+              backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.5)),
+              maximumSize: WidgetStatePropertyAll(Size(constrains.maxWidth, 300)),
+            ),
+            label: Text('Select Extension', style: TextStyle(color: Colors.white.withOpacity(0.8))),
+            inputDecorationTheme: InputDecorationTheme(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                borderSide: BorderSide(color: ColorScheme.of(context).primary, width: 3),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(16.0)),
+                borderSide: BorderSide(color: ColorScheme.of(context).tertiary.withOpacity(0.8), width: 2),
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
+            ),
+            dropdownMenuEntries:
+                widget.children
+                    .mapIndexed(
+                      (index, element) => DropdownMenuEntry<String>(
+                        value: element,
+                        label: element,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            ColorScheme.of(context).secondary.withOpacity(0.4),
+                          ),
+                          alignment: Alignment.center,
+                        ),
+                      ),
+                    )
+                    .toList(),
+          ),
     );
   }
 }

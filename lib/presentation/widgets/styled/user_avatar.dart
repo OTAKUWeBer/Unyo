@@ -19,10 +19,10 @@ class UserAvatar extends StatelessWidget {
       child: Column(
         children: [
           HoverAnimatedContainer(
-            width: 0.25.sh,
-            height: 0.25.sh,
-            hoverWidth: 0.27.sh,
-            hoverHeight: 0.27.sh,
+            width: 160.h,
+            height: 160.h,
+            hoverWidth: 165.h,
+            hoverHeight: 165.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(140.r),
               border: Border.all(color: Colors.white, width: 3.w),
@@ -35,7 +35,7 @@ class UserAvatar extends StatelessWidget {
               borderRadius: BorderRadius.circular(140.r),
               onTap: onPressed,
               child: CircleAvatar(
-                radius: 0.125.sh,
+                radius: 90.h,
                 backgroundColor: Colors.transparent,
                 backgroundImage: NetworkImage(user.avatarImage),
               ),

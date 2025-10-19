@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ExtensionsState {
 
- User get loggedUser; List<Extension> get installedAnimeExtensions; List<Extension> get installedMangaExtensions; List<Extension> get availableAnimeExtensions; List<Extension> get availableMangaExtensions; List<AppEffect> get effects;
+ User get loggedUser; List<Extension> get installedAnimeExtensions; List<Extension> get installedMangaExtensions; List<Extension> get availableAnimeExtensions; List<Extension> get availableMangaExtensions; bool get userLoaded; List<AppEffect> get effects;
 /// Create a copy of ExtensionsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ExtensionsStateCopyWith<ExtensionsState> get copyWith => _$ExtensionsStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExtensionsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other.installedAnimeExtensions, installedAnimeExtensions)&&const DeepCollectionEquality().equals(other.installedMangaExtensions, installedMangaExtensions)&&const DeepCollectionEquality().equals(other.availableAnimeExtensions, availableAnimeExtensions)&&const DeepCollectionEquality().equals(other.availableMangaExtensions, availableMangaExtensions)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExtensionsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other.installedAnimeExtensions, installedAnimeExtensions)&&const DeepCollectionEquality().equals(other.installedMangaExtensions, installedMangaExtensions)&&const DeepCollectionEquality().equals(other.availableAnimeExtensions, availableAnimeExtensions)&&const DeepCollectionEquality().equals(other.availableMangaExtensions, availableMangaExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(installedAnimeExtensions),const DeepCollectionEquality().hash(installedMangaExtensions),const DeepCollectionEquality().hash(availableAnimeExtensions),const DeepCollectionEquality().hash(availableMangaExtensions),const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(installedAnimeExtensions),const DeepCollectionEquality().hash(installedMangaExtensions),const DeepCollectionEquality().hash(availableAnimeExtensions),const DeepCollectionEquality().hash(availableMangaExtensions),userLoaded,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'ExtensionsState(loggedUser: $loggedUser, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, availableAnimeExtensions: $availableAnimeExtensions, availableMangaExtensions: $availableMangaExtensions, effects: $effects)';
+  return 'ExtensionsState(loggedUser: $loggedUser, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, availableAnimeExtensions: $availableAnimeExtensions, availableMangaExtensions: $availableMangaExtensions, userLoaded: $userLoaded, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ExtensionsStateCopyWith<$Res>  {
   factory $ExtensionsStateCopyWith(ExtensionsState value, $Res Function(ExtensionsState) _then) = _$ExtensionsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, List<Extension> installedAnimeExtensions, List<Extension> installedMangaExtensions, List<Extension> availableAnimeExtensions, List<Extension> availableMangaExtensions, List<AppEffect> effects
+ User loggedUser, List<Extension> installedAnimeExtensions, List<Extension> installedMangaExtensions, List<Extension> availableAnimeExtensions, List<Extension> availableMangaExtensions, bool userLoaded, List<AppEffect> effects
 });
 
 
@@ -62,14 +62,15 @@ class _$ExtensionsStateCopyWithImpl<$Res>
 
 /// Create a copy of ExtensionsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? availableAnimeExtensions = null,Object? availableMangaExtensions = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? availableAnimeExtensions = null,Object? availableMangaExtensions = null,Object? userLoaded = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,installedAnimeExtensions: null == installedAnimeExtensions ? _self.installedAnimeExtensions : installedAnimeExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,installedMangaExtensions: null == installedMangaExtensions ? _self.installedMangaExtensions : installedMangaExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,availableAnimeExtensions: null == availableAnimeExtensions ? _self.availableAnimeExtensions : availableAnimeExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,availableMangaExtensions: null == availableMangaExtensions ? _self.availableMangaExtensions : availableMangaExtensions // ignore: cast_nullable_to_non_nullable
-as List<Extension>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as List<Extension>,userLoaded: null == userLoaded ? _self.userLoaded : userLoaded // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  bool userLoaded,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ExtensionsState() when $default != null:
-return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.userLoaded,_that.effects);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedM
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  bool userLoaded,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _ExtensionsState():
-return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.userLoaded,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedM
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  List<Extension> installedAnimeExtensions,  List<Extension> installedMangaExtensions,  List<Extension> availableAnimeExtensions,  List<Extension> availableMangaExtensions,  bool userLoaded,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _ExtensionsState() when $default != null:
-return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.effects);case _:
+return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedMangaExtensions,_that.availableAnimeExtensions,_that.availableMangaExtensions,_that.userLoaded,_that.effects);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.loggedUser,_that.installedAnimeExtensions,_that.installedM
 
 
 class _ExtensionsState extends ExtensionsState {
-  const _ExtensionsState({required this.loggedUser, required final  List<Extension> installedAnimeExtensions, required final  List<Extension> installedMangaExtensions, required final  List<Extension> availableAnimeExtensions, required final  List<Extension> availableMangaExtensions, final  List<AppEffect> effects = const <AppEffect>[]}): _installedAnimeExtensions = installedAnimeExtensions,_installedMangaExtensions = installedMangaExtensions,_availableAnimeExtensions = availableAnimeExtensions,_availableMangaExtensions = availableMangaExtensions,_effects = effects,super._();
+  const _ExtensionsState({required this.loggedUser, required final  List<Extension> installedAnimeExtensions, required final  List<Extension> installedMangaExtensions, required final  List<Extension> availableAnimeExtensions, required final  List<Extension> availableMangaExtensions, required this.userLoaded, final  List<AppEffect> effects = const <AppEffect>[]}): _installedAnimeExtensions = installedAnimeExtensions,_installedMangaExtensions = installedMangaExtensions,_availableAnimeExtensions = availableAnimeExtensions,_availableMangaExtensions = availableMangaExtensions,_effects = effects,super._();
   
 
 @override final  User loggedUser;
@@ -243,6 +244,7 @@ class _ExtensionsState extends ExtensionsState {
   return EqualUnmodifiableListView(_availableMangaExtensions);
 }
 
+@override final  bool userLoaded;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
@@ -261,16 +263,16 @@ _$ExtensionsStateCopyWith<_ExtensionsState> get copyWith => __$ExtensionsStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExtensionsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other._installedAnimeExtensions, _installedAnimeExtensions)&&const DeepCollectionEquality().equals(other._installedMangaExtensions, _installedMangaExtensions)&&const DeepCollectionEquality().equals(other._availableAnimeExtensions, _availableAnimeExtensions)&&const DeepCollectionEquality().equals(other._availableMangaExtensions, _availableMangaExtensions)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ExtensionsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&const DeepCollectionEquality().equals(other._installedAnimeExtensions, _installedAnimeExtensions)&&const DeepCollectionEquality().equals(other._installedMangaExtensions, _installedMangaExtensions)&&const DeepCollectionEquality().equals(other._availableAnimeExtensions, _availableAnimeExtensions)&&const DeepCollectionEquality().equals(other._availableMangaExtensions, _availableMangaExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(_installedAnimeExtensions),const DeepCollectionEquality().hash(_installedMangaExtensions),const DeepCollectionEquality().hash(_availableAnimeExtensions),const DeepCollectionEquality().hash(_availableMangaExtensions),const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,const DeepCollectionEquality().hash(_installedAnimeExtensions),const DeepCollectionEquality().hash(_installedMangaExtensions),const DeepCollectionEquality().hash(_availableAnimeExtensions),const DeepCollectionEquality().hash(_availableMangaExtensions),userLoaded,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'ExtensionsState(loggedUser: $loggedUser, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, availableAnimeExtensions: $availableAnimeExtensions, availableMangaExtensions: $availableMangaExtensions, effects: $effects)';
+  return 'ExtensionsState(loggedUser: $loggedUser, installedAnimeExtensions: $installedAnimeExtensions, installedMangaExtensions: $installedMangaExtensions, availableAnimeExtensions: $availableAnimeExtensions, availableMangaExtensions: $availableMangaExtensions, userLoaded: $userLoaded, effects: $effects)';
 }
 
 
@@ -281,7 +283,7 @@ abstract mixin class _$ExtensionsStateCopyWith<$Res> implements $ExtensionsState
   factory _$ExtensionsStateCopyWith(_ExtensionsState value, $Res Function(_ExtensionsState) _then) = __$ExtensionsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, List<Extension> installedAnimeExtensions, List<Extension> installedMangaExtensions, List<Extension> availableAnimeExtensions, List<Extension> availableMangaExtensions, List<AppEffect> effects
+ User loggedUser, List<Extension> installedAnimeExtensions, List<Extension> installedMangaExtensions, List<Extension> availableAnimeExtensions, List<Extension> availableMangaExtensions, bool userLoaded, List<AppEffect> effects
 });
 
 
@@ -298,14 +300,15 @@ class __$ExtensionsStateCopyWithImpl<$Res>
 
 /// Create a copy of ExtensionsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? availableAnimeExtensions = null,Object? availableMangaExtensions = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? installedAnimeExtensions = null,Object? installedMangaExtensions = null,Object? availableAnimeExtensions = null,Object? availableMangaExtensions = null,Object? userLoaded = null,Object? effects = null,}) {
   return _then(_ExtensionsState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,installedAnimeExtensions: null == installedAnimeExtensions ? _self._installedAnimeExtensions : installedAnimeExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,installedMangaExtensions: null == installedMangaExtensions ? _self._installedMangaExtensions : installedMangaExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,availableAnimeExtensions: null == availableAnimeExtensions ? _self._availableAnimeExtensions : availableAnimeExtensions // ignore: cast_nullable_to_non_nullable
 as List<Extension>,availableMangaExtensions: null == availableMangaExtensions ? _self._availableMangaExtensions : availableMangaExtensions // ignore: cast_nullable_to_non_nullable
-as List<Extension>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as List<Extension>,userLoaded: null == userLoaded ? _self.userLoaded : userLoaded // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

@@ -28,6 +28,7 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
           banners: [],
           loggedUser: UserModel.empty(),
           isLoading: true,
+          userLoaded: false,
         ),
       ) {
     _init();
@@ -54,11 +55,13 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
     ) {
       emit(state.copyWith(loggedUser: loggedUser));
     });
-    await _fetchTrending(1);
-    await _fetchRecentlyCompleted(1);
-    await _fetchPopular(1);
-    await _fetchUpcoming(1);
-    emit(state.copyWith(isLoading: false));
+    if (!state.userLoaded) {
+      await _fetchTrending(1);
+      await _fetchRecentlyCompleted(1);
+      await _fetchPopular(1);
+      await _fetchUpcoming(1);
+      emit(state.copyWith(userLoaded: true, isLoading: false));
+    }
   }
 
   Future<void> _fetchTrending(int page) async {

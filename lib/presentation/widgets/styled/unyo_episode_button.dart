@@ -36,7 +36,7 @@ class UnyoEpisodeButton extends StatelessWidget {
             indent: 40.w,
           ) : const SizedBox.shrink(),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 12.h),
+            padding: EdgeInsets.only(left: 22.w, right: 22.w, bottom: 12.h, top: showDivider ? 12.h : 0),
             child: HoverAnimatedContainer(
               duration: const Duration(milliseconds: 150),
               hoverHeight: 72.h,

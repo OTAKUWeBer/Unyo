@@ -2,6 +2,12 @@ import 'dart:async';
 
 import 'package:hive_ce/hive.dart';
 import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jpage.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jschapter.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsepisode.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/extension_type.dart';
@@ -19,9 +25,8 @@ import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/extension_repository.dart';
 
 class ExtensionRepositoryAniyomi implements ExtensionRepository {
-  final Logger _logger = sl<Logger>();
-
   // Services
+  final Logger _logger = sl<Logger>();
   final HttpService _httpService = sl<HttpService>();
   final AniyomiBridge _aniyomiBridge = sl<AniyomiBridge>();
   // Boxes
@@ -162,6 +167,30 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
       _logger.w("Unknown extension type: ${extension.type}");
       throw Exception("Unknown extension type: ${extension.type}");
     }
+  }
+
+  List<JSAnime> getAnimeSearchResults(String query, Extension extension) {
+    return _aniyomiBridge.getAnimeSearchResults(query, 1, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
+  }
+
+  List<JSEpisode> getAnimeEpisodeList(JSAnime anime, Extension extension) {
+    return _aniyomiBridge.getEpisodeList(anime, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
+  }
+
+  List<JVideo> getAnimeVideoList(JSEpisode episode, Extension extension) {
+    return _aniyomiBridge.getVideoList(episode, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
+  }
+
+  List<JSManga> getMangaSearchResults(String query, Extension extension) {
+    return _aniyomiBridge.getMangaSearchResults(query, 1, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
+  }
+
+  List<JSChapter> getMangaChapterList(JSManga manga, Extension extension) {
+    return _aniyomiBridge.getChapterList(manga, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
+  }
+
+  List<JPage> getMangaPageList(JSChapter chapter, Extension extension) {
+    return _aniyomiBridge.getPageList(chapter, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
   List<AniyomiRepoJsonEntity> _parseAniyomiRepoJsonList(Map<String, dynamic> json) {

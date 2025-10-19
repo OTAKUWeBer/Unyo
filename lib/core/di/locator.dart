@@ -62,7 +62,7 @@ void setupLocator() {
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
   sl.registerLazySingleton<UserRepositoryAnilist>(
-    () => UserRepositoryAnilist(sl<UserNotifier>(instanceName: config.newUserNotifier)),
+    () => UserRepositoryAnilist(sl<UserNotifier>(instanceName: config.newUserNotifier), sl<UserNotifier>(instanceName: config.loggedUserNotifier)),
   );
   sl.registerLazySingleton<AnimeRepositoryAnilist>(() => AnimeRepositoryAnilist());
   sl.registerLazySingleton<MangaRepositoryAnilist>(() => MangaRepositoryAnilist());
@@ -134,6 +134,7 @@ void setupLocator() {
       sl<AnimeNotifier>(),
       sl<MediaListNotifier>(),
       sl<ExtensionRepositoryAniyomi>(),
+      sl<UserRepositoryAnilist>()
     ),
   );
 }

@@ -14,6 +14,7 @@ abstract class ExtensionsState with _$ExtensionsState implements HasEffects{
     required List<Extension> installedMangaExtensions,
     required List<Extension> availableAnimeExtensions,
     required List<Extension> availableMangaExtensions,
+    required bool userLoaded,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _ExtensionsState;
 

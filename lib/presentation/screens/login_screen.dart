@@ -78,11 +78,11 @@ class _LoginViewState extends State<_LoginView> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Spacer(flex: 1),
+            const Spacer(flex: 15),
             TextDisplayLarge(text: context.tr("select_user")),
-            SizedBox(height: 0.07.sh),
+            SizedBox(height: 40.h),
             SizedBox(
-              height: 0.35.sh,
+              height: 250.h,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -98,7 +98,7 @@ class _LoginViewState extends State<_LoginView> {
                 ),
               ),
             ),
-            const Spacer(flex: 1),
+            const Spacer(flex: 10),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(

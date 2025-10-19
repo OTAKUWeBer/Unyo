@@ -19,6 +19,7 @@ abstract class MangaState with _$MangaState implements HasEffects{
     required User loggedUser,
     required bool isLoading,
     @Default(<AppEffect>[]) List<AppEffect> effects,
+    required bool userLoaded,
   }) = _MangaState;
 
   const MangaState._();
