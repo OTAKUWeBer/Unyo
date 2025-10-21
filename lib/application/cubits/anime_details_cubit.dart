@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -121,7 +122,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
 
-  void selectAnimeExtension(String? selectedAnimeExtensionName) {
+  Future<void> selectAnimeExtension(String? selectedAnimeExtensionName) async{
     Extension? selectedExtension = state.installedExtensions.where((extension) => selectedAnimeExtensionName == extension.name).firstOrNull;
     if (selectedExtension != null) {
       switch(state.loggedUser) {
@@ -196,6 +197,8 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         return;
       }
       _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}");
+      List<JSAnime> animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(state.selectedAnime.title.userPreferred, selectedExtension);
+      // print("Anime Results: ${animeResults.map((jSAnime) => jSAnime.getTitle().toDartString()).toList()}");
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
     }

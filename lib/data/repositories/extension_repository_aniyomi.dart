@@ -169,27 +169,27 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     }
   }
 
-  List<JSAnime> getAnimeSearchResults(String query, Extension extension) {
+  Future<List<JSAnime>> getAnimeSearchResults(String query, Extension extension) async {
     return _aniyomiBridge.getAnimeSearchResults(query, 1, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
-  List<JSEpisode> getAnimeEpisodeList(JSAnime anime, Extension extension) {
+  Future<List<JSEpisode>> getAnimeEpisodeList(JSAnime anime, Extension extension) async {
     return _aniyomiBridge.getEpisodeList(anime, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
-  List<JVideo> getAnimeVideoList(JSEpisode episode, Extension extension) {
+  Future<List<JVideo>> getAnimeVideoList(JSEpisode episode, Extension extension) async {
     return _aniyomiBridge.getVideoList(episode, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
-  List<JSManga> getMangaSearchResults(String query, Extension extension) {
+  Future<List<JSManga>> getMangaSearchResults(String query, Extension extension) async {
     return _aniyomiBridge.getMangaSearchResults(query, 1, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
-  List<JSChapter> getMangaChapterList(JSManga manga, Extension extension) {
+  Future<List<JSChapter>> getMangaChapterList(JSManga manga, Extension extension) async {
     return _aniyomiBridge.getChapterList(manga, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
-  List<JPage> getMangaPageList(JSChapter chapter, Extension extension) {
+  Future<List<JPage>> getMangaPageList(JSChapter chapter, Extension extension) async {
     return _aniyomiBridge.getPageList(chapter, extension.pkg.substring(extension.pkg.lastIndexOf(".") + 1));
   }
 
@@ -207,6 +207,9 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
 
   Future<void> _loadInstalledAnimeExtensions(User loggedUser) async {
     Set<Extension> installedExtensions = await getInstalledAnimeExtensions(loggedUser);
+    if (!_aniyomiBridge.isReady()) {
+      await Future.delayed(const Duration(milliseconds: 1000));
+    }
     for (Extension extension in installedExtensions) {
       _aniyomiBridge.loadAnimeExtension(extension.apk);
     }
