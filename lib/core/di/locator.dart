@@ -5,6 +5,7 @@ import 'package:k3vinb5_aniyomi_bridge/aniyomi_bridge.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:unyo/application/cubits/extensions_cubit.dart';
+import 'package:unyo/application/cubits/settings_cubit.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
@@ -17,6 +18,7 @@ import 'package:unyo/application/cubits/tabs_cubit.dart';
 import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/log/logger.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -57,6 +59,7 @@ void setupLocator() {
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
   sl.registerLazySingleton<MenuBarNotifier>(() => MenuBarNotifier());
   sl.registerLazySingleton<AnimeNotifier>(() => AnimeNotifier());
+  sl.registerLazySingleton<MangaNotifier>(() => MangaNotifier());
   sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
 
   // Repositories
@@ -125,7 +128,6 @@ void setupLocator() {
       sl<MediaListNotifier>(),
     ),
   );
-
   sl.registerFactory<AnimeDetailsCubit>(
     () => AnimeDetailsCubit(
       sl<AnimeRepositoryAnilist>(),
@@ -137,6 +139,7 @@ void setupLocator() {
       sl<UserRepositoryAnilist>()
     ),
   );
+  sl.registerFactory<SettingsCubit>(() => SettingsCubit());
 }
 
 void setupLocatorAfterHiveInit() {

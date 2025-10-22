@@ -71,6 +71,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           installedExtensions: {},
           selectedExtension: null,
           userLoaded: false,
+          extensionAnimeResults: [],
+          extensionEpisodeResults: [],
+          extensionVideoResults: [],
         ),
       ) {
     _init();
@@ -198,7 +201,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       }
       _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}");
       List<JSAnime> animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(state.selectedAnime.title.userPreferred, selectedExtension);
-      // print("Anime Results: ${animeResults.map((jSAnime) => jSAnime.getTitle().toDartString()).toList()}");
+      emit(state.copyWith(extensionAnimeResults: animeResults));
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
     }

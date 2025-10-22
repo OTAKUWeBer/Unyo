@@ -59,6 +59,13 @@ class AppRouter extends RootStackRouter {
               duration: Duration.zero,
               reverseDuration: Duration.zero,
             ),
+            CustomRoute(
+              page: SettingsRoute.page,
+              path: 'settings',
+              transitionsBuilder: TransitionsBuilders.noTransition,
+              duration: Duration.zero,
+              reverseDuration: Duration.zero,
+            ),
           ],
         ),
         CustomRoute(

@@ -1,0 +1,297 @@
+import 'dart:async';
+import 'dart:math';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:collection/collection.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
+import 'package:logger/logger.dart';
+import 'package:unyo/application/cubits/effect_mixin.dart';
+import 'package:unyo/application/effects/app_effects.dart';
+import 'package:bloc/bloc.dart';
+import 'package:unyo/application/states/manga_details_state.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/episode_service.dart';
+import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/manga_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
+import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/services/api/http/http_exception.dart';
+import 'package:unyo/data/models/anilist_user_model.dart';
+import 'package:unyo/data/models/local_user_model.dart';
+import 'package:unyo/data/repositories/anime_repository_anilist.dart';
+import 'package:unyo/data/repositories/episode_repository_anizip.dart';
+import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
+import 'package:unyo/data/repositories/manga_repository_anilist.dart';
+import 'package:unyo/data/repositories/repositories.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/anime_details.dart';
+import 'package:unyo/domain/entities/episode_info.dart';
+import 'package:unyo/domain/entities/extension.dart';
+import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/settings.dart';
+import 'package:unyo/domain/entities/user.dart';
+
+class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaDetailsState> {
+  // Repositories
+  final MangaRepositoryAnilist _mangaRepositoryAnilist;
+  final EpisodeRepositoryAnizip _episodeRepositoryAnizip;
+  final ExtensionRepositoryAniyomi _extensionRepositoryAniyomi;
+  final UserRepositoryAnilist _userRepositoryAnilist;
+
+  // Notifiers / Subscriptions
+  final MangaNotifier _selectedMangaNotifier;
+  final UserNotifier _loggedUserNotifier;
+  final MediaListNotifier _selectedMediaListNotifier;
+  late StreamSubscription<Manga> _selectedMangaSubscription;
+  late StreamSubscription<User> _loggedUserSubscription;
+  late StreamSubscription<MediaList> _selectedMediaListSubscription;
+
+  // Logger
+  final Logger _logger = sl<Logger>();
+
+  MangaDetailsCubit(
+      this._mangaRepositoryAnilist,
+      this._episodeRepositoryAnizip,
+      this._loggedUserNotifier,
+      this._selectedMangaNotifier,
+      this._selectedMediaListNotifier,
+      this._extensionRepositoryAniyomi,
+      this._userRepositoryAnilist,
+      ) : super(
+    MangaDetailsState(
+      loggedUser: UserModel.empty(),
+      selectedMediaList: MediaListModel.empty(),
+      selectedManga: MangaModel.empty(),
+      progress: 0,
+      score: 0,
+      repeat: 0,
+      characters: (false, []),
+      recommendations: (false, []),
+      episodesInfo: [],
+      banners: [],
+      alternateImage: '',
+      installedExtensions: {},
+      selectedExtension: null,
+      userLoaded: false,
+      extensionMangaResults: [],
+      extensionEpisodeResults: [],
+      extensionVideoResults: [],
+    ),
+  ) {
+    _init();
+  }
+
+  @override
+  MangaDetailsState copyStateWithEffects(MangaDetailsState state, List<AppEffect> effects) {
+    return state.copyWith(effects: effects);
+  }
+
+  @override
+  Future<void> close() {
+    _loggedUserSubscription.cancel();
+    _selectedMangaSubscription.cancel();
+    _selectedMediaListSubscription.cancel();
+    return super.close();
+  }
+
+  @override
+  Logger get logger => _logger;
+
+  void navigateBackToMangaPage() {
+    _logger.d("Returning to Manga Page");
+    popRouteEffect();
+  }
+
+  void _init() {
+    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
+      emit(state.copyWith(loggedUser: loggedUser));
+      if (!state.userLoaded) {
+        _getMangaBanners(loggedUser);
+        emit(state.copyWith(userLoaded: true));
+      }
+    });
+    _selectedMangaSubscription = _selectedMangaNotifier.mangaStream.listen((manga) {
+      _getMangaDetails(state.loggedUser, manga);
+      _getEpisodesDetails(state.loggedUser, manga);
+      emit(state.copyWith(selectedManga: manga));
+    });
+    _selectedMediaListSubscription = _selectedMediaListNotifier.mediaListStream.listen((mediaList) {
+      emit(state.copyWith(selectedMediaList: mediaList));
+    });
+    _loadInstalledExtensions();
+  }
+
+  void navigateToMangaDetails(Manga manga, MediaList mediaList) {
+    _logger.i("Navigating to Manga Details of ${manga.title}");
+    _selectedMangaNotifier.updateSelectedManga(manga);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
+  }
+
+  Future<void> selectMangaExtension(String? selectedMangaExtensionName) async{
+    Extension? selectedExtension = state.installedExtensions.where((extension) => selectedMangaExtensionName == extension.name).firstOrNull;
+    if (selectedExtension != null) {
+      switch(state.loggedUser) {
+        case AnilistUserModel anilistUserModel:
+          SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
+          Map<String, Extension> mediaExtensionsConfigUpdated = Map.from(userSettings.mediaExtensionConfigs);
+          mediaExtensionsConfigUpdated.addAll({state.selectedManga.id.toString(): selectedExtension});
+          _userRepositoryAnilist.updateUserInfo(anilistUserModel.copyWith(
+              settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated)
+          ));
+        case LocalUserModel localUserModel:
+      }
+      _getMangaInfoFromSelectedExtension(selectedExtension);
+    } else {
+      _logger.w("Selected extension $selectedMangaExtensionName not found among installed extensions.");
+      showSnackBarEffect("Extension Not Found", message: "The selected extension is not installed.", contentType: ContentType.warning);
+    }
+  }
+
+  Future<void> _getMangaDetails(User loggedUser, Manga selectedManga) async {
+    try {
+      switch (loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Manga Details from AniList for ${state.selectedManga.title}");
+          (bool, MangaDetails) mangaDetails = await _mangaRepositoryAnilist.getMangaDetails(selectedManga, loggedUser);
+          emit(
+            state.copyWith(
+              characters: (mangaDetails.$2.characters.isNotEmpty, mangaDetails.$2.characters),
+              repeat: mangaDetails.$2.repeat,
+              score: mangaDetails.$2.score,
+              progress: mangaDetails.$2.progress,
+              recommendations: (mangaDetails.$2.recommendedMangas.isNotEmpty, mangaDetails.$2.recommendedMangas),
+            ),
+          );
+          if (mangaDetails.$2.recommendedMangas.isEmpty) {
+            (bool, List<Manga>) trendingMangas = await _mangaRepositoryAnilist.getTrendingMangas(1);
+            emit(state.copyWith(recommendations: (trendingMangas.$1, trendingMangas.$2.shuffled(Random()))));
+          }
+          _getAlternativeImage(loggedUser, selectedManga);
+        case Service.mal:
+          _logger.i("Fetching Manga Details from MyMangaList for ${state.selectedManga.title}");
+        case Service.shikimori:
+          _logger.i("Fetching Manga Details from Shikimori for ${state.selectedManga.title}");
+        case Service.kitsu:
+          _logger.i("Fetching Manga Details from Kitsu for ${state.selectedManga.title}");
+        case Service.simkl:
+          _logger.i("Fetching Manga Details from Simkl for ${state.selectedManga.title}");
+      }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError("Error fetching Manga details:", responseBody: e.message, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      handleError("Error fetching Manga Details: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _loadInstalledExtensions() async {
+    try {
+      _logger.i("Loading installed extensions for Aniyomi");
+      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledMangaExtensions(state.loggedUser);
+      emit(state.copyWith(installedExtensions: installedExtensions));
+      _setSelectedExtension(state.loggedUser, state.selectedManga);
+    } catch (e, stackTrace) {
+      handleError("Failed to load installed extensions $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _getMangaInfoFromSelectedExtension(Extension selectedExtension) async {
+    try {
+      if (state.installedExtensions.isEmpty) {
+        _logger.w("No installed extensions available to fetch manga info.");
+        showSnackBarEffect("No Installed Extensions", message: "Install some extensions if you want to watch some content", contentType: ContentType.warning);
+        return;
+      }
+      _logger.i("Fetching Manga Info from extension ${selectedExtension.name} for ${state.selectedManga.title.userPreferred}");
+      List<JSManga> mangaResults = await _extensionRepositoryAniyomi.getMangaSearchResults(state.selectedManga.title.userPreferred, selectedExtension);
+      emit(state.copyWith(extensionMangaResults: mangaResults));
+    } catch (e, stackTrace) {
+      handleError("Error fetching Manga Info from selected extension: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _getAlternativeImage(User loggedUser, Manga selectedManga) async {
+    try {
+      switch (loggedUser.settings.episodeService) {
+        case EpisodeService.anizip:
+          _logger.i("Fetching Alternative Image from Anizip for ${state.selectedManga.title}");
+          late String alternateImage;
+          if (loggedUser.settings.service == Service.anilist) {
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: -1, anilistId: selectedManga.id);
+          } else {
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: selectedManga.idMal, anilistId: -1);
+          }
+          emit(state.copyWith(alternateImage: alternateImage));
+        case EpisodeService.kitsu:
+          _logger.i("Fetching Alternative Image from Kitsu for ${state.selectedManga.title}");
+      }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError("Error fetching Alternative Image:", responseBody: e.message, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      handleError("Error fetching Alternative Image: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _getEpisodesDetails(User loggedUser, Manga selectedManga) async {
+    try {
+      switch (loggedUser.settings.episodeService) {
+        case EpisodeService.anizip:
+          _logger.i("Fetching Episodes Details from Anizip for ${state.selectedManga.title}");
+          late List<EpisodeInfo> episodesInfo;
+          if (loggedUser.settings.service == Service.anilist) {
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedManga.id);
+          } else {
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedManga.idMal, anilistId: -1);
+          }
+          emit(state.copyWith(episodesInfo: episodesInfo));
+        case EpisodeService.kitsu:
+          _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedManga.title}");
+      }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError("Error fetching Episodes details:", responseBody: e.message, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      handleError("Error fetching Episodes Details: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _getMangaBanners(User loggedUser) async {
+    try {
+      switch (loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Fetching Manga Banners from AniList for ${state.selectedManga.title}");
+          List<String> banners = await _mangaRepositoryAnilist.getMediaCoverImages();
+          emit(state.copyWith(banners: banners));
+        case Service.mal:
+          _logger.i("Fetching Manga Banners from MyMangaList for ${state.selectedManga.title}");
+        case Service.shikimori:
+          _logger.i("Fetching Manga Banners from Shikimori for ${state.selectedManga.title}");
+        case Service.kitsu:
+          _logger.i("Fetching Manga Banners from Kitsu for ${state.selectedManga.title}");
+        case Service.simkl:
+          _logger.i("Fetching Manga Banners from Simkl for ${state.selectedManga.title}");
+      }
+    } on HttpServerException catch (e, stackTrace) {
+      handleError("Error fetching Manga banners:", responseBody: e.message, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      handleError("Error fetching Manga Banners: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> _setSelectedExtension(User loggedUser, Manga selectedManga) async {
+    try {
+      switch (loggedUser) {
+        case AnilistUserModel anilistUserModel:
+          SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
+          Extension? selectedExtension = userSettings.mediaExtensionConfigs[selectedManga.id.toString()];
+          if (selectedExtension != null) {
+            selectMangaExtension(selectedExtension.name);
+            emit(state.copyWith(selectedExtension: selectedExtension));
+          }
+        case LocalUserModel localUserModel:
+      }
+    } catch (e, stackTrace) {
+      handleError("Error setting selected extension: $e", stackTrace: stackTrace);
+    }
+  }
+}

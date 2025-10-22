@@ -1,29 +1,29 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jsepisode.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jpage.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jschapter.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
-import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 
-part 'anime_details_state.freezed.dart';
+part 'manga_details_state.freezed.dart';
 
 @freezed
-abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
-  const factory AnimeDetailsState({
+abstract class MangaDetailsState with _$MangaDetailsState implements HasEffects{
+  const factory MangaDetailsState({
     required User loggedUser,
     required MediaList selectedMediaList,
-    required Anime selectedAnime,
+    required Manga selectedManga,
     required int progress,
     required int score,
     required int repeat,
     required (bool, List<MediaCharacter>) characters,
-    required (bool, List<Anime>) recommendations,
+    required (bool, List<Manga>) recommendations,
     required List<EpisodeInfo> episodesInfo,
     required List<String> banners,
     required String alternateImage,
@@ -32,13 +32,13 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required Extension? selectedExtension,
     // relations
     // voice actors
-    required List<JSAnime> extensionAnimeResults,
-    required List<JSEpisode> extensionEpisodeResults,
-    required List<JVideo> extensionVideoResults,
+    required List<JSManga> extensionMangaResults,
+    required List<JSChapter> extensionEpisodeResults,
+    required List<JPage> extensionVideoResults,
     @Default(<AppEffect>[]) List<AppEffect> effects,
-  }) = _AnimeDetailsState;
+  }) = _MangaDetailsState;
 
-  const AnimeDetailsState._();
+  const MangaDetailsState._();
 
   @override
   List<AppEffect> get stateEffects => effects;

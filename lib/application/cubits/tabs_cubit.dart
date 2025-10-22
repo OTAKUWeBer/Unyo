@@ -77,6 +77,7 @@ class TabsCubit extends Cubit<TabsState>
       case SelectedMenuOption.extensions:
         changeRouteTabEffect(path: "/extensions", context);
       case SelectedMenuOption.settings:
+        changeRouteTabEffect(path: "/settings", context);
     }
     emit(state.copyWith(selectedMenuOption: option));
   }
