@@ -6,19 +6,24 @@ import 'package:unyo/application/states/manga_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/manga_notifier.dart';
+import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'effect_mixin.dart';
 
 class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
   final MangaRepositoryAnilist _mangaRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
+  final MangaNotifier _selectedMangaNotifier;
+  final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _loggedUserSubscription;
   final Logger _logger = sl<Logger>();
 
-  MangaCubit(this._mangaRepositoryAnilist, this._loggedUserNotifier)
+  MangaCubit(this._mangaRepositoryAnilist, this._loggedUserNotifier, this._selectedMangaNotifier, this._selectedMediaListNotifier)
     : super(
         MangaState(
           trending: (false, []),
@@ -62,6 +67,13 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
       await _fetchUpcoming(1);
       emit(state.copyWith(userLoaded: true, isLoading: false));
     }
+  }
+
+  void navigateToMangaDetails(Manga manga, MediaList mediaList) {
+    _logger.i("Navigating to Anime Details of ${manga.title.userPreferred}");
+    _selectedMangaNotifier.updateSelectedManga(manga);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
+    pushRouteEffect(path: "/mangadetails");
   }
 
   Future<void> _fetchTrending(int page) async {

@@ -14,6 +14,7 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -35,6 +36,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
   final AnimeNotifier _selectedAnimeNotifier;
+  final MangaNotifier _selectedMangaNotifier;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _newLoggedUserSubscription;
   final Logger _logger = sl<Logger>();
@@ -42,6 +44,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   HomeCubit(
     this._loggedUserNotifier,
     this._selectedAnimeNotifier,
+    this._selectedMangaNotifier,
     this._selectedMediaListNotifier,
     this._userRepositoryAnilist,
     this._animeRepositoryAnilist,
@@ -95,10 +98,17 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
-    _logger.i("Navigating to Anime Details of ${anime.title}");
+    _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");
+  }
+
+  void navigateToMangaDetails(Manga manga, MediaList mediaList) {
+    _logger.i("Navigating to Manga Details of ${manga.title.userPreferred}");
+    _selectedMangaNotifier.updateSelectedManga(manga);
+    _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
+    pushRouteEffect(path: "/mangadetails");
   }
 
   void navigateToUserAnimeList(BuildContext context) {

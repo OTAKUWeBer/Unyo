@@ -3,6 +3,7 @@ import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.d
 import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_upcoming_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/title.dart';
 
@@ -170,6 +171,34 @@ abstract class AnilistMangaModel with _$AnilistMangaModel implements Manga {
       meanScore: mediaEntry.meanScore,
       status: mediaEntry.status,
       isFavourite: mediaEntry.isFavourite,
+    );
+  }
+
+  factory AnilistMangaModel.fromMediaRecommendationNode(
+      MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation mediaRecommendation) {
+    return AnilistMangaModel(
+      id: mediaRecommendation.id,
+      idMal: mediaRecommendation.idMal,
+      title: TitleModel(romaji: mediaRecommendation.title.romaji,
+          english: mediaRecommendation.title.english,
+          nativeTitle: mediaRecommendation.title.native,
+          userPreferred: mediaRecommendation.title.userPreferred),
+      averageScore: mediaRecommendation.averageScore,
+      bannerImage: mediaRecommendation.bannerImage,
+      countryOfOrigin: "Unimplemented",
+      coverImage: mediaRecommendation.coverImage.large,
+      description: mediaRecommendation.description,
+      duration: mediaRecommendation.duration,
+      endDate: "${mediaRecommendation.endDate.day}/${mediaRecommendation.endDate.month}/${mediaRecommendation.endDate.year}",
+      startDate: "${mediaRecommendation.startDate.day}/${mediaRecommendation.startDate.month}/${mediaRecommendation.startDate.year}",
+      chapters: mediaRecommendation.chapters,
+      genres: mediaRecommendation.genres,
+      format: mediaRecommendation.format,
+      isAdult: mediaRecommendation.isAdult,
+      popularity: -1,
+      meanScore: mediaRecommendation.meanScore,
+      status: mediaRecommendation.status,
+      isFavourite: mediaRecommendation.isFavourite
     );
   }
 

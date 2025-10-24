@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
 import 'package:unyo/data/adapters/adapters_names.dart' as names;
 import 'package:unyo/data/adapters/adapters_types.dart' as types;
 import 'package:unyo/data/models/anilist_anime_model.dart';
@@ -47,28 +47,26 @@ abstract class AnilistAnimeDetailsModel
       _$AnilistAnimeDetailsModelToJson(this as _AnilistAnimeDetailsModel);
 
   factory AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(
-    AnimeDetailsGraphqlDtoDataMediaList animeDetailsMediaList,
+    MediaDetailsGraphqlMedia animeDetailsMediaList,
   ) {
     return AnilistAnimeDetailsModel(
-      progress: animeDetailsMediaList.progress,
-      score: animeDetailsMediaList.score,
-      repeat: animeDetailsMediaList.repeat,
+      progress: animeDetailsMediaList.mediaListEntry?['progress'] ?? 0,
+      score: animeDetailsMediaList.mediaListEntry?['score'] ?? 0,
+      repeat: animeDetailsMediaList.mediaListEntry?['repeat'] ?? 0,
       recommendedAnimes:
-          animeDetailsMediaList.media.recommendations.nodes
+          animeDetailsMediaList.recommendations.nodes
               .map(
                 (recommendationNode) =>
                     AnilistAnimeModel.fromMediaRecommendationNode(
                           recommendationNode.mediaRecommendation,
                         )
-                        as Anime,
               )
               .toList(),
       characters:
-          animeDetailsMediaList.media.characters.nodes
+          animeDetailsMediaList.characters.nodes
               .map(
                 (characterNode) =>
                     AnilistMediaCharacterModel.fromCharacterNode(characterNode)
-                        as MediaCharacter,
               )
               .toList(),
     );

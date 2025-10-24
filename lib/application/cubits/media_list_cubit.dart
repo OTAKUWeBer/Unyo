@@ -7,6 +7,7 @@ import 'package:unyo/application/states/media_list_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
@@ -23,10 +24,11 @@ class MediaListCubit extends Cubit<MediaListState>
   final UserRepositoryAnilist _userRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
   final AnimeNotifier _selectedAnimeNotifier;
+  final MangaNotifier _selectedMangaNotifier;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _newLoggedUserSubscription;
 
-  MediaListCubit(this._loggedUserNotifier, this._userRepositoryAnilist, this._selectedAnimeNotifier, this._selectedMediaListNotifier)
+  MediaListCubit(this._loggedUserNotifier, this._userRepositoryAnilist, this._selectedAnimeNotifier, this._selectedMangaNotifier, this._selectedMediaListNotifier)
     : super(
         MediaListState(
           userAnimeLists: {},
@@ -66,12 +68,14 @@ class MediaListCubit extends Cubit<MediaListState>
   void navigateToMediaDetails(Object media, MediaList mediaList) {
     switch (media) {
       case Anime anime:
-        _logger.i("Navigating to Anime Details of ${anime.title}");
+        _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
         _selectedAnimeNotifier.updateSelectedAnime(anime);
         _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
         pushRouteEffect(path: "/animedetails");
       case Manga manga:
-        _logger.i("Navigating to Manga Details of ${manga.title}");
+        _logger.i("Navigating to Manga Details of ${manga.title.userPreferred}");
+        _selectedMangaNotifier.updateSelectedManga(manga);
+        _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
         pushRouteEffect(path: "/mangadetails");
     }
   }

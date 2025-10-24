@@ -7,10 +7,10 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
-import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/media_collection_upcoming_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
 import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
 import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
@@ -204,10 +204,10 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     Map<String, String>? graphQlHeaders = user is AnilistUserModel ? {
       "Authorization": "Bearer ${(user).accessToken}",
     }: null;
-    ApiGraphQLResponse<AnimeDetailsGraphqlDtoData> animeDetailsData =
-        await _anilistGraphQLService.query<AnimeDetailsGraphqlDtoData>(
-      query: queries.animeDetailsQuery,
-      fromJson: AnimeDetailsGraphqlDtoData.fromJson,
+    ApiGraphQLResponse<MediaDetailsGraphqlEntity> animeDetailsData =
+        await _anilistGraphQLService.query<MediaDetailsGraphqlEntity>(
+      query: queries.mediaDetailsQuery,
+      fromJson: MediaDetailsGraphqlEntity.fromJson,
       variables: {
         "type": "ANIME",
         "mediaId": selectedAnime.id,
@@ -217,7 +217,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       headers: graphQlHeaders,
     );
     throwIfGraphQlError(animeDetailsData);
-    AnimeDetails animeDetails = AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(animeDetailsData.data.mediaList);
+    AnimeDetails animeDetails = AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(animeDetailsData.data.media);
     return (true, animeDetails);
   }
 

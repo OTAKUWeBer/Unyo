@@ -24,7 +24,6 @@ abstract class MangaDetailsState with _$MangaDetailsState implements HasEffects{
     required int repeat,
     required (bool, List<MediaCharacter>) characters,
     required (bool, List<Manga>) recommendations,
-    required List<EpisodeInfo> episodesInfo,
     required List<String> banners,
     required String alternateImage,
     required Set<Extension> installedExtensions,

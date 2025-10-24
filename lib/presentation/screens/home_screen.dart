@@ -150,6 +150,7 @@ class _HomeViewState extends State<_HomeView> {
                   mangaList: state.continueReading,
                   controller: continueReadingController,
                   loadMore: false,
+                  onPressed: context.read<HomeCubit>().navigateToMangaDetails,
                 ),
               ],
             ),

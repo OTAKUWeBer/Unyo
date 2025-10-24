@@ -370,75 +370,154 @@ query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$airingAtGreater:
 // "page" : 1,
 // "perPage": 20,
 // }
-const animeDetailsQuery = ''' 
-query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
-  MediaList(type: \$type, mediaId: \$mediaId) {
-    progress
-    score
-    repeat
-    media {
-      recommendations(page: \$page, perPage: \$perPage) {
-        nodes {
-            mediaRecommendation {
-              id
-              idMal
-              startDate {
-                day
-                month
-                year
-              }
-              endDate {
-                day
-                month
-                year
-              }
-              season
-              status
-              isFavourite
-              isAdult
-              episodes
-              title {
-                english
-                native
-                romaji
-                userPreferred
-              }
-              bannerImage
-              coverImage {
-                large
-              }
-              averageScore
-              duration
-              format
-              genres
-              description
-              meanScore
-              nextAiringEpisode {
-                episode
-                airingAt
-              }
-            }
-        }
-      }
-      characters {
-        nodes {
+// const mediaDetailsQuery = '''
+// query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int, \$userId: Int) {
+//   MediaList(type: \$type, mediaId: \$mediaId, userId: \$userId) {
+//     progress
+//     score
+//     repeat
+//     media {
+//       recommendations(page: \$page, perPage: \$perPage) {
+//         nodes {
+//             mediaRecommendation {
+//               id
+//               idMal
+//               startDate {
+//                 day
+//                 month
+//                 year
+//               }
+//               endDate {
+//                 day
+//                 month
+//                 year
+//               }
+//               season
+//               status
+//               isFavourite
+//               isAdult
+//               episodes
+//               title {
+//                 english
+//                 native
+//                 romaji
+//                 userPreferred
+//               }
+//               bannerImage
+//               coverImage {
+//                 large
+//               }
+//               averageScore
+//               duration
+//               format
+//               genres
+//               description
+//               meanScore
+//               nextAiringEpisode {
+//                 episode
+//                 airingAt
+//               }
+//             }
+//         }
+//       }
+//       characters {
+//         nodes {
+//           id
+//           image {
+//             large
+//           }
+//           name {
+//             userPreferred
+//           }
+//           gender
+//           description
+//           dateOfBirth {
+//             day
+//             month
+//             year
+//           }
+//           age
+//         }
+//       }
+//     }
+//   }
+// }
+// ''';
+const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
+  Media(id: \$mediaId, type: \$type) {
+    id
+    title {
+      english
+      romaji
+      native
+      userPreferred
+    }
+    recommendations(page: \$page, perPage: \$perPage) {
+      nodes {
+        mediaRecommendation {
           id
-          image {
-            large
-          }
-          name {
-            userPreferred
-          }
-          gender
-          description
-          dateOfBirth {
+          idMal
+          startDate {
             day
             month
             year
           }
-          age
+          endDate {
+            day
+            month
+            year
+          }
+          season
+          status
+          isFavourite
+          isAdult
+          episodes
+          title {
+            english
+            native
+            romaji
+            userPreferred
+          }
+          bannerImage
+          coverImage {
+            large
+          }
+          averageScore
+          duration
+          format
+          genres
+          description
+          meanScore
+          nextAiringEpisode {
+            episode
+            airingAt
+          }
         }
       }
+    }
+    characters {
+      nodes {
+        id
+        image {
+          large
+        }
+        name {
+          userPreferred
+        }
+        gender
+        description
+        dateOfBirth {
+          day
+          month
+          year
+        }
+        age
+      }
+    }
+    mediaListEntry {
+      progress
+      score
+      repeat
     }
   }
 }

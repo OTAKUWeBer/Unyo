@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:unyo/core/services/api/dto/anime_details_graphql_dto_entity.dart' show AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes;
+import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart' show MediaDetailsGraphqlMediaCharactersNodes;
 import 'package:unyo/domain/entities/media_character.dart';
 
 part 'anilist_media_character.freezed.dart';
@@ -39,7 +39,7 @@ abstract class AnilistMediaCharacterModel
       _$AnilistMediaCharacterModelToJson(this as _AnilistMediaCharacterModel);
 
   factory AnilistMediaCharacterModel.fromCharacterNode(
-      AnimeDetailsGraphqlDtoDataMediaListMediaCharactersNodes characterNode) {
+      MediaDetailsGraphqlMediaCharactersNodes characterNode) {
     return AnilistMediaCharacterModel(
         id: characterNode.id,
         image: characterNode.image.large,

@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/core/enums/media_type.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/presentation/widgets/styled/styled.dart';
 
 class MangaCardList extends StatelessWidget {
+  final void Function(Manga, MediaList) onPressed;
   final String listTitle;
   final List<Manga> mangaList;
   final ScrollController controller;
@@ -12,6 +15,7 @@ class MangaCardList extends StatelessWidget {
 
   const MangaCardList({
     super.key,
+    required this.onPressed,
     required this.listTitle,
     required this.mangaList,
     required this.controller,
@@ -66,7 +70,10 @@ class MangaCardList extends StatelessWidget {
                   title: manga.title.userPreferred,
                   score: manga.averageScore,
                   coverImage: manga.coverImage,
-                  onPressed: (){},
+                  onPressed: () => onPressed(
+                   manga,
+                   MediaListModel(name: listTitle, mediaType: MediaType.manga)
+                  ),
                   status: manga.status,
                   year: manga.startDate,
                   format: manga.format,

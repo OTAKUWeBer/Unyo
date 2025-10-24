@@ -6,3 +6,4 @@ const anilistAnimeDetailsModelAdapterName = 'AnimeProgressModelAdapter';
 const mediaListModelAdapterName = 'MediaListModelAdapter';
 const episodeServiceEnumAdapterName = 'EpisodeServiceEnumAdapter';
 const extensionModelAdapterName = 'ExtensionModelAdapter';
+const anilistMangaDetailsModelAdapterName = 'MangaProgressModelAdapter';

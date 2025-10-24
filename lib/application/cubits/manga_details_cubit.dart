@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
@@ -12,23 +11,19 @@ import 'package:unyo/application/states/manga_details_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/episode_service.dart';
 import 'package:unyo/core/enums/service.dart';
-import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/http/http_exception.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
-import 'package:unyo/data/repositories/anime_repository_anilist.dart';
 import 'package:unyo/data/repositories/episode_repository_anizip.dart';
 import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/data/repositories/repositories.dart';
-import 'package:unyo/domain/entities/anime.dart';
-import 'package:unyo/domain/entities/anime_details.dart';
-import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/manga.dart';
+import 'package:unyo/domain/entities/manga_details.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -69,7 +64,6 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
       repeat: 0,
       characters: (false, []),
       recommendations: (false, []),
-      episodesInfo: [],
       banners: [],
       alternateImage: '',
       installedExtensions: {},
@@ -114,7 +108,6 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     });
     _selectedMangaSubscription = _selectedMangaNotifier.mangaStream.listen((manga) {
       _getMangaDetails(state.loggedUser, manga);
-      _getEpisodesDetails(state.loggedUser, manga);
       emit(state.copyWith(selectedManga: manga));
     });
     _selectedMediaListSubscription = _selectedMediaListNotifier.mediaListStream.listen((mediaList) {
@@ -168,7 +161,6 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
             (bool, List<Manga>) trendingMangas = await _mangaRepositoryAnilist.getTrendingMangas(1);
             emit(state.copyWith(recommendations: (trendingMangas.$1, trendingMangas.$2.shuffled(Random()))));
           }
-          _getAlternativeImage(loggedUser, selectedManga);
         case Service.mal:
           _logger.i("Fetching Manga Details from MyMangaList for ${state.selectedManga.title}");
         case Service.shikimori:
@@ -211,49 +203,27 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     }
   }
 
-  Future<void> _getAlternativeImage(User loggedUser, Manga selectedManga) async {
-    try {
-      switch (loggedUser.settings.episodeService) {
-        case EpisodeService.anizip:
-          _logger.i("Fetching Alternative Image from Anizip for ${state.selectedManga.title}");
-          late String alternateImage;
-          if (loggedUser.settings.service == Service.anilist) {
-            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: -1, anilistId: selectedManga.id);
-          } else {
-            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: selectedManga.idMal, anilistId: -1);
-          }
-          emit(state.copyWith(alternateImage: alternateImage));
-        case EpisodeService.kitsu:
-          _logger.i("Fetching Alternative Image from Kitsu for ${state.selectedManga.title}");
-      }
-    } on HttpServerException catch (e, stackTrace) {
-      handleError("Error fetching Alternative Image:", responseBody: e.message, stackTrace: stackTrace);
-    } catch (e, stackTrace) {
-      handleError("Error fetching Alternative Image: $e", stackTrace: stackTrace);
-    }
-  }
-
-  Future<void> _getEpisodesDetails(User loggedUser, Manga selectedManga) async {
-    try {
-      switch (loggedUser.settings.episodeService) {
-        case EpisodeService.anizip:
-          _logger.i("Fetching Episodes Details from Anizip for ${state.selectedManga.title}");
-          late List<EpisodeInfo> episodesInfo;
-          if (loggedUser.settings.service == Service.anilist) {
-            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedManga.id);
-          } else {
-            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedManga.idMal, anilistId: -1);
-          }
-          emit(state.copyWith(episodesInfo: episodesInfo));
-        case EpisodeService.kitsu:
-          _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedManga.title}");
-      }
-    } on HttpServerException catch (e, stackTrace) {
-      handleError("Error fetching Episodes details:", responseBody: e.message, stackTrace: stackTrace);
-    } catch (e, stackTrace) {
-      handleError("Error fetching Episodes Details: $e", stackTrace: stackTrace);
-    }
-  }
+  // Future<void> _getEpisodesDetails(User loggedUser, Manga selectedManga) async {
+  //   try {
+  //     switch (loggedUser.settings.episodeService) {
+  //       case EpisodeService.anizip:
+  //         _logger.i("Fetching Episodes Details from Anizip for ${state.selectedManga.title}");
+  //         late List<EpisodeInfo> episodesInfo;
+  //         if (loggedUser.settings.service == Service.anilist) {
+  //           episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedManga.id);
+  //         } else {
+  //           episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedManga.idMal, anilistId: -1);
+  //         }
+  //         emit(state.copyWith(episodesInfo: episodesInfo));
+  //       case EpisodeService.kitsu:
+  //         _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedManga.title}");
+  //     }
+  //   } on HttpServerException catch (e, stackTrace) {
+  //     handleError("Error fetching Episodes details:", responseBody: e.message, stackTrace: stackTrace);
+  //   } catch (e, stackTrace) {
+  //     handleError("Error fetching Episodes Details: $e", stackTrace: stackTrace);
+  //   }
+  // }
 
   Future<void> _getMangaBanners(User loggedUser) async {
     try {
