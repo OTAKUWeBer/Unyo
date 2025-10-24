@@ -5,7 +5,6 @@ import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/manga.dart';
-import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
