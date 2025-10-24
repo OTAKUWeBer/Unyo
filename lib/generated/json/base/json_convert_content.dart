@@ -7,13 +7,13 @@ import 'package:flutter/material.dart' show debugPrint;
 import 'package:unyo/core/services/api/dto/anizip/anizip_episode_info_entity.dart';
 import 'package:unyo/core/services/api/dto/extensions/aniyomi_repo_json_entity.dart';
 import 'package:unyo/core/services/api/dto/extensions/tachiyomi_repo_json_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_recently_released_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_upcoming_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
-import 'package:unyo/core/services/api/dto/viewer_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_dto_entity.dart';
 
 JsonConvert jsonConvert = JsonConvert();
 

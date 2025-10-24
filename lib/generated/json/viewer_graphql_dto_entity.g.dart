@@ -1,5 +1,5 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/viewer_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_dto_entity.dart';
 
 ViewerGraphqlDtoEntity $ViewerGraphqlDtoEntityFromJson(Map<String, dynamic> json) {
   final ViewerGraphqlDtoEntity viewerGraphqlDtoEntity = ViewerGraphqlDtoEntity();

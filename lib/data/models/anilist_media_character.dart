@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart' show MediaDetailsGraphqlMediaCharactersNodes;
+import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart' show MediaDetailsGraphqlMediaCharactersNodes;
 import 'package:unyo/domain/entities/media_character.dart';
 
 part 'anilist_media_character.freezed.dart';

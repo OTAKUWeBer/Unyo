@@ -13,7 +13,7 @@ import 'package:unyo/application/states/login_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/login_card_type.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
-import 'package:unyo/core/services/api/dto/api_dtos.dart';
+import 'package:unyo/core/services/api/dto/anilist/api_dtos.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';

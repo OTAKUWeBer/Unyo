@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_recently_completed_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_trendingOrPopular_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_collection_upcoming_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/title.dart';
 

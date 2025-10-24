@@ -1,5 +1,5 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
 
 MediaCollectionGraphqlDtoEntity $MediaCollectionGraphqlDtoEntityFromJson(Map<String, dynamic> json) {
   final MediaCollectionGraphqlDtoEntity mediaCollectionGraphqlDtoEntity = MediaCollectionGraphqlDtoEntity();

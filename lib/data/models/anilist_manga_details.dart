@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:unyo/core/services/api/dto/media_details_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
 import 'package:unyo/data/adapters/adapters_names.dart' as names;
 import 'package:unyo/data/adapters/adapters_types.dart' as types;
 import 'package:unyo/data/models/anilist_manga_model.dart';
