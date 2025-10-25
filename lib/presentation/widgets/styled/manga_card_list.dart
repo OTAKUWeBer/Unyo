@@ -77,7 +77,7 @@ class MangaCardList extends StatelessWidget {
                   status: manga.status,
                   year: manga.startDate,
                   format: manga.format,
-                  tag: "$listTitle-${manga.title.userPreferred}",
+                  tag: "$listTitle-${manga.id}",
                 ),
               ),
               //TODO loadMore Widget

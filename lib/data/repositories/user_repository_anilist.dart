@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 //Internal dependencies
 import 'package:unyo/core/notification/user_notifier.dart';
-import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
+import 'package:unyo/core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/anilist/api_dtos.dart';
 import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_dto_entity.dart';
@@ -90,7 +90,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     };
     ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
         await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
-          query: queries.mediaListCollectionQuery,
+          query: anilist_queries.mediaListCollectionQuery,
           fromJson: MediaCollectionGraphqlDtoData.fromJson,
           variables: {
             "userName": user.name,
@@ -120,7 +120,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     };
     ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
         await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
-          query: queries.mediaListCollectionQuery,
+          query: anilist_queries.mediaListCollectionQuery,
           fromJson: MediaCollectionGraphqlDtoData.fromJson,
           variables: {
             "userName": user.name,
@@ -150,7 +150,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     };
     ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
         await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
-          query: queries.mediaListCollectionQuery,
+          query: anilist_queries.mediaListCollectionQuery,
           fromJson: MediaCollectionGraphqlDtoData.fromJson,
           variables: {
             "userName": user.name,
@@ -184,7 +184,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     };
     ApiGraphQLResponse<MediaCollectionGraphqlDtoData> mediaCollection =
         await _anilistGraphQLService.query<MediaCollectionGraphqlDtoData>(
-      query: queries.mediaListCollectionQuery,
+      query: anilist_queries.mediaListCollectionQuery,
       fromJson: MediaCollectionGraphqlDtoData.fromJson,
       variables: {
         "userName": user.name,
@@ -256,7 +256,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     };
     ApiGraphQLResponse<ViewerGraphqlDtoEntity> viewerDto =
         await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
-          query: queries.viewerQuery,
+          query: anilist_queries.viewerQuery,
           fromJson: ViewerGraphqlDtoEntity.fromJson,
           headers: graphQlHeaders,
         );

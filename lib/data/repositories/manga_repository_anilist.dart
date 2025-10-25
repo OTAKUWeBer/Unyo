@@ -21,7 +21,7 @@ import 'package:unyo/domain/entities/manga_details.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/manga_repository.dart';
 
-import '../../core/services/api/graphql/queries/queries.dart' as queries;
+import '../../core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 
 class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   final GraphQLService _anilistGraphQLService = sl<GraphQLService>(
@@ -33,7 +33,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   Future<(bool, List<Manga>)> getPopularMangas(int page) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
     popularMediaCollection = await _anilistGraphQLService.query(
-      query: queries.mediaTrendingOrPopularQuery,
+      query: anilist_queries.mediaTrendingOrPopularQuery,
       fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -59,7 +59,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     DateTime monthAgo = now.subtract(const Duration(days: 30));
     ApiGraphQLResponse<MediaCollectionRecentlyCompletedGraphqlDtoEntity>
     recentlyCompleted = await _anilistGraphQLService.query(
-      query: queries.mediaRecentlyCompletedQuery,
+      query: anilist_queries.mediaRecentlyCompletedQuery,
       fromJson: MediaCollectionRecentlyCompletedGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -82,7 +82,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   Future<(bool, List<Manga>)> getTrendingMangas(int page) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
     trendingMediaCollection = await _anilistGraphQLService.query(
-      query: queries.mediaTrendingOrPopularQuery,
+      query: anilist_queries.mediaTrendingOrPopularQuery,
       fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "TRENDING_DESC",
@@ -107,7 +107,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     DateTime now = DateTime.now();
     ApiGraphQLResponse<MediaCollectionUpcomingGraphqlDtoEntity>
     upcoming = await _anilistGraphQLService.query(
-      query: queries.mediaUpcomingQuery,
+      query: anilist_queries.mediaUpcomingQuery,
       fromJson: MediaCollectionUpcomingGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -137,7 +137,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     }: null;
     ApiGraphQLResponse<MediaDetailsGraphqlEntity> mangaDetailsData =
     await _anilistGraphQLService.query<MediaDetailsGraphqlEntity>(
-      query: queries.mediaDetailsQuery,
+      query: anilist_queries.mediaDetailsQuery,
       fromJson: MediaDetailsGraphqlEntity.fromJson,
       variables: {
         "type": "MANGA",

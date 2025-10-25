@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/presentation/widgets/styled/hover_animated_container.dart';
 
 class UnyoEpisodeButton extends StatelessWidget {
-  final String episodeName;
+  final String secondaryTitle;
+  final String mainTitle;
   final String episodeImageUrl;
   final int episodeNumber;
   final int progress;
@@ -13,7 +14,8 @@ class UnyoEpisodeButton extends StatelessWidget {
 
   const UnyoEpisodeButton({
     super.key,
-    required this.episodeName,
+    required this.mainTitle,
+    required this.secondaryTitle,
     required this.episodeImageUrl,
     required this.episodeNumber,
     required this.progress,
@@ -73,10 +75,10 @@ class UnyoEpisodeButton extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Tooltip(
-                              message: "Episode $episodeNumber",
+                              message: mainTitle,
                               waitDuration: const Duration(milliseconds: 1500),
                               child: Text(
-                                "Episode $episodeNumber",
+                                mainTitle,
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -86,10 +88,10 @@ class UnyoEpisodeButton extends StatelessWidget {
                               ),
                             ),
                             Tooltip(
-                              message: episodeName,
+                              message: secondaryTitle,
                               waitDuration: const Duration(milliseconds: 1500),
                               child: Text(
-                                episodeName,
+                                secondaryTitle,
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey,

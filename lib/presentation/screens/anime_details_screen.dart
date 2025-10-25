@@ -90,12 +90,13 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
     for (int i = 0; i < numEpisodes; i++) {
       episodeButtons.add(
         UnyoEpisodeButton(
-          episodeName:
+          mainTitle: "Episode ${i + 1}",
+          secondaryTitle:
               state.episodesInfo.length > i
                   ? (state.episodesInfo[i].title.userPreferred != ""
                       ? state.episodesInfo[i].title.userPreferred
-                      : "Episode ${i + 1}")
-                  : "Episode ${i + 1}",
+                      : "")
+                  : "",
           episodeImageUrl:
               state.episodesInfo.length > i
                   ? (state.episodesInfo[i].image != "" ? state.episodesInfo[i].image : state.alternateImage)

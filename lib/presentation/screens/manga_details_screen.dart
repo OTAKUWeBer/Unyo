@@ -89,7 +89,8 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
     for (int i = 0; i < numChapters; i++) {
       episodeButtons.add(
         UnyoEpisodeButton(
-          episodeName: "Chapter ${i + 1}",
+          mainTitle: "Chapter ${i + 1}",
+          secondaryTitle: "${state.selectedManga.title.userPreferred} Chapter ${i + 1}",
           episodeImageUrl: state.selectedManga.bannerImage != "" ? state.selectedManga.bannerImage : state.selectedManga.coverImage,
           episodeNumber: i + 1,
           progress: state.progress,

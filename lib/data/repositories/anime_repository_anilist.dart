@@ -11,7 +11,7 @@ import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_com
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
-import 'package:unyo/core/services/api/graphql/queries/queries.dart' as queries;
+import 'package:unyo/core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_dto_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
@@ -34,7 +34,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   Future<(bool, List<Anime>)> getPopularAnimes(int page) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
     popularMediaCollection = await _anilistGraphQLService.query(
-      query: queries.mediaTrendingOrPopularQuery,
+      query: anilist_queries.mediaTrendingOrPopularQuery,
       fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -60,7 +60,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     DateTime monthAgo = now.subtract(const Duration(days: 30));
     ApiGraphQLResponse<MediaCollectionRecentlyCompletedGraphqlDtoEntity>
     recentlyCompleted = await _anilistGraphQLService.query(
-      query: queries.mediaRecentlyCompletedQuery,
+      query: anilist_queries.mediaRecentlyCompletedQuery,
       fromJson: MediaCollectionRecentlyCompletedGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -83,7 +83,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   Future<(bool, List<Anime>)> getRecentlyReleasedAnimes(int page) async {
     ApiGraphQLResponse<MediaCollectionRecentlyReleasedGraphqlDtoEntity>
     airingSchedules = await _anilistGraphQLService.query(
-      query: queries.animeRecentlyReleasedQuery,
+      query: anilist_queries.animeRecentlyReleasedQuery,
       fromJson: MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "TIME_DESC",
@@ -110,7 +110,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   Future<(bool, List<Anime>)> getTrendingAnimes(int page) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlDtoEntity>
     trendingMediaCollection = await _anilistGraphQLService.query(
-      query: queries.mediaTrendingOrPopularQuery,
+      query: anilist_queries.mediaTrendingOrPopularQuery,
       fromJson: MediaCollectionTrendingOrPopularGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "TRENDING_DESC",
@@ -135,7 +135,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     DateTime now = DateTime.now();
     ApiGraphQLResponse<MediaCollectionUpcomingGraphqlDtoEntity>
     upcoming = await _anilistGraphQLService.query(
-      query: queries.mediaUpcomingQuery,
+      query: anilist_queries.mediaUpcomingQuery,
       fromJson: MediaCollectionUpcomingGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "POPULARITY_DESC",
@@ -206,7 +206,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     }: null;
     ApiGraphQLResponse<MediaDetailsGraphqlEntity> animeDetailsData =
         await _anilistGraphQLService.query<MediaDetailsGraphqlEntity>(
-      query: queries.mediaDetailsQuery,
+      query: anilist_queries.mediaDetailsQuery,
       fromJson: MediaDetailsGraphqlEntity.fromJson,
       variables: {
         "type": "ANIME",
@@ -235,7 +235,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     int endTimestamp = end.millisecondsSinceEpoch ~/ 1000;
     ApiGraphQLResponse<MediaCollectionRecentlyReleasedGraphqlDtoEntity>
     airingSchedules = await _anilistGraphQLService.query(
-      query: queries.calendarQuery,
+      query: anilist_queries.calendarQuery,
       fromJson: MediaCollectionRecentlyReleasedGraphqlDtoEntity.fromJson,
       variables: {
         "sort": "TIME_DESC",
