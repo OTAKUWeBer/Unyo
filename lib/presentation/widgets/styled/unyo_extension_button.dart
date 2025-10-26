@@ -51,29 +51,35 @@ class UnyoExtensionButton extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-                        ),
-                        const SizedBox(width: 4,),
-                        nsfw == 1 ? Container(
-                          height: 14,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.amber.withOpacity(0.3),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
-                          child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Text(
-                                "NFSW",
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
+                        ),
+                        const SizedBox(width: 4),
+                        nsfw == 1
+                            ? Container(
+                              height: 14,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.amber.withOpacity(0.3),
+                              ),
+                              child: const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                  child: Text(
+                                    "NFSW",
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ) : const SizedBox.shrink(),
+                            )
+                            : const SizedBox.shrink(),
                       ],
                     ),
                     Row(
@@ -131,16 +137,20 @@ class UnyoExtensionButton extends StatelessWidget {
                 onDownloadPressed != null
                     ? Padding(
                       padding: EdgeInsets.only(left: 10.0.w),
-                      child: InkWell(
-                        onTap: onDownloadPressed,
-                        child: Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorScheme.of(context).primary.withOpacity(0.2),
+                      child: Tooltip(
+                        waitDuration: const Duration(milliseconds: 1000),
+                        message: "Download",
+                        child: InkWell(
+                          onTap: onDownloadPressed,
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: ColorScheme.of(context).primary.withOpacity(0.2),
+                            ),
+                            child: Icon(Icons.download_rounded, color: ColorScheme.of(context).tertiary),
                           ),
-                          child: Icon(Icons.download_rounded, color: ColorScheme.of(context).tertiary),
                         ),
                       ),
                     )
@@ -148,16 +158,20 @@ class UnyoExtensionButton extends StatelessWidget {
                 onSettingsPressed != null
                     ? Padding(
                       padding: EdgeInsets.only(left: 10.0.w),
-                      child: InkWell(
-                        onTap: onSettingsPressed,
-                        child: Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorScheme.of(context).primary.withOpacity(0.2),
+                      child: Tooltip(
+                        waitDuration: const Duration(milliseconds: 1000),
+                        message: "Settings",
+                        child: InkWell(
+                          onTap: onSettingsPressed,
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: ColorScheme.of(context).primary.withOpacity(0.2),
+                            ),
+                            child: Icon(Icons.settings_rounded, color: ColorScheme.of(context).tertiary),
                           ),
-                          child: Icon(Icons.settings_rounded, color: ColorScheme.of(context).tertiary),
                         ),
                       ),
                     )
@@ -165,16 +179,20 @@ class UnyoExtensionButton extends StatelessWidget {
                 onDeletePressed != null
                     ? Padding(
                       padding: EdgeInsets.only(left: 10.0.w),
-                      child: InkWell(
-                        onTap: onDeletePressed,
-                        child: Container(
-                          width: 45,
-                          height: 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.red.withOpacity(0.2),
+                      child: Tooltip(
+                        waitDuration: const Duration(milliseconds: 1000),
+                        message: "Delete",
+                        child: InkWell(
+                          onTap: onDeletePressed,
+                          child: Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.red.withOpacity(0.2),
+                            ),
+                            child: Icon(Icons.delete_rounded, color: Colors.redAccent.withOpacity(0.3)),
                           ),
-                          child: Icon(Icons.delete_rounded, color: Colors.redAccent.withOpacity(0.3)),
                         ),
                       ),
                     )
