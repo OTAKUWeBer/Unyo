@@ -5,13 +5,15 @@ class UnyoSettingsSelectionDialog extends StatelessWidget {
   final String title;
   final String description;
   final IconData icon;
+  final String? imageUrl;
   final void Function() openDialog;
 
   const UnyoSettingsSelectionDialog({
     super.key,
     required this.title,
     required this.description,
-    required this.icon,
+    this.icon = Icons.question_mark_rounded,
+    this.imageUrl,
     required this.openDialog,
   });
 
@@ -38,7 +40,10 @@ class UnyoSettingsSelectionDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: ColorScheme.of(context).primary.withOpacity(0.2),
                     ),
-                    child: Icon(icon, color: ColorScheme.of(context).tertiary),
+                    child:
+                        imageUrl == null
+                            ? Icon(icon, color: ColorScheme.of(context).tertiary)
+                            : Image.network(imageUrl!),
                   ),
                   const SizedBox(width: 18.0),
                   Column(
@@ -58,7 +63,7 @@ class UnyoSettingsSelectionDialog extends StatelessWidget {
                   ),
                 ],
               ),
-              const Icon(Icons.checklist_rounded)
+              const Icon(Icons.checklist_rounded),
             ],
           ),
         ),

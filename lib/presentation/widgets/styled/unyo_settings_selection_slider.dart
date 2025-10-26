@@ -5,6 +5,7 @@ class UnyoSettingsSelectionSlider extends StatefulWidget {
   final String title;
   final String description;
   final IconData icon;
+  final String? imageUrl;
   final String labelSuffix;
   final int initialValue;
   final int minValue;
@@ -16,7 +17,8 @@ class UnyoSettingsSelectionSlider extends StatefulWidget {
     super.key,
     required this.title,
     required this.description,
-    required this.icon,
+    this.icon = Icons.question_mark_rounded,
+    this.imageUrl,
     this.labelSuffix = "",
     required this.initialValue,
     required this.minValue,
@@ -56,7 +58,10 @@ class _UnyoSettingsSelectionSliderState extends State<UnyoSettingsSelectionSlide
                     borderRadius: BorderRadius.circular(10),
                     color: ColorScheme.of(context).primary.withOpacity(0.2),
                   ),
-                  child: Icon(widget.icon, color: ColorScheme.of(context).tertiary),
+                  child:
+                        widget.imageUrl == null
+                            ? Icon(widget.icon, color: ColorScheme.of(context).tertiary)
+                            : Image.network(widget.imageUrl!),
                 ),
                 const SizedBox(width: 18.0),
                 Column(

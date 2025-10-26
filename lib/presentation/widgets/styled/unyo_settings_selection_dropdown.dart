@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_dropdown.dart';
 
-class UnyoSettingsSelectionToggle extends StatefulWidget {
+class UnyoSettingsSelectionDropdown extends StatefulWidget {
   final String title;
   final String description;
   final IconData icon;
   final String? imageUrl;
-  final bool initiallySelected;
-  final void Function(bool) onPressed;
+  final String? label;
+  final String defaultValue;
+  final List<String> children;
+  final void Function(String?) onPressed;
 
-  /// UnyoSettingsSelectionToggle counts as 2 Settings Elements
-  const UnyoSettingsSelectionToggle({
+  const UnyoSettingsSelectionDropdown({
     super.key,
     required this.title,
     required this.description,
-    this.icon = Icons.question_mark_rounded,
+    required this.icon,
     this.imageUrl,
-    required this.initiallySelected,
+    this.label,
+    required this.defaultValue,
+    required this.children,
     required this.onPressed,
   });
 
   @override
-  State<UnyoSettingsSelectionToggle> createState() => _UnyoSettingsSelectionToggleState();
+  State<UnyoSettingsSelectionDropdown> createState() => _UnyoSettingsSelectionDropdownState();
 }
 
-class _UnyoSettingsSelectionToggleState extends State<UnyoSettingsSelectionToggle> {
-  late bool _isSelected;
-
-  @override
-  void initState() {
-    _isSelected = widget.initiallySelected;
-    super.initState();
-  }
-
+class _UnyoSettingsSelectionDropdownState extends State<UnyoSettingsSelectionDropdown> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,21 +72,16 @@ class _UnyoSettingsSelectionToggleState extends State<UnyoSettingsSelectionToggl
                 ),
               ],
             ),
-            Switch(
-              value: _isSelected,
-              trackOutlineWidth: const WidgetStatePropertyAll(0.5),
-              activeTrackColor: ColorScheme.of(context).primary,
-              inactiveTrackColor: Colors.black45,
-              trackOutlineColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.4)),
-              inactiveThumbColor: Colors.white.withOpacity(0.7),
-              thumbColor: WidgetStateMapper({WidgetState.selected: ColorScheme.of(context).tertiary}),
-              hoverColor: ColorScheme.of(context).tertiary.withOpacity(0.1),
-              onChanged: (value) {
-                setState(() {
-                  _isSelected = !_isSelected;
-                });
-                widget.onPressed(value);
-              },
+            SizedBox(
+              width: 170.w,
+              child: UnyoDropdown(
+                children: widget.children,
+                label: widget.label,
+                selectedValue: widget.defaultValue,
+                onPressed: (value) {
+                  widget.onPressed(value);
+                },
+              ),
             ),
           ],
         ),

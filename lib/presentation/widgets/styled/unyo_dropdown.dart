@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class UnyoDropdown extends StatefulWidget {
   final void Function(String?)? onPressed;
   final List<String> children;
+  final String? label;
   final String? selectedValue;
 
   const UnyoDropdown({
     super.key,
     required this.children,
+    required this.label,
     required this.onPressed,
     this.selectedValue
   });
@@ -66,7 +68,7 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
               backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.5)),
               maximumSize: WidgetStatePropertyAll(Size(constrains.maxWidth, 300)),
             ),
-            label: Text('Select Extension', style: TextStyle(color: Colors.white.withOpacity(0.8))),
+            label: widget.label != null ? Text(widget.label!, style: TextStyle(color: Colors.white.withOpacity(0.8))) : null,
             inputDecorationTheme: InputDecorationTheme(
               focusedBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(16.0)),

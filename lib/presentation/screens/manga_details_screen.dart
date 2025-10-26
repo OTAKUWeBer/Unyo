@@ -272,6 +272,7 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
                               child: UnyoDropdown(
                                 onPressed: (selectedExtensionName) => context.read<MangaDetailsCubit>().selectMangaExtension(selectedExtensionName),
                                 selectedValue: state.selectedExtension?.name,
+                                label: "Select Extension",
                                 children: [
                                   ...state.installedExtensions.map(
                                         (extension) => extension.name,

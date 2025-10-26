@@ -7,9 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:unyo/application/cubits/settings_cubit.dart';
 import 'package:unyo/application/states/settings_state.dart';
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/enums/episode_service.dart';
+import 'package:unyo/core/enums/service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_settings_category.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_settings_selection_dialog.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_settings_selection_dropdown.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_settings_selection_slider.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_settings_selection_toggle.dart';
 import 'package:unyo/presentation/widgets/text/text_body_large.dart';
 import 'package:unyo/presentation/widgets/text/text_headline_medium.dart';
 
@@ -34,7 +39,9 @@ class _SettingsListener extends StatelessWidget {
           sl<AppEffectHandler>().handleEffects(
             context,
             state.effects,
-            context.read<SettingsCubit>().clearEffects,
+            context
+                .read<SettingsCubit>()
+                .clearEffects,
           );
         }
       },
@@ -77,7 +84,9 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           TextHeadlineMedium(
                             text: "Settings!",
                             style: TextStyle(
-                              color: ColorScheme.of(context).tertiary,
+                              color: ColorScheme
+                                  .of(context)
+                                  .tertiary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -106,7 +115,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                     UnyoSettingsCategory(
                       title: "Accounts",
                       description: "Manage your connected accounts",
-                      icon: Icons.person_outline_rounded,
+                      icon: Icons.person_rounded,
                       alignment: "top",
                       childAlignment: "center",
                       settingsOptions: [
@@ -152,17 +161,51 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                       alignment: "",
                       childAlignment: "",
                       settingsOptions: [
-                        UnyoSettingsSelectionDialog(
-                            title: "Media Metadata Service",
-                            description: "Select the Media Metadata service to use",
-                            icon: Icons.image_search_rounded,
-                            openDialog: (){}
+                        UnyoSettingsSelectionDropdown(
+                          title: "Media Metadata Service",
+                          description: "Select the Media Metadata service to use",
+                          icon: Icons.image_search_rounded,
+                          label: "Select a service",
+                          defaultValue: Service.anilist.name.substring(0, 1).toUpperCase() + Service.anilist.name.substring(1),
+                          children: Service.values.map((service) => service.name.substring(0, 1).toUpperCase() + service.name.substring(1)).toList(),
+                          onPressed: (value){ },
+                        ),
+                        UnyoSettingsSelectionDropdown(
+                          title: "Episode Metadata Service",
+                          description: "Select the Episode Metadata service to use",
+                          icon: Icons.movie_filter_rounded,
+                          label: "Select a service",
+                          defaultValue: EpisodeService.anizip.name.substring(0, 1).toUpperCase() + Service.anilist.name.substring(1),
+                          children: EpisodeService.values.map((service) => service.name.substring(0, 1).toUpperCase() + service.name.substring(1)).toList(),
+                          onPressed: (value){ },
+                        ),
+                        UnyoSettingsSelectionDropdown(
+                          title: "Language",
+                          description: "Select the application language",
+                          icon: Icons.language_rounded,
+                          label: "Select a language",
+                          defaultValue: "English",
+                          children: ["English"],
+                          onPressed: (value){ },
                         ),
                         UnyoSettingsSelectionDialog(
-                            title: "Episode Metadata Service",
-                            description: "Select the Episode Metadata service to use",
-                            icon: Icons.movie_filter_rounded,
-                            openDialog: (){}
+                          title: "Default Title Language",
+                          description: "Select the default title language",
+                          icon: Icons.text_fields_rounded,
+                          openDialog: () {},
+                        ),
+                        UnyoSettingsSelectionDialog(
+                          title: "Default Episode Title Language",
+                          description: "Select the default episode title language",
+                          icon: Icons.text_fields_rounded,
+                          openDialog: () {},
+                        ),
+                        UnyoSettingsSelectionToggle(
+                          title: "Discord RPC",
+                          description: "Enable or disable Discord Rich Presence",
+                          icon: Icons.discord_rounded,
+                          initiallySelected: true,
+                          onPressed: (value) {},
                         ),
                       ],
                     ),
@@ -180,7 +223,45 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                       icon: Icons.play_arrow_rounded,
                       alignment: "",
                       childAlignment: "",
-                      settingsOptions: [],
+                      settingsOptions: [
+                        UnyoSettingsSelectionToggle(
+                          title: "Skip opening automatically (when available)",
+                          description: "Automatically skip the opening of episodes",
+                          icon: Icons.skip_next_rounded,
+                          initiallySelected: false,
+                          onPressed: (value) {},
+                        ),
+                        UnyoSettingsSelectionToggle(
+                          title: "Skip ending automatically (when available)",
+                          description: "Automatically skip the ending of episodes",
+                          icon: Icons.skip_previous_rounded,
+                          initiallySelected: false,
+                          onPressed: (value) {},
+                        ),
+                        UnyoSettingsSelectionSlider(
+                          title: "Default manual skip time",
+                          description: "Set the default time for manual skips",
+                          icon: Icons.fast_forward_rounded,
+                          initialValue: 85,
+                          minValue: 60,
+                          maxValue: 120,
+                          onChanged: (value) {},
+                        ),
+                        UnyoSettingsSelectionToggle(
+                          title: "Enable auto-play next episode",
+                          description: "Automatically accept next episode pop-up when the current one ends",
+                          icon: Icons.navigate_next_rounded,
+                          initiallySelected: false,
+                          onPressed: (value) {},
+                        ),
+                        UnyoSettingsSelectionToggle(
+                          title: "Enable OpenSubtitles.org integration (When available)",
+                          description: "Enable OpenSubtitles.org integration for automatic subtitle fetching",
+                          icon: Icons.subtitles_rounded,
+                          initiallySelected: false,
+                          onPressed: (value) {},
+                        ),
+                      ],
                     ),
                     UnyoSettingsCategory(
                       title: "Reader",
@@ -198,17 +279,17 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                       childAlignment: "",
                       settingsOptions: [
                         UnyoSettingsSelectionDialog(
-                            title: "Aniyomi Extensions Repository",
-                            description: "Change the Aniyomi extensions repository URL",
-                            icon: Icons.link_rounded,
-                            openDialog: (){}
+                          title: "Aniyomi Extensions Repository",
+                          description: "Change the Aniyomi extensions repository URL",
+                          icon: Icons.link_rounded,
+                          openDialog: () {},
                         ),
                         UnyoSettingsSelectionDialog(
-                            title: "Tachiyomi Extensions Repository",
-                            description: "Change the Tachiyomi extensions repository URL",
-                            icon: Icons.link_rounded,
-                            openDialog: (){}
-                        )
+                          title: "Tachiyomi Extensions Repository",
+                          description: "Change the Tachiyomi extensions repository URL",
+                          icon: Icons.link_rounded,
+                          openDialog: () {},
+                        ),
                       ],
                     ),
                     UnyoSettingsCategory(
