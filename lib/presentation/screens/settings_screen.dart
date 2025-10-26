@@ -39,9 +39,7 @@ class _SettingsListener extends StatelessWidget {
           sl<AppEffectHandler>().handleEffects(
             context,
             state.effects,
-            context
-                .read<SettingsCubit>()
-                .clearEffects,
+            context.read<SettingsCubit>().clearEffects,
           );
         }
       },
@@ -84,9 +82,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           TextHeadlineMedium(
                             text: "Settings!",
                             style: TextStyle(
-                              color: ColorScheme
-                                  .of(context)
-                                  .tertiary,
+                              color: ColorScheme.of(context).tertiary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -166,39 +162,67 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           description: "Select the Media Metadata service to use",
                           icon: Icons.image_search_rounded,
                           label: "Select a service",
-                          defaultValue: Service.anilist.name.substring(0, 1).toUpperCase() + Service.anilist.name.substring(1),
-                          children: Service.values.map((service) => service.name.substring(0, 1).toUpperCase() + service.name.substring(1)).toList(),
-                          onPressed: (value){ },
+                          defaultValue:
+                              Service.anilist.name.substring(0, 1).toUpperCase() +
+                              Service.anilist.name.substring(1),
+                          children:
+                              Service.values
+                                  .map(
+                                    (service) =>
+                                        service.name.substring(0, 1).toUpperCase() +
+                                        service.name.substring(1),
+                                  )
+                                  .toList(),
+                          onPressed: (value) {},
                         ),
                         UnyoSettingsSelectionDropdown(
                           title: "Episode Metadata Service",
                           description: "Select the Episode Metadata service to use",
                           icon: Icons.movie_filter_rounded,
                           label: "Select a service",
-                          defaultValue: EpisodeService.anizip.name.substring(0, 1).toUpperCase() + Service.anilist.name.substring(1),
-                          children: EpisodeService.values.map((service) => service.name.substring(0, 1).toUpperCase() + service.name.substring(1)).toList(),
-                          onPressed: (value){ },
+                          defaultValue:
+                              EpisodeService.anizip.name.substring(0, 1).toUpperCase() +
+                              Service.anilist.name.substring(1),
+                          children:
+                              EpisodeService.values
+                                  .map(
+                                    (service) =>
+                                        service.name.substring(0, 1).toUpperCase() +
+                                        service.name.substring(1),
+                                  )
+                                  .toList(),
+                          onPressed: (value) {},
                         ),
-                        UnyoSettingsSelectionDropdown(
-                          title: "Language",
-                          description: "Select the application language",
-                          icon: Icons.language_rounded,
-                          label: "Select a language",
-                          defaultValue: "English",
-                          children: ["English"],
-                          onPressed: (value){ },
-                        ),
-                        UnyoSettingsSelectionDialog(
-                          title: "Default Title Language",
-                          description: "Select the default title language",
-                          icon: Icons.text_fields_rounded,
-                          openDialog: () {},
-                        ),
-                        UnyoSettingsSelectionDialog(
-                          title: "Default Episode Title Language",
-                          description: "Select the default episode title language",
-                          icon: Icons.text_fields_rounded,
-                          openDialog: () {},
+                        UnyoSettingsCategory(
+                          title: "Language Settings",
+                          description: "Manage your language preferences",
+                          icon: Icons.chat_bubble_rounded,
+                          alignment: "",
+                          childAlignment: "",
+                          isChild: true,
+                          settingsOptions: [
+                            UnyoSettingsSelectionDropdown(
+                              title: "Language",
+                              description: "Select the application language",
+                              icon: Icons.language_rounded,
+                              label: "Select a language",
+                              defaultValue: "English",
+                              children: ["English"],
+                              onPressed: (value) {},
+                            ),
+                            UnyoSettingsSelectionDialog(
+                              title: "Default Media Title Language",
+                              description: "Select the default media title language",
+                              icon: Icons.text_fields_rounded,
+                              openDialog: () {},
+                            ),
+                            UnyoSettingsSelectionDialog(
+                              title: "Default Episode Title Language",
+                              description: "Select the default episode title language",
+                              icon: Icons.text_fields_rounded,
+                              openDialog: () {},
+                            ),
+                          ],
                         ),
                         UnyoSettingsSelectionToggle(
                           title: "Discord RPC",

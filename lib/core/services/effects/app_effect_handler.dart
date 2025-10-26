@@ -1,4 +1,6 @@
 // External dependencies
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:unyo/core/di/locator.dart';
 
 class AppEffectHandler {
   final _logger = sl<Logger>();
+  Timer timer = Timer(Duration.zero, () {});
   late BuildContext rootContext;
 
   AppEffectHandler();
@@ -90,9 +93,13 @@ class AppEffectHandler {
       actions: const [SizedBox.shrink()],
     );
 
+    timer.cancel();
     ScaffoldMessenger.of(context)
       ..hideCurrentMaterialBanner()
       ..showMaterialBanner(snackBar);
+    timer = Timer(const Duration(seconds: 3), () {
+      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+    });
   }
 
   void _handleReplaceRouteEffect(
