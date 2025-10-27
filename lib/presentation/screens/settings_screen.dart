@@ -163,8 +163,8 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           icon: Icons.image_search_rounded,
                           label: "Select a service",
                           defaultValue:
-                              Service.anilist.name.substring(0, 1).toUpperCase() +
-                              Service.anilist.name.substring(1),
+                              state.loggedUser.settings.service.name.substring(0, 1).toUpperCase() +
+                              state.loggedUser.settings.service.name.substring(1),
                           children:
                               Service.values
                                   .map(
@@ -181,8 +181,8 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           icon: Icons.movie_filter_rounded,
                           label: "Select a service",
                           defaultValue:
-                              EpisodeService.anizip.name.substring(0, 1).toUpperCase() +
-                              Service.anilist.name.substring(1),
+                              state.loggedUser.settings.episodeService.name.substring(0, 1).toUpperCase() +
+                              state.loggedUser.settings.episodeService.name.substring(1),
                           children:
                               EpisodeService.values
                                   .map(
@@ -228,8 +228,15 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           title: "Discord RPC",
                           description: "Enable or disable Discord Rich Presence",
                           icon: Icons.discord_rounded,
-                          initiallySelected: true,
+                          initiallySelected: state.loggedUser.settings.enableDiscordRichPresence,
                           onPressed: (value) {},
+                        ),
+                        UnyoSettingsSelectionToggle(
+                          title: "NSFW Content",
+                          icon: Icons.warning_rounded,
+                          description: "Enable or disable NSFW content throughout the app",
+                          initiallySelected: state.loggedUser.settings.enableNsfwContent,
+                          onPressed: (value){},
                         ),
                       ],
                     ),
@@ -252,21 +259,21 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           title: "Skip opening automatically (when available)",
                           description: "Automatically skip the opening of episodes",
                           icon: Icons.skip_next_rounded,
-                          initiallySelected: false,
+                          initiallySelected: state.loggedUser.settings.automaticallySkipOpening,
                           onPressed: (value) {},
                         ),
                         UnyoSettingsSelectionToggle(
                           title: "Skip ending automatically (when available)",
                           description: "Automatically skip the ending of episodes",
                           icon: Icons.skip_previous_rounded,
-                          initiallySelected: false,
+                          initiallySelected: state.loggedUser.settings.automaticallySkipEnding,
                           onPressed: (value) {},
                         ),
                         UnyoSettingsSelectionSlider(
                           title: "Default manual skip time",
                           description: "Set the default time for manual skips",
                           icon: Icons.fast_forward_rounded,
-                          initialValue: 85,
+                          initialValue: state.loggedUser.settings.manualSkipTime,
                           minValue: 60,
                           maxValue: 120,
                           onChanged: (value) {},
@@ -275,14 +282,14 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           title: "Enable auto-play next episode",
                           description: "Automatically accept next episode pop-up when the current one ends",
                           icon: Icons.navigate_next_rounded,
-                          initiallySelected: false,
+                          initiallySelected: state.loggedUser.settings.autoPlayNextEpisode,
                           onPressed: (value) {},
                         ),
                         UnyoSettingsSelectionToggle(
                           title: "Enable OpenSubtitles.org integration (When available)",
                           description: "Enable OpenSubtitles.org integration for automatic subtitle fetching",
                           icon: Icons.subtitles_rounded,
-                          initiallySelected: false,
+                          initiallySelected: state.loggedUser.settings.enableOpenSubtitlesIntegration,
                           onPressed: (value) {},
                         ),
                       ],

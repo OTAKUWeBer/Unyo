@@ -37,13 +37,24 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
               : fields[6] as String,
       mediaExtensionConfigs:
           fields[7] == null ? {} : (fields[7] as Map).cast<String, Extension>(),
+      mediaTitleLanguage:
+          fields[8] == null ? 'userPreferred' : fields[8] as String,
+      episodeTitleLanguage: fields[9] == null ? 'en' : fields[9] as String,
+      enableDiscordRichPresence: fields[10] == null ? true : fields[10] as bool,
+      automaticallySkipOpening: fields[11] == null ? false : fields[11] as bool,
+      automaticallySkipEnding: fields[12] == null ? false : fields[12] as bool,
+      manualSkipTime: fields[13] == null ? 85 : (fields[13] as num).toInt(),
+      autoPlayNextEpisode: fields[14] == null ? false : fields[14] as bool,
+      enableOpenSubtitlesIntegration:
+          fields[15] == null ? false : fields[15] as bool,
+      enableNsfwContent: fields[16] == null ? false : fields[16] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.language)
       ..writeByte(1)
@@ -59,7 +70,25 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
       ..writeByte(6)
       ..write(obj.tachiyomiExtensionsRepositoryUrl)
       ..writeByte(7)
-      ..write(obj.mediaExtensionConfigs);
+      ..write(obj.mediaExtensionConfigs)
+      ..writeByte(8)
+      ..write(obj.mediaTitleLanguage)
+      ..writeByte(9)
+      ..write(obj.episodeTitleLanguage)
+      ..writeByte(10)
+      ..write(obj.enableDiscordRichPresence)
+      ..writeByte(11)
+      ..write(obj.automaticallySkipOpening)
+      ..writeByte(12)
+      ..write(obj.automaticallySkipEnding)
+      ..writeByte(13)
+      ..write(obj.manualSkipTime)
+      ..writeByte(14)
+      ..write(obj.autoPlayNextEpisode)
+      ..writeByte(15)
+      ..write(obj.enableOpenSubtitlesIntegration)
+      ..writeByte(16)
+      ..write(obj.enableNsfwContent);
   }
 
   @override
@@ -116,6 +145,16 @@ _SettingsModel _$SettingsModelFromJson(
         ),
       ) ??
       const {},
+  mediaTitleLanguage: json['mediaTitleLanguage'] as String? ?? 'userPreferred',
+  episodeTitleLanguage: json['episodeTitleLanguage'] as String? ?? 'en',
+  enableDiscordRichPresence: json['enableDiscordRichPresence'] as bool? ?? true,
+  automaticallySkipOpening: json['automaticallySkipOpening'] as bool? ?? false,
+  automaticallySkipEnding: json['automaticallySkipEnding'] as bool? ?? false,
+  manualSkipTime: (json['manualSkipTime'] as num?)?.toInt() ?? 85,
+  autoPlayNextEpisode: json['autoPlayNextEpisode'] as bool? ?? false,
+  enableOpenSubtitlesIntegration:
+      json['enableOpenSubtitlesIntegration'] as bool? ?? false,
+  enableNsfwContent: json['enableNsfwContent'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$SettingsModelToJson(
@@ -137,6 +176,15 @@ Map<String, dynamic> _$SettingsModelToJson(
   'mediaExtensionConfigs': instance.mediaExtensionConfigs.map(
     (k, e) => MapEntry(k, const ExtensionConverter().toJson(e)),
   ),
+  'mediaTitleLanguage': instance.mediaTitleLanguage,
+  'episodeTitleLanguage': instance.episodeTitleLanguage,
+  'enableDiscordRichPresence': instance.enableDiscordRichPresence,
+  'automaticallySkipOpening': instance.automaticallySkipOpening,
+  'automaticallySkipEnding': instance.automaticallySkipEnding,
+  'manualSkipTime': instance.manualSkipTime,
+  'autoPlayNextEpisode': instance.autoPlayNextEpisode,
+  'enableOpenSubtitlesIntegration': instance.enableOpenSubtitlesIntegration,
+  'enableNsfwContent': instance.enableNsfwContent,
 };
 
 const _$ServiceEnumMap = {

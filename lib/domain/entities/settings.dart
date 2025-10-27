@@ -12,23 +12,44 @@ part 'settings.freezed.dart';
 part 'settings.g.dart';
 
 abstract class Settings {
+  // Configurable
   final String language;
+  final String mediaTitleLanguage;
+  final String episodeTitleLanguage;
   final Service service;
   final EpisodeService episodeService;
-  final List<Extension> installedAnimeExtensions;
-  final List<Extension> installedMangaExtensions;
   final String aniyomiExtensionsRepositoryUrl;
   final String tachiyomiExtensionsRepositoryUrl;
+  final bool enableDiscordRichPresence;
+  final bool automaticallySkipOpening;
+  final bool automaticallySkipEnding;
+  final int manualSkipTime;
+  final bool autoPlayNextEpisode;
+  final bool enableOpenSubtitlesIntegration;
+  final bool enableNsfwContent;
+  // Not configurable
+  final List<Extension> installedAnimeExtensions;
+  final List<Extension> installedMangaExtensions;
   final Map<String, Extension> mediaExtensionConfigs;
 
   const Settings({
     required this.service,
-    required this.language,
     required this.episodeService,
-    required this.installedAnimeExtensions,
-    required this.installedMangaExtensions,
+    required this.language,
+    required this.mediaTitleLanguage,
+    required this.episodeTitleLanguage,
     required this.aniyomiExtensionsRepositoryUrl,
     required this.tachiyomiExtensionsRepositoryUrl,
+    required this.enableDiscordRichPresence,
+    required this.automaticallySkipOpening,
+    required this.automaticallySkipEnding,
+    required this.manualSkipTime,
+    required this.autoPlayNextEpisode,
+    required this.enableOpenSubtitlesIntegration,
+    required this.enableNsfwContent,
+
+    required this.installedAnimeExtensions,
+    required this.installedMangaExtensions,
     required this.mediaExtensionConfigs,
   });
 }
@@ -45,6 +66,15 @@ abstract class SettingsModel with _$SettingsModel implements Settings {
     @HiveField(5) @Default(config.aniyomiExtensionsRepositoryUrl) String aniyomiExtensionsRepositoryUrl,
     @HiveField(6) @Default(config.tachiyomiExtensionsRepositoryUrl) String tachiyomiExtensionsRepositoryUrl,
     @HiveField(7) @ExtensionConverter() @Default({}) Map<String, Extension> mediaExtensionConfigs,
+    @HiveField(8) @Default('userPreferred') String mediaTitleLanguage,
+    @HiveField(9) @Default('en') String episodeTitleLanguage,
+    @HiveField(10) @Default(true) bool enableDiscordRichPresence,
+    @HiveField(11) @Default(false) bool automaticallySkipOpening,
+    @HiveField(12) @Default(false) bool automaticallySkipEnding,
+    @HiveField(13) @Default(85) int manualSkipTime,
+    @HiveField(14) @Default(false) bool autoPlayNextEpisode,
+    @HiveField(15) @Default(false) bool enableOpenSubtitlesIntegration,
+    @HiveField(16) @Default(false) bool enableNsfwContent,
   }) = _SettingsModel;
 
   factory SettingsModel.empty() =>
