@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 class UnyoDropdown extends StatefulWidget {
   final void Function(String?)? onPressed;
   final List<String> children;
+  final double? width;
+  final IconData? icon;
   final String? label;
   final String? selectedValue;
 
   const UnyoDropdown({
     super.key,
     required this.children,
+    this.width,
+    this.icon,
     required this.label,
     required this.onPressed,
     this.selectedValue
@@ -52,12 +56,12 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
     return LayoutBuilder(
       builder:
           (context, constrains) => DropdownMenu(
-            width: constrains.maxWidth,
+            width: widget.width ?? constrains.maxWidth,
             controller: searchController,
             onSelected: widget.onPressed,
             leadingIcon: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              child: Icon(Icons.search_rounded, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
+              child: Icon(widget.icon ?? Icons.search_rounded, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
             ),
             enableFilter: true,
             trailingIcon: Icon(

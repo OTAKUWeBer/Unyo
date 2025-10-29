@@ -236,7 +236,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                           icon: Icons.warning_rounded,
                           description: "Enable or disable NSFW content throughout the app",
                           initiallySelected: state.loggedUser.settings.enableNsfwContent,
-                          onPressed: (value){},
+                          onPressed: (value) {},
                         ),
                       ],
                     ),

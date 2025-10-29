@@ -1,26 +1,26 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_entity.dart';
 
-ViewerGraphqlDtoEntity $ViewerGraphqlDtoEntityFromJson(Map<String, dynamic> json) {
-  final ViewerGraphqlDtoEntity viewerGraphqlDtoEntity = ViewerGraphqlDtoEntity();
+ViewerGraphqlEntity $ViewerGraphqlEntityFromJson(Map<String, dynamic> json) {
+  final ViewerGraphqlEntity viewerGraphqlEntity = ViewerGraphqlEntity();
   final ViewerGraphqlDtoViewer? viewer = jsonConvert.convert<ViewerGraphqlDtoViewer>(json['Viewer']);
   if (viewer != null) {
-    viewerGraphqlDtoEntity.viewer = viewer;
+    viewerGraphqlEntity.viewer = viewer;
   }
-  return viewerGraphqlDtoEntity;
+  return viewerGraphqlEntity;
 }
 
-Map<String, dynamic> $ViewerGraphqlDtoEntityToJson(ViewerGraphqlDtoEntity entity) {
+Map<String, dynamic> $ViewerGraphqlEntityToJson(ViewerGraphqlEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['Viewer'] = entity.viewer.toJson();
   return data;
 }
 
-extension ViewerGraphqlDtoEntityExtension on ViewerGraphqlDtoEntity {
-  ViewerGraphqlDtoEntity copyWith({
+extension ViewerGraphqlEntityExtension on ViewerGraphqlEntity {
+  ViewerGraphqlEntity copyWith({
     ViewerGraphqlDtoViewer? viewer,
   }) {
-    return ViewerGraphqlDtoEntity()
+    return ViewerGraphqlEntity()
       ..viewer = viewer ?? this.viewer;
   }
 }

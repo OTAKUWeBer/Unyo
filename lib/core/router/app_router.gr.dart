@@ -9,156 +9,192 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i13;
-import 'package:flutter/material.dart' as _i14;
-import 'package:unyo/presentation/screens/anime_details_screen.dart' as _i1;
-import 'package:unyo/presentation/screens/anime_screen.dart' as _i2;
-import 'package:unyo/presentation/screens/calendar_screen.dart' as _i3;
-import 'package:unyo/presentation/screens/extensions_screen.dart' as _i4;
-import 'package:unyo/presentation/screens/home_screen.dart' as _i5;
-import 'package:unyo/presentation/screens/login_screen.dart' as _i6;
-import 'package:unyo/presentation/screens/manga_details_screen.dart' as _i7;
-import 'package:unyo/presentation/screens/manga_screen.dart' as _i8;
-import 'package:unyo/presentation/screens/media_list_screen.dart' as _i9;
-import 'package:unyo/presentation/screens/root_screen.dart' as _i10;
-import 'package:unyo/presentation/screens/settings_screen.dart' as _i11;
-import 'package:unyo/presentation/screens/tabs_screen.dart' as _i12;
+import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:flutter/material.dart' as _i16;
+import 'package:unyo/presentation/screens/anime_advanced_search_screen.dart'
+    as _i1;
+import 'package:unyo/presentation/screens/anime_details_screen.dart' as _i2;
+import 'package:unyo/presentation/screens/anime_screen.dart' as _i3;
+import 'package:unyo/presentation/screens/calendar_screen.dart' as _i4;
+import 'package:unyo/presentation/screens/extensions_screen.dart' as _i5;
+import 'package:unyo/presentation/screens/home_screen.dart' as _i6;
+import 'package:unyo/presentation/screens/login_screen.dart' as _i7;
+import 'package:unyo/presentation/screens/manga_advanced_search_screen.dart'
+    as _i8;
+import 'package:unyo/presentation/screens/manga_details_screen.dart' as _i9;
+import 'package:unyo/presentation/screens/manga_screen.dart' as _i10;
+import 'package:unyo/presentation/screens/media_list_screen.dart' as _i11;
+import 'package:unyo/presentation/screens/root_screen.dart' as _i12;
+import 'package:unyo/presentation/screens/settings_screen.dart' as _i13;
+import 'package:unyo/presentation/screens/tabs_screen.dart' as _i14;
 
 /// generated route for
-/// [_i1.AnimeDetailsScreen]
-class AnimeDetailsRoute extends _i13.PageRouteInfo<void> {
-  const AnimeDetailsRoute({List<_i13.PageRouteInfo>? children})
+/// [_i1.AnimeAdvancedSearchScreen]
+class AnimeAdvancedSearchRoute extends _i15.PageRouteInfo<void> {
+  const AnimeAdvancedSearchRoute({List<_i15.PageRouteInfo>? children})
+    : super(AnimeAdvancedSearchRoute.name, initialChildren: children);
+
+  static const String name = 'AnimeAdvancedSearchRoute';
+
+  static _i15.PageInfo page = _i15.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.AnimeAdvancedSearchScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.AnimeDetailsScreen]
+class AnimeDetailsRoute extends _i15.PageRouteInfo<void> {
+  const AnimeDetailsRoute({List<_i15.PageRouteInfo>? children})
     : super(AnimeDetailsRoute.name, initialChildren: children);
 
   static const String name = 'AnimeDetailsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i1.AnimeDetailsScreen();
+      return const _i2.AnimeDetailsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i2.AnimeScreen]
-class AnimeRoute extends _i13.PageRouteInfo<void> {
-  const AnimeRoute({List<_i13.PageRouteInfo>? children})
+/// [_i3.AnimeScreen]
+class AnimeRoute extends _i15.PageRouteInfo<void> {
+  const AnimeRoute({List<_i15.PageRouteInfo>? children})
     : super(AnimeRoute.name, initialChildren: children);
 
   static const String name = 'AnimeRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i2.AnimeScreen();
+      return const _i3.AnimeScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i3.CalendarScreen]
-class CalendarRoute extends _i13.PageRouteInfo<void> {
-  const CalendarRoute({List<_i13.PageRouteInfo>? children})
+/// [_i4.CalendarScreen]
+class CalendarRoute extends _i15.PageRouteInfo<void> {
+  const CalendarRoute({List<_i15.PageRouteInfo>? children})
     : super(CalendarRoute.name, initialChildren: children);
 
   static const String name = 'CalendarRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i3.CalendarScreen();
+      return const _i4.CalendarScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i4.ExtensionsScreen]
-class ExtensionsRoute extends _i13.PageRouteInfo<void> {
-  const ExtensionsRoute({List<_i13.PageRouteInfo>? children})
+/// [_i5.ExtensionsScreen]
+class ExtensionsRoute extends _i15.PageRouteInfo<void> {
+  const ExtensionsRoute({List<_i15.PageRouteInfo>? children})
     : super(ExtensionsRoute.name, initialChildren: children);
 
   static const String name = 'ExtensionsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i4.ExtensionsScreen();
+      return const _i5.ExtensionsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i5.HomeScreen]
-class HomeRoute extends _i13.PageRouteInfo<void> {
-  const HomeRoute({List<_i13.PageRouteInfo>? children})
+/// [_i6.HomeScreen]
+class HomeRoute extends _i15.PageRouteInfo<void> {
+  const HomeRoute({List<_i15.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i5.HomeScreen();
+      return const _i6.HomeScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i6.LoginScreen]
-class LoginRoute extends _i13.PageRouteInfo<void> {
-  const LoginRoute({List<_i13.PageRouteInfo>? children})
+/// [_i7.LoginScreen]
+class LoginRoute extends _i15.PageRouteInfo<void> {
+  const LoginRoute({List<_i15.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i6.LoginScreen();
+      return const _i7.LoginScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i7.MangaDetailsScreen]
-class MangaDetailsRoute extends _i13.PageRouteInfo<void> {
-  const MangaDetailsRoute({List<_i13.PageRouteInfo>? children})
+/// [_i8.MangaAdvancedSearchScreen]
+class MangaAdvancedSearchRoute extends _i15.PageRouteInfo<void> {
+  const MangaAdvancedSearchRoute({List<_i15.PageRouteInfo>? children})
+    : super(MangaAdvancedSearchRoute.name, initialChildren: children);
+
+  static const String name = 'MangaAdvancedSearchRoute';
+
+  static _i15.PageInfo page = _i15.PageInfo(
+    name,
+    builder: (data) {
+      return const _i8.MangaAdvancedSearchScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i9.MangaDetailsScreen]
+class MangaDetailsRoute extends _i15.PageRouteInfo<void> {
+  const MangaDetailsRoute({List<_i15.PageRouteInfo>? children})
     : super(MangaDetailsRoute.name, initialChildren: children);
 
   static const String name = 'MangaDetailsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i7.MangaDetailsScreen();
+      return const _i9.MangaDetailsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i8.MangaScreen]
-class MangaRoute extends _i13.PageRouteInfo<void> {
-  const MangaRoute({List<_i13.PageRouteInfo>? children})
+/// [_i10.MangaScreen]
+class MangaRoute extends _i15.PageRouteInfo<void> {
+  const MangaRoute({List<_i15.PageRouteInfo>? children})
     : super(MangaRoute.name, initialChildren: children);
 
   static const String name = 'MangaRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i8.MangaScreen();
+      return const _i10.MangaScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i9.MediaListScreen]
-class MediaListRoute extends _i13.PageRouteInfo<MediaListRouteArgs> {
+/// [_i11.MediaListScreen]
+class MediaListRoute extends _i15.PageRouteInfo<MediaListRouteArgs> {
   MediaListRoute({
     required String? type,
-    _i14.Key? key,
-    List<_i13.PageRouteInfo>? children,
+    _i16.Key? key,
+    List<_i15.PageRouteInfo>? children,
   }) : super(
          MediaListRoute.name,
          args: MediaListRouteArgs(type: type, key: key),
@@ -168,14 +204,14 @@ class MediaListRoute extends _i13.PageRouteInfo<MediaListRouteArgs> {
 
   static const String name = 'MediaListRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
       final args = data.argsAs<MediaListRouteArgs>(
         orElse: () => MediaListRouteArgs(type: queryParams.optString('type')),
       );
-      return _i9.MediaListScreen(args.type, key: args.key);
+      return _i11.MediaListScreen(args.type, key: args.key);
     },
   );
 }
@@ -185,7 +221,7 @@ class MediaListRouteArgs {
 
   final String? type;
 
-  final _i14.Key? key;
+  final _i16.Key? key;
 
   @override
   String toString() {
@@ -204,49 +240,49 @@ class MediaListRouteArgs {
 }
 
 /// generated route for
-/// [_i10.RootScreen]
-class RootRoute extends _i13.PageRouteInfo<void> {
-  const RootRoute({List<_i13.PageRouteInfo>? children})
+/// [_i12.RootScreen]
+class RootRoute extends _i15.PageRouteInfo<void> {
+  const RootRoute({List<_i15.PageRouteInfo>? children})
     : super(RootRoute.name, initialChildren: children);
 
   static const String name = 'RootRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i10.RootScreen();
+      return const _i12.RootScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i11.SettingsScreen]
-class SettingsRoute extends _i13.PageRouteInfo<void> {
-  const SettingsRoute({List<_i13.PageRouteInfo>? children})
+/// [_i13.SettingsScreen]
+class SettingsRoute extends _i15.PageRouteInfo<void> {
+  const SettingsRoute({List<_i15.PageRouteInfo>? children})
     : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i11.SettingsScreen();
+      return const _i13.SettingsScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i12.TabsScreen]
-class TabsRoute extends _i13.PageRouteInfo<void> {
-  const TabsRoute({List<_i13.PageRouteInfo>? children})
+/// [_i14.TabsScreen]
+class TabsRoute extends _i15.PageRouteInfo<void> {
+  const TabsRoute({List<_i15.PageRouteInfo>? children})
     : super(TabsRoute.name, initialChildren: children);
 
   static const String name = 'TabsRoute';
 
-  static _i13.PageInfo page = _i13.PageInfo(
+  static _i15.PageInfo page = _i15.PageInfo(
     name,
     builder: (data) {
-      return const _i12.TabsScreen();
+      return const _i14.TabsScreen();
     },
   );
 }

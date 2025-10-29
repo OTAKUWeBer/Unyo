@@ -10,5 +10,7 @@ abstract class AnimeRepository {
   Future<(bool, List<Anime>)> getUpcomingAnimes(int page);
   Future<Map<String, List<Anime>>> getCalendarReleases(int page, User user);
   Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user);
+  Future<Map<String, (bool, List<String>)>> getUserAnimeAdvancedSearchFilters();
+  Future<List<Anime>> performAnimeAdvancedSearch(String query, List<String> selectedGenres, String? selectedSeason, String? selectedFormat, int? selectedYear, String? selectedAiringStatus, int page);
   Future<List<String>> getMediaCoverImages();
 }

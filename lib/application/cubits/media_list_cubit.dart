@@ -26,7 +26,7 @@ class MediaListCubit extends Cubit<MediaListState>
   final AnimeNotifier _selectedAnimeNotifier;
   final MangaNotifier _selectedMangaNotifier;
   final MediaListNotifier _selectedMediaListNotifier;
-  late StreamSubscription<User> _newLoggedUserSubscription;
+  late StreamSubscription<User> _loggedUserSubscription;
 
   MediaListCubit(this._loggedUserNotifier, this._userRepositoryAnilist, this._selectedAnimeNotifier, this._selectedMangaNotifier, this._selectedMediaListNotifier)
     : super(
@@ -52,12 +52,12 @@ class MediaListCubit extends Cubit<MediaListState>
 
   @override
   Future<void> close() {
-    _newLoggedUserSubscription.cancel();
+    _loggedUserSubscription.cancel();
     return super.close();
   }
 
   void _init() async {
-    _newLoggedUserSubscription = _loggedUserNotifier.userStream.listen((
+    _loggedUserSubscription = _loggedUserNotifier.userStream.listen((
       loggedUser,
     ) {
       emit(state.copyWith(loggedUser: loggedUser));

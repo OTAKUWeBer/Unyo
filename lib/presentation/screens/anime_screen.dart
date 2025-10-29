@@ -100,7 +100,7 @@ class _AnimeViewState extends State<_AnimeView> {
                     ),
                     const SizedBox(width: 30,),
                     MediaButton(
-                      onPressed: () {},
+                      onPressed: () => context.read<AnimeCubit>().navigateToAdvancedSearch(context),
                       image:
                           state.banners.isNotEmpty ? state.banners[1].bannerImage : "",
                       text: "Advanced Search",

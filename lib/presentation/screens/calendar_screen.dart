@@ -94,7 +94,7 @@ class _CalendarViewState extends State<_CalendarView>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           TextHeadlineMedium(
-                            text: "Anime ",
+                            text: "Anime",
                             style: TextStyle(
                               color: ColorScheme.of(context).tertiary,
                               fontWeight: FontWeight.bold,

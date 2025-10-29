@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
-import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_entity.dart';
 import 'package:unyo/data/models/anilist_anime_model.dart';
 import 'package:unyo/data/models/anilist_manga_model.dart';
 import 'package:unyo/data/repositories/repository_mixin.dart';
@@ -19,7 +19,7 @@ import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/services/api/dto/anilist/api_dtos.dart';
-import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
@@ -254,10 +254,10 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     Map<String, String> graphQlHeaders = {
       "Authorization": "Bearer ${authToken.data.accessToken}",
     };
-    ApiGraphQLResponse<ViewerGraphqlDtoEntity> viewerDto =
-        await _anilistGraphQLService.query<ViewerGraphqlDtoEntity>(
+    ApiGraphQLResponse<ViewerGraphqlEntity> viewerDto =
+        await _anilistGraphQLService.query<ViewerGraphqlEntity>(
           query: anilist_queries.viewerQuery,
-          fromJson: ViewerGraphqlDtoEntity.fromJson,
+          fromJson: ViewerGraphqlEntity.fromJson,
           headers: graphQlHeaders,
         );
     throwIfGraphQlError(viewerDto);

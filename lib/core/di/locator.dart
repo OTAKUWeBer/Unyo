@@ -170,7 +170,14 @@ void setupLocator() {
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
     ),
   );
-  sl.registerFactory<AnimeAdvancedSearchCubit>(() => AnimeAdvancedSearchCubit());
+  sl.registerFactory<AnimeAdvancedSearchCubit>(
+    () => AnimeAdvancedSearchCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<MediaListNotifier>(),
+      sl<AnimeNotifier>(),
+      sl<AnimeRepositoryAnilist>(),
+    ),
+  );
   sl.registerFactory<MangaAdvancedSearchCubit>(() => MangaAdvancedSearchCubit());
 }
 

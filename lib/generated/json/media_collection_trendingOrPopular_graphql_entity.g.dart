@@ -1,29 +1,29 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
 
-MediaCollectionTrendingOrPopularGraphqlDtoEntity $MediaCollectionTrendingOrPopularGraphqlDtoEntityFromJson(
+MediaCollectionTrendingOrPopularGraphqlEntity $MediaCollectionTrendingOrPopularGraphqlEntityFromJson(
     Map<String, dynamic> json) {
-  final MediaCollectionTrendingOrPopularGraphqlDtoEntity mediaCollectionTrendingOrPopularGraphqlDtoEntity = MediaCollectionTrendingOrPopularGraphqlDtoEntity();
+  final MediaCollectionTrendingOrPopularGraphqlEntity mediaCollectionTrendingOrPopularGraphqlEntity = MediaCollectionTrendingOrPopularGraphqlEntity();
   final MediaCollectionTrendingOrPopularGraphqlDtoPage? page = jsonConvert.convert<
       MediaCollectionTrendingOrPopularGraphqlDtoPage>(json['Page']);
   if (page != null) {
-    mediaCollectionTrendingOrPopularGraphqlDtoEntity.page = page;
+    mediaCollectionTrendingOrPopularGraphqlEntity.page = page;
   }
-  return mediaCollectionTrendingOrPopularGraphqlDtoEntity;
+  return mediaCollectionTrendingOrPopularGraphqlEntity;
 }
 
-Map<String, dynamic> $MediaCollectionTrendingOrPopularGraphqlDtoEntityToJson(
-    MediaCollectionTrendingOrPopularGraphqlDtoEntity entity) {
+Map<String, dynamic> $MediaCollectionTrendingOrPopularGraphqlEntityToJson(
+    MediaCollectionTrendingOrPopularGraphqlEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['Page'] = entity.page.toJson();
   return data;
 }
 
-extension MediaCollectionTrendingOrPopularGraphqlDtoEntityExtension on MediaCollectionTrendingOrPopularGraphqlDtoEntity {
-  MediaCollectionTrendingOrPopularGraphqlDtoEntity copyWith({
+extension MediaCollectionTrendingOrPopularGraphqlEntityExtension on MediaCollectionTrendingOrPopularGraphqlEntity {
+  MediaCollectionTrendingOrPopularGraphqlEntity copyWith({
     MediaCollectionTrendingOrPopularGraphqlDtoPage? page,
   }) {
-    return MediaCollectionTrendingOrPopularGraphqlDtoEntity()
+    return MediaCollectionTrendingOrPopularGraphqlEntity()
       ..page = page ?? this.page;
   }
 }

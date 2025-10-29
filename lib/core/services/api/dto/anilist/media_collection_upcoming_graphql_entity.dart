@@ -1,18 +1,18 @@
 import 'package:unyo/generated/json/base/json_field.dart';
-import 'package:unyo/generated/json/media_collection_upcoming_graphql_dto_entity.g.dart';
+import 'package:unyo/generated/json/media_collection_upcoming_graphql_entity.g.dart';
 import 'dart:convert';
-export 'package:unyo/generated/json/media_collection_upcoming_graphql_dto_entity.g.dart';
+export 'package:unyo/generated/json/media_collection_upcoming_graphql_entity.g.dart';
 
 @JsonSerializable()
-class MediaCollectionUpcomingGraphqlDtoEntity {
+class MediaCollectionUpcomingGraphqlEntity {
 	@JSONField(name: "Page")
 	late MediaCollectionUpcomingGraphqlDtoPage page;
 
-	MediaCollectionUpcomingGraphqlDtoEntity();
+	MediaCollectionUpcomingGraphqlEntity();
 
-	factory MediaCollectionUpcomingGraphqlDtoEntity.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlDtoEntityFromJson(json);
+	factory MediaCollectionUpcomingGraphqlEntity.fromJson(Map<String, dynamic> json) => $MediaCollectionUpcomingGraphqlEntityFromJson(json);
 
-	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlDtoEntityToJson(this);
+	Map<String, dynamic> toJson() => $MediaCollectionUpcomingGraphqlEntityToJson(this);
 
 	@override
 	String toString() {

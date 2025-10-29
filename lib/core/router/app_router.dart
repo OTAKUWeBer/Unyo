@@ -87,6 +87,13 @@ class AppRouter extends RootStackRouter {
           reverseDuration: const Duration(milliseconds: 250),
         ),
         CustomRoute(
+          page: AnimeAdvancedSearchRoute.page,
+          path: 'animesearch',
+          transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
+          duration: const Duration(milliseconds: 250),
+          reverseDuration: const Duration(milliseconds: 250),
+        ),
+        CustomRoute(
           page: AnimeDetailsRoute.page,
           path: 'animedetails',
           transitionsBuilder:

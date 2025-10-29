@@ -1,11 +1,12 @@
 // External dependencies
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart';
 // Internal dependencies
-import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_dto_entity.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
 import 'package:unyo/domain/entities/airing_episode.dart';
 import 'package:unyo/domain/entities/anime.dart';
@@ -274,6 +275,38 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
         nextAiringEpisode: AiringEpisodeModel(
         episode: mediaRecommendation.nextAiringEpisode?['episode'] ?? 0,
         airingAt: mediaRecommendation.nextAiringEpisode?['airingAt'].toString() ?? "",
+      ),
+    );
+  }
+
+  factory AnilistAnimeModel.fromAdvancedSearchMediaEntry(MediaAdvancedSearchQueryGraphqlPageMedia mediaEntry) {
+    return AnilistAnimeModel(
+      id: mediaEntry.id,
+      idMal: mediaEntry.idMal,
+      title: TitleModel(romaji: mediaEntry.title.romaji,
+          english: mediaEntry.title.english,
+          nativeTitle: mediaEntry.title.native,
+          userPreferred: mediaEntry.title.userPreferred),
+      averageScore: mediaEntry.averageScore,
+      bannerImage: mediaEntry.bannerImage,
+      countryOfOrigin: "Unimplemented",
+      coverImage: mediaEntry.coverImage.large,
+      description: mediaEntry.description,
+      duration: mediaEntry.duration,
+      endDate: "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      startDate: "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      episodes: mediaEntry.episodes,
+      genres: mediaEntry.genres,
+      format: mediaEntry.format,
+      isAdult: mediaEntry.isAdult,
+      popularity: mediaEntry.popularity,
+      meanScore: mediaEntry.meanScore,
+      season: mediaEntry.season,
+      status: mediaEntry.status,
+      isFavourite: mediaEntry.isFavourite,
+      nextAiringEpisode: AiringEpisodeModel(
+        episode: mediaEntry.nextAiringEpisode.episode,
+        airingAt: mediaEntry.nextAiringEpisode.airingAt.toString(),
       ),
     );
   }

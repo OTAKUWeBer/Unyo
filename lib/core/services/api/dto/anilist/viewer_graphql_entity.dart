@@ -1,18 +1,18 @@
 import 'package:unyo/generated/json/base/json_field.dart';
-import 'package:unyo/generated/json/viewer_graphql_dto_entity.g.dart';
+import 'package:unyo/generated/json/viewer_graphql_entity.g.dart';
 import 'dart:convert';
-export 'package:unyo/generated/json/viewer_graphql_dto_entity.g.dart';
+export 'package:unyo/generated/json/viewer_graphql_entity.g.dart';
 
 @JsonSerializable()
-class ViewerGraphqlDtoEntity {
+class ViewerGraphqlEntity {
 	@JSONField(name: "Viewer")
 	late ViewerGraphqlDtoViewer viewer;
 
-	ViewerGraphqlDtoEntity();
+	ViewerGraphqlEntity();
 
-	factory ViewerGraphqlDtoEntity.fromJson(Map<String, dynamic> json) => $ViewerGraphqlDtoEntityFromJson(json);
+	factory ViewerGraphqlEntity.fromJson(Map<String, dynamic> json) => $ViewerGraphqlEntityFromJson(json);
 
-	Map<String, dynamic> toJson() => $ViewerGraphqlDtoEntityToJson(this);
+	Map<String, dynamic> toJson() => $ViewerGraphqlEntityToJson(this);
 
 	@override
 	String toString() {

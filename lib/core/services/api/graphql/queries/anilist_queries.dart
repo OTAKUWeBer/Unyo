@@ -363,86 +363,12 @@ query Page(\$sort: [AiringSort], \$page: Int, \$perPage: Int, \$airingAtGreater:
   }
 }
 ''';
-
 // {
 // "type": "ANIME",
-// "mediaId": 1735,
+// "mediaId": selectedAnime.id,
 // "page" : 1,
 // "perPage": 20,
 // }
-// const mediaDetailsQuery = '''
-// query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int, \$userId: Int) {
-//   MediaList(type: \$type, mediaId: \$mediaId, userId: \$userId) {
-//     progress
-//     score
-//     repeat
-//     media {
-//       recommendations(page: \$page, perPage: \$perPage) {
-//         nodes {
-//             mediaRecommendation {
-//               id
-//               idMal
-//               startDate {
-//                 day
-//                 month
-//                 year
-//               }
-//               endDate {
-//                 day
-//                 month
-//                 year
-//               }
-//               season
-//               status
-//               isFavourite
-//               isAdult
-//               episodes
-//               title {
-//                 english
-//                 native
-//                 romaji
-//                 userPreferred
-//               }
-//               bannerImage
-//               coverImage {
-//                 large
-//               }
-//               averageScore
-//               duration
-//               format
-//               genres
-//               description
-//               meanScore
-//               nextAiringEpisode {
-//                 episode
-//                 airingAt
-//               }
-//             }
-//         }
-//       }
-//       characters {
-//         nodes {
-//           id
-//           image {
-//             large
-//           }
-//           name {
-//             userPreferred
-//           }
-//           gender
-//           description
-//           dateOfBirth {
-//             day
-//             month
-//             year
-//           }
-//           age
-//         }
-//       }
-//     }
-//   }
-// }
-// ''';
 const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$page: Int, \$perPage: Int) {
   Media(id: \$mediaId, type: \$type) {
     id
@@ -518,6 +444,67 @@ const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$pag
       progress
       score
       repeat
+    }
+  }
+}
+''';
+// {
+//   "page": 1,
+//   "perPage": 5,
+//   "type": "ANIME",
+//   "format": "TV",
+//   "status": "FINISHED",
+//   "genres": ["Action", "Fantasy"],
+//   "sort": "POPULARITY_DESC"
+// }
+const mediaAdvancedSearchQuery = '''
+query (
+  \$page: Int, \$perPage: Int, \$type: MediaType, \$season: MediaSeason, \$seasonYear: Int, \$format: MediaFormat, \$status: MediaStatus, \$genres: [String], \$sort: [MediaSort], \$search: String
+) {
+  Page(page: \$page, perPage: \$perPage) {
+    media(
+      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search
+    ) {
+id
+          idMal
+          title {
+            english
+            native
+            romaji
+            userPreferred
+          }
+          averageScore
+          bannerImage
+          chapters
+          countryOfOrigin
+          coverImage {
+            large
+          }
+          description
+          duration
+          endDate {
+            day
+            month
+            year
+          }
+          startDate {
+            day
+            month
+            year
+          }
+          episodes
+          genres
+          format
+          isAdult
+          popularity
+          meanScore
+          season
+          isFavourite
+          nextAiringEpisode {
+            episode
+            airingAt
+          }
+          status
     }
   }
 }

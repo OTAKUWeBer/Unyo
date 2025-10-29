@@ -1,27 +1,27 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_entity.dart';
 
-MediaCollectionGraphqlDtoEntity $MediaCollectionGraphqlDtoEntityFromJson(Map<String, dynamic> json) {
-  final MediaCollectionGraphqlDtoEntity mediaCollectionGraphqlDtoEntity = MediaCollectionGraphqlDtoEntity();
+MediaCollectionGraphqlEntity $MediaCollectionGraphqlEntityFromJson(Map<String, dynamic> json) {
+  final MediaCollectionGraphqlEntity mediaCollectionGraphqlEntity = MediaCollectionGraphqlEntity();
   final MediaCollectionGraphqlDtoData? data = jsonConvert.convert<MediaCollectionGraphqlDtoData>(
       json['data']);
   if (data != null) {
-    mediaCollectionGraphqlDtoEntity.data = data;
+    mediaCollectionGraphqlEntity.data = data;
   }
-  return mediaCollectionGraphqlDtoEntity;
+  return mediaCollectionGraphqlEntity;
 }
 
-Map<String, dynamic> $MediaCollectionGraphqlDtoEntityToJson(MediaCollectionGraphqlDtoEntity entity) {
+Map<String, dynamic> $MediaCollectionGraphqlEntityToJson(MediaCollectionGraphqlEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['data'] = entity.data.toJson();
   return data;
 }
 
-extension MediaCollectionGraphqlDtoEntityExtension on MediaCollectionGraphqlDtoEntity {
-  MediaCollectionGraphqlDtoEntity copyWith({
+extension MediaCollectionGraphqlEntityExtension on MediaCollectionGraphqlEntity {
+  MediaCollectionGraphqlEntity copyWith({
     MediaCollectionGraphqlDtoData? data,
   }) {
-    return MediaCollectionGraphqlDtoEntity()
+    return MediaCollectionGraphqlEntity()
       ..data = data ?? this.data;
   }
 }

@@ -1,29 +1,29 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_entity.dart';
 
-MediaCollectionRecentlyReleasedGraphqlDtoEntity $MediaCollectionRecentlyReleasedGraphqlDtoEntityFromJson(
+MediaCollectionRecentlyReleasedGraphqlEntity $MediaCollectionRecentlyReleasedGraphqlEntityFromJson(
     Map<String, dynamic> json) {
-  final MediaCollectionRecentlyReleasedGraphqlDtoEntity mediaCollectionRecentlyReleasedGraphqlDtoEntity = MediaCollectionRecentlyReleasedGraphqlDtoEntity();
+  final MediaCollectionRecentlyReleasedGraphqlEntity mediaCollectionRecentlyReleasedGraphqlEntity = MediaCollectionRecentlyReleasedGraphqlEntity();
   final MediaCollectionRecentlyReleasedGraphqlDtoPage? page = jsonConvert.convert<
       MediaCollectionRecentlyReleasedGraphqlDtoPage>(json['Page']);
   if (page != null) {
-    mediaCollectionRecentlyReleasedGraphqlDtoEntity.page = page;
+    mediaCollectionRecentlyReleasedGraphqlEntity.page = page;
   }
-  return mediaCollectionRecentlyReleasedGraphqlDtoEntity;
+  return mediaCollectionRecentlyReleasedGraphqlEntity;
 }
 
-Map<String, dynamic> $MediaCollectionRecentlyReleasedGraphqlDtoEntityToJson(
-    MediaCollectionRecentlyReleasedGraphqlDtoEntity entity) {
+Map<String, dynamic> $MediaCollectionRecentlyReleasedGraphqlEntityToJson(
+    MediaCollectionRecentlyReleasedGraphqlEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['Page'] = entity.page.toJson();
   return data;
 }
 
-extension MediaCollectionRecentlyReleasedGraphqlDtoEntityExtension on MediaCollectionRecentlyReleasedGraphqlDtoEntity {
-  MediaCollectionRecentlyReleasedGraphqlDtoEntity copyWith({
+extension MediaCollectionRecentlyReleasedGraphqlEntityExtension on MediaCollectionRecentlyReleasedGraphqlEntity {
+  MediaCollectionRecentlyReleasedGraphqlEntity copyWith({
     MediaCollectionRecentlyReleasedGraphqlDtoPage? page,
   }) {
-    return MediaCollectionRecentlyReleasedGraphqlDtoEntity()
+    return MediaCollectionRecentlyReleasedGraphqlEntity()
       ..page = page ?? this.page;
   }
 }

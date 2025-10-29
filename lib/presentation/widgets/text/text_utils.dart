@@ -14,14 +14,8 @@ class TextUtils {
     text = text.replaceAll(RegExp(r'<div[^>]*>', caseSensitive: false), '');
     text = text.replaceAll(RegExp(r'</div>', caseSensitive: false), '\n');
     // Remove inline formatting tags
-    text = text.replaceAll(
-      RegExp(r'<b>|</b>|<strong>|</strong>', caseSensitive: false),
-      '',
-    );
-    text = text.replaceAll(
-      RegExp(r'<i>|</i>|<em>|</em>', caseSensitive: false),
-      '',
-    );
+    text = text.replaceAll(RegExp(r'<b>|</b>|<strong>|</strong>', caseSensitive: false), '');
+    text = text.replaceAll(RegExp(r'<i>|</i>|<em>|</em>', caseSensitive: false), '');
     text = text.replaceAll(RegExp(r'<u>|</u>', caseSensitive: false), '');
     // Remove any other HTML tags
     text = text.replaceAll(RegExp(r'<[^>]*>'), '');
@@ -36,10 +30,11 @@ class TextUtils {
     text = text.replaceAll(RegExp(r'\n{3,}'), '\n\n');
     return text.trim();
   }
+
   static String extractYearFromStartDate(String startDate, User loggedUser) {
-    switch(loggedUser.settings.service) {
+    switch (loggedUser.settings.service) {
       case Service.anilist:
-         return startDate.split("/").length > 1 ? startDate.split("/")[2] : "";
+        return startDate.split("/").length > 1 ? startDate.split("/")[2] : "";
       case Service.mal:
         throw UnimplementedError();
       case Service.kitsu:
@@ -49,5 +44,14 @@ class TextUtils {
       case Service.simkl:
         throw UnimplementedError();
     }
+  }
+
+  static List<String> upperCaseFirstCharacter(List<String> list) {
+    return list
+        .map(
+          (strElement) =>
+              strElement.isNotEmpty ? strElement[0].toUpperCase() + strElement.substring(1) : strElement,
+        )
+        .toList();
   }
 }

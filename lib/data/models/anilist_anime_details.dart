@@ -51,7 +51,7 @@ abstract class AnilistAnimeDetailsModel
   ) {
     return AnilistAnimeDetailsModel(
       progress: animeDetailsMediaList.mediaListEntry?['progress'] ?? 0,
-      score: animeDetailsMediaList.mediaListEntry?['score'] ?? 0,
+      score: ((animeDetailsMediaList.mediaListEntry?['score'] ?? 0) as num).toInt(),
       repeat: animeDetailsMediaList.mediaListEntry?['repeat'] ?? 0,
       recommendedAnimes:
           animeDetailsMediaList.recommendations.nodes

@@ -1,12 +1,27 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
+import 'package:unyo/domain/entities/anime.dart';
+import 'package:unyo/domain/entities/user.dart';
 
 part 'anime_advanced_search_state.freezed.dart';
 
 @freezed
 abstract class AnimeAdvancedSearchState with _$AnimeAdvancedSearchState implements HasEffects {
   const factory AnimeAdvancedSearchState({
+    required User loggedUser,
+    @Default((false, <String>[])) (bool, List<String>) genresFilters,
+    @Default((false, <String>[])) (bool, List<String>) yearFilters,
+    @Default((false, <String>[])) (bool, List<String>) seasonFilters,
+    @Default((false, <String>[])) (bool, List<String>) formatFilters,
+    @Default((false, <String>[])) (bool, List<String>) airingStatusFilters,
+    @Default('') String searchQuery,
+    @Default(<String>[]) List<String> selectedGenres,
+    @Default(null) String? selectedYear,
+    @Default(null) String? selectedSeason,
+    @Default(null) String? selectedFormat,
+    @Default(null) String? selectedAiringStatus,
+    @Default([]) List<Anime> searchResults,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeAdvancedSearchState;
 

@@ -80,6 +80,11 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
     pushRouteEffect(path: "/calendar");
   }
 
+  void navigateToAdvancedSearch(BuildContext context) {
+    _logger.i("Navigating to Anime Advanced Search");
+    pushRouteEffect(path: "/animesearch");
+  }
+
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
     _logger.i("Navigating to Anime Details of ${anime.title}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);

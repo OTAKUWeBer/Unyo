@@ -1,29 +1,29 @@
 import 'package:unyo/generated/json/base/json_convert_content.dart';
-import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_dto_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
 
-MediaCollectionRecentlyCompletedGraphqlDtoEntity $MediaCollectionRecentlyCompletedGraphqlDtoEntityFromJson(
+MediaCollectionRecentlyCompletedGraphqlEntity $MediaCollectionRecentlyCompletedGraphqlEntityFromJson(
     Map<String, dynamic> json) {
-  final MediaCollectionRecentlyCompletedGraphqlDtoEntity mediaCollectionRecentlyCompletedGraphqlDtoEntity = MediaCollectionRecentlyCompletedGraphqlDtoEntity();
+  final MediaCollectionRecentlyCompletedGraphqlEntity mediaCollectionRecentlyCompletedGraphqlEntity = MediaCollectionRecentlyCompletedGraphqlEntity();
   final MediaCollectionRecentlyCompletedGraphqlDtoPage? page = jsonConvert.convert<
       MediaCollectionRecentlyCompletedGraphqlDtoPage>(json['Page']);
   if (page != null) {
-    mediaCollectionRecentlyCompletedGraphqlDtoEntity.page = page;
+    mediaCollectionRecentlyCompletedGraphqlEntity.page = page;
   }
-  return mediaCollectionRecentlyCompletedGraphqlDtoEntity;
+  return mediaCollectionRecentlyCompletedGraphqlEntity;
 }
 
-Map<String, dynamic> $MediaCollectionRecentlyCompletedGraphqlDtoEntityToJson(
-    MediaCollectionRecentlyCompletedGraphqlDtoEntity entity) {
+Map<String, dynamic> $MediaCollectionRecentlyCompletedGraphqlEntityToJson(
+    MediaCollectionRecentlyCompletedGraphqlEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['Page'] = entity.page.toJson();
   return data;
 }
 
-extension MediaCollectionRecentlyCompletedGraphqlDtoEntityExtension on MediaCollectionRecentlyCompletedGraphqlDtoEntity {
-  MediaCollectionRecentlyCompletedGraphqlDtoEntity copyWith({
+extension MediaCollectionRecentlyCompletedGraphqlEntityExtension on MediaCollectionRecentlyCompletedGraphqlEntity {
+  MediaCollectionRecentlyCompletedGraphqlEntity copyWith({
     MediaCollectionRecentlyCompletedGraphqlDtoPage? page,
   }) {
-    return MediaCollectionRecentlyCompletedGraphqlDtoEntity()
+    return MediaCollectionRecentlyCompletedGraphqlEntity()
       ..page = page ?? this.page;
   }
 }
