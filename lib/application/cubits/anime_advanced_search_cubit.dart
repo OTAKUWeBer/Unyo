@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:shelf/shelf_io.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_advanced_search_state.dart';
@@ -29,8 +28,12 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
   // Repositories
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
 
-  AnimeAdvancedSearchCubit(this._loggedUserNotifier, this._selectedMediaListNotifier, this._selectedAnimeNotifier, this._animeRepositoryAnilist)
-    : super(AnimeAdvancedSearchState(loggedUser: UserModel.empty())) {
+  AnimeAdvancedSearchCubit(
+    this._loggedUserNotifier,
+    this._selectedMediaListNotifier,
+    this._selectedAnimeNotifier,
+    this._animeRepositoryAnilist,
+  ) : super(AnimeAdvancedSearchState(loggedUser: UserModel.empty())) {
     _init();
   }
 
@@ -70,6 +73,36 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
     } catch (e, stackTrace) {
       _logger.e("Error updating search query $e", stackTrace: stackTrace);
       handleError("Error updating search query", stackTrace: stackTrace);
+    }
+  }
+
+  void updateGenres(List<String> genres) {
+    emit(state.copyWith(selectedGenres: genres));
+    try {
+      _performAnimeAdvancedSearch();
+    } catch (e, stackTrace) {
+      _logger.e("Error updating selected genres $e", stackTrace: stackTrace);
+      handleError("Error updating selected genres", stackTrace: stackTrace);
+    }
+  }
+
+  void updateSearchSortOption(String sortOption) {
+    emit(state.copyWith(selectedSearchSortOption: sortOption));
+    try {
+      _performAnimeAdvancedSearch();
+    } catch (e, stackTrace) {
+      _logger.e("Error updating search sortOption $e", stackTrace: stackTrace);
+      handleError("Error updating search sortOption", stackTrace: stackTrace);
+    }
+  }
+
+  void updateSearchSortOrder(String sortOrder) {
+    emit(state.copyWith(selectedSearchOrder: sortOrder));
+    try {
+      _performAnimeAdvancedSearch();
+    } catch (e, stackTrace) {
+      _logger.e("Error updating search sortOrder $e", stackTrace: stackTrace);
+      handleError("Error updating search sortOrder", stackTrace: stackTrace);
     }
   }
 
@@ -128,6 +161,8 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
                 filters['airingStatuses']?.$2 ?? [],
               ),
               yearFilters: (filters['years']?.$1 ?? false, filters['years']?.$2 ?? []),
+              searchSortOptions: (filters['sortOptions']?.$1 ?? false, filters['sortOptions']?.$2 ?? []),
+              searchSortOrder: (filters['sortOrders']?.$1 ?? false, filters['sortOrders']?.$2 ?? []),
             ),
           );
           break;
@@ -143,7 +178,6 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
   }
 
   Future<void> _performAnimeAdvancedSearch() async {
-    print("Performing anime advanced search with query: ${state.searchQuery}, genres: ${state.selectedGenres}, season: ${state.selectedSeason}, format: ${state.selectedFormat}, year: ${state.selectedYear}, airing status: ${state.selectedAiringStatus}");
     switch (state.loggedUser.settings.service) {
       case Service.anilist:
         List<Anime> searchResults = await _animeRepositoryAnilist.performAnimeAdvancedSearch(
@@ -153,6 +187,7 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
           state.selectedFormat,
           int.tryParse(state.selectedYear ?? ''),
           state.selectedAiringStatus,
+          "${state.selectedSearchSortOption.toUpperCase().replaceAll(" ", "_")}_${state.selectedSearchOrder.toUpperCase()}",
           1,
         );
         emit(state.copyWith(searchResults: searchResults));

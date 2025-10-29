@@ -245,7 +245,10 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       'airingStatuses': (
         true,
         TextUtils.upperCaseFirstCharacter(
-         AnilistAiringStatusFilters.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList()),
+          AnilistAiringStatusFilters.values
+              .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+              .toList(),
+        ),
       ),
     });
     filters.addAll({
@@ -257,30 +260,64 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
         ).reversed.toList(),
       ),
     });
+    filters.addAll({
+      'sortOptions': (
+        true,
+        TextUtils.upperCaseFirstCharacter(
+          AnilistSortOptions.values
+              .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+              .toList(),
+        ),
+      ),
+    });
+    filters.addAll({
+      'sortOrders': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistSortOrder.values
+            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+            .toList(),
+      ),
+      ),
+    });
     return filters;
   }
 
   @override
-  Future<List<Anime>> performAnimeAdvancedSearch(String query, List<String> selectedGenres, String? selectedSeason, String? selectedFormat, int? selectedYear, String? selectedAiringStatus, int page) async {
-    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData = await _anilistGraphQLService
-        .query<MediaAdvancedSearchQueryGraphqlEntity>(
-      query: anilist_queries.mediaAdvancedSearchQuery,
-      fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
-      variables: {
-        "type": "ANIME",
-        "page": 1,
-        "perPage": 50,
-        if (query.isNotEmpty) "search": query,
-        if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-        if (selectedSeason != null && selectedSeason!.isNotEmpty) "season": selectedSeason.toUpperCase(),
-        if (selectedYear != null) "seasonYear": selectedYear,
-        if (selectedFormat != null && selectedFormat!.isNotEmpty) "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
-      },
-    );
+  Future<List<Anime>> performAnimeAdvancedSearch(
+    String query,
+    List<String> selectedGenres,
+    String? selectedSeason,
+    String? selectedFormat,
+    int? selectedYear,
+    String? selectedAiringStatus,
+    String sort,
+    int page,
+  ) async {
+    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
+        await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
+          query: anilist_queries.mediaAdvancedSearchQuery,
+          fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
+          variables: {
+            "type": "ANIME",
+            "page": 1,
+            "perPage": 50,
+            "sort": sort.replaceAll("_ASC", ""),
+            if (query.isNotEmpty) "search": query,
+            if (selectedGenres.isNotEmpty) "genres": selectedGenres,
+            if (selectedSeason != null && selectedSeason!.isNotEmpty) "season": selectedSeason.toUpperCase(),
+            if (selectedYear != null) "seasonYear": selectedYear,
+            if (selectedAiringStatus != null && selectedAiringStatus!.isNotEmpty)
+              "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
+            if (selectedFormat != null && selectedFormat!.isNotEmpty)
+              "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
+          },
+        );
     throwIfGraphQlError(animeAdvancedSearchData);
-    List<Anime> searchResults = animeAdvancedSearchData.data.page.media
-        .map((mediaEntry) => AnilistAnimeModel.fromAdvancedSearchMediaEntry(mediaEntry))
-        .toList();
+    List<Anime> searchResults =
+        animeAdvancedSearchData.data.page.media
+            .map((mediaEntry) => AnilistAnimeModel.fromAdvancedSearchMediaEntry(mediaEntry))
+            .toList();
     return searchResults;
   }
 
@@ -341,3 +378,7 @@ enum AnilistSeasonFilters { winter, spring, summer, fall }
 enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
 
 enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
+
+enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
+
+enum AnilistSortOrder { asc, desc }

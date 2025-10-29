@@ -69,7 +69,7 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
               color: ColorScheme.of(context).tertiary.withOpacity(0.7),
             ),
             menuStyle: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.5)),
+              backgroundColor: WidgetStatePropertyAll(ColorScheme.of(context).secondary.withOpacity(0.8)),
               maximumSize: WidgetStatePropertyAll(Size(constrains.maxWidth, 300)),
             ),
             label: widget.label != null ? Text(widget.label!, style: TextStyle(color: Colors.white.withOpacity(0.8))) : null,
@@ -90,9 +90,9 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
                       (index, element) => DropdownMenuEntry<String>(
                         value: element,
                         label: element,
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(
-                            ColorScheme.of(context).secondary.withOpacity(0.4),
+                            Colors.transparent,
                           ),
                           alignment: Alignment.center,
                         ),

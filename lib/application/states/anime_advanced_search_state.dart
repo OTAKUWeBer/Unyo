@@ -15,6 +15,8 @@ abstract class AnimeAdvancedSearchState with _$AnimeAdvancedSearchState implemen
     @Default((false, <String>[])) (bool, List<String>) seasonFilters,
     @Default((false, <String>[])) (bool, List<String>) formatFilters,
     @Default((false, <String>[])) (bool, List<String>) airingStatusFilters,
+    @Default((false, <String>[])) (bool, List<String>) searchSortOptions,
+    @Default((false, <String>[])) (bool, List<String>) searchSortOrder,
     @Default('') String searchQuery,
     @Default(<String>[]) List<String> selectedGenres,
     @Default(null) String? selectedYear,
@@ -22,6 +24,8 @@ abstract class AnimeAdvancedSearchState with _$AnimeAdvancedSearchState implemen
     @Default(null) String? selectedFormat,
     @Default(null) String? selectedAiringStatus,
     @Default([]) List<Anime> searchResults,
+    @Default('Desc') String selectedSearchOrder,
+    @Default('Popularity') String selectedSearchSortOption,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeAdvancedSearchState;
 

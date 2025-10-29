@@ -10,6 +10,8 @@ import 'package:unyo/core/services/effects/app_effect_handler.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_card.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_dropdown.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_multi_select_dropdown.dart';
+import 'package:unyo/presentation/widgets/styled/unyo_sort_widget.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_textfield.dart';
 import 'package:unyo/presentation/widgets/text/text_body_large.dart';
 import 'package:unyo/presentation/widgets/text/text_headline_medium.dart';
@@ -121,11 +123,11 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                   state.genresFilters.$1
                       ? SizedBox(
                         width: 190.w,
-                        child: UnyoDropdown(
+                        child: UnyoMultiSelectDropdown(
                           label: "Genres",
                           icon: Icons.category_rounded,
                           children: state.genresFilters.$2,
-                          onPressed: (value) {},
+                          onChanged: context.read<AnimeAdvancedSearchCubit>().updateGenres,
                         ),
                       )
                       : const SizedBox.shrink(),
@@ -176,7 +178,17 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                 ],
               ),
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 10,),
+            (state.searchSortOptions.$1 && state.searchSortOrder.$1) ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if(state.searchSortOptions.$1) UnyoSortWidget(sortingOptions: state.searchSortOptions.$2, initialSelection: state.selectedSearchSortOption, onSortChanged: context.read<AnimeAdvancedSearchCubit>().updateSearchSortOption,),
+                const SizedBox(width: 10,),
+                if(state.searchSortOrder.$1) UnyoSortWidget(sortingOptions: state.searchSortOrder.$2, initialSelection: state.selectedSearchOrder, onSortChanged: context.read<AnimeAdvancedSearchCubit>().updateSearchSortOrder,),
+                SizedBox(width: 40.w,),
+              ],
+            ) : const SizedBox.shrink(),
+            const SizedBox(height: 20),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
