@@ -231,7 +231,12 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                 child: MediaButton(
                                                   width: 200,
                                                   height: 70,
-                                                  onPressed: null,
+                                                  onPressed:
+                                                      () => context
+                                                          .read<AnimeDetailsCubit>()
+                                                          .navigateToAnimeAdvancedSearchScreenWithFilters(
+                                                            genre,
+                                                          ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,
                                                 ),
@@ -286,14 +291,13 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 22.w),
                               child: UnyoDropdown(
-                                onPressed: (selectedExtensionName) => context.read<AnimeDetailsCubit>().selectAnimeExtension(selectedExtensionName),
+                                onPressed:
+                                    (selectedExtensionName) => context
+                                        .read<AnimeDetailsCubit>()
+                                        .selectAnimeExtension(selectedExtensionName),
                                 selectedValue: state.selectedExtension?.name,
                                 label: "Select Extension",
-                                children: [
-                                  ...state.installedExtensions.map(
-                                        (extension) => extension.name,
-                                  ),
-                                ],
+                                children: [...state.installedExtensions.map((extension) => extension.name)],
                               ),
                             ),
                           ),

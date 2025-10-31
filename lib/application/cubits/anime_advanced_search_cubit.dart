@@ -7,6 +7,7 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_advanced_search_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_genres_notifier.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -22,8 +23,10 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
   // Notifiers
   final UserNotifier _loggedUserNotifier;
   final AnimeNotifier _selectedAnimeNotifier;
+  final AnimeGenresNotifier _selectedAnimeAdvancedSearchGenresFilters;
   final MediaListNotifier _selectedMediaListNotifier;
   late final StreamSubscription<User> _loggedUserSubscription;
+  late final StreamSubscription<String> _selectedAnimeAdvancedSearchGenresFiltersSubscription;
 
   // Repositories
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
@@ -32,6 +35,7 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
     this._loggedUserNotifier,
     this._selectedMediaListNotifier,
     this._selectedAnimeNotifier,
+    this._selectedAnimeAdvancedSearchGenresFilters,
     this._animeRepositoryAnilist,
   ) : super(AnimeAdvancedSearchState(loggedUser: UserModel.empty())) {
     _init();
@@ -45,6 +49,7 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
   @override
   Future<void> close() {
     _loggedUserSubscription.cancel();
+    _selectedAnimeAdvancedSearchGenresFiltersSubscription.cancel();
     return super.close();
   }
 
@@ -57,13 +62,23 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
       _getLoggedUserServiceFilters(loggedUser);
       _performAnimeAdvancedSearch();
     });
+    _selectedAnimeAdvancedSearchGenresFiltersSubscription = _selectedAnimeAdvancedSearchGenresFilters
+        .animeGenreStream
+        .listen((newAnimeGenre) {
+          if (newAnimeGenre == "") return;
+          updateGenres([newAnimeGenre]);
+        });
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
     _logger.i("Navigating to Anime Details of ${anime.title}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
-    pushRouteEffect(path: "/animedetails");
+    if (_selectedAnimeAdvancedSearchGenresFilters.currentSelectedGenres == "") {
+      pushRouteEffect(path: "/animedetails");
+    } else {
+      replaceRouteEffect(path: "/animedetails");
+    }
   }
 
   Future<void> updateSearchQuery(String query) async {

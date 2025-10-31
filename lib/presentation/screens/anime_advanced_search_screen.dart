@@ -127,6 +127,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           label: "Genres",
                           icon: Icons.category_rounded,
                           children: state.genresFilters.$2,
+                          selectedValues: state.selectedGenres,
                           onChanged: context.read<AnimeAdvancedSearchCubit>().updateGenres,
                         ),
                       )

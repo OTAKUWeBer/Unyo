@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class UnyoMultiSelectDropdown extends StatefulWidget {
@@ -34,15 +33,9 @@ class _UnyoMultiSelectDropdownState extends State<UnyoMultiSelectDropdown> {
   }
 
   @override
-  void didUpdateWidget(covariant UnyoMultiSelectDropdown oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!const DeepCollectionEquality().equals(oldWidget.selectedValues, widget.selectedValues)) {
-      setState(() {
-        _selectedItems = List.from(widget.selectedValues);
-      });
-      // If overlay is open, refresh it to reflect external changes
-      _overlayEntry?.markNeedsBuild();
-    }
+  void dispose() {
+    _closeDropdown();
+    super.dispose();
   }
 
   String _getDisplayText() {
@@ -146,12 +139,6 @@ class _UnyoMultiSelectDropdownState extends State<UnyoMultiSelectDropdown> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _closeDropdown();
-    super.dispose();
   }
 
   @override

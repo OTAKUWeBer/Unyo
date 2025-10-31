@@ -10,6 +10,7 @@ import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/anime_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_genres_notifier.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -23,11 +24,12 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
   final AnimeRepositoryAnilist _animeRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
   final AnimeNotifier _selectedAnimeNotifier;
+  final AnimeGenresNotifier _selectedAnimeAdvancedSearchGenresFilters;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _loggedUserSubscription;
   final Logger _logger = sl<Logger>();
 
-  AnimeCubit(this._animeRepositoryAnilist, this._loggedUserNotifier, this._selectedAnimeNotifier, this._selectedMediaListNotifier)
+  AnimeCubit(this._animeRepositoryAnilist, this._loggedUserNotifier, this._selectedAnimeNotifier, this._selectedAnimeAdvancedSearchGenresFilters, this._selectedMediaListNotifier)
     : super(
         AnimeState(
           recentlyReleased: (false, []),
@@ -82,6 +84,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
 
   void navigateToAdvancedSearch(BuildContext context) {
     _logger.i("Navigating to Anime Advanced Search");
+    _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre("");
     pushRouteEffect(path: "/animesearch");
   }
 

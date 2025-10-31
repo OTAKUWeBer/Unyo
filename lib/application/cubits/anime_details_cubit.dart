@@ -11,6 +11,7 @@ import 'package:bloc/bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/episode_service.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/anime_genres_notifier.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -37,8 +38,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   final UserRepositoryAnilist _userRepositoryAnilist;
 
   // Notifiers / Subscriptions
-  final AnimeNotifier _selectedAnimeNotifier;
   final UserNotifier _loggedUserNotifier;
+  final AnimeNotifier _selectedAnimeNotifier;
+  final AnimeGenresNotifier _selectedAnimeAdvancedSearchGenresFilters;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<Anime> _selectedAnimeSubscription;
   late StreamSubscription<User> _loggedUserSubscription;
@@ -52,6 +54,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     this._episodeRepositoryAnizip,
     this._loggedUserNotifier,
     this._selectedAnimeNotifier,
+    this._selectedAnimeAdvancedSearchGenresFilters,
     this._selectedMediaListNotifier,
     this._extensionRepositoryAniyomi,
     this._userRepositoryAnilist,
@@ -123,6 +126,12 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     _logger.i("Navigating to Anime Details of ${anime.title}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
+  }
+
+  void navigateToAnimeAdvancedSearchScreenWithFilters(String newAnimeGenre) {
+    _logger.i("Navigating to Anime Advanced Search Filters");
+    _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
+    replaceRouteEffect(path: "/animesearch");
   }
 
   Future<void> selectAnimeExtension(String? selectedAnimeExtensionName) async{
