@@ -71,7 +71,7 @@ class _MediaListViewState extends State<_MediaListView> with TickerProviderState
                 children: [
                   const SizedBox(width: 5),
                   IconButton(
-                    onPressed: () => AutoRouter.of(context).pop(),
+                    onPressed: () => context.read<MediaListCubit>().popScreen(context),
                     icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorScheme.of(context).tertiary),
                   ),
                   const SizedBox(width: 10),

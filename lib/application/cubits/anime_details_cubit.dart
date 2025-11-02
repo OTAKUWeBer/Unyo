@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
@@ -98,9 +100,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   @override
   Logger get logger => _logger;
 
-  void navigateBackToAnimePage() {
+  void navigateBackToAnimePage(BuildContext context) {
     _logger.d("Returning to Anime Page");
-    popRouteEffect();
+    popRouteEffect(context);
+    close();
   }
 
   void _init() {
@@ -128,11 +131,14 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
 
-  void navigateToAnimeAdvancedSearchScreenWithFilters(String newAnimeGenre) {
+  void navigateToAnimeAdvancedSearchScreenWithFilters(BuildContext context, String newAnimeGenre) {
     _logger.i("Navigating to Anime Advanced Search Filters");
-    if (_selectedAnimeAdvancedSearchGenresFilters.currentSelectedGenres == "") {
-      popRouteEffect();
+    bool hasAnimeSearchInStack = AutoRouter.of(context).stackData.any(
+          (route) => route.name == "AnimeAdvancedSearchRoute",
+    );
+    if (hasAnimeSearchInStack) {
       _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
+      popRouteEffect(context);
     } else {
       _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
       replaceRouteEffect(path: "/animesearch");

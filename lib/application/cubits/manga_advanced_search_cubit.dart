@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
@@ -79,6 +80,11 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
     } else {
       replaceRouteEffect(path: "/mangadetails");
     }
+  }
+
+  void popScreen(BuildContext context) {
+    popRouteEffect(context);
+    close();
   }
 
   Future<void> updateSearchQuery(String query) async {

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsmanga.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
@@ -17,7 +19,6 @@ import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/http/http_exception.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
-import 'package:unyo/data/repositories/episode_repository_anizip.dart';
 import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/data/repositories/manga_repository_anilist.dart';
 import 'package:unyo/data/repositories/repositories.dart';
@@ -31,7 +32,6 @@ import 'package:unyo/domain/entities/user.dart';
 class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaDetailsState> {
   // Repositories
   final MangaRepositoryAnilist _mangaRepositoryAnilist;
-  final EpisodeRepositoryAnizip _episodeRepositoryAnizip;
   final ExtensionRepositoryAniyomi _extensionRepositoryAniyomi;
   final UserRepositoryAnilist _userRepositoryAnilist;
 
@@ -49,7 +49,6 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
 
   MangaDetailsCubit(
     this._mangaRepositoryAnilist,
-    this._episodeRepositoryAnizip,
     this._loggedUserNotifier,
     this._selectedMangaNotifier,
     this._selectedMangaAdvancedSearchGenresFilters,
@@ -95,9 +94,10 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
   @override
   Logger get logger => _logger;
 
-  void navigateBackToMangaPage() {
+  void navigateBackToMangaPage(BuildContext context) {
     _logger.d("Returning to Manga Page");
-    popRouteEffect();
+    popRouteEffect(context);
+    close();
   }
 
   void _init() {
@@ -124,11 +124,13 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
 
-  void navigateToMangaAdvancedSearchScreenWithFilters(String newAnimeGenre) {
+  void navigateToMangaAdvancedSearchScreenWithFilters(BuildContext context, String newAnimeGenre) {
     _logger.i("Navigating to Manga Advanced Search Filters");
-    print("Selected Genre: ${_selectedMangaAdvancedSearchGenresFilters.currentSelectedGenres}");
-    if (_selectedMangaAdvancedSearchGenresFilters.currentSelectedGenres == "") {
-      popRouteEffect();
+    bool hasMangaSearchInStack = AutoRouter.of(context).stackData.any(
+          (route) => route.name == "MangaAdvancedSearchRoute",
+    );
+    if (hasMangaSearchInStack) {
+      popRouteEffect(context);
       _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
     } else {
       _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
@@ -243,7 +245,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     }
   }
 
-  // Future<void> _getEpisodesDetails(User loggedUser, Manga selectedManga) async {
+  // Future<void> _getChaptersDetails(User loggedUser, Manga selectedManga) async {
   //   try {
   //     switch (loggedUser.settings.episodeService) {
   //       case EpisodeService.anizip:

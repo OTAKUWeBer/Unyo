@@ -71,7 +71,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                 children: [
                   const SizedBox(width: 5),
                   IconButton(
-                    onPressed: () => AutoRouter.of(context).pop(),
+                    onPressed: () => context.read<AnimeAdvancedSearchCubit>().popScreen(context),
                     icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorScheme.of(context).tertiary),
                   ),
                   const SizedBox(width: 10),

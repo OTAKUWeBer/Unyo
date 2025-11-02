@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -78,6 +79,11 @@ class MediaListCubit extends Cubit<MediaListState>
         _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
         pushRouteEffect(path: "/mangadetails");
     }
+  }
+
+  void popScreen(BuildContext context) {
+    popRouteEffect(context);
+    close();
   }
 
   Future<void> _getUserLists(User user) async {

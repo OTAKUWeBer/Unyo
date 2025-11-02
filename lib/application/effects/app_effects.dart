@@ -18,11 +18,6 @@ class PushRouteEffect extends AppEffect {
   PushRouteEffect(this.routeName, {this.arguments});
 }
 
-class PopRouteEffect extends AppEffect {
-
-  PopRouteEffect();
-}
-
 class NavigateRouteEffect extends AppEffect {
   final String routeName;
   final Object? arguments;

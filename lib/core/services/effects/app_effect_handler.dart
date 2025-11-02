@@ -42,8 +42,6 @@ class AppEffectHandler {
         _handleNavigateRouteEffect(navigateRouteEffect, context);
       case PushRouteEffect pushRouteEffect:
         _handlePushRouteEffect(pushRouteEffect, context);
-      case PopRouteEffect popRouteEffect:
-       _handlePopRouteEffect(popRouteEffect, context);
       case ShowWidgetDialogEffect showWidgetDialogEffect:
         _handleShowWidgetDialogEffect(showWidgetDialogEffect, context);
       case CloseDialogEffect closeDialogEffect:
@@ -130,15 +128,6 @@ class AppEffectHandler {
       effect.routeName.replaceFirst("/", ""),
       onFailure: _handleRouteFailure,
     );
-  }
-
-  void _handlePopRouteEffect(PopRouteEffect effect, BuildContext context) {
-    _logger.d("Handling PopRouteEffect");
-    if (Navigator.canPop(context)) {
-      AutoRouter.of(context).pop();
-    } else {
-      _logger.e("No route to pop");
-    }
   }
 
   void _handleChangeTabRouteEffect(ChangeTabRouteEffect effect) {

@@ -118,7 +118,7 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: IconButton(
-                        onPressed: () => context.read<MangaDetailsCubit>().navigateBackToMangaPage(),
+                        onPressed: () => context.read<MangaDetailsCubit>().navigateBackToMangaPage(context),
                         icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorScheme.of(context).tertiary),
                       ),
                     ),
@@ -219,7 +219,8 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
                                                       () => context
                                                           .read<MangaDetailsCubit>()
                                                           .navigateToMangaAdvancedSearchScreenWithFilters(
-                                                            genre,
+                                                            context,
+                                                            genre
                                                           ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,

@@ -162,7 +162,6 @@ void setupLocator() {
   sl.registerFactory<MangaDetailsCubit>(
     () => MangaDetailsCubit(
       sl<MangaRepositoryAnilist>(),
-      sl<EpisodeRepositoryAnizip>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<MangaNotifier>(),
       sl<MangaGenresNotifier>(),

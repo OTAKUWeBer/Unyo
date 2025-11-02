@@ -123,7 +123,7 @@ class _UnyoSortWidgetState extends State<UnyoSortWidget> {
 
   @override
   void dispose() {
-    _closeDropdown();
+    // _closeDropdown();
     super.dispose();
   }
 

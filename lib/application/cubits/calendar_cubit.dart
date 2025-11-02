@@ -1,6 +1,7 @@
 // External dependencies
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,6 +61,11 @@ class CalendarCubit extends Cubit<CalendarState> with EffectMixin<CalendarState>
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");
+  }
+
+  void popScreen(BuildContext context) {
+    popRouteEffect(context);
+    close();
   }
 
   Future<void> _getCalendarEvents(User loggedUser) async {

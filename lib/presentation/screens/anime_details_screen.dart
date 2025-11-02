@@ -130,7 +130,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: IconButton(
-                        onPressed: () => context.read<AnimeDetailsCubit>().navigateBackToAnimePage(),
+                        onPressed: () => context.read<AnimeDetailsCubit>().navigateBackToAnimePage(context),
                         icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorScheme.of(context).tertiary),
                       ),
                     ),
@@ -235,7 +235,8 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                       () => context
                                                           .read<AnimeDetailsCubit>()
                                                           .navigateToAnimeAdvancedSearchScreenWithFilters(
-                                                            genre,
+                                                            context,
+                                                            genre
                                                           ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,

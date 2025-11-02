@@ -1,4 +1,5 @@
 // External dependencies
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -68,9 +69,9 @@ mixin EffectMixin<State> on Cubit<State> {
     addEffect(PushRouteEffect(path));
   }
 
-  void popRouteEffect() {
+  void popRouteEffect(BuildContext context) {
     logger.i("PopRoute attempted");
-    addEffect(PopRouteEffect());
+    AutoRouter.of(context).pop();
   }
 
   void changeRouteTabEffect( BuildContext context, {required String path}) {

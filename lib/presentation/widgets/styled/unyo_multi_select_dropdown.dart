@@ -39,7 +39,7 @@ class _UnyoMultiSelectDropdownState extends State<UnyoMultiSelectDropdown> {
 
   @override
   void dispose() {
-    _closeDropdown();
+    // _closeDropdown();
     super.dispose();
   }
 
