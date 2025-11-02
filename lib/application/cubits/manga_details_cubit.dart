@@ -10,6 +10,7 @@ import 'package:bloc/bloc.dart';
 import 'package:unyo/application/states/manga_details_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/manga_genres_notifier.dart';
 import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -36,6 +37,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
 
   // Notifiers / Subscriptions
   final MangaNotifier _selectedMangaNotifier;
+  final MangaGenresNotifier _selectedMangaAdvancedSearchGenresFilters;
   final UserNotifier _loggedUserNotifier;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<Manga> _selectedMangaSubscription;
@@ -46,33 +48,34 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
   final Logger _logger = sl<Logger>();
 
   MangaDetailsCubit(
-      this._mangaRepositoryAnilist,
-      this._episodeRepositoryAnizip,
-      this._loggedUserNotifier,
-      this._selectedMangaNotifier,
-      this._selectedMediaListNotifier,
-      this._extensionRepositoryAniyomi,
-      this._userRepositoryAnilist,
-      ) : super(
-    MangaDetailsState(
-      loggedUser: UserModel.empty(),
-      selectedMediaList: MediaListModel.empty(),
-      selectedManga: MangaModel.empty(),
-      progress: 0,
-      score: 0,
-      repeat: 0,
-      characters: (false, []),
-      recommendations: (false, []),
-      banners: [],
-      alternateImage: '',
-      installedExtensions: {},
-      selectedExtension: null,
-      userLoaded: false,
-      extensionMangaResults: [],
-      extensionEpisodeResults: [],
-      extensionVideoResults: [],
-    ),
-  ) {
+    this._mangaRepositoryAnilist,
+    this._episodeRepositoryAnizip,
+    this._loggedUserNotifier,
+    this._selectedMangaNotifier,
+    this._selectedMangaAdvancedSearchGenresFilters,
+    this._selectedMediaListNotifier,
+    this._extensionRepositoryAniyomi,
+    this._userRepositoryAnilist,
+  ) : super(
+        MangaDetailsState(
+          loggedUser: UserModel.empty(),
+          selectedMediaList: MediaListModel.empty(),
+          selectedManga: MangaModel.empty(),
+          progress: 0,
+          score: 0,
+          repeat: 0,
+          characters: (false, []),
+          recommendations: (false, []),
+          banners: [],
+          alternateImage: '',
+          installedExtensions: {},
+          selectedExtension: null,
+          userLoaded: false,
+          extensionMangaResults: [],
+          extensionEpisodeResults: [],
+          extensionVideoResults: [],
+        ),
+      ) {
     _init();
   }
 
@@ -121,23 +124,44 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
 
-  Future<void> selectMangaExtension(String? selectedMangaExtensionName) async{
-    Extension? selectedExtension = state.installedExtensions.where((extension) => selectedMangaExtensionName == extension.name).firstOrNull;
+  void navigateToMangaAdvancedSearchScreenWithFilters(String newAnimeGenre) {
+    _logger.i("Navigating to Manga Advanced Search Filters");
+    print("Selected Genre: ${_selectedMangaAdvancedSearchGenresFilters.currentSelectedGenres}");
+    if (_selectedMangaAdvancedSearchGenresFilters.currentSelectedGenres == "") {
+      popRouteEffect();
+      _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
+    } else {
+      _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
+      replaceRouteEffect(path: "/mangasearch");
+    }
+  }
+
+  Future<void> selectMangaExtension(String? selectedMangaExtensionName) async {
+    Extension? selectedExtension =
+        state.installedExtensions
+            .where((extension) => selectedMangaExtensionName == extension.name)
+            .firstOrNull;
     if (selectedExtension != null) {
-      switch(state.loggedUser) {
+      switch (state.loggedUser) {
         case AnilistUserModel anilistUserModel:
           SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
           Map<String, Extension> mediaExtensionsConfigUpdated = Map.from(userSettings.mediaExtensionConfigs);
           mediaExtensionsConfigUpdated.addAll({state.selectedManga.id.toString(): selectedExtension});
-          _userRepositoryAnilist.updateUserInfo(anilistUserModel.copyWith(
-              settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated)
-          ));
+          _userRepositoryAnilist.updateUserInfo(
+            anilistUserModel.copyWith(
+              settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated),
+            ),
+          );
         case LocalUserModel localUserModel:
       }
       _getMangaInfoFromSelectedExtension(selectedExtension);
     } else {
       _logger.w("Selected extension $selectedMangaExtensionName not found among installed extensions.");
-      showSnackBarEffect("Extension Not Found", message: "The selected extension is not installed.", contentType: ContentType.warning);
+      showSnackBarEffect(
+        "Extension Not Found",
+        message: "The selected extension is not installed.",
+        contentType: ContentType.warning,
+      );
     }
   }
 
@@ -146,14 +170,20 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
       switch (loggedUser.settings.service) {
         case Service.anilist:
           _logger.i("Fetching Manga Details from AniList for ${state.selectedManga.title}");
-          (bool, MangaDetails) mangaDetails = await _mangaRepositoryAnilist.getMangaDetails(selectedManga, loggedUser);
+          (bool, MangaDetails) mangaDetails = await _mangaRepositoryAnilist.getMangaDetails(
+            selectedManga,
+            loggedUser,
+          );
           emit(
             state.copyWith(
               characters: (mangaDetails.$2.characters.isNotEmpty, mangaDetails.$2.characters),
               repeat: mangaDetails.$2.repeat,
               score: mangaDetails.$2.score,
               progress: mangaDetails.$2.progress,
-              recommendations: (mangaDetails.$2.recommendedMangas.isNotEmpty, mangaDetails.$2.recommendedMangas),
+              recommendations: (
+                mangaDetails.$2.recommendedMangas.isNotEmpty,
+                mangaDetails.$2.recommendedMangas,
+              ),
             ),
           );
           if (mangaDetails.$2.recommendedMangas.isEmpty) {
@@ -179,7 +209,9 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
   Future<void> _loadInstalledExtensions() async {
     try {
       _logger.i("Loading installed extensions for Aniyomi");
-      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledMangaExtensions(state.loggedUser);
+      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledMangaExtensions(
+        state.loggedUser,
+      );
       emit(state.copyWith(installedExtensions: installedExtensions));
       _setSelectedExtension(state.loggedUser, state.selectedManga);
     } catch (e, stackTrace) {
@@ -191,11 +223,20 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     try {
       if (state.installedExtensions.isEmpty) {
         _logger.w("No installed extensions available to fetch manga info.");
-        showSnackBarEffect("No Installed Extensions", message: "Install some extensions if you want to watch some content", contentType: ContentType.warning);
+        showSnackBarEffect(
+          "No Installed Extensions",
+          message: "Install some extensions if you want to watch some content",
+          contentType: ContentType.warning,
+        );
         return;
       }
-      _logger.i("Fetching Manga Info from extension ${selectedExtension.name} for ${state.selectedManga.title.userPreferred}");
-      List<JSManga> mangaResults = await _extensionRepositoryAniyomi.getMangaSearchResults(state.selectedManga.title.userPreferred, selectedExtension);
+      _logger.i(
+        "Fetching Manga Info from extension ${selectedExtension.name} for ${state.selectedManga.title.userPreferred}",
+      );
+      List<JSManga> mangaResults = await _extensionRepositoryAniyomi.getMangaSearchResults(
+        state.selectedManga.title.userPreferred,
+        selectedExtension,
+      );
       emit(state.copyWith(extensionMangaResults: mangaResults));
     } catch (e, stackTrace) {
       handleError("Error fetching Manga Info from selected extension: $e", stackTrace: stackTrace);

@@ -305,11 +305,11 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
             "sort": sort.replaceAll("_ASC", ""),
             if (query.isNotEmpty) "search": query,
             if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-            if (selectedSeason != null && selectedSeason!.isNotEmpty) "season": selectedSeason.toUpperCase(),
+            if (selectedSeason != null && selectedSeason.isNotEmpty) "season": selectedSeason.toUpperCase(),
             if (selectedYear != null) "seasonYear": selectedYear,
-            if (selectedAiringStatus != null && selectedAiringStatus!.isNotEmpty)
+            if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
               "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
-            if (selectedFormat != null && selectedFormat!.isNotEmpty)
+            if (selectedFormat != null && selectedFormat.isNotEmpty)
               "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
           },
         );

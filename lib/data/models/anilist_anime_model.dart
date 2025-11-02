@@ -289,7 +289,7 @@ abstract class AnilistAnimeModel with _$AnilistAnimeModel implements Anime {
           userPreferred: mediaEntry.title.userPreferred),
       averageScore: mediaEntry.averageScore,
       bannerImage: mediaEntry.bannerImage,
-      countryOfOrigin: "Unimplemented",
+      countryOfOrigin: mediaEntry.countryOfOrigin,
       coverImage: mediaEntry.coverImage.large,
       description: mediaEntry.description,
       duration: mediaEntry.duration,

@@ -215,7 +215,12 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
                                                 child: MediaButton(
                                                   width: 200,
                                                   height: 70,
-                                                  onPressed: null,
+                                                  onPressed:
+                                                      () => context
+                                                          .read<MangaDetailsCubit>()
+                                                          .navigateToMangaAdvancedSearchScreenWithFilters(
+                                                            genre,
+                                                          ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,
                                                 ),

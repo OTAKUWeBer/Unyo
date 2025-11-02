@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
@@ -199,6 +200,33 @@ abstract class AnilistMangaModel with _$AnilistMangaModel implements Manga {
       meanScore: mediaRecommendation.meanScore,
       status: mediaRecommendation.status,
       isFavourite: mediaRecommendation.isFavourite
+    );
+  }
+
+  factory AnilistMangaModel.fromAdvancedSearchMediaEntry(MediaAdvancedSearchQueryGraphqlPageMedia mediaEntry) {
+    return AnilistMangaModel(
+      id: mediaEntry.id,
+      idMal: mediaEntry.idMal,
+      title: TitleModel(romaji: mediaEntry.title.romaji,
+          english: mediaEntry.title.english,
+          nativeTitle: mediaEntry.title.native,
+          userPreferred: mediaEntry.title.userPreferred),
+      averageScore: mediaEntry.averageScore,
+      bannerImage: mediaEntry.bannerImage,
+      countryOfOrigin: mediaEntry.countryOfOrigin,
+      coverImage: mediaEntry.coverImage.large,
+      description: mediaEntry.description,
+      duration: mediaEntry.duration,
+      endDate: "${mediaEntry.endDate.day}/${mediaEntry.endDate.month}/${mediaEntry.endDate.year}",
+      startDate: "${mediaEntry.startDate.day}/${mediaEntry.startDate.month}/${mediaEntry.startDate.year}",
+      chapters: mediaEntry.chapters,
+      genres: mediaEntry.genres,
+      format: mediaEntry.format,
+      isAdult: mediaEntry.isAdult,
+      popularity: mediaEntry.popularity,
+      meanScore: mediaEntry.meanScore,
+      status: mediaEntry.status,
+      isFavourite: mediaEntry.isFavourite,
     );
   }
 

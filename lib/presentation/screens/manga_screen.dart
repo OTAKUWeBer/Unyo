@@ -101,7 +101,7 @@ class _MangaViewState extends State<_MangaView> {
                     ),
                     const SizedBox(width: 30),
                     MediaButton(
-                      onPressed: () {},
+                      onPressed: () => context.read<MangaCubit>().navigateToAdvancedSearch(context),
                       image:
                           state.banners.isNotEmpty
                               ? state

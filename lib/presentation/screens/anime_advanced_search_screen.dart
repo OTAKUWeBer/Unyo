@@ -125,6 +125,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                         width: 190.w,
                         child: UnyoMultiSelectDropdown(
                           label: "Genres",
+                          debounceMilliseconds: 1000,
                           icon: Icons.category_rounded,
                           children: state.genresFilters.$2,
                           selectedValues: state.selectedGenres,

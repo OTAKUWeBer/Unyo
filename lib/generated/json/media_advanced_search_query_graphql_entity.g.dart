@@ -79,7 +79,7 @@ MediaAdvancedSearchQueryGraphqlPageMedia $MediaAdvancedSearchQueryGraphqlPageMed
   if (bannerImage != null) {
     mediaAdvancedSearchQueryGraphqlPageMedia.bannerImage = bannerImage;
   }
-  final dynamic chapters = json['chapters'];
+  final int? chapters = json['chapters'];
   if (chapters != null) {
     mediaAdvancedSearchQueryGraphqlPageMedia.chapters = chapters;
   }
@@ -190,7 +190,7 @@ extension MediaAdvancedSearchQueryGraphqlPageMediaExtension on MediaAdvancedSear
     MediaAdvancedSearchQueryGraphqlPageMediaTitle? title,
     int? averageScore,
     String? bannerImage,
-    dynamic chapters,
+    int? chapters,
     String? countryOfOrigin,
     MediaAdvancedSearchQueryGraphqlPageMediaCoverImage? coverImage,
     String? description,

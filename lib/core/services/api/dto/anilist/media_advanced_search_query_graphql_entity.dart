@@ -43,7 +43,7 @@ class MediaAdvancedSearchQueryGraphqlPageMedia {
 	late MediaAdvancedSearchQueryGraphqlPageMediaTitle title;
 	late int averageScore = 0;
 	late String bannerImage = '';
-	dynamic chapters;
+	late int chapters = 0;
 	late String countryOfOrigin = '';
 	late MediaAdvancedSearchQueryGraphqlPageMediaCoverImage coverImage;
 	late String description = '';

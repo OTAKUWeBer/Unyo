@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_entity.dart';
@@ -20,6 +21,7 @@ import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/manga_details.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/manga_repository.dart';
+import 'package:unyo/presentation/widgets/text/text_utils.dart';
 
 import '../../core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 
@@ -126,6 +128,113 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   }
 
   @override
+  Future<Map<String, (bool, List<String>)>> getUserMangaAdvancedSearchFilters() async {
+    Map<String, (bool, List<String>)> filters = {};
+    filters.addAll({
+      'genres': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnlistGenreFilters.values.map((enumElement) => enumElement.name).toList(),
+      ),
+      ),
+    });
+    filters.addAll({
+      'seasons': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistSeasonFilters.values.map((enumElement) => enumElement.name).toList(),
+      ),
+      ),
+    });
+    filters.addAll({
+      'formats': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistFormatFilters.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList(),
+      ),
+      ),
+    });
+    filters.addAll({
+      'airingStatuses': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistAiringStatusFilters.values
+            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+            .toList(),
+      ),
+      ),
+    });
+    filters.addAll({
+      'years': (
+      true,
+      List<String>.generate(
+        DateTime.now().year - 1939,
+            (index) => (1940 + index).toString(),
+      ).reversed.toList(),
+      ),
+    });
+    filters.addAll({
+      'sortOptions': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistSortOptions.values
+            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+            .toList(),
+      ),
+      ),
+    });
+    filters.addAll({
+      'sortOrders': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistSortOrder.values
+            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+            .toList(),
+      ),
+      ),
+    });
+    return filters;
+  }
+
+  @override
+  Future<List<Manga>> performMangaAdvancedSearch(
+      String query,
+      List<String> selectedGenres,
+      String? selectedSeason,
+      String? selectedFormat,
+      int? selectedYear,
+      String? selectedAiringStatus,
+      String sort,
+      int page,
+      ) async {
+    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
+    await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
+      query: anilist_queries.mediaAdvancedSearchQuery,
+      fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
+      variables: {
+        "type": "MANGA",
+        "page": 1,
+        "perPage": 50,
+        "sort": sort.replaceAll("_ASC", ""),
+        if (query.isNotEmpty) "search": query,
+        if (selectedGenres.isNotEmpty) "genres": selectedGenres,
+        if (selectedSeason != null && selectedSeason.isNotEmpty) "season": selectedSeason.toUpperCase(),
+        if (selectedYear != null) "seasonYear": selectedYear,
+        if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
+          "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
+        if (selectedFormat != null && selectedFormat.isNotEmpty)
+          "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
+      },
+    );
+    throwIfGraphQlError(animeAdvancedSearchData);
+    List<Manga> searchResults =
+    animeAdvancedSearchData.data.page.media
+        .map((mediaEntry) => AnilistMangaModel.fromAdvancedSearchMediaEntry(mediaEntry))
+        .toList();
+    return searchResults;
+  }
+
+  @override
   Future<List<String>> getMediaCoverImages() async {
     (bool, List<Manga>) popularMangas = await getPopularMangas(1);
     return popularMangas.$2.map((manga) => manga.coverImage).where((coverImage) => coverImage != "").shuffled(Random()).toList();
@@ -152,3 +261,34 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     return (true, mangaDetails);
   }
 }
+
+enum AnlistGenreFilters {
+  action,
+  adventure,
+  comedy,
+  drama,
+  ecchi,
+  fantasy,
+  horror,
+  // mahou_shoujo,
+  mecha,
+  music,
+  mystery,
+  psychological,
+  romance,
+  sciFi,
+  sliceOfLife,
+  sports,
+  supernatural,
+  thriller,
+}
+
+enum AnilistSeasonFilters { winter, spring, summer, fall }
+
+enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
+
+enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
+
+enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
+
+enum AnilistSortOrder { asc, desc }

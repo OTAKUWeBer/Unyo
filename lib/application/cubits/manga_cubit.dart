@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/manga_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/service.dart';
+import 'package:unyo/core/notification/manga_genres_notifier.dart';
 import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -19,11 +21,12 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
   final MangaRepositoryAnilist _mangaRepositoryAnilist;
   final UserNotifier _loggedUserNotifier;
   final MangaNotifier _selectedMangaNotifier;
+  final MangaGenresNotifier _selectedMangaAdvancedSearchGenresFilters;
   final MediaListNotifier _selectedMediaListNotifier;
   late StreamSubscription<User> _loggedUserSubscription;
   final Logger _logger = sl<Logger>();
 
-  MangaCubit(this._mangaRepositoryAnilist, this._loggedUserNotifier, this._selectedMangaNotifier, this._selectedMediaListNotifier)
+  MangaCubit(this._mangaRepositoryAnilist, this._loggedUserNotifier, this._selectedMangaNotifier, this._selectedMangaAdvancedSearchGenresFilters, this._selectedMediaListNotifier)
     : super(
         MangaState(
           trending: (false, []),
@@ -67,6 +70,12 @@ class MangaCubit extends Cubit<MangaState> with EffectMixin<MangaState> {
       await _fetchUpcoming(1);
       emit(state.copyWith(userLoaded: true, isLoading: false));
     }
+  }
+
+  void navigateToAdvancedSearch(BuildContext context) {
+    _logger.i("Navigating to Manga Advanced Search");
+    _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre("");
+    pushRouteEffect(path: "/mangasearch");
   }
 
   void navigateToMangaDetails(Manga manga, MediaList mediaList) {

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MangaAdvancedSearchState {
 
- List<AppEffect> get effects;
+ User get loggedUser; (bool, List<String>) get genresFilters; (bool, List<String>) get yearFilters; (bool, List<String>) get seasonFilters; (bool, List<String>) get formatFilters; (bool, List<String>) get airingStatusFilters; (bool, List<String>) get searchSortOptions; (bool, List<String>) get searchSortOrder; String get searchQuery; List<String> get selectedGenres; String? get selectedYear; String? get selectedSeason; String? get selectedFormat; String? get selectedAiringStatus; List<Manga> get searchResults; String get selectedSearchOrder; String get selectedSearchSortOption; List<AppEffect> get effects;
 /// Create a copy of MangaAdvancedSearchState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $MangaAdvancedSearchStateCopyWith<MangaAdvancedSearchState> get copyWith => _$Ma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaAdvancedSearchState&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaAdvancedSearchState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.genresFilters, genresFilters) || other.genresFilters == genresFilters)&&(identical(other.yearFilters, yearFilters) || other.yearFilters == yearFilters)&&(identical(other.seasonFilters, seasonFilters) || other.seasonFilters == seasonFilters)&&(identical(other.formatFilters, formatFilters) || other.formatFilters == formatFilters)&&(identical(other.airingStatusFilters, airingStatusFilters) || other.airingStatusFilters == airingStatusFilters)&&(identical(other.searchSortOptions, searchSortOptions) || other.searchSortOptions == searchSortOptions)&&(identical(other.searchSortOrder, searchSortOrder) || other.searchSortOrder == searchSortOrder)&&(identical(other.searchQuery, searchQuery) || other.searchQuery == searchQuery)&&const DeepCollectionEquality().equals(other.selectedGenres, selectedGenres)&&(identical(other.selectedYear, selectedYear) || other.selectedYear == selectedYear)&&(identical(other.selectedSeason, selectedSeason) || other.selectedSeason == selectedSeason)&&(identical(other.selectedFormat, selectedFormat) || other.selectedFormat == selectedFormat)&&(identical(other.selectedAiringStatus, selectedAiringStatus) || other.selectedAiringStatus == selectedAiringStatus)&&const DeepCollectionEquality().equals(other.searchResults, searchResults)&&(identical(other.selectedSearchOrder, selectedSearchOrder) || other.selectedSearchOrder == selectedSearchOrder)&&(identical(other.selectedSearchSortOption, selectedSearchSortOption) || other.selectedSearchSortOption == selectedSearchSortOption)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,genresFilters,yearFilters,seasonFilters,formatFilters,airingStatusFilters,searchSortOptions,searchSortOrder,searchQuery,const DeepCollectionEquality().hash(selectedGenres),selectedYear,selectedSeason,selectedFormat,selectedAiringStatus,const DeepCollectionEquality().hash(searchResults),selectedSearchOrder,selectedSearchSortOption,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'MangaAdvancedSearchState(effects: $effects)';
+  return 'MangaAdvancedSearchState(loggedUser: $loggedUser, genresFilters: $genresFilters, yearFilters: $yearFilters, seasonFilters: $seasonFilters, formatFilters: $formatFilters, airingStatusFilters: $airingStatusFilters, searchSortOptions: $searchSortOptions, searchSortOrder: $searchSortOrder, searchQuery: $searchQuery, selectedGenres: $selectedGenres, selectedYear: $selectedYear, selectedSeason: $selectedSeason, selectedFormat: $selectedFormat, selectedAiringStatus: $selectedAiringStatus, searchResults: $searchResults, selectedSearchOrder: $selectedSearchOrder, selectedSearchSortOption: $selectedSearchSortOption, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $MangaAdvancedSearchStateCopyWith<$Res>  {
   factory $MangaAdvancedSearchStateCopyWith(MangaAdvancedSearchState value, $Res Function(MangaAdvancedSearchState) _then) = _$MangaAdvancedSearchStateCopyWithImpl;
 @useResult
 $Res call({
- List<AppEffect> effects
+ User loggedUser, (bool, List<String>) genresFilters, (bool, List<String>) yearFilters, (bool, List<String>) seasonFilters, (bool, List<String>) formatFilters, (bool, List<String>) airingStatusFilters, (bool, List<String>) searchSortOptions, (bool, List<String>) searchSortOrder, String searchQuery, List<String> selectedGenres, String? selectedYear, String? selectedSeason, String? selectedFormat, String? selectedAiringStatus, List<Manga> searchResults, String selectedSearchOrder, String selectedSearchSortOption, List<AppEffect> effects
 });
 
 
@@ -62,9 +62,26 @@ class _$MangaAdvancedSearchStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaAdvancedSearchState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? genresFilters = null,Object? yearFilters = null,Object? seasonFilters = null,Object? formatFilters = null,Object? airingStatusFilters = null,Object? searchSortOptions = null,Object? searchSortOrder = null,Object? searchQuery = null,Object? selectedGenres = null,Object? selectedYear = freezed,Object? selectedSeason = freezed,Object? selectedFormat = freezed,Object? selectedAiringStatus = freezed,Object? searchResults = null,Object? selectedSearchOrder = null,Object? selectedSearchSortOption = null,Object? effects = null,}) {
   return _then(_self.copyWith(
-effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,genresFilters: null == genresFilters ? _self.genresFilters : genresFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),yearFilters: null == yearFilters ? _self.yearFilters : yearFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),seasonFilters: null == seasonFilters ? _self.seasonFilters : seasonFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),formatFilters: null == formatFilters ? _self.formatFilters : formatFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),airingStatusFilters: null == airingStatusFilters ? _self.airingStatusFilters : airingStatusFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchSortOptions: null == searchSortOptions ? _self.searchSortOptions : searchSortOptions // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchSortOrder: null == searchSortOrder ? _self.searchSortOrder : searchSortOrder // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchQuery: null == searchQuery ? _self.searchQuery : searchQuery // ignore: cast_nullable_to_non_nullable
+as String,selectedGenres: null == selectedGenres ? _self.selectedGenres : selectedGenres // ignore: cast_nullable_to_non_nullable
+as List<String>,selectedYear: freezed == selectedYear ? _self.selectedYear : selectedYear // ignore: cast_nullable_to_non_nullable
+as String?,selectedSeason: freezed == selectedSeason ? _self.selectedSeason : selectedSeason // ignore: cast_nullable_to_non_nullable
+as String?,selectedFormat: freezed == selectedFormat ? _self.selectedFormat : selectedFormat // ignore: cast_nullable_to_non_nullable
+as String?,selectedAiringStatus: freezed == selectedAiringStatus ? _self.selectedAiringStatus : selectedAiringStatus // ignore: cast_nullable_to_non_nullable
+as String?,searchResults: null == searchResults ? _self.searchResults : searchResults // ignore: cast_nullable_to_non_nullable
+as List<Manga>,selectedSearchOrder: null == selectedSearchOrder ? _self.selectedSearchOrder : selectedSearchOrder // ignore: cast_nullable_to_non_nullable
+as String,selectedSearchSortOption: null == selectedSearchSortOption ? _self.selectedSearchSortOption : selectedSearchSortOption // ignore: cast_nullable_to_non_nullable
+as String,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -150,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  (bool, List<String>) genresFilters,  (bool, List<String>) yearFilters,  (bool, List<String>) seasonFilters,  (bool, List<String>) formatFilters,  (bool, List<String>) airingStatusFilters,  (bool, List<String>) searchSortOptions,  (bool, List<String>) searchSortOrder,  String searchQuery,  List<String> selectedGenres,  String? selectedYear,  String? selectedSeason,  String? selectedFormat,  String? selectedAiringStatus,  List<Manga> searchResults,  String selectedSearchOrder,  String selectedSearchSortOption,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MangaAdvancedSearchState() when $default != null:
-return $default(_that.effects);case _:
+return $default(_that.loggedUser,_that.genresFilters,_that.yearFilters,_that.seasonFilters,_that.formatFilters,_that.airingStatusFilters,_that.searchSortOptions,_that.searchSortOrder,_that.searchQuery,_that.selectedGenres,_that.selectedYear,_that.selectedSeason,_that.selectedFormat,_that.selectedAiringStatus,_that.searchResults,_that.selectedSearchOrder,_that.selectedSearchSortOption,_that.effects);case _:
   return orElse();
 
 }
@@ -171,10 +188,10 @@ return $default(_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  (bool, List<String>) genresFilters,  (bool, List<String>) yearFilters,  (bool, List<String>) seasonFilters,  (bool, List<String>) formatFilters,  (bool, List<String>) airingStatusFilters,  (bool, List<String>) searchSortOptions,  (bool, List<String>) searchSortOrder,  String searchQuery,  List<String> selectedGenres,  String? selectedYear,  String? selectedSeason,  String? selectedFormat,  String? selectedAiringStatus,  List<Manga> searchResults,  String selectedSearchOrder,  String selectedSearchSortOption,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _MangaAdvancedSearchState():
-return $default(_that.effects);case _:
+return $default(_that.loggedUser,_that.genresFilters,_that.yearFilters,_that.seasonFilters,_that.formatFilters,_that.airingStatusFilters,_that.searchSortOptions,_that.searchSortOrder,_that.searchQuery,_that.selectedGenres,_that.selectedYear,_that.selectedSeason,_that.selectedFormat,_that.selectedAiringStatus,_that.searchResults,_that.selectedSearchOrder,_that.selectedSearchSortOption,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -191,10 +208,10 @@ return $default(_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  (bool, List<String>) genresFilters,  (bool, List<String>) yearFilters,  (bool, List<String>) seasonFilters,  (bool, List<String>) formatFilters,  (bool, List<String>) airingStatusFilters,  (bool, List<String>) searchSortOptions,  (bool, List<String>) searchSortOrder,  String searchQuery,  List<String> selectedGenres,  String? selectedYear,  String? selectedSeason,  String? selectedFormat,  String? selectedAiringStatus,  List<Manga> searchResults,  String selectedSearchOrder,  String selectedSearchSortOption,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _MangaAdvancedSearchState() when $default != null:
-return $default(_that.effects);case _:
+return $default(_that.loggedUser,_that.genresFilters,_that.yearFilters,_that.seasonFilters,_that.formatFilters,_that.airingStatusFilters,_that.searchSortOptions,_that.searchSortOrder,_that.searchQuery,_that.selectedGenres,_that.selectedYear,_that.selectedSeason,_that.selectedFormat,_that.selectedAiringStatus,_that.searchResults,_that.selectedSearchOrder,_that.selectedSearchSortOption,_that.effects);case _:
   return null;
 
 }
@@ -206,9 +223,38 @@ return $default(_that.effects);case _:
 
 
 class _MangaAdvancedSearchState extends MangaAdvancedSearchState {
-  const _MangaAdvancedSearchState({final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _MangaAdvancedSearchState({required this.loggedUser, this.genresFilters = const (false, <String>[]), this.yearFilters = const (false, <String>[]), this.seasonFilters = const (false, <String>[]), this.formatFilters = const (false, <String>[]), this.airingStatusFilters = const (false, <String>[]), this.searchSortOptions = const (false, <String>[]), this.searchSortOrder = const (false, <String>[]), this.searchQuery = '', final  List<String> selectedGenres = const <String>[], this.selectedYear = null, this.selectedSeason = null, this.selectedFormat = null, this.selectedAiringStatus = null, final  List<Manga> searchResults = const [], this.selectedSearchOrder = 'Desc', this.selectedSearchSortOption = 'Popularity', final  List<AppEffect> effects = const <AppEffect>[]}): _selectedGenres = selectedGenres,_searchResults = searchResults,_effects = effects,super._();
   
 
+@override final  User loggedUser;
+@override@JsonKey() final  (bool, List<String>) genresFilters;
+@override@JsonKey() final  (bool, List<String>) yearFilters;
+@override@JsonKey() final  (bool, List<String>) seasonFilters;
+@override@JsonKey() final  (bool, List<String>) formatFilters;
+@override@JsonKey() final  (bool, List<String>) airingStatusFilters;
+@override@JsonKey() final  (bool, List<String>) searchSortOptions;
+@override@JsonKey() final  (bool, List<String>) searchSortOrder;
+@override@JsonKey() final  String searchQuery;
+ final  List<String> _selectedGenres;
+@override@JsonKey() List<String> get selectedGenres {
+  if (_selectedGenres is EqualUnmodifiableListView) return _selectedGenres;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_selectedGenres);
+}
+
+@override@JsonKey() final  String? selectedYear;
+@override@JsonKey() final  String? selectedSeason;
+@override@JsonKey() final  String? selectedFormat;
+@override@JsonKey() final  String? selectedAiringStatus;
+ final  List<Manga> _searchResults;
+@override@JsonKey() List<Manga> get searchResults {
+  if (_searchResults is EqualUnmodifiableListView) return _searchResults;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_searchResults);
+}
+
+@override@JsonKey() final  String selectedSearchOrder;
+@override@JsonKey() final  String selectedSearchSortOption;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
@@ -227,16 +273,16 @@ _$MangaAdvancedSearchStateCopyWith<_MangaAdvancedSearchState> get copyWith => __
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaAdvancedSearchState&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaAdvancedSearchState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.genresFilters, genresFilters) || other.genresFilters == genresFilters)&&(identical(other.yearFilters, yearFilters) || other.yearFilters == yearFilters)&&(identical(other.seasonFilters, seasonFilters) || other.seasonFilters == seasonFilters)&&(identical(other.formatFilters, formatFilters) || other.formatFilters == formatFilters)&&(identical(other.airingStatusFilters, airingStatusFilters) || other.airingStatusFilters == airingStatusFilters)&&(identical(other.searchSortOptions, searchSortOptions) || other.searchSortOptions == searchSortOptions)&&(identical(other.searchSortOrder, searchSortOrder) || other.searchSortOrder == searchSortOrder)&&(identical(other.searchQuery, searchQuery) || other.searchQuery == searchQuery)&&const DeepCollectionEquality().equals(other._selectedGenres, _selectedGenres)&&(identical(other.selectedYear, selectedYear) || other.selectedYear == selectedYear)&&(identical(other.selectedSeason, selectedSeason) || other.selectedSeason == selectedSeason)&&(identical(other.selectedFormat, selectedFormat) || other.selectedFormat == selectedFormat)&&(identical(other.selectedAiringStatus, selectedAiringStatus) || other.selectedAiringStatus == selectedAiringStatus)&&const DeepCollectionEquality().equals(other._searchResults, _searchResults)&&(identical(other.selectedSearchOrder, selectedSearchOrder) || other.selectedSearchOrder == selectedSearchOrder)&&(identical(other.selectedSearchSortOption, selectedSearchSortOption) || other.selectedSearchSortOption == selectedSearchSortOption)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,genresFilters,yearFilters,seasonFilters,formatFilters,airingStatusFilters,searchSortOptions,searchSortOrder,searchQuery,const DeepCollectionEquality().hash(_selectedGenres),selectedYear,selectedSeason,selectedFormat,selectedAiringStatus,const DeepCollectionEquality().hash(_searchResults),selectedSearchOrder,selectedSearchSortOption,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'MangaAdvancedSearchState(effects: $effects)';
+  return 'MangaAdvancedSearchState(loggedUser: $loggedUser, genresFilters: $genresFilters, yearFilters: $yearFilters, seasonFilters: $seasonFilters, formatFilters: $formatFilters, airingStatusFilters: $airingStatusFilters, searchSortOptions: $searchSortOptions, searchSortOrder: $searchSortOrder, searchQuery: $searchQuery, selectedGenres: $selectedGenres, selectedYear: $selectedYear, selectedSeason: $selectedSeason, selectedFormat: $selectedFormat, selectedAiringStatus: $selectedAiringStatus, searchResults: $searchResults, selectedSearchOrder: $selectedSearchOrder, selectedSearchSortOption: $selectedSearchSortOption, effects: $effects)';
 }
 
 
@@ -247,7 +293,7 @@ abstract mixin class _$MangaAdvancedSearchStateCopyWith<$Res> implements $MangaA
   factory _$MangaAdvancedSearchStateCopyWith(_MangaAdvancedSearchState value, $Res Function(_MangaAdvancedSearchState) _then) = __$MangaAdvancedSearchStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<AppEffect> effects
+ User loggedUser, (bool, List<String>) genresFilters, (bool, List<String>) yearFilters, (bool, List<String>) seasonFilters, (bool, List<String>) formatFilters, (bool, List<String>) airingStatusFilters, (bool, List<String>) searchSortOptions, (bool, List<String>) searchSortOrder, String searchQuery, List<String> selectedGenres, String? selectedYear, String? selectedSeason, String? selectedFormat, String? selectedAiringStatus, List<Manga> searchResults, String selectedSearchOrder, String selectedSearchSortOption, List<AppEffect> effects
 });
 
 
@@ -264,9 +310,26 @@ class __$MangaAdvancedSearchStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaAdvancedSearchState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? genresFilters = null,Object? yearFilters = null,Object? seasonFilters = null,Object? formatFilters = null,Object? airingStatusFilters = null,Object? searchSortOptions = null,Object? searchSortOrder = null,Object? searchQuery = null,Object? selectedGenres = null,Object? selectedYear = freezed,Object? selectedSeason = freezed,Object? selectedFormat = freezed,Object? selectedAiringStatus = freezed,Object? searchResults = null,Object? selectedSearchOrder = null,Object? selectedSearchSortOption = null,Object? effects = null,}) {
   return _then(_MangaAdvancedSearchState(
-effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,genresFilters: null == genresFilters ? _self.genresFilters : genresFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),yearFilters: null == yearFilters ? _self.yearFilters : yearFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),seasonFilters: null == seasonFilters ? _self.seasonFilters : seasonFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),formatFilters: null == formatFilters ? _self.formatFilters : formatFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),airingStatusFilters: null == airingStatusFilters ? _self.airingStatusFilters : airingStatusFilters // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchSortOptions: null == searchSortOptions ? _self.searchSortOptions : searchSortOptions // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchSortOrder: null == searchSortOrder ? _self.searchSortOrder : searchSortOrder // ignore: cast_nullable_to_non_nullable
+as (bool, List<String>),searchQuery: null == searchQuery ? _self.searchQuery : searchQuery // ignore: cast_nullable_to_non_nullable
+as String,selectedGenres: null == selectedGenres ? _self._selectedGenres : selectedGenres // ignore: cast_nullable_to_non_nullable
+as List<String>,selectedYear: freezed == selectedYear ? _self.selectedYear : selectedYear // ignore: cast_nullable_to_non_nullable
+as String?,selectedSeason: freezed == selectedSeason ? _self.selectedSeason : selectedSeason // ignore: cast_nullable_to_non_nullable
+as String?,selectedFormat: freezed == selectedFormat ? _self.selectedFormat : selectedFormat // ignore: cast_nullable_to_non_nullable
+as String?,selectedAiringStatus: freezed == selectedAiringStatus ? _self.selectedAiringStatus : selectedAiringStatus // ignore: cast_nullable_to_non_nullable
+as String?,searchResults: null == searchResults ? _self._searchResults : searchResults // ignore: cast_nullable_to_non_nullable
+as List<Manga>,selectedSearchOrder: null == selectedSearchOrder ? _self.selectedSearchOrder : selectedSearchOrder // ignore: cast_nullable_to_non_nullable
+as String,selectedSearchSortOption: null == selectedSearchSortOption ? _self.selectedSearchSortOption : selectedSearchSortOption // ignore: cast_nullable_to_non_nullable
+as String,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

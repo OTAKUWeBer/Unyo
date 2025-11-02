@@ -22,6 +22,7 @@ import 'package:unyo/application/cubits/login_cubit.dart';
 import 'package:unyo/core/log/logger.dart';
 import 'package:unyo/core/notification/anime_genres_notifier.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
+import 'package:unyo/core/notification/manga_genres_notifier.dart';
 import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
@@ -65,6 +66,7 @@ void setupLocator() {
   sl.registerLazySingleton<AnimeNotifier>(() => AnimeNotifier());
   sl.registerLazySingleton<MangaNotifier>(() => MangaNotifier());
   sl.registerLazySingleton<AnimeGenresNotifier>(() => AnimeGenresNotifier());
+  sl.registerLazySingleton<MangaGenresNotifier>(() => MangaGenresNotifier());
   sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
 
   // Repositories
@@ -118,6 +120,7 @@ void setupLocator() {
       sl<MangaRepositoryAnilist>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<MangaNotifier>(),
+      sl<MangaGenresNotifier>(),
       sl<MediaListNotifier>(),
     ),
   );
@@ -162,6 +165,7 @@ void setupLocator() {
       sl<EpisodeRepositoryAnizip>(),
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<MangaNotifier>(),
+      sl<MangaGenresNotifier>(),
       sl<MediaListNotifier>(),
       sl<ExtensionRepositoryAniyomi>(),
       sl<UserRepositoryAnilist>(),
@@ -183,7 +187,15 @@ void setupLocator() {
       sl<AnimeRepositoryAnilist>(),
     ),
   );
-  sl.registerFactory<MangaAdvancedSearchCubit>(() => MangaAdvancedSearchCubit());
+  sl.registerFactory<MangaAdvancedSearchCubit>(
+    () => MangaAdvancedSearchCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<MediaListNotifier>(),
+      sl<MangaNotifier>(),
+      sl<MangaGenresNotifier>(),
+      sl<MangaRepositoryAnilist>(),
+    ),
+  );
 }
 
 void setupLocatorAfterHiveInit() {

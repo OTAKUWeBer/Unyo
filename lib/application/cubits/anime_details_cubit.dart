@@ -130,27 +130,41 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
 
   void navigateToAnimeAdvancedSearchScreenWithFilters(String newAnimeGenre) {
     _logger.i("Navigating to Anime Advanced Search Filters");
-    _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
-    replaceRouteEffect(path: "/animesearch");
+    if (_selectedAnimeAdvancedSearchGenresFilters.currentSelectedGenres == "") {
+      popRouteEffect();
+      _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
+    } else {
+      _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
+      replaceRouteEffect(path: "/animesearch");
+    }
   }
 
-  Future<void> selectAnimeExtension(String? selectedAnimeExtensionName) async{
-    Extension? selectedExtension = state.installedExtensions.where((extension) => selectedAnimeExtensionName == extension.name).firstOrNull;
+  Future<void> selectAnimeExtension(String? selectedAnimeExtensionName) async {
+    Extension? selectedExtension =
+        state.installedExtensions
+            .where((extension) => selectedAnimeExtensionName == extension.name)
+            .firstOrNull;
     if (selectedExtension != null) {
-      switch(state.loggedUser) {
+      switch (state.loggedUser) {
         case AnilistUserModel anilistUserModel:
           SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
           Map<String, Extension> mediaExtensionsConfigUpdated = Map.from(userSettings.mediaExtensionConfigs);
           mediaExtensionsConfigUpdated.addAll({state.selectedAnime.id.toString(): selectedExtension});
-          _userRepositoryAnilist.updateUserInfo(anilistUserModel.copyWith(
-            settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated)
-          ));
+          _userRepositoryAnilist.updateUserInfo(
+            anilistUserModel.copyWith(
+              settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated),
+            ),
+          );
         case LocalUserModel localUserModel:
       }
       _getAnimeInfoFromSelectedExtension(selectedExtension);
     } else {
       _logger.w("Selected extension $selectedAnimeExtensionName not found among installed extensions.");
-      showSnackBarEffect("Extension Not Found", message: "The selected extension is not installed.", contentType: ContentType.warning);
+      showSnackBarEffect(
+        "Extension Not Found",
+        message: "The selected extension is not installed.",
+        contentType: ContentType.warning,
+      );
     }
   }
 
@@ -159,14 +173,20 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       switch (loggedUser.settings.service) {
         case Service.anilist:
           _logger.i("Fetching Anime Details from AniList for ${state.selectedAnime.title}");
-          (bool, AnimeDetails) animeDetails = await _animeRepositoryAnilist.getAnimeDetails(selectedAnime, loggedUser);
+          (bool, AnimeDetails) animeDetails = await _animeRepositoryAnilist.getAnimeDetails(
+            selectedAnime,
+            loggedUser,
+          );
           emit(
             state.copyWith(
               characters: (animeDetails.$2.characters.isNotEmpty, animeDetails.$2.characters),
               repeat: animeDetails.$2.repeat,
               score: animeDetails.$2.score,
               progress: animeDetails.$2.progress,
-              recommendations: (animeDetails.$2.recommendedAnimes.isNotEmpty, animeDetails.$2.recommendedAnimes),
+              recommendations: (
+                animeDetails.$2.recommendedAnimes.isNotEmpty,
+                animeDetails.$2.recommendedAnimes,
+              ),
             ),
           );
           if (animeDetails.$2.recommendedAnimes.isEmpty) {
@@ -193,7 +213,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> _loadInstalledExtensions() async {
     try {
       _logger.i("Loading installed extensions for Aniyomi");
-      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledAnimeExtensions(state.loggedUser);
+      Set<Extension> installedExtensions = await _extensionRepositoryAniyomi.getInstalledAnimeExtensions(
+        state.loggedUser,
+      );
       emit(state.copyWith(installedExtensions: installedExtensions));
       _setSelectedExtension(state.loggedUser, state.selectedAnime);
     } catch (e, stackTrace) {
@@ -205,11 +227,20 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     try {
       if (state.installedExtensions.isEmpty) {
         _logger.w("No installed extensions available to fetch anime info.");
-        showSnackBarEffect("No Installed Extensions", message: "Install some extensions if you want to watch some content", contentType: ContentType.warning);
+        showSnackBarEffect(
+          "No Installed Extensions",
+          message: "Install some extensions if you want to watch some content",
+          contentType: ContentType.warning,
+        );
         return;
       }
-      _logger.i("Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}");
-      List<JSAnime> animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(state.selectedAnime.title.userPreferred, selectedExtension);
+      _logger.i(
+        "Fetching Anime Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+      );
+      List<JSAnime> animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(
+        state.selectedAnime.title.userPreferred,
+        selectedExtension,
+      );
       emit(state.copyWith(extensionAnimeResults: animeResults));
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
@@ -223,9 +254,15 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           _logger.i("Fetching Alternative Image from Anizip for ${state.selectedAnime.title}");
           late String alternateImage;
           if (loggedUser.settings.service == Service.anilist) {
-            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: -1, anilistId: selectedAnime.id);
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(
+              malId: -1,
+              anilistId: selectedAnime.id,
+            );
           } else {
-            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(malId: selectedAnime.idMal, anilistId: -1);
+            alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(
+              malId: selectedAnime.idMal,
+              anilistId: -1,
+            );
           }
           emit(state.copyWith(alternateImage: alternateImage));
         case EpisodeService.kitsu:
@@ -245,9 +282,15 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           _logger.i("Fetching Episodes Details from Anizip for ${state.selectedAnime.title}");
           late List<EpisodeInfo> episodesInfo;
           if (loggedUser.settings.service == Service.anilist) {
-            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: -1, anilistId: selectedAnime.id);
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(
+              malId: -1,
+              anilistId: selectedAnime.id,
+            );
           } else {
-            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(malId: selectedAnime.idMal, anilistId: -1);
+            episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(
+              malId: selectedAnime.idMal,
+              anilistId: -1,
+            );
           }
           emit(state.copyWith(episodesInfo: episodesInfo));
         case EpisodeService.kitsu:
