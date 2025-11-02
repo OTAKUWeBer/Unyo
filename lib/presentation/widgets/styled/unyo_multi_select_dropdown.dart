@@ -38,6 +38,17 @@ class _UnyoMultiSelectDropdownState extends State<UnyoMultiSelectDropdown> {
   }
 
   @override
+  void didUpdateWidget(covariant UnyoMultiSelectDropdown oldWidget) {
+    if (oldWidget.selectedValues != _selectedItems ) {
+      print("Needs rebuild of selected items");
+      setState(() {
+      _selectedItems = List.from(widget.selectedValues);
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     // _closeDropdown();
     super.dispose();
