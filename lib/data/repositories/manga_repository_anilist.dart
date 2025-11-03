@@ -272,7 +272,6 @@ enum AnlistGenreFilters {
   ecchi,
   fantasy,
   horror,
-  // mahou_shoujo,
   mecha,
   music,
   mystery,
