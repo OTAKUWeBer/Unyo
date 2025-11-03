@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart' show AutoRouter;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -71,14 +72,17 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
         });
   }
 
-  void navigateToMangaDetails(Manga manga, MediaList mediaList) {
+  void navigateToMangaDetails(BuildContext context, Manga manga, MediaList mediaList) {
     _logger.i("Navigating to Manga Details of ${manga.title}");
     _selectedMangaNotifier.updateSelectedManga(manga);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
-    if (_selectedMangaAdvancedSearchGenresFilters.currentSelectedGenres == "") {
-      pushRouteEffect(path: "/mangadetails");
+    bool hasMangaDetailsInStack = AutoRouter.of(context).stackData.any(
+          (route) => route.name == "MangaDetailsRoute",
+    );
+    if (hasMangaDetailsInStack) {
+      popRouteEffect(context);
     } else {
-      replaceRouteEffect(path: "/mangadetails");
+      pushRouteEffect(path: "/mangadetails");
     }
   }
 

@@ -212,6 +212,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           coverImage: state.searchResults[index].coverImage,
                           onPressed:
                               () => context.read<MangaAdvancedSearchCubit>().navigateToMangaDetails(
+                                context,
                                 state.searchResults[index],
                                 const MediaListModel(name: "MangaAdvancedSearch", mediaType: MediaType.manga),
                               ),

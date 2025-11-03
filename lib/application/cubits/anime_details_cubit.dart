@@ -141,7 +141,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       popRouteEffect(context);
     } else {
       _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
-      replaceRouteEffect(path: "/animesearch");
+      pushRouteEffect(path: "/animesearch");
     }
   }
 

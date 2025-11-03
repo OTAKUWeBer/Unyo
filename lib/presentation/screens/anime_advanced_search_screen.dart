@@ -212,6 +212,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           coverImage: state.searchResults[index].coverImage,
                           onPressed:
                               () => context.read<AnimeAdvancedSearchCubit>().navigateToAnimeDetails(
+                                context,
                                 state.searchResults[index],
                                 const MediaListModel(name: "AnimeAdvancedSearch", mediaType: MediaType.anime),
                               ),

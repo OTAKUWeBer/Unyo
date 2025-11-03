@@ -134,7 +134,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
       _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
     } else {
       _selectedMangaAdvancedSearchGenresFilters.updateSelectedMangaGenre(newAnimeGenre);
-      replaceRouteEffect(path: "/mangasearch");
+      pushRouteEffect(path: "/mangasearch");
     }
   }
 
