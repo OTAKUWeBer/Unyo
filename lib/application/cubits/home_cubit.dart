@@ -149,7 +149,7 @@ class HomeCubit extends Cubit<HomeState> with EffectMixin<HomeState> {
       switch (loggedUser.settings.service) {
         case Service.anilist:
           _logger.i("Fetching Media Cover Images from AniList");
-          List<String> mediaCoverImages = await _animeRepositoryAnilist.getMediaCoverImages();
+          List<String> mediaCoverImages = await _animeRepositoryAnilist.getMediaCoverImages(loggedUser);
           emit(state.copyWith(mediaCoverImages: mediaCoverImages));
         case Service.mal:
           _logger.i("Fetching Media Cover Images from MyAnimeList");

@@ -8,7 +8,8 @@ import 'package:unyo/core/di/locator.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
-import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart' show MediaAdvancedSearchQueryGraphqlEntity;
+import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart'
+    show MediaAdvancedSearchQueryGraphqlEntity;
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_entity.dart';
@@ -34,12 +35,17 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   final Logger _logger = sl<Logger>();
 
   @override
-  Future<(bool, List<Anime>)> getPopularAnimes(int page) async {
+  Future<(bool, List<Anime>)> getPopularAnimes(int page, User loggedUser) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlEntity> popularMediaCollection =
         await _anilistGraphQLService.query(
           query: anilist_queries.mediaTrendingOrPopularQuery,
           fromJson: MediaCollectionTrendingOrPopularGraphqlEntity.fromJson,
-          variables: {"sort": "POPULARITY_DESC", "page": page, "perPage": 30, "type": "ANIME"},
+          variables: {
+            "sort": "POPULARITY_DESC",
+            "page": page,
+            "perPage": 30,
+            "type": "ANIME",
+          },
         );
     throwIfGraphQlError(popularMediaCollection);
     List<Anime> popularAnimes =
@@ -50,7 +56,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
-  Future<(bool, List<Anime>)> getRecentlyCompletedAnimes(int page) async {
+  Future<(bool, List<Anime>)> getRecentlyCompletedAnimes(int page, User loggedUser) async {
     DateTime now = DateTime.now();
     DateTime monthAgo = now.subtract(const Duration(days: 30));
     ApiGraphQLResponse<MediaCollectionRecentlyCompletedGraphqlEntity>
@@ -77,7 +83,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
-  Future<(bool, List<Anime>)> getRecentlyReleasedAnimes(int page) async {
+  Future<(bool, List<Anime>)> getRecentlyReleasedAnimes(int page, User loggedUser) async {
     ApiGraphQLResponse<MediaCollectionRecentlyReleasedGraphqlEntity> airingSchedules =
         await _anilistGraphQLService.query(
           query: anilist_queries.animeRecentlyReleasedQuery,
@@ -95,16 +101,21 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
         uniqueRecentlyReleasedAnimes[anime.id] = anime;
       }
     }
-    return (true, uniqueRecentlyReleasedAnimes.values.toList());
+    return (true, uniqueRecentlyReleasedAnimes.values.where((anime) => !anime.isAdult || loggedUser.settings.enableNsfwContent).toList());
   }
 
   @override
-  Future<(bool, List<Anime>)> getTrendingAnimes(int page) async {
+  Future<(bool, List<Anime>)> getTrendingAnimes(int page, User loggedUser) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlEntity> trendingMediaCollection =
         await _anilistGraphQLService.query(
           query: anilist_queries.mediaTrendingOrPopularQuery,
           fromJson: MediaCollectionTrendingOrPopularGraphqlEntity.fromJson,
-          variables: {"sort": "TRENDING_DESC", "page": page, "perPage": 30, "type": "ANIME"},
+          variables: {
+            "sort": "TRENDING_DESC",
+            "page": page,
+            "perPage": 30,
+            "type": "ANIME",
+          },
         );
     throwIfGraphQlError(trendingMediaCollection);
     List<Anime> trendingAnimes =
@@ -115,7 +126,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
-  Future<(bool, List<Anime>)> getUpcomingAnimes(int page) async {
+  Future<(bool, List<Anime>)> getUpcomingAnimes(int page, User loggedUser) async {
     DateTime now = DateTime.now();
     ApiGraphQLResponse<MediaCollectionUpcomingGraphqlEntity> upcoming = await _anilistGraphQLService.query(
       query: anilist_queries.mediaUpcomingQuery,
@@ -140,7 +151,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   @override
   Future<Map<String, List<Anime>>> getCalendarReleases(
     int page,
-    User user, {
+    User loggedUser, {
     List<Anime>? calendarReleasePortion,
   }) async {
     List<Anime> calendarReleasesList = await _getCalendarReleasesPage(page);
@@ -148,11 +159,11 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       // has next page
       return await getCalendarReleases(
         page + 1,
-        user,
+        loggedUser,
         calendarReleasePortion: [...calendarReleasesList, ...(calendarReleasePortion ?? [])],
       );
     }
-    String localeTag = user.settings.language;
+    String localeTag = loggedUser.settings.language;
     Map<String, List<Anime>> calendarReleases = {};
     for (Anime anime in calendarReleasePortion ?? calendarReleasesList) {
       DateTime episodeRelease = DateTime.fromMillisecondsSinceEpoch(
@@ -183,12 +194,17 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
           return dateA.millisecondsSinceEpoch.compareTo(dateB.millisecondsSinceEpoch);
         });
 
+    // Remove isAdult animes if loggedUser.settings.enableNsfwContent is false
+    for (MapEntry<String, List<Anime>> entry in sortedEntries) {
+      entry.value.removeWhere((anime) => anime.isAdult && !loggedUser.settings.enableNsfwContent);
+    }
+
     return Map.fromEntries(sortedEntries);
   }
 
   @override
-  Future<List<String>> getMediaCoverImages() async {
-    (bool, List<Anime>) popularAnimes = await getPopularAnimes(1);
+  Future<List<String>> getMediaCoverImages(User loggedUser) async {
+    (bool, List<Anime>) popularAnimes = await getPopularAnimes(1, loggedUser);
     return popularAnimes.$2
         .map((anime) => anime.coverImage)
         .where((coverImage) => coverImage != "")
@@ -197,14 +213,19 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
   }
 
   @override
-  Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User user) async {
+  Future<(bool, AnimeDetails)> getAnimeDetails(Anime selectedAnime, User loggedUser) async {
     Map<String, String>? graphQlHeaders =
-        user is AnilistUserModel ? {"Authorization": "Bearer ${(user).accessToken}"} : null;
+        loggedUser is AnilistUserModel ? {"Authorization": "Bearer ${(loggedUser).accessToken}"} : null;
     ApiGraphQLResponse<MediaDetailsGraphqlEntity> animeDetailsData = await _anilistGraphQLService
         .query<MediaDetailsGraphqlEntity>(
           query: anilist_queries.mediaDetailsQuery,
           fromJson: MediaDetailsGraphqlEntity.fromJson,
-          variables: {"type": "ANIME", "mediaId": selectedAnime.id, "page": 1, "perPage": 20},
+          variables: {
+            "type": "ANIME",
+            "mediaId": selectedAnime.id,
+            "page": 1,
+            "perPage": 20,
+          },
           headers: graphQlHeaders,
         );
     throwIfGraphQlError(animeDetailsData);
@@ -264,20 +285,16 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       'sortOptions': (
         true,
         TextUtils.upperCaseFirstCharacter(
-          AnilistSortOptions.values
-              .map((enumElement) => enumElement.name.replaceAll('_', ' '))
-              .toList(),
+          AnilistSortOptions.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList(),
         ),
       ),
     });
     filters.addAll({
       'sortOrders': (
-      true,
-      TextUtils.upperCaseFirstCharacter(
-        AnilistSortOrder.values
-            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
-            .toList(),
-      ),
+        true,
+        TextUtils.upperCaseFirstCharacter(
+          AnilistSortOrder.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList(),
+        ),
       ),
     });
     return filters;
@@ -293,6 +310,7 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
     String? selectedAiringStatus,
     String sort,
     int page,
+    User loggedUser,
   ) async {
     ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
         await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
@@ -379,6 +397,21 @@ enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
 
 enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
 
-enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
+enum AnilistSortOptions {
+  title_romaji,
+  title_english,
+  title_native,
+  format,
+  start_date,
+  end_date,
+  score,
+  popularity,
+  trending,
+  episodes,
+  duration,
+  status,
+  updated_at,
+  favourites,
+}
 
 enum AnilistSortOrder { asc, desc }

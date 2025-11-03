@@ -214,6 +214,7 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
           state.selectedAiringStatus,
           "${state.selectedSearchSortOption.toUpperCase().replaceAll(" ", "_")}_${state.selectedSearchOrder.toUpperCase()}",
           1,
+          state.loggedUser
         );
         emit(state.copyWith(searchResults: searchResults));
       case Service.mal:

@@ -196,7 +196,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
             ),
           );
           if (animeDetails.$2.recommendedAnimes.isEmpty) {
-            (bool, List<Anime>) trendingAnimes = await _animeRepositoryAnilist.getTrendingAnimes(1);
+            (bool, List<Anime>) trendingAnimes = await _animeRepositoryAnilist.getTrendingAnimes(1, loggedUser);
             emit(state.copyWith(recommendations: (trendingAnimes.$1, trendingAnimes.$2.shuffled(Random()))));
           }
           _getAlternativeImage(loggedUser, selectedAnime);
@@ -314,7 +314,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       switch (loggedUser.settings.service) {
         case Service.anilist:
           _logger.i("Fetching Anime Banners from AniList for ${state.selectedAnime.title}");
-          List<String> banners = await _animeRepositoryAnilist.getMediaCoverImages();
+          List<String> banners = await _animeRepositoryAnilist.getMediaCoverImages(loggedUser);
           emit(state.copyWith(banners: banners));
         case Service.mal:
           _logger.i("Fetching Anime Banners from MyAnimeList for ${state.selectedAnime.title}");

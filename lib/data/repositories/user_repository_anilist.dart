@@ -79,7 +79,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
   @override
   Future<void> updateUserInfo(User user) async{
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
-    await _anilistUsersBox.put(user.name, user);
+    await _anilistUsersBox.put(user.name, user as AnilistUserModel);
     _loggedUserNotifier.updateUser(user);
   }
 

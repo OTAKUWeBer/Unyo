@@ -101,7 +101,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.anilist:
           _logger.i("Fetching Anilist recently released anime");
           (bool, List<Anime>) recentlyReleased = await _animeRepositoryAnilist
-              .getRecentlyReleasedAnimes(page);
+              .getRecentlyReleasedAnimes(page, loggedUser);
           emit(state.copyWith(recentlyReleased: recentlyReleased));
         case Service.mal:
         case Service.kitsu:
@@ -128,7 +128,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.anilist:
           _logger.i("Fetching Anilist trending anime");
           (bool, List<Anime>) trending = await _animeRepositoryAnilist
-              .getTrendingAnimes(page);
+              .getTrendingAnimes(page, loggedUser);
           emit(state.copyWith(trending: trending));
           if (page == 1) {
             List<Anime> banners =
@@ -164,7 +164,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.anilist:
           _logger.i("Fetching Anilist popular anime");
           (bool, List<Anime>) popular = await _animeRepositoryAnilist
-              .getPopularAnimes(page);
+              .getPopularAnimes(page, loggedUser);
           emit(state.copyWith(popular: popular));
         case Service.mal:
         case Service.kitsu:
@@ -188,7 +188,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.anilist:
           _logger.i("Fetching Anilist recently completed anime");
           (bool, List<Anime>) recentlyCompleted = await _animeRepositoryAnilist
-              .getRecentlyCompletedAnimes(page);
+              .getRecentlyCompletedAnimes(page, loggedUser);
           emit(state.copyWith(recentlyCompleted: recentlyCompleted));
         case Service.mal:
         case Service.kitsu:
@@ -215,7 +215,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
         case Service.anilist:
           _logger.i("Fetching Anilist upcoming anime");
           (bool, List<Anime>) upcoming = await _animeRepositoryAnilist
-              .getUpcomingAnimes(page);
+              .getUpcomingAnimes(page, loggedUser);
           emit(state.copyWith(upcoming: upcoming));
         case Service.mal:
         case Service.kitsu:

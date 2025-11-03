@@ -32,7 +32,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   final Logger _logger = sl<Logger>();
 
   @override
-  Future<(bool, List<Manga>)> getPopularMangas(int page) async {
+  Future<(bool, List<Manga>)> getPopularMangas(int page, User loggedUser) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlEntity>
     popularMediaCollection = await _anilistGraphQLService.query(
       query: anilist_queries.mediaTrendingOrPopularQuery,
@@ -56,7 +56,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   }
 
   @override
-  Future<(bool, List<Manga>)> getRecentlyCompletedMangas(int page) async {
+  Future<(bool, List<Manga>)> getRecentlyCompletedMangas(int page, User loggedUser) async {
     DateTime now = DateTime.now();
     DateTime monthAgo = now.subtract(const Duration(days: 30));
     ApiGraphQLResponse<MediaCollectionRecentlyCompletedGraphqlEntity>
@@ -69,7 +69,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
         "perPage": 30,
         "endDateGreater": "${monthAgo.year.toString().padLeft(4, '0')}${monthAgo.month.toString().padLeft(2, '0')}${monthAgo.day.toString().padLeft(2, '0')}",
         "endDateLesser": "${now.year.toString().padLeft(4, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}",
-        "type" : "MANGA"
+        "type" : "MANGA",
       },
     );
     throwIfGraphQlError(recentlyCompleted);
@@ -81,7 +81,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   }
 
   @override
-  Future<(bool, List<Manga>)> getTrendingMangas(int page) async {
+  Future<(bool, List<Manga>)> getTrendingMangas(int page, User loggedUser) async {
     ApiGraphQLResponse<MediaCollectionTrendingOrPopularGraphqlEntity>
     trendingMediaCollection = await _anilistGraphQLService.query(
       query: anilist_queries.mediaTrendingOrPopularQuery,
@@ -105,7 +105,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   }
 
   @override
-  Future<(bool, List<Manga>)> getUpcomingMangas(int page) async {
+  Future<(bool, List<Manga>)> getUpcomingMangas(int page, User loggedUser) async {
     DateTime now = DateTime.now();
     ApiGraphQLResponse<MediaCollectionUpcomingGraphqlEntity>
     upcoming = await _anilistGraphQLService.query(
@@ -116,7 +116,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
         "page": page,
         "perPage": 30,
         "startDateGreater": "${now.year.toString().padLeft(4, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}",
-        "type" : "MANGA"
+        "type" : "MANGA",
       },
     );
     throwIfGraphQlError(upcoming);
@@ -206,6 +206,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       String? selectedAiringStatus,
       String sort,
       int page,
+      User loggedUser
       ) async {
     ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
     await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
@@ -235,11 +236,12 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   }
 
   @override
-  Future<List<String>> getMediaCoverImages() async {
-    (bool, List<Manga>) popularMangas = await getPopularMangas(1);
+  Future<List<String>> getMediaCoverImages(User loggedUser) async {
+    (bool, List<Manga>) popularMangas = await getPopularMangas(1, loggedUser);
     return popularMangas.$2.map((manga) => manga.coverImage).where((coverImage) => coverImage != "").shuffled(Random()).toList();
   }
 
+  @override
   Future<(bool, MangaDetails)> getMangaDetails(Manga selectedManga, User loggedUser) async {
     Map<String, String>? graphQlHeaders = loggedUser is AnilistUserModel ? {
       "Authorization": "Bearer ${(loggedUser).accessToken}",

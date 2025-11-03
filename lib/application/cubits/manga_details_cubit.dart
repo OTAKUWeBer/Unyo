@@ -189,7 +189,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
             ),
           );
           if (mangaDetails.$2.recommendedMangas.isEmpty) {
-            (bool, List<Manga>) trendingMangas = await _mangaRepositoryAnilist.getTrendingMangas(1);
+            (bool, List<Manga>) trendingMangas = await _mangaRepositoryAnilist.getTrendingMangas(1, loggedUser);
             emit(state.copyWith(recommendations: (trendingMangas.$1, trendingMangas.$2.shuffled(Random()))));
           }
         case Service.mal:
@@ -272,7 +272,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
       switch (loggedUser.settings.service) {
         case Service.anilist:
           _logger.i("Fetching Manga Banners from AniList for ${state.selectedManga.title}");
-          List<String> banners = await _mangaRepositoryAnilist.getMediaCoverImages();
+          List<String> banners = await _mangaRepositoryAnilist.getMediaCoverImages(loggedUser);
           emit(state.copyWith(banners: banners));
         case Service.mal:
           _logger.i("Fetching Manga Banners from MyMangaList for ${state.selectedManga.title}");
