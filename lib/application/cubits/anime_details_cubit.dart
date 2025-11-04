@@ -156,7 +156,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
           Map<String, Extension> mediaExtensionsConfigUpdated = Map.from(userSettings.mediaExtensionConfigs);
           mediaExtensionsConfigUpdated.addAll({state.selectedAnime.id.toString(): selectedExtension});
-          _userRepositoryAnilist.updateUserInfo(
+          await _userRepositoryAnilist.updateUserInfo(
             anilistUserModel.copyWith(
               settings: userSettings.copyWith(mediaExtensionConfigs: mediaExtensionsConfigUpdated),
             ),
