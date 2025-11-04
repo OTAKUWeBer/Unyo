@@ -139,10 +139,10 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       ),
     });
     filters.addAll({
-      'seasons': (
+      'countriesOfOrigin': (
       true,
       TextUtils.upperCaseFirstCharacter(
-        AnilistSeasonFilters.values.map((enumElement) => enumElement.name).toList(),
+        AnilistCountryOfOriginFilters.values.map((enumElement) => enumElement.name).toList(),
       ),
       ),
     });
@@ -155,10 +155,10 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       ),
     });
     filters.addAll({
-      'airingStatuses': (
+      'publishingStatuses': (
       true,
       TextUtils.upperCaseFirstCharacter(
-        AnilistAiringStatusFilters.values
+        AnilistPublishingStatusFilters.values
             .map((enumElement) => enumElement.name.replaceAll('_', ' '))
             .toList(),
       ),
@@ -200,10 +200,10 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   Future<List<Manga>> performMangaAdvancedSearch(
       String query,
       List<String> selectedGenres,
-      String? selectedSeason,
+      String? selectedCountryOfOrigin,
       String? selectedFormat,
       int? selectedYear,
-      String? selectedAiringStatus,
+      String? selectedPublishingStatus,
       String sort,
       int page,
       User loggedUser
@@ -219,10 +219,10 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
         "sort": sort.replaceAll("_ASC", ""),
         if (query.isNotEmpty) "search": query,
         if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-        if (selectedSeason != null && selectedSeason.isNotEmpty) "season": selectedSeason.toUpperCase(),
+        if (selectedCountryOfOrigin != null && selectedCountryOfOrigin.isNotEmpty) "countryOfOrigin": selectedCountryOfOrigin.toUpperCase(),
         if (selectedYear != null) "seasonYear": selectedYear,
-        if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
-          "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
+        if (selectedPublishingStatus != null && selectedPublishingStatus.isNotEmpty)
+          "status": selectedPublishingStatus.toUpperCase().replaceAll(' ', '_'),
         if (selectedFormat != null && selectedFormat.isNotEmpty)
           "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
       },
@@ -284,11 +284,11 @@ enum AnlistGenreFilters {
   thriller,
 }
 
-enum AnilistSeasonFilters { winter, spring, summer, fall }
+enum AnilistCountryOfOriginFilters { jp, cn, tw, kr }
 
-enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
+enum AnilistFormatFilters { manga, light_novel, one_shot }
 
-enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
+enum AnilistPublishingStatusFilters { releasing, finished, not_yet_released, hiatus, cancelled }
 
 enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
 

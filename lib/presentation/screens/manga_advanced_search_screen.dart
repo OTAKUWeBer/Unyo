@@ -144,14 +144,14 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         ),
                       )
                       : const SizedBox.shrink(),
-                  state.seasonFilters.$1
+                  state.countryOfOriginsFilters.$1
                       ? SizedBox(
                         width: 190.w,
                         child: UnyoDropdown(
-                          label: "Season",
+                          label: "Country of Origin",
                           icon: Icons.wb_sunny_rounded,
-                          children: state.seasonFilters.$2,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedSeason,
+                          children: state.countryOfOriginsFilters.$2,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountryOfOrigin,
                         ),
                       )
                       : const SizedBox.shrink(),
@@ -166,14 +166,14 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         ),
                       )
                       : const SizedBox.shrink(),
-                  state.airingStatusFilters.$1
+                  state.publishingStatusFilters.$1
                       ? SizedBox(
                         width: 190.w,
                         child: UnyoDropdown(
-                          label: "Airing Status",
+                          label: "Publishing Status",
                           icon: Icons.signal_cellular_alt_rounded,
-                          children: state.airingStatusFilters.$2,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedAiringStatus,
+                          children: state.publishingStatusFilters.$2,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedPublishingStatus,
                         ),
                       )
                       : const SizedBox.shrink(),

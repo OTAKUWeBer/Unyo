@@ -459,11 +459,11 @@ const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$pag
 // }
 const mediaAdvancedSearchQuery = '''
 query (
-  \$page: Int, \$perPage: Int, \$type: MediaType, \$season: MediaSeason, \$seasonYear: Int, \$format: MediaFormat, \$status: MediaStatus, \$genres: [String], \$sort: [MediaSort], \$search: String
+  \$page: Int, \$perPage: Int, \$type: MediaType, \$season: MediaSeason, \$seasonYear: Int, \$format: MediaFormat, \$status: MediaStatus, \$genres: [String], \$sort: [MediaSort], \$search: String, \$countryOfOrigin: CountryCode
 ) {
   Page(page: \$page, perPage: \$perPage) {
     media(
-      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search
+      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search, , countryOfOrigin: \$countryOfOrigin
     ) {
 id
           idMal

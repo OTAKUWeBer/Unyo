@@ -141,8 +141,8 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
     }
   }
 
-  Future<void> updateSelectedSeason(String? season) async {
-    emit(state.copyWith(selectedSeason: season));
+  Future<void> updateSelectedCountryOfOrigin(String? countryOfOrigin) async {
+    emit(state.copyWith(selectedCountryOfOrigin: countryOfOrigin));
     try {
       _performMangaAdvancedSearch();
     } catch (e, stackTrace) {
@@ -161,8 +161,8 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
     }
   }
 
-  Future<void> updateSelectedAiringStatus(String? airingStatus) async {
-    emit(state.copyWith(selectedAiringStatus: airingStatus));
+  Future<void> updateSelectedPublishingStatus(String? publishingStatus) async {
+    emit(state.copyWith(selectedPublishingStatus: publishingStatus));
     try {
       _performMangaAdvancedSearch();
     } catch (e, stackTrace) {
@@ -179,11 +179,11 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
           emit(
             state.copyWith(
               genresFilters: (filters['genres']?.$1 ?? false, filters['genres']?.$2 ?? []),
-              seasonFilters: (filters['seasons']?.$1 ?? false, filters['seasons']?.$2 ?? []),
+              countryOfOriginsFilters: (filters['countriesOfOrigin']?.$1 ?? false, filters['countriesOfOrigin']?.$2 ?? []),
               formatFilters: (filters['formats']?.$1 ?? false, filters['formats']?.$2 ?? []),
-              airingStatusFilters: (
-                filters['airingStatuses']?.$1 ?? false,
-                filters['airingStatuses']?.$2 ?? [],
+              publishingStatusFilters: (
+                filters['publishingStatuses']?.$1 ?? false,
+                filters['publishingStatuses']?.$2 ?? [],
               ),
               yearFilters: (filters['years']?.$1 ?? false, filters['years']?.$2 ?? []),
               searchSortOptions: (filters['sortOptions']?.$1 ?? false, filters['sortOptions']?.$2 ?? []),
@@ -208,10 +208,10 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
         List<Manga> searchResults = await _mangaRepositoryAnilist.performMangaAdvancedSearch(
           state.searchQuery,
           state.selectedGenres,
-          state.selectedSeason,
+          state.selectedCountryOfOrigin,
           state.selectedFormat,
           int.tryParse(state.selectedYear ?? ''),
-          state.selectedAiringStatus,
+          state.selectedPublishingStatus,
           "${state.selectedSearchSortOption.toUpperCase().replaceAll(" ", "_")}_${state.selectedSearchOrder.toUpperCase()}",
           1,
           state.loggedUser
