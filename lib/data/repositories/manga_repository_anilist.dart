@@ -138,7 +138,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
               .map((enumElement) {
                 // Special handling for sci_fi to display as "Sci-fi"
                 if (enumElement.name == 'sci_fi') {
-                  return 'Sci-fi';
+                  return 'Sci-Fi';
                 }
                 return enumElement.name.replaceAll('_', ' ');
               })
@@ -287,7 +287,7 @@ enum AnlistGenreFilters {
   psychological,
   romance,
   sci_fi,
-  slice_Of_Life,
+  slice_of_Life,
   sports,
   supernatural,
   thriller,
