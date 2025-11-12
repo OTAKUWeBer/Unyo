@@ -242,7 +242,15 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
       'genres': (
         true,
         TextUtils.upperCaseFirstCharacter(
-          AnlistGenreFilters.values.map((enumElement) => enumElement.name).toList(),
+          AnlistGenreFilters.values
+              .map((enumElement) {
+                // Special handling for sci_fi to display as "Sci-fi"
+                if (enumElement.name == 'sci_fi') {
+                  return 'Sci-fi';
+                }
+                return enumElement.name.replaceAll('_', ' ');
+              })
+              .toList(),
         ),
       ),
     });
@@ -378,14 +386,14 @@ enum AnlistGenreFilters {
   ecchi,
   fantasy,
   horror,
-  // mahou_shoujo,
+  mahou_shoujo,
   mecha,
   music,
   mystery,
   psychological,
   romance,
-  sciFi,
-  sliceOfLife,
+  sci_fi,
+  slice_Of_Life,
   sports,
   supernatural,
   thriller,
@@ -395,7 +403,7 @@ enum AnilistSeasonFilters { winter, spring, summer, fall }
 
 enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
 
-enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
+enum AnilistAiringStatusFilters { releasing, finished, not_yet_released, cancelled }
 
 enum AnilistSortOptions {
   title_romaji,

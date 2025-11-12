@@ -132,51 +132,59 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           onChanged: context.read<AnimeAdvancedSearchCubit>().updateGenres,
                         ),
                       )
-                      : const SizedBox.shrink(),
-                  state.yearFilters.$1
-                      ? SizedBox(
+                    : const SizedBox.shrink(),
+                state.yearFilters.$1
+                    ? SizedBox(
                         width: 190.w,
-                        child: UnyoDropdown(
+                        child: UnyoMultiSelectDropdown(
                           label: "Year",
+                          debounceMilliseconds: 1000,
                           icon: Icons.calendar_today_rounded,
                           children: state.yearFilters.$2,
-                          onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedYear,
+                          selectedValues: state.selectedYear != null ? [state.selectedYear!] : [], // Convert to list
+                          onChanged: (values) => context.read<AnimeAdvancedSearchCubit>().updateSelectedYear(values.isNotEmpty ? values.first : null),
                         ),
                       )
-                      : const SizedBox.shrink(),
-                  state.seasonFilters.$1
-                      ? SizedBox(
+                    : const SizedBox.shrink(),
+                state.seasonFilters.$1
+                    ? SizedBox(
                         width: 190.w,
-                        child: UnyoDropdown(
+                        child: UnyoMultiSelectDropdown(
                           label: "Season",
+                          debounceMilliseconds: 1000,
                           icon: Icons.wb_sunny_rounded,
                           children: state.seasonFilters.$2,
-                          onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedSeason,
+                          selectedValues: state.selectedSeason != null ? [state.selectedSeason!] : [], // Convert to list
+                          onChanged: (values) => context.read<AnimeAdvancedSearchCubit>().updateSelectedSeason(values.isNotEmpty ? values.first : null),
                         ),
                       )
-                      : const SizedBox.shrink(),
-                  state.formatFilters.$1
-                      ? SizedBox(
+                    : const SizedBox.shrink(),
+                state.formatFilters.$1
+                    ? SizedBox(
                         width: 190.w,
-                        child: UnyoDropdown(
+                        child: UnyoMultiSelectDropdown(
                           label: "Format",
+                          debounceMilliseconds: 1000,
                           icon: Icons.video_library_rounded,
                           children: state.formatFilters.$2,
-                          onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedFormat,
+                          selectedValues: state.selectedFormat != null ? [state.selectedFormat!] : [], // Convert to list
+                          onChanged: (values) => context.read<AnimeAdvancedSearchCubit>().updateSelectedFormat(values.isNotEmpty ? values.first : null),
                         ),
                       )
-                      : const SizedBox.shrink(),
-                  state.airingStatusFilters.$1
-                      ? SizedBox(
+                    : const SizedBox.shrink(),
+                state.airingStatusFilters.$1
+                    ? SizedBox(
                         width: 190.w,
-                        child: UnyoDropdown(
+                        child: UnyoMultiSelectDropdown(
                           label: "Airing Status",
+                          debounceMilliseconds: 1000,
                           icon: Icons.signal_cellular_alt_rounded,
                           children: state.airingStatusFilters.$2,
-                          onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedAiringStatus,
+                          selectedValues: state.selectedAiringStatus != null ? [state.selectedAiringStatus!] : [], // Convert to list
+                          onChanged: (values) => context.read<AnimeAdvancedSearchCubit>().updateSelectedAiringStatus(values.isNotEmpty ? values.first : null),
                         ),
                       )
-                      : const SizedBox.shrink(),
+                    : const SizedBox.shrink(),
                 ],
               ),
             ),

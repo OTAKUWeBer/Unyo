@@ -132,10 +132,18 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     Map<String, (bool, List<String>)> filters = {};
     filters.addAll({
       'genres': (
-      true,
-      TextUtils.upperCaseFirstCharacter(
-        AnlistGenreFilters.values.map((enumElement) => enumElement.name).toList(),
-      ),
+        true,
+        TextUtils.upperCaseFirstCharacter(
+          AnlistGenreFilters.values
+              .map((enumElement) {
+                // Special handling for sci_fi to display as "Sci-fi"
+                if (enumElement.name == 'sci_fi') {
+                  return 'Sci-fi';
+                }
+                return enumElement.name.replaceAll('_', ' ');
+              })
+              .toList(),
+        ),
       ),
     });
     filters.addAll({
@@ -272,23 +280,31 @@ enum AnlistGenreFilters {
   ecchi,
   fantasy,
   horror,
+  mahou_shoujo,
   mecha,
   music,
   mystery,
   psychological,
   romance,
-  sciFi,
-  sliceOfLife,
+  sci_fi,
+  slice_Of_Life,
   sports,
   supernatural,
   thriller,
 }
 
+enum AnilistOriginFilter {
+  japan,
+  south_korea,
+  china,
+  taiwan,
+}
+
 enum AnilistSeasonFilters { winter, spring, summer, fall }
 
-enum AnilistFormatFilters { tv, movie, tv_short, special, ova, ona, music }
+enum AnilistFormatFilters { manga, novel, one_shot }
 
-enum AnilistAiringStatusFilters { airing, finished, not_yet_aired, cancelled }
+enum AnilistAiringStatusFilters { releasing, finished, not_yet_released, hiatus, cancelled }
 
 enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
 
