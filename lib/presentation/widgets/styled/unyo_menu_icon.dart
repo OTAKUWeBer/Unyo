@@ -1,52 +1,76 @@
 import 'package:flutter/material.dart';
 
-class UnyoMenuIcon extends StatelessWidget {
+class UnyoMenuIcon extends StatefulWidget {
   final bool isSelected;
   final IconData selectedIcon;
   final IconData unselectedIcon;
   final void Function() onPressed;
+
   const UnyoMenuIcon({
     super.key,
     required this.isSelected,
     required this.unselectedIcon,
     required this.selectedIcon,
-    required this.onPressed
+    required this.onPressed,
   });
+
+  @override
+  State<UnyoMenuIcon> createState() => _UnyoMenuIconState();
+}
+
+class _UnyoMenuIconState extends State<UnyoMenuIcon> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(15.0),
-        child: Container(
-          width: 50.0,
-          height: 50.0,
-          // duration: Duration(milliseconds: 2000),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.white.withOpacity(.10) : Colors.transparent,
-            borderRadius: BorderRadius.circular(15.0),
-
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              AnimatedContainer(
-                height: isSelected ? 33.0 : 0,
-                duration: const Duration(milliseconds: 200),
-                width: 3.5,
-                decoration: BoxDecoration(
-                  color: ColorScheme.of(context).tertiary,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => isHovered = true),
+        onExit: (_) => setState(() => isHovered = false),
+        cursor: SystemMouseCursors.click,
+        child: InkWell(
+          onTap: widget.onPressed,
+          borderRadius: BorderRadius.circular(15.0),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: 50.0,
+            height: 50.0,
+            decoration: BoxDecoration(
+              color: widget.isSelected
+                  ? Colors.white.withOpacity(.10)
+                  : isHovered
+                      ? Colors.white.withOpacity(.05)
+                      : Colors.transparent,
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                AnimatedContainer(
+                  height: widget.isSelected ? 33.0 : 0,
+                  duration: const Duration(milliseconds: 200),
+                  width: 3.5,
+                  decoration: BoxDecoration(
+                    color: ColorScheme.of(context).tertiary,
+                  ),
                 ),
-              ),
-              SizedBox(width: isSelected ? 10.0 : 9.5),
-              Icon(
-                isSelected ? selectedIcon : unselectedIcon,
-                size: 27,
-                color: isSelected ? ColorScheme.of(context).tertiary : Colors.white,
-              ),
-            ],
+                SizedBox(width: widget.isSelected ? 10.0 : 9.5),
+                AnimatedScale(
+                  scale: isHovered && !widget.isSelected ? 1.1 : 1.0,
+                  duration: const Duration(milliseconds: 200),
+                  child: Icon(
+                    widget.isSelected ? widget.selectedIcon : widget.unselectedIcon,
+                    size: 27,
+                    color: widget.isSelected
+                        ? ColorScheme.of(context).tertiary
+                        : isHovered
+                            ? Colors.white.withOpacity(0.9)
+                            : Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
