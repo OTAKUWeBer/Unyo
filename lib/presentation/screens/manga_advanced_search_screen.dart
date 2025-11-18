@@ -132,59 +132,55 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           onChanged: context.read<MangaAdvancedSearchCubit>().updateGenres,
                         ),
                       )
-                    : const SizedBox.shrink(),
-                state.yearFilters.$1
-                    ? SizedBox(
+                      : const SizedBox.shrink(),
+                  state.yearFilters.$1
+                      ? SizedBox(
                         width: 190.w,
-                        child: UnyoMultiSelectDropdown(
+                        child: UnyoDropdown(
                           label: "Year",
-                          debounceMilliseconds: 1000,
                           icon: Icons.calendar_today_rounded,
                           children: state.yearFilters.$2,
-                          selectedValues: state.selectedYear != null ? [state.selectedYear!] : [], // Convert to list
-                          onChanged: (values) => context.read<MangaAdvancedSearchCubit>().updateSelectedYear(values.isNotEmpty ? values.first : null),
+                          selectedValue: state.selectedYear,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedYear,
                         ),
                       )
-                    : const SizedBox.shrink(),
-                state.seasonFilters.$1
-                    ? SizedBox(
+                      : const SizedBox.shrink(),
+                  state.seasonFilters.$1
+                      ? SizedBox(
                         width: 190.w,
-                        child: UnyoMultiSelectDropdown(
+                        child: UnyoDropdown(
                           label: "Season",
-                          debounceMilliseconds: 1000,
                           icon: Icons.wb_sunny_rounded,
                           children: state.seasonFilters.$2,
-                          selectedValues: state.selectedSeason != null ? [state.selectedSeason!] : [],
-                          onChanged: (values) => context.read<MangaAdvancedSearchCubit>().updateSelectedSeason(values.isNotEmpty ? values.first : null),
+                          selectedValue: state.selectedSeason,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedSeason,
                         ),
                       )
-                    : const SizedBox.shrink(),
-                state.formatFilters.$1
-                    ? SizedBox(
+                      : const SizedBox.shrink(),
+                  state.formatFilters.$1
+                      ? SizedBox(
                         width: 190.w,
-                        child: UnyoMultiSelectDropdown(
+                        child: UnyoDropdown(
                           label: "Format",
-                          debounceMilliseconds: 1000,
                           icon: Icons.video_library_rounded,
                           children: state.formatFilters.$2,
-                          selectedValues: state.selectedFormat != null ? [state.selectedFormat!] : [], // Convert to list
-                          onChanged: (values) => context.read<MangaAdvancedSearchCubit>().updateSelectedFormat(values.isNotEmpty ? values.first : null),
+                          selectedValue: state.selectedFormat,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedFormat,
                         ),
                       )
-                    : const SizedBox.shrink(),
-                state.airingStatusFilters.$1
-                    ? SizedBox(
+                      : const SizedBox.shrink(),
+                  state.airingStatusFilters.$1
+                      ? SizedBox(
                         width: 190.w,
-                        child: UnyoMultiSelectDropdown(
+                        child: UnyoDropdown(
                           label: "Airing Status",
-                          debounceMilliseconds: 1000,
                           icon: Icons.signal_cellular_alt_rounded,
                           children: state.airingStatusFilters.$2,
-                          selectedValues: state.selectedAiringStatus != null ? [state.selectedAiringStatus!] : [], // Convert to list
-                          onChanged: (values) => context.read<MangaAdvancedSearchCubit>().updateSelectedAiringStatus(values.isNotEmpty ? values.first : null),
+                          selectedValue: state.selectedAiringStatus,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedAiringStatus,
                         ),
                       )
-                    : const SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
