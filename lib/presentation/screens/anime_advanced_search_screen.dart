@@ -140,7 +140,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           label: "Year",
                           icon: Icons.calendar_today_rounded,
                           children: state.yearFilters.$2,
-                          selectedValue: state.selectedYear, // Added selected value
+                          selectedValue: state.selectedYear,
                           onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedYear,
                         ),
                       )
@@ -152,7 +152,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           label: "Season",
                           icon: Icons.wb_sunny_rounded,
                           children: state.seasonFilters.$2,
-                          selectedValue: state.selectedSeason, // Added selected value
+                          selectedValue: state.selectedSeason,
                           onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedSeason,
                         ),
                       )
@@ -164,7 +164,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           label: "Format",
                           icon: Icons.video_library_rounded,
                           children: state.formatFilters.$2,
-                          selectedValue: state.selectedFormat, // Added selected value
+                          selectedValue: state.selectedFormat,
                           onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedFormat,
                         ),
                       )
@@ -176,7 +176,7 @@ class _AnimeAdvancedSearchViewState extends State<_AnimeAdvancedSearchView> {
                           label: "Airing Status",
                           icon: Icons.signal_cellular_alt_rounded,
                           children: state.airingStatusFilters.$2,
-                          selectedValue: state.selectedAiringStatus, // Added selected value
+                          selectedValue: state.selectedAiringStatus,
                           onPressed: context.read<AnimeAdvancedSearchCubit>().updateSelectedAiringStatus,
                         ),
                       )
