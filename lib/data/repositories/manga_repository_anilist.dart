@@ -173,15 +173,6 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       ),
     });
     filters.addAll({
-      'years': (
-      true,
-      List<String>.generate(
-        DateTime.now().year - 1939,
-            (index) => (1940 + index).toString(),
-      ).reversed.toList(),
-      ),
-    });
-    filters.addAll({
       'sortOptions': (
       true,
       TextUtils.upperCaseFirstCharacter(
@@ -208,9 +199,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
   Future<List<Manga>> performMangaAdvancedSearch(
       String query,
       List<String> selectedGenres,
-      String? selectedSeason,
       String? selectedFormat,
-      int? selectedYear,
       String? selectedAiringStatus,
       String sort,
       int page,
@@ -227,8 +216,6 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
         "sort": sort.replaceAll("_ASC", ""),
         if (query.isNotEmpty) "search": query,
         if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-        if (selectedSeason != null && selectedSeason.isNotEmpty) "season": selectedSeason.toUpperCase(),
-        if (selectedYear != null) "seasonYear": selectedYear,
         if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
           "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
         if (selectedFormat != null && selectedFormat.isNotEmpty)

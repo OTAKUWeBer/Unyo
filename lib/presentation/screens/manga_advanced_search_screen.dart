@@ -133,30 +133,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         ),
                       )
                       : const SizedBox.shrink(),
-                  state.yearFilters.$1
-                      ? SizedBox(
-                        width: 190.w,
-                        child: UnyoDropdown(
-                          label: "Year",
-                          icon: Icons.calendar_today_rounded,
-                          children: state.yearFilters.$2,
-                          selectedValue: state.selectedYear,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedYear,
-                        ),
-                      )
-                      : const SizedBox.shrink(),
-                  state.seasonFilters.$1
-                      ? SizedBox(
-                        width: 190.w,
-                        child: UnyoDropdown(
-                          label: "Season",
-                          icon: Icons.wb_sunny_rounded,
-                          children: state.seasonFilters.$2,
-                          selectedValue: state.selectedSeason,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedSeason,
-                        ),
-                      )
-                      : const SizedBox.shrink(),
+                  // Todo: Add country filter here in future
                   state.formatFilters.$1
                       ? SizedBox(
                         width: 190.w,

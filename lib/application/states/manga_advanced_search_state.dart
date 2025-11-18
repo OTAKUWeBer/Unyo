@@ -12,7 +12,6 @@ abstract class MangaAdvancedSearchState with _$MangaAdvancedSearchState implemen
     required User loggedUser,
     @Default((false, <String>[])) (bool, List<String>) genresFilters,
     @Default((false, <String>[])) (bool, List<String>) yearFilters,
-    @Default((false, <String>[])) (bool, List<String>) seasonFilters,
     @Default((false, <String>[])) (bool, List<String>) formatFilters,
     @Default((false, <String>[])) (bool, List<String>) airingStatusFilters,
     @Default((false, <String>[])) (bool, List<String>) searchSortOptions,

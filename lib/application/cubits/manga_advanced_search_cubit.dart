@@ -208,9 +208,7 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
         List<Manga> searchResults = await _mangaRepositoryAnilist.performMangaAdvancedSearch(
           state.searchQuery,
           state.selectedGenres,
-          state.selectedSeason,
           state.selectedFormat,
-          int.tryParse(state.selectedYear ?? ''),
           state.selectedAiringStatus,
           "${state.selectedSearchSortOption.toUpperCase().replaceAll(" ", "_")}_${state.selectedSearchOrder.toUpperCase()}",
           1,
