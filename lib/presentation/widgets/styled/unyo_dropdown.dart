@@ -97,15 +97,6 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
             ),
             dropdownMenuEntries:
                 [
-                  if (widget.selectedValue != null)
-                    DropdownMenuEntry<String?>(
-                      value: null,
-                      label: 'Clear',
-                      style: const ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.transparent),
-                        alignment: Alignment.center,
-                      ),
-                    ),
                   ...widget.children
                       .map(
                         (element) => DropdownMenuEntry<String?>(
