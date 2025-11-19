@@ -150,7 +150,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         width: 190.w,
                         child: UnyoDropdown(
                           label: "Country",
-                          icon: Icons.location_city,
+                          icon: Icons.public,
                           children: state.countryFilters.$2,
                           selectedValue: state.selectedCountry,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountry,

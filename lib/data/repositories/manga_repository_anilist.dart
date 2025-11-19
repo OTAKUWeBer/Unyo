@@ -230,6 +230,21 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       sortValue = sortValue.replaceAll('_ASC', '').replaceAll('_DESC', '');
     }
     
+    String _mapCountryToCode(String country) {
+      switch (country.toLowerCase().replaceAll(' ', '_')) {
+        case 'japan':
+          return 'JP';
+        case 'south_korea':
+          return 'KR';
+        case 'china':
+          return 'CN';
+        case 'taiwan':
+          return 'TW';
+        default:
+          return country.toUpperCase().replaceAll(' ', '_');
+      }
+    }
+    
     Map<String, dynamic> variables = {
       "type": "MANGA",
       "page": page,
@@ -254,7 +269,7 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     }
     
     if (selectedCountry != null && selectedCountry.isNotEmpty) {
-      variables["countryOfOrigin"] = selectedCountry.toUpperCase().replaceAll(' ', '_');
+      variables["countryOfOrigin"] = _mapCountryToCode(selectedCountry);
     }
     
     _logger.d('GraphQL variables: $variables');
@@ -324,10 +339,10 @@ enum AnlistGenreFilters {
 }
 
 enum AnilistCountryFilters {
-  jp,
-  kr,
-  cn,
-  tw,
+  japan,
+  south_korea,
+  china,
+  taiwan,
 }
 
 enum AnilistSeasonFilters { winter, spring, summer, fall }
