@@ -133,7 +133,6 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         ),
                       )
                       : const SizedBox.shrink(),
-                  // Todo: Add country filter here in future
                   state.formatFilters.$1
                       ? SizedBox(
                         width: 190.w,
@@ -143,6 +142,18 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           children: state.formatFilters.$2,
                           selectedValue: state.selectedFormat,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedFormat,
+                        ),
+                      )
+                      : const SizedBox.shrink(),
+                  state.countryFilters.$1
+                      ? SizedBox(
+                        width: 190.w,
+                        child: UnyoDropdown(
+                          label: "Country",
+                          icon: Icons.location_city,
+                          children: state.countryFilters.$2,
+                          selectedValue: state.selectedCountry,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountry,
                         ),
                       )
                       : const SizedBox.shrink(),

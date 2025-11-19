@@ -130,27 +130,6 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
       handleError("Error updating search sortOrder", stackTrace: stackTrace);
     }
   }
-
-  Future<void> updateSelectedYear(String? year) async {
-    emit(state.copyWith(selectedYear: year));
-    try {
-      _performMangaAdvancedSearch();
-    } catch (e, stackTrace) {
-      _logger.e("Error updating year $e", stackTrace: stackTrace);
-      handleError("Error updating year", stackTrace: stackTrace);
-    }
-  }
-
-  Future<void> updateSelectedSeason(String? season) async {
-    emit(state.copyWith(selectedSeason: season));
-    try {
-      _performMangaAdvancedSearch();
-    } catch (e, stackTrace) {
-      _logger.e("Error updating season $e", stackTrace: stackTrace);
-      handleError("Error updating season", stackTrace: stackTrace);
-    }
-  }
-
   Future<void> updateSelectedFormat(String? format) async {
     emit(state.copyWith(selectedFormat: format));
     try {
@@ -158,6 +137,16 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
     } catch (e, stackTrace) {
       _logger.e("Error updating format $e", stackTrace: stackTrace);
       handleError("Error updating format", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateSelectedCountry(String? country) async {
+    emit(state.copyWith(selectedCountry: country));
+    try {
+      _performMangaAdvancedSearch();
+    } catch (e, stackTrace) {
+      _logger.e("Error updating country $e", stackTrace: stackTrace);
+      handleError("Error updating country", stackTrace: stackTrace);
     }
   }
 
@@ -179,13 +168,12 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
           emit(
             state.copyWith(
               genresFilters: (filters['genres']?.$1 ?? false, filters['genres']?.$2 ?? []),
-              seasonFilters: (filters['seasons']?.$1 ?? false, filters['seasons']?.$2 ?? []),
               formatFilters: (filters['formats']?.$1 ?? false, filters['formats']?.$2 ?? []),
+              countryFilters: (filters['countries']?.$1 ?? false, filters['countries']?.$2 ?? []),
               airingStatusFilters: (
                 filters['airingStatuses']?.$1 ?? false,
                 filters['airingStatuses']?.$2 ?? [],
               ),
-              yearFilters: (filters['years']?.$1 ?? false, filters['years']?.$2 ?? []),
               searchSortOptions: (filters['sortOptions']?.$1 ?? false, filters['sortOptions']?.$2 ?? []),
               searchSortOrder: (filters['sortOrders']?.$1 ?? false, filters['sortOrders']?.$2 ?? []),
             ),
@@ -209,6 +197,7 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
           state.searchQuery,
           state.selectedGenres,
           state.selectedFormat,
+          state.selectedCountry,
           state.selectedAiringStatus,
           "${state.selectedSearchSortOption.toUpperCase().replaceAll(" ", "_")}_${state.selectedSearchOrder.toUpperCase()}",
           1,

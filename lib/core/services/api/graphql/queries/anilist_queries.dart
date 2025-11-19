@@ -252,11 +252,11 @@ query Page(\$page: Int, \$perPage: Int, \$sort: [MediaSort], \$type: MediaType, 
 }
 ''';
 // {
-// "page" : 1,
-// "perPage" : 50,
-// "type": "ANIME" or "MANGA",
-// "sort": "POPULARITY_DESC" or "TRENDING_DESC",
-// "startDateGreater": 20250724
+//   "page" : 1,
+//   "perPage" : 50,
+//   "type": "ANIME" or "MANGA",
+//   "sort": "POPULARITY_DESC" or "TRENDING_DESC",
+//   "startDateGreater": 20250724
 // }
 const mediaUpcomingQuery = '''
 query Page(\$page: Int, \$perPage: Int, \$sort: [MediaSort], \$type: MediaType, \$startDateGreater: FuzzyDateInt) {
@@ -459,11 +459,11 @@ const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$pag
 // }
 const mediaAdvancedSearchQuery = '''
 query (
-  \$page: Int, \$perPage: Int, \$type: MediaType, \$season: MediaSeason, \$seasonYear: Int, \$format: MediaFormat, \$status: MediaStatus, \$genres: [String], \$sort: [MediaSort], \$search: String
+  \$page: Int, \$perPage: Int, \$type: MediaType, \$season: MediaSeason, \$seasonYear: Int, \$format: MediaFormat, \$status: MediaStatus, \$genres: [String], \$sort: [MediaSort], \$search: String, \$countryOfOrigin: CountryCode
 ) {
   Page(page: \$page, perPage: \$perPage) {
     media(
-      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search
+      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search, countryOfOrigin: \$countryOfOrigin
     ) {
 id
           idMal

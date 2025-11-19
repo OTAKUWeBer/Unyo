@@ -13,6 +13,7 @@ abstract class MangaRepository {
     String query,
     List<String> selectedGenres,
     String? selectedFormat,
+    String? selectedCountry,
     String? selectedAiringStatus,
     String sort,
     int page,

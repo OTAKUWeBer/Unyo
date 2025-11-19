@@ -163,6 +163,14 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       ),
     });
     filters.addAll({
+      'countries': (
+      true,
+      TextUtils.upperCaseFirstCharacter(
+        AnilistCountryFilters.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList(),
+      ),
+      ),
+    });
+    filters.addAll({
       'airingStatuses': (
       true,
       TextUtils.upperCaseFirstCharacter(
@@ -200,27 +208,62 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       String query,
       List<String> selectedGenres,
       String? selectedFormat,
+      String? selectedCountry,
       String? selectedAiringStatus,
       String sort,
       int page,
       User loggedUser
       ) async {
+    // DEBUG LOGGING
+    _logger.d('=== performMangaAdvancedSearch DEBUG ===');
+    _logger.d('query: $query');
+    _logger.d('selectedGenres: $selectedGenres');
+    _logger.d('selectedFormat: $selectedFormat');
+    _logger.d('selectedCountry: $selectedCountry');
+    _logger.d('selectedAiringStatus: $selectedAiringStatus');
+    _logger.d('sort: $sort');
+    _logger.d('page: $page');
+    
+    // Convert sort option properly - remove direction suffix if present
+    String sortValue = sort.toUpperCase().replaceAll(' ', '_');
+    if (sortValue.endsWith('_ASC') || sortValue.endsWith('_DESC')) {
+      sortValue = sortValue.replaceAll('_ASC', '').replaceAll('_DESC', '');
+    }
+    
+    Map<String, dynamic> variables = {
+      "type": "MANGA",
+      "page": page,
+      "perPage": 50,
+      "sort": sortValue,
+    };
+    
+    if (query.isNotEmpty) {
+      variables["search"] = query;
+    }
+    
+    if (selectedGenres.isNotEmpty) {
+      variables["genres"] = selectedGenres.map((g) => g.toUpperCase().replaceAll(' ', '_')).toList();
+    }
+    
+    if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty) {
+      variables["status"] = selectedAiringStatus.toUpperCase().replaceAll(' ', '_');
+    }
+    
+    if (selectedFormat != null && selectedFormat.isNotEmpty) {
+      variables["format"] = selectedFormat.toUpperCase().replaceAll(' ', '_');
+    }
+    
+    if (selectedCountry != null && selectedCountry.isNotEmpty) {
+      variables["countryOfOrigin"] = selectedCountry.toUpperCase().replaceAll(' ', '_');
+    }
+    
+    _logger.d('GraphQL variables: $variables');
+    
     ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
     await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
       query: anilist_queries.mediaAdvancedSearchQuery,
       fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
-      variables: {
-        "type": "MANGA",
-        "page": 1,
-        "perPage": 50,
-        "sort": sort.replaceAll("_ASC", ""),
-        if (query.isNotEmpty) "search": query,
-        if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-        if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
-          "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
-        if (selectedFormat != null && selectedFormat.isNotEmpty)
-          "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
-      },
+      variables: variables,
     );
     throwIfGraphQlError(animeAdvancedSearchData);
     List<Manga> searchResults =
@@ -280,11 +323,11 @@ enum AnlistGenreFilters {
   thriller,
 }
 
-enum AnilistOriginFilter {
-  japan,
-  south_korea,
-  china,
-  taiwan,
+enum AnilistCountryFilters {
+  jp,
+  kr,
+  cn,
+  tw,
 }
 
 enum AnilistSeasonFilters { winter, spring, summer, fall }
