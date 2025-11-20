@@ -205,32 +205,17 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
 
   @override
   Future<List<Manga>> performMangaAdvancedSearch(
-      String query,
-      List<String> selectedGenres,
-      String? selectedFormat,
-      String? selectedCountry,
-      String? selectedAiringStatus,
-      String sort,
-      int page,
-      User loggedUser
-      ) async {
-    // DEBUG LOGGING
-    _logger.d('=== performMangaAdvancedSearch DEBUG ===');
-    _logger.d('query: $query');
-    _logger.d('selectedGenres: $selectedGenres');
-    _logger.d('selectedFormat: $selectedFormat');
-    _logger.d('selectedCountry: $selectedCountry');
-    _logger.d('selectedAiringStatus: $selectedAiringStatus');
-    _logger.d('sort: $sort');
-    _logger.d('page: $page');
-    
-    // Convert sort option properly - remove direction suffix if present
-    String sortValue = sort.toUpperCase().replaceAll(' ', '_');
-    if (sortValue.endsWith('_ASC') || sortValue.endsWith('_DESC')) {
-      sortValue = sortValue.replaceAll('_ASC', '').replaceAll('_DESC', '');
-    }
-    
-    String _mapCountryToCode(String country) {
+    String query,
+    List<String> selectedGenres,
+    String? selectedFormat,
+    String? selectedCountry,
+    String? selectedAiringStatus,
+    String sort,
+    int page,
+    User loggedUser,
+  ) async {
+    // Helper function to map country names to codes
+    String mapCountryToCode(String country) {
       switch (country.toLowerCase().replaceAll(' ', '_')) {
         case 'japan':
           return 'JP';
@@ -244,47 +229,35 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
           return country.toUpperCase().replaceAll(' ', '_');
       }
     }
-    
-    Map<String, dynamic> variables = {
-      "type": "MANGA",
-      "page": page,
-      "perPage": 50,
-      "sort": sortValue,
-    };
-    
-    if (query.isNotEmpty) {
-      variables["search"] = query;
-    }
-    
-    if (selectedGenres.isNotEmpty) {
-      variables["genres"] = selectedGenres.map((g) => g.toUpperCase().replaceAll(' ', '_')).toList();
-    }
-    
-    if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty) {
-      variables["status"] = selectedAiringStatus.toUpperCase().replaceAll(' ', '_');
-    }
-    
-    if (selectedFormat != null && selectedFormat.isNotEmpty) {
-      variables["format"] = selectedFormat.toUpperCase().replaceAll(' ', '_');
-    }
-    
-    if (selectedCountry != null && selectedCountry.isNotEmpty) {
-      variables["countryOfOrigin"] = _mapCountryToCode(selectedCountry);
-    }
-    
-    _logger.d('GraphQL variables: $variables');
-    
-    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
-    await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
+
+    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> mangaAdvancedSearchData =
+        await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
       query: anilist_queries.mediaAdvancedSearchQuery,
       fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
-      variables: variables,
+      variables: {
+        "type": "MANGA",
+        "page": page,
+        "perPage": 50,
+        "sort": sort.replaceAll("_ASC", ""),
+        if (query.isNotEmpty) "search": query,
+        if (selectedGenres.isNotEmpty) 
+          "genres": selectedGenres.map((g) => g.toUpperCase().replaceAll(' ', '_')).toList(),
+        if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
+          "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
+        if (selectedFormat != null && selectedFormat.isNotEmpty)
+          "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
+        if (selectedCountry != null && selectedCountry.isNotEmpty)
+          "countryOfOrigin": mapCountryToCode(selectedCountry),
+      },
     );
-    throwIfGraphQlError(animeAdvancedSearchData);
+    
+    throwIfGraphQlError(mangaAdvancedSearchData);
+    
     List<Manga> searchResults =
-    animeAdvancedSearchData.data.page.media
-        .map((mediaEntry) => AnilistMangaModel.fromAdvancedSearchMediaEntry(mediaEntry))
-        .toList();
+        mangaAdvancedSearchData.data.page.media
+            .map((mediaEntry) => AnilistMangaModel.fromAdvancedSearchMediaEntry(mediaEntry))
+            .toList();
+    
     return searchResults;
   }
 
