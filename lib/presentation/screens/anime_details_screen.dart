@@ -171,11 +171,11 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                     children: [
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               UnyoBannerIcon(
                                                 text: "${state.selectedAnime.duration}min",
@@ -194,6 +194,25 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                               ),
                                             ],
                                           ),
+                                          // InkWell(
+                                          //   child: Container(
+                                          //     width: 120.w,
+                                          //     height: 40,
+                                          //     decoration: BoxDecoration(
+                                          //       color: Colors.grey.withOpacity(0.3),
+                                          //       borderRadius: BorderRadius.circular(8.0),
+                                          //     ),
+                                          //     child: Center(
+                                          //       child: Text(
+                                          //         state.selectedAnime.,
+                                          //         style: TextStyle(
+                                          //           fontSize: 12,
+                                          //           fontWeight: FontWeight.bold,
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                       SizedBox(height: 13.h),
@@ -236,7 +255,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                           .read<AnimeDetailsCubit>()
                                                           .navigateToAnimeAdvancedSearchScreenWithFilters(
                                                             context,
-                                                            genre
+                                                            genre,
                                                           ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,
