@@ -116,7 +116,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
           );
       }
       // Init User Extensions
-      _loadUserExtensions();
+      // _loadUserExtensions();
       setUsersTheme(user);
       replaceRouteEffect(path: "/tabs");
       close();
@@ -166,9 +166,9 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     }
   }
 
-  Future<void> _loadUserExtensions() async {
-    sl<ExtensionRepositoryAniyomi>();
-  }
+  // Future<void> _loadUserExtensions() async {
+  //   sl<ExtensionRepositoryAniyomi>();
+  // }
 
   void _updateAvailableUsers(List<User> users) {
     emit(state.copyWith(availableUsers: users));
