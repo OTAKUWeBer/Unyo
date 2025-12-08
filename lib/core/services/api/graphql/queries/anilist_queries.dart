@@ -1,6 +1,5 @@
 // User specific
-const viewerQuery =
-'''
+const viewerQuery = '''
 query Viewer {
   Viewer {
     id
@@ -444,6 +443,19 @@ const mediaDetailsQuery = '''query Page(\$type: MediaType, \$mediaId: Int, \$pag
       progress
       score
       repeat
+      status
+      startedAt {
+        day
+        month
+        year
+      }
+      completedAt {
+        day
+        month
+        year
+      }
+      customLists(asArray: true)
+      progressVolumes
     }
   }
 }

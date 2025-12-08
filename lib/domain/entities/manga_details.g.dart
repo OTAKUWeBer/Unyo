@@ -8,9 +8,9 @@ part of 'manga_details.dart';
 
 _MangaDetailsModel _$MangaDetailsModelFromJson(Map<String, dynamic> json) =>
     _MangaDetailsModel(
-      progress: (json['progress'] as num).toInt(),
-      score: (json['score'] as num).toInt(),
-      repeat: (json['repeat'] as num).toInt(),
+      mediaListEntry: const MediaListEntryConverter().fromJson(
+        json['mediaListEntry'] as Map<String, dynamic>,
+      ),
       recommendedMangas:
           (json['recommendedMangas'] as List<dynamic>)
               .map(
@@ -31,9 +31,9 @@ _MangaDetailsModel _$MangaDetailsModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MangaDetailsModelToJson(
   _MangaDetailsModel instance,
 ) => <String, dynamic>{
-  'progress': instance.progress,
-  'score': instance.score,
-  'repeat': instance.repeat,
+  'mediaListEntry': const MediaListEntryConverter().toJson(
+    instance.mediaListEntry,
+  ),
   'recommendedMangas':
       instance.recommendedMangas.map(const MangaConverter().toJson).toList(),
   'characters':

@@ -93,7 +93,7 @@ class _MangaDetailsViewState extends State<_MangaDetailsView> {
           secondaryTitle: "${state.selectedManga.title.userPreferred} Chapter ${i + 1}",
           episodeImageUrl: state.selectedManga.bannerImage != "" ? state.selectedManga.bannerImage : state.selectedManga.coverImage,
           episodeNumber: i + 1,
-          progress: state.progress,
+          progress: state.mediaListEntry.progress,
           released: numChapters,
           showDivider: i != 0,
         ),

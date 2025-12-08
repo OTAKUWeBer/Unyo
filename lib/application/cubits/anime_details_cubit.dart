@@ -29,6 +29,7 @@ import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
 
@@ -65,9 +66,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           loggedUser: UserModel.empty(),
           selectedMediaList: MediaListModel.empty(),
           selectedAnime: AnimeModel.empty(),
-          progress: 0,
-          score: 0,
-          repeat: 0,
+          mediaListEntry:MediaListEntryModel.empty(),
           characters: (false, []),
           recommendations: (false, []),
           episodesInfo: [],
@@ -186,9 +185,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           emit(
             state.copyWith(
               characters: (animeDetails.$2.characters.isNotEmpty, animeDetails.$2.characters),
-              repeat: animeDetails.$2.repeat,
-              score: animeDetails.$2.score,
-              progress: animeDetails.$2.progress,
+              mediaListEntry: animeDetails.$2.mediaListEntry,
               recommendations: (
                 animeDetails.$2.recommendedAnimes.isNotEmpty,
                 animeDetails.$2.recommendedAnimes,

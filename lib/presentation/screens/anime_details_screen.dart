@@ -102,7 +102,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                   ? (state.episodesInfo[i].image != "" ? state.episodesInfo[i].image : state.alternateImage)
                   : (state.alternateImage != "" ? state.alternateImage : state.selectedAnime.coverImage),
           episodeNumber: i + 1,
-          progress: state.progress,
+          progress: state.mediaListEntry.progress,
           released:
               state.selectedAnime.nextAiringEpisode.episode != 0
                   ? (state.selectedAnime.nextAiringEpisode.episode - 1)
@@ -194,25 +194,25 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                               ),
                                             ],
                                           ),
-                                          // InkWell(
-                                          //   child: Container(
-                                          //     width: 120.w,
-                                          //     height: 40,
-                                          //     decoration: BoxDecoration(
-                                          //       color: Colors.grey.withOpacity(0.3),
-                                          //       borderRadius: BorderRadius.circular(8.0),
-                                          //     ),
-                                          //     child: Center(
-                                          //       child: Text(
-                                          //         state.selectedAnime.,
-                                          //         style: TextStyle(
-                                          //           fontSize: 12,
-                                          //           fontWeight: FontWeight.bold,
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
+                                          InkWell(
+                                            child: Container(
+                                              width: 120.w,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  state.mediaListEntry.status,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       SizedBox(height: 13.h),

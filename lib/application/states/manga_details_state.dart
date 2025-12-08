@@ -8,6 +8,7 @@ import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 part 'manga_details_state.freezed.dart';
@@ -18,9 +19,7 @@ abstract class MangaDetailsState with _$MangaDetailsState implements HasEffects{
     required User loggedUser,
     required MediaList selectedMediaList,
     required Manga selectedManga,
-    required int progress,
-    required int score,
-    required int repeat,
+    required MediaListEntry mediaListEntry,
     required (bool, List<MediaCharacter>) characters,
     required (bool, List<Manga>) recommendations,
     required List<String> banners,

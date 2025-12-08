@@ -441,6 +441,22 @@ class JsonConvert {
       return data.map<MediaDetailsGraphqlMediaCharactersNodesDateOfBirth>((Map<String, dynamic> e) =>
           MediaDetailsGraphqlMediaCharactersNodesDateOfBirth.fromJson(e)).toList() as M;
     }
+    if (<MediaDetailsGraphqlMediaMediaListEntry>[] is M) {
+      return data.map<MediaDetailsGraphqlMediaMediaListEntry>((Map<String, dynamic> e) =>
+          MediaDetailsGraphqlMediaMediaListEntry.fromJson(e)).toList() as M;
+    }
+    if (<MediaDetailsGraphqlMediaMediaListEntryStartedAt>[] is M) {
+      return data.map<MediaDetailsGraphqlMediaMediaListEntryStartedAt>((Map<String, dynamic> e) =>
+          MediaDetailsGraphqlMediaMediaListEntryStartedAt.fromJson(e)).toList() as M;
+    }
+    if (<MediaDetailsGraphqlMediaMediaListEntryCompletedAt>[] is M) {
+      return data.map<MediaDetailsGraphqlMediaMediaListEntryCompletedAt>((Map<String, dynamic> e) =>
+          MediaDetailsGraphqlMediaMediaListEntryCompletedAt.fromJson(e)).toList() as M;
+    }
+    if (<MediaDetailsGraphqlMediaMediaListEntryCustomLists>[] is M) {
+      return data.map<MediaDetailsGraphqlMediaMediaListEntryCustomLists>((Map<String, dynamic> e) =>
+          MediaDetailsGraphqlMediaMediaListEntryCustomLists.fromJson(e)).toList() as M;
+    }
     if (<ViewerGraphqlEntity>[] is M) {
       return data
           .map<ViewerGraphqlEntity>((Map<String, dynamic> e) => ViewerGraphqlEntity.fromJson(e))
@@ -630,6 +646,13 @@ class JsonConvertClassCollection {
         .fromJson,
     (MediaDetailsGraphqlMediaCharactersNodesDateOfBirth)
         .toString(): MediaDetailsGraphqlMediaCharactersNodesDateOfBirth.fromJson,
+    (MediaDetailsGraphqlMediaMediaListEntry).toString(): MediaDetailsGraphqlMediaMediaListEntry.fromJson,
+    (MediaDetailsGraphqlMediaMediaListEntryStartedAt)
+        .toString(): MediaDetailsGraphqlMediaMediaListEntryStartedAt.fromJson,
+    (MediaDetailsGraphqlMediaMediaListEntryCompletedAt)
+        .toString(): MediaDetailsGraphqlMediaMediaListEntryCompletedAt.fromJson,
+    (MediaDetailsGraphqlMediaMediaListEntryCustomLists)
+        .toString(): MediaDetailsGraphqlMediaMediaListEntryCustomLists.fromJson,
     (ViewerGraphqlEntity).toString(): ViewerGraphqlEntity.fromJson,
     (ViewerGraphqlDtoViewer).toString(): ViewerGraphqlDtoViewer.fromJson,
     (ViewerGraphqlDtoViewerAvatar).toString(): ViewerGraphqlDtoViewerAvatar.fromJson,
