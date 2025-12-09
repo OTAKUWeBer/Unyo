@@ -194,6 +194,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                               ),
                                             ],
                                           ),
+                                          // TODO: extract to a widget
                                           InkWell(
                                             child: Container(
                                               width: 120.w,
@@ -212,6 +213,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                 ),
                                               ),
                                             ),
+                                            onTap: () => context.read<AnimeDetailsCubit>().openAnimeServerSelectionDialog(context),
                                           ),
                                         ],
                                       ),

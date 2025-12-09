@@ -32,6 +32,7 @@ import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
+import 'package:unyo/presentation/dialogs/anime_server_selection_dialog.dart';
 
 class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeDetailsState> {
   // Repositories
@@ -171,6 +172,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         contentType: ContentType.warning,
       );
     }
+  }
+
+  void openAnimeServerSelectionDialog(BuildContext context) {
+    showWidgetDialogEffect(dialog: const AnimeServerSelectionDialog());
   }
 
   Future<void> _getAnimeDetails(User loggedUser, Anime selectedAnime) async {
