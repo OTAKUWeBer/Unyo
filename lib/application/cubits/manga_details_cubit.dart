@@ -26,6 +26,7 @@ import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/manga_details.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
 
@@ -60,9 +61,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
           loggedUser: UserModel.empty(),
           selectedMediaList: MediaListModel.empty(),
           selectedManga: MangaModel.empty(),
-          progress: 0,
-          score: 0,
-          repeat: 0,
+          mediaListEntry: MediaListEntryModel.empty(),
           characters: (false, []),
           recommendations: (false, []),
           banners: [],
@@ -178,10 +177,8 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
           );
           emit(
             state.copyWith(
+              mediaListEntry: mangaDetails.$2.mediaListEntry,
               characters: (mangaDetails.$2.characters.isNotEmpty, mangaDetails.$2.characters),
-              repeat: mangaDetails.$2.repeat,
-              score: mangaDetails.$2.score,
-              progress: mangaDetails.$2.progress,
               recommendations: (
                 mangaDetails.$2.recommendedMangas.isNotEmpty,
                 mangaDetails.$2.recommendedMangas,

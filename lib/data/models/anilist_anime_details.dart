@@ -8,6 +8,7 @@ import 'package:unyo/data/models/anilist_media_character.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/media_character.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 
 part 'anilist_anime_details.freezed.dart';
 
@@ -18,23 +19,15 @@ part 'anilist_anime_details.g.dart';
   typeId: types.anilistAnimeDetailsAdapterType,
   adapterName: names.anilistAnimeDetailsModelAdapterName,
 )
-abstract class AnilistAnimeDetailsModel
-    with _$AnilistAnimeDetailsModel
-    implements AnimeDetails {
+abstract class AnilistAnimeDetailsModel with _$AnilistAnimeDetailsModel implements AnimeDetails {
   const factory AnilistAnimeDetailsModel({
-    @HiveField(0) required int progress,
-    @HiveField(1) required int score,
-    @HiveField(2) required int repeat,
-    @HiveField(3) @AnimeConverter() required List<Anime> recommendedAnimes,
-    @HiveField(4)
-    @MediaCharacterConverter()
-    required List<MediaCharacter> characters,
+    @HiveField(0) @MediaListEntryConverter() required MediaListEntry mediaListEntry,
+    @HiveField(1) @AnimeConverter() required List<Anime> recommendedAnimes,
+    @HiveField(2) @MediaCharacterConverter() required List<MediaCharacter> characters,
   }) = _AnilistAnimeDetailsModel;
 
-  factory AnilistAnimeDetailsModel.empty() => const AnilistAnimeDetailsModel(
-    progress: 0,
-    score: 0,
-    repeat: 0,
+  factory AnilistAnimeDetailsModel.empty() => AnilistAnimeDetailsModel(
+    mediaListEntry: MediaListEntryModel.empty(),
     recommendedAnimes: [],
     characters: [],
   );
@@ -43,31 +36,36 @@ abstract class AnilistAnimeDetailsModel
       _$AnilistAnimeDetailsModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() =>
-      _$AnilistAnimeDetailsModelToJson(this as _AnilistAnimeDetailsModel);
+  Map<String, dynamic> toJson() => _$AnilistAnimeDetailsModelToJson(this as _AnilistAnimeDetailsModel);
 
-  factory AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(
-    MediaDetailsGraphqlMedia animeDetailsMediaList,
-  ) {
+  factory AnilistAnimeDetailsModel.fromAnimeDetailsMediaList(MediaDetailsGraphqlMedia animeDetailsMediaList) {
     return AnilistAnimeDetailsModel(
-      progress: animeDetailsMediaList.mediaListEntry?['progress'] ?? 0,
-      score: ((animeDetailsMediaList.mediaListEntry?['score'] ?? 0) as num).toInt(),
-      repeat: animeDetailsMediaList.mediaListEntry?['repeat'] ?? 0,
+      mediaListEntry: MediaListEntryModel(
+        progress: animeDetailsMediaList.mediaListEntry?.progress ?? -1,
+        score: animeDetailsMediaList.mediaListEntry?.score ?? -1,
+        repeat: animeDetailsMediaList.mediaListEntry?.repeat ?? -1,
+        status: animeDetailsMediaList.mediaListEntry?.status ?? "ADD TO LIST",
+        startedAt: [
+          animeDetailsMediaList.mediaListEntry?.startedAt.day.toString() ?? "~",
+          animeDetailsMediaList.mediaListEntry?.startedAt.month.toString() ?? "~",
+          animeDetailsMediaList.mediaListEntry?.startedAt.year.toString() ?? "~",
+        ],
+        completedAt: [
+          animeDetailsMediaList.mediaListEntry?.completedAt.day.toString() ?? "~",
+          animeDetailsMediaList.mediaListEntry?.completedAt.month.toString() ?? "~",
+          animeDetailsMediaList.mediaListEntry?.completedAt.year.toString() ?? "~",
+        ],
+      ),
       recommendedAnimes:
           animeDetailsMediaList.recommendations.nodes
               .map(
                 (recommendationNode) =>
-                    AnilistAnimeModel.fromMediaRecommendationNode(
-                          recommendationNode.mediaRecommendation,
-                        )
+                    AnilistAnimeModel.fromMediaRecommendationNode(recommendationNode.mediaRecommendation),
               )
               .toList(),
       characters:
           animeDetailsMediaList.characters.nodes
-              .map(
-                (characterNode) =>
-                    AnilistMediaCharacterModel.fromCharacterNode(characterNode)
-              )
+              .map((characterNode) => AnilistMediaCharacterModel.fromCharacterNode(characterNode))
               .toList(),
     );
   }

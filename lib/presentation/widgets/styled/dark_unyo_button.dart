@@ -21,14 +21,14 @@ class DarkUnyoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        minimumSize: WidgetStatePropertyAll( Size(100.w, 40.h)),
+        minimumSize: WidgetStatePropertyAll( Size(75.w, 40.h)),
         backgroundColor: WidgetStatePropertyAll(
           color,
         ),
         foregroundColor: const WidgetStatePropertyAll(Colors.white),
       ),
       onPressed: isEnabled ? onPressed : null,
-      child: text != null ? Text(text!) : child ?? const SizedBox(),
+      child: text != null ? Text(text!, style: TextStyle(fontSize: 10.sp),) : child ?? const SizedBox(),
     );
   }
 }

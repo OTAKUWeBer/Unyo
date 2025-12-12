@@ -5,7 +5,7 @@ export 'package:unyo/generated/json/media_details_graphql_entity.g.dart';
 
 @JsonSerializable()
 class MediaDetailsGraphqlEntity {
-	@JSONField(name: "Media")
+	@JSONField(name: 'Media')
 	late MediaDetailsGraphqlMedia media;
 
 	MediaDetailsGraphqlEntity();
@@ -26,7 +26,7 @@ class MediaDetailsGraphqlMedia {
 	late MediaDetailsGraphqlMediaTitle title;
 	late MediaDetailsGraphqlMediaRecommendations recommendations;
 	late MediaDetailsGraphqlMediaCharacters characters;
-	dynamic mediaListEntry;
+	MediaDetailsGraphqlMediaMediaListEntry? mediaListEntry;
 
 	MediaDetailsGraphqlMedia();
 
@@ -93,25 +93,25 @@ class MediaDetailsGraphqlMediaRecommendationsNodes {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation {
-	late int id = 0;
-	late int idMal = 0;
+	int id = 0;
+	int idMal = 0;
 	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate startDate;
 	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate endDate;
-	late String season = '';
-	late String status = '';
-	late bool isFavourite = false;
-	late bool isAdult = false;
-	late int episodes = 0;
-  late int chapters = 0;
+	String season = '';
+	String status = '';
+	bool isFavourite = false;
+	bool isAdult = false;
+	int episodes = 0;
+  int chapters = 0;
 	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle title;
-	late String bannerImage = '';
+	String bannerImage = '';
 	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage coverImage;
-	late int averageScore = 0;
-	late int duration = 0;
-	late String format = '';
-	late List<String> genres = [];
-	late String description = '';
-	late int meanScore = 0;
+	int averageScore = 0;
+	int duration = 0;
+	String format = '';
+	List<String> genres = [];
+	String description = '';
+	int meanScore = 0;
 	dynamic nextAiringEpisode;
 
 	MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation();
@@ -128,9 +128,9 @@ class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate {
-	late int day = 0;
-	late int month = 0;
-	late int year = 0;
+	int day = 0;
+	int month = 0;
+	int year = 0;
 
 	MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate();
 
@@ -146,9 +146,9 @@ class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate {
-	late int day = 0;
-	late int month = 0;
-	late int year = 0;
+	int day = 0;
+	int month = 0;
+	int year = 0;
 
 	MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate();
 
@@ -164,10 +164,10 @@ class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle {
-	late String english = '';
-	late String native = '';
-	late String romaji = '';
-	late String userPreferred = '';
+	String english = '';
+	String native = '';
+	String romaji = '';
+	String userPreferred = '';
 
 	MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle();
 
@@ -183,7 +183,7 @@ class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage {
-	late String large = '';
+	String large = '';
 
 	MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage();
 
@@ -199,7 +199,7 @@ class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage 
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaCharacters {
-	late List<MediaDetailsGraphqlMediaCharactersNodes> nodes = [];
+	List<MediaDetailsGraphqlMediaCharactersNodes> nodes = [];
 
 	MediaDetailsGraphqlMediaCharacters();
 
@@ -215,13 +215,13 @@ class MediaDetailsGraphqlMediaCharacters {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaCharactersNodes {
-	late int id = 0;
+	int id = 0;
 	late MediaDetailsGraphqlMediaCharactersNodesImage image;
 	late MediaDetailsGraphqlMediaCharactersNodesName name;
-	late String gender = '';
-	late String description = '';
+	String gender = '';
+	String description = '';
 	late MediaDetailsGraphqlMediaCharactersNodesDateOfBirth dateOfBirth;
-	late String age = '';
+	String age = '';
 
 	MediaDetailsGraphqlMediaCharactersNodes();
 
@@ -237,7 +237,7 @@ class MediaDetailsGraphqlMediaCharactersNodes {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaCharactersNodesImage {
-	late String large = '';
+	String large = '';
 
 	MediaDetailsGraphqlMediaCharactersNodesImage();
 
@@ -253,7 +253,7 @@ class MediaDetailsGraphqlMediaCharactersNodesImage {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaCharactersNodesName {
-	late String userPreferred = '';
+	String userPreferred = '';
 
 	MediaDetailsGraphqlMediaCharactersNodesName();
 
@@ -269,15 +269,91 @@ class MediaDetailsGraphqlMediaCharactersNodesName {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaCharactersNodesDateOfBirth {
-	late int day = 0;
-	late int month = 0;
-	dynamic year;
+	int day = 0;
+	int month = 0;
+	int year = 0;
 
 	MediaDetailsGraphqlMediaCharactersNodesDateOfBirth();
 
 	factory MediaDetailsGraphqlMediaCharactersNodesDateOfBirth.fromJson(Map<String, dynamic> json) => $MediaDetailsGraphqlMediaCharactersNodesDateOfBirthFromJson(json);
 
 	Map<String, dynamic> toJson() => $MediaDetailsGraphqlMediaCharactersNodesDateOfBirthToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaDetailsGraphqlMediaMediaListEntry {
+	int progress = 0;
+	double score = 0;
+	int repeat = 0;
+	String status = '';
+	late MediaDetailsGraphqlMediaMediaListEntryStartedAt startedAt;
+	late MediaDetailsGraphqlMediaMediaListEntryCompletedAt completedAt;
+	List<MediaDetailsGraphqlMediaMediaListEntryCustomLists> customLists = [];
+	dynamic progressVolumes;
+
+	MediaDetailsGraphqlMediaMediaListEntry();
+
+	factory MediaDetailsGraphqlMediaMediaListEntry.fromJson(Map<String, dynamic> json) => $MediaDetailsGraphqlMediaMediaListEntryFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaDetailsGraphqlMediaMediaListEntryToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaDetailsGraphqlMediaMediaListEntryStartedAt {
+	int day = 0;
+	int month = 0;
+	int year= 0;
+
+	MediaDetailsGraphqlMediaMediaListEntryStartedAt();
+
+	factory MediaDetailsGraphqlMediaMediaListEntryStartedAt.fromJson(Map<String, dynamic> json) => $MediaDetailsGraphqlMediaMediaListEntryStartedAtFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaDetailsGraphqlMediaMediaListEntryStartedAtToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaDetailsGraphqlMediaMediaListEntryCompletedAt {
+	int day = 0;
+	int month = 0;
+	int year = 0;
+
+	MediaDetailsGraphqlMediaMediaListEntryCompletedAt();
+
+	factory MediaDetailsGraphqlMediaMediaListEntryCompletedAt.fromJson(Map<String, dynamic> json) => $MediaDetailsGraphqlMediaMediaListEntryCompletedAtFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaDetailsGraphqlMediaMediaListEntryCompletedAtToJson(this);
+
+	@override
+	String toString() {
+		return jsonEncode(this);
+	}
+}
+
+@JsonSerializable()
+class MediaDetailsGraphqlMediaMediaListEntryCustomLists {
+	String name = '';
+	bool enabled = false;
+
+	MediaDetailsGraphqlMediaMediaListEntryCustomLists();
+
+	factory MediaDetailsGraphqlMediaMediaListEntryCustomLists.fromJson(Map<String, dynamic> json) => $MediaDetailsGraphqlMediaMediaListEntryCustomListsFromJson(json);
+
+	Map<String, dynamic> toJson() => $MediaDetailsGraphqlMediaMediaListEntryCustomListsToJson(this);
 
 	@override
 	String toString() {

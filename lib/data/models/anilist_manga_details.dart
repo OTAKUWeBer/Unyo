@@ -8,6 +8,7 @@ import 'package:unyo/data/models/anilist_media_character.dart';
 import 'package:unyo/domain/entities/manga.dart';
 import 'package:unyo/domain/entities/manga_details.dart';
 import 'package:unyo/domain/entities/media_character.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 
 part 'anilist_manga_details.freezed.dart';
 
@@ -22,18 +23,14 @@ abstract class AnilistMangaDetailsModel
     with _$AnilistMangaDetailsModel
     implements MangaDetails {
   const factory AnilistMangaDetailsModel({
-    @HiveField(0) required int progress,
-    @HiveField(1) required int score,
-    @HiveField(2) required int repeat,
-    @HiveField(3) @MangaConverter() required List<Manga> recommendedMangas,
-    @HiveField(4) @MediaCharacterConverter() required List<MediaCharacter> characters,
+    @HiveField(0) @MediaListEntryConverter() required MediaListEntry mediaListEntry,
+    @HiveField(1) @MangaConverter() required List<Manga> recommendedMangas,
+    @HiveField(2) @MediaCharacterConverter() required List<MediaCharacter> characters,
   }) = _AnilistMangaDetailsModel;
 
   factory AnilistMangaDetailsModel.empty() =>
-      const AnilistMangaDetailsModel(
-        progress: 0,
-        score: 0,
-        repeat: 0,
+      AnilistMangaDetailsModel(
+        mediaListEntry: MediaListEntryModel.empty(),
         recommendedMangas: [],
         characters: [],
       );
@@ -48,9 +45,22 @@ abstract class AnilistMangaDetailsModel
   factory AnilistMangaDetailsModel.fromMangaDetailsMediaList(
       MediaDetailsGraphqlMedia mangaDetailsMediaList,) {
     return AnilistMangaDetailsModel(
-        progress: mangaDetailsMediaList.mediaListEntry?['progress'] ?? 0,
-        score: mangaDetailsMediaList.mediaListEntry?['score'] ?? 0,
-        repeat: mangaDetailsMediaList.mediaListEntry?['repeat'] ?? 0,
+        mediaListEntry: MediaListEntryModel(
+        progress: mangaDetailsMediaList.mediaListEntry?.progress ?? -1,
+        score: mangaDetailsMediaList.mediaListEntry?.score ?? -1,
+        repeat: mangaDetailsMediaList.mediaListEntry?.repeat ?? -1,
+        status: mangaDetailsMediaList.mediaListEntry?.status ?? "ADD TO LIST",
+        startedAt: [
+          mangaDetailsMediaList.mediaListEntry?.startedAt.day.toString() ?? "~",
+          mangaDetailsMediaList.mediaListEntry?.startedAt.month.toString() ?? "~",
+          mangaDetailsMediaList.mediaListEntry?.startedAt.year.toString() ?? "~",
+        ],
+        completedAt: [
+          mangaDetailsMediaList.mediaListEntry?.completedAt.day.toString() ?? "~",
+          mangaDetailsMediaList.mediaListEntry?.completedAt.month.toString() ?? "~",
+          mangaDetailsMediaList.mediaListEntry?.completedAt.year.toString() ?? "~",
+        ],
+      ),
         recommendedMangas: mangaDetailsMediaList.recommendations.nodes
               .map(
                 (recommendationNode) =>

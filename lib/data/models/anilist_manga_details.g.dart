@@ -17,27 +17,21 @@ class MangaProgressModelAdapter extends TypeAdapter<AnilistMangaDetailsModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return AnilistMangaDetailsModel(
-      progress: (fields[0] as num).toInt(),
-      score: (fields[1] as num).toInt(),
-      repeat: (fields[2] as num).toInt(),
-      recommendedMangas: (fields[3] as List).cast<Manga>(),
-      characters: (fields[4] as List).cast<MediaCharacter>(),
+      mediaListEntry: fields[0] as MediaListEntry,
+      recommendedMangas: (fields[1] as List).cast<Manga>(),
+      characters: (fields[2] as List).cast<MediaCharacter>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, AnilistMangaDetailsModel obj) {
     writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.progress)
-      ..writeByte(1)
-      ..write(obj.score)
-      ..writeByte(2)
-      ..write(obj.repeat)
       ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.mediaListEntry)
+      ..writeByte(1)
       ..write(obj.recommendedMangas)
-      ..writeByte(4)
+      ..writeByte(2)
       ..write(obj.characters);
   }
 
@@ -59,9 +53,9 @@ class MangaProgressModelAdapter extends TypeAdapter<AnilistMangaDetailsModel> {
 _AnilistMangaDetailsModel _$AnilistMangaDetailsModelFromJson(
   Map<String, dynamic> json,
 ) => _AnilistMangaDetailsModel(
-  progress: (json['progress'] as num).toInt(),
-  score: (json['score'] as num).toInt(),
-  repeat: (json['repeat'] as num).toInt(),
+  mediaListEntry: const MediaListEntryConverter().fromJson(
+    json['mediaListEntry'] as Map<String, dynamic>,
+  ),
   recommendedMangas:
       (json['recommendedMangas'] as List<dynamic>)
           .map(
@@ -81,9 +75,9 @@ _AnilistMangaDetailsModel _$AnilistMangaDetailsModelFromJson(
 Map<String, dynamic> _$AnilistMangaDetailsModelToJson(
   _AnilistMangaDetailsModel instance,
 ) => <String, dynamic>{
-  'progress': instance.progress,
-  'score': instance.score,
-  'repeat': instance.repeat,
+  'mediaListEntry': const MediaListEntryConverter().toJson(
+    instance.mediaListEntry,
+  ),
   'recommendedMangas':
       instance.recommendedMangas.map(const MangaConverter().toJson).toList(),
   'characters':

@@ -38,6 +38,17 @@ class _UnyoSettingsSelectionSliderState extends State<UnyoSettingsSelectionSlide
     _currentValue = widget.initialValue.toDouble();
     super.initState();
   }
+
+  @override
+  void didUpdateWidget(covariant UnyoSettingsSelectionSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialValue != widget.initialValue) {
+      setState(() {
+        _currentValue = widget.initialValue.toDouble();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

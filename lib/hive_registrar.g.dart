@@ -11,6 +11,7 @@ import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 
 extension HiveRegistrar on HiveInterface {
@@ -21,6 +22,7 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(ExtensionModelAdapter());
     registerAdapter(LocalUserModelAdapter());
     registerAdapter(MangaProgressModelAdapter());
+    registerAdapter(MediaListEntryModelAdapter());
     registerAdapter(MediaListModelAdapter());
     registerAdapter(ServiceEnumAdapter());
     registerAdapter(SettingsModelAdapter());
@@ -35,6 +37,7 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(ExtensionModelAdapter());
     registerAdapter(LocalUserModelAdapter());
     registerAdapter(MangaProgressModelAdapter());
+    registerAdapter(MediaListEntryModelAdapter());
     registerAdapter(MediaListModelAdapter());
     registerAdapter(ServiceEnumAdapter());
     registerAdapter(SettingsModelAdapter());

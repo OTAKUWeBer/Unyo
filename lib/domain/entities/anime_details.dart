@@ -1,34 +1,29 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/media_character.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 
 part 'anime_details.freezed.dart';
 part 'anime_details.g.dart';
 
 abstract class AnimeDetails {
-  final int progress;
-  final int score;
-  final int repeat;
+  final MediaListEntry mediaListEntry;
   final List<Anime> recommendedAnimes;
   final List<MediaCharacter> characters;
 
-  const AnimeDetails({required this.progress, required this.score, required this.repeat, required this.recommendedAnimes, required this.characters});
+  const AnimeDetails({required this.mediaListEntry, required this.recommendedAnimes, required this.characters});
 }
 
 @freezed
 abstract class AnimeDetailsModel with _$AnimeDetailsModel implements AnimeDetails {
   const factory AnimeDetailsModel({
-    required int progress,
-    required int score,
-    required int repeat,
+    @MediaListEntryConverter() required MediaListEntry mediaListEntry,
     @AnimeConverter() required List<Anime> recommendedAnimes,
     @MediaCharacterConverter() required List<MediaCharacter> characters,
   }) = _AnimeDetailsModel;
 
-  factory AnimeDetailsModel.empty() => const AnimeDetailsModel(
-      progress: 0,
-      score: 0,
-      repeat: 0,
+  factory AnimeDetailsModel.empty() => AnimeDetailsModel(
+      mediaListEntry: MediaListEntryModel.empty(),
       recommendedAnimes: [],
       characters: []
   );

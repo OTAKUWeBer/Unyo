@@ -9,6 +9,7 @@ import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 part 'anime_details_state.freezed.dart';
@@ -19,9 +20,7 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required User loggedUser,
     required MediaList selectedMediaList,
     required Anime selectedAnime,
-    required int progress,
-    required int score,
-    required int repeat,
+    required MediaListEntry mediaListEntry,
     required (bool, List<MediaCharacter>) characters,
     required (bool, List<Anime>) recommendations,
     required List<EpisodeInfo> episodesInfo,

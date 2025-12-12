@@ -108,7 +108,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                 padding: EdgeInsets.symmetric(horizontal: 30.0.w, vertical: 20.0.h),
                 child: ListView(
                   children: [
-                    UnyoSettingsCategory(
+                    const UnyoSettingsCategory(
                       title: "Accounts",
                       description: "Manage your connected accounts",
                       icon: Icons.person_rounded,
@@ -240,7 +240,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                         ),
                       ],
                     ),
-                    UnyoSettingsCategory(
+                    const UnyoSettingsCategory(
                       title: "Theme",
                       description: "Appearance settings",
                       icon: Icons.edit_rounded,
@@ -294,7 +294,7 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                         ),
                       ],
                     ),
-                    UnyoSettingsCategory(
+                    const UnyoSettingsCategory(
                       title: "Reader",
                       description: "Manga reader settings",
                       icon: Icons.my_library_books_rounded,
@@ -323,7 +323,8 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                         ),
                       ],
                     ),
-                    UnyoSettingsCategory(
+                    // Probably have a custom widget here with my information and a link to my social media and ko-fi
+                    const UnyoSettingsCategory(
                       title: "About",
                       description: "About the app",
                       icon: Icons.info_rounded,

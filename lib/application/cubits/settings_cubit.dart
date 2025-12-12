@@ -61,11 +61,11 @@ class SettingsCubit extends Cubit<SettingsState> with EffectMixin<SettingsState>
     try {
       switch (state.loggedUser) {
         case AnilistUserModel anilistUserModel:
-          AnilistUserModel updatedAnilistUserModel = (anilistUserModel).copyWith(settings: settings);
+          AnilistUserModel updatedAnilistUserModel = anilistUserModel.copyWith(settings: settings);
           await _userRepositoryAnilist.updateUserInfo(updatedAnilistUserModel);
           break;
         case LocalUserModel localUserModel:
-          LocalUserModel updatedLocalUserModel = (localUserModel).copyWith(settings: settings);
+          LocalUserModel updatedLocalUserModel = localUserModel.copyWith(settings: settings);
           await _userRepositoryLocal.updateUserInfo(updatedLocalUserModel);
           break;
       }

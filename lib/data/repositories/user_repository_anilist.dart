@@ -36,7 +36,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
   );
   final UserNotifier _newUserNotifier;
   final UserNotifier _loggedUserNotifier;
-  late Box<User> _anilistUsersBox;
+  late Box<AnilistUserModel> _anilistUsersBox;
   late HttpServer _server;
 
   UserRepositoryAnilist(this._newUserNotifier, this._loggedUserNotifier);
@@ -44,7 +44,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
   @override
   Future<List<User>> fetchAllLoggedInUsers() async {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
-    return [..._anilistUsersBox.values.toSet()];
+    return [..._anilistUsersBox.values];
   }
 
   @override
@@ -76,8 +76,8 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
     if (_anilistUsersBox.containsKey(user.name)) {
       _logger.w("User ${user.name} already exists in the registered anilist users, updating info");
-      await _anilistUsersBox.delete(user.name);
-      // await _anilistUsersBox.put(user.name, user as AnilistUserModel);
+      // await _anilistUsersBox.delete(user.name);
+      await _anilistUsersBox.put(user.name, user as AnilistUserModel);
     } else {
       _logger.i("Adding new user ${user.name} to the registered anilist users");
       await _anilistUsersBox.put(user.name, user as AnilistUserModel);

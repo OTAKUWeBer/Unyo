@@ -29,6 +29,25 @@ class UnyoSettingsSelectionDropdown extends StatefulWidget {
 }
 
 class _UnyoSettingsSelectionDropdownState extends State<UnyoSettingsSelectionDropdown> {
+
+  late String defaultValue;
+
+  @override
+  void initState() {
+    super.initState();
+    defaultValue = widget.defaultValue;
+  }
+
+  @override
+  void didUpdateWidget(covariant UnyoSettingsSelectionDropdown oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.defaultValue != widget.defaultValue) {
+      setState(() {
+        defaultValue = widget.defaultValue;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

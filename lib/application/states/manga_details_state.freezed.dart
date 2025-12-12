@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MangaDetailsState {
 
- User get loggedUser; MediaList get selectedMediaList; Manga get selectedManga; int get progress; int get score; int get repeat; (bool, List<MediaCharacter>) get characters; (bool, List<Manga>) get recommendations; List<String> get banners; String get alternateImage; Set<Extension> get installedExtensions; bool get userLoaded; Extension? get selectedExtension;// relations
+ User get loggedUser; MediaList get selectedMediaList; Manga get selectedManga; MediaListEntry get mediaListEntry; (bool, List<MediaCharacter>) get characters; (bool, List<Manga>) get recommendations; List<String> get banners; String get alternateImage; Set<Extension> get installedExtensions; bool get userLoaded; Extension? get selectedExtension;// relations
 // voice actors
  List<JSManga> get extensionMangaResults; List<JSChapter> get extensionEpisodeResults; List<JPage> get extensionVideoResults; List<AppEffect> get effects;
 /// Create a copy of MangaDetailsState
@@ -27,16 +27,16 @@ $MangaDetailsStateCopyWith<MangaDetailsState> get copyWith => _$MangaDetailsStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedManga, selectedManga) || other.selectedManga == selectedManga)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other.installedExtensions, installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other.extensionMangaResults, extensionMangaResults)&&const DeepCollectionEquality().equals(other.extensionEpisodeResults, extensionEpisodeResults)&&const DeepCollectionEquality().equals(other.extensionVideoResults, extensionVideoResults)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MangaDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedManga, selectedManga) || other.selectedManga == selectedManga)&&(identical(other.mediaListEntry, mediaListEntry) || other.mediaListEntry == mediaListEntry)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other.banners, banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other.installedExtensions, installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other.extensionMangaResults, extensionMangaResults)&&const DeepCollectionEquality().equals(other.extensionEpisodeResults, extensionEpisodeResults)&&const DeepCollectionEquality().equals(other.extensionVideoResults, extensionVideoResults)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedManga,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(banners),alternateImage,const DeepCollectionEquality().hash(installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(extensionMangaResults),const DeepCollectionEquality().hash(extensionEpisodeResults),const DeepCollectionEquality().hash(extensionVideoResults),const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedManga,mediaListEntry,characters,recommendations,const DeepCollectionEquality().hash(banners),alternateImage,const DeepCollectionEquality().hash(installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(extensionMangaResults),const DeepCollectionEquality().hash(extensionEpisodeResults),const DeepCollectionEquality().hash(extensionVideoResults),const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'MangaDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedManga: $selectedManga, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, extensionMangaResults: $extensionMangaResults, extensionEpisodeResults: $extensionEpisodeResults, extensionVideoResults: $extensionVideoResults, effects: $effects)';
+  return 'MangaDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedManga: $selectedManga, mediaListEntry: $mediaListEntry, characters: $characters, recommendations: $recommendations, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, extensionMangaResults: $extensionMangaResults, extensionEpisodeResults: $extensionEpisodeResults, extensionVideoResults: $extensionVideoResults, effects: $effects)';
 }
 
 
@@ -47,7 +47,7 @@ abstract mixin class $MangaDetailsStateCopyWith<$Res>  {
   factory $MangaDetailsStateCopyWith(MangaDetailsState value, $Res Function(MangaDetailsState) _then) = _$MangaDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Manga selectedManga, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Manga>) recommendations, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<JSManga> extensionMangaResults, List<JSChapter> extensionEpisodeResults, List<JPage> extensionVideoResults, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Manga selectedManga, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Manga>) recommendations, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<JSManga> extensionMangaResults, List<JSChapter> extensionEpisodeResults, List<JPage> extensionVideoResults, List<AppEffect> effects
 });
 
 
@@ -64,15 +64,13 @@ class _$MangaDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedManga = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? extensionMangaResults = null,Object? extensionEpisodeResults = null,Object? extensionVideoResults = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedManga = null,Object? mediaListEntry = null,Object? characters = null,Object? recommendations = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? extensionMangaResults = null,Object? extensionEpisodeResults = null,Object? extensionVideoResults = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
 as MediaList,selectedManga: null == selectedManga ? _self.selectedManga : selectedManga // ignore: cast_nullable_to_non_nullable
-as Manga,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
-as int,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
-as int,characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
+as Manga,mediaListEntry: null == mediaListEntry ? _self.mediaListEntry : mediaListEntry // ignore: cast_nullable_to_non_nullable
+as MediaListEntry,characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
 as (bool, List<MediaCharacter>),recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as (bool, List<Manga>),banners: null == banners ? _self.banners : banners // ignore: cast_nullable_to_non_nullable
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable
@@ -168,10 +166,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MangaDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.mediaListEntry,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
   return orElse();
 
 }
@@ -189,10 +187,10 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _MangaDetailsState():
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.mediaListEntry,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +207,10 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  int progress,  int score,  int repeat,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Manga selectedManga,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Manga>) recommendations,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  Extension? selectedExtension,  List<JSManga> extensionMangaResults,  List<JSChapter> extensionEpisodeResults,  List<JPage> extensionVideoResults,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _MangaDetailsState() when $default != null:
-return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.progress,_that.score,_that.repeat,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
+return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_that.mediaListEntry,_that.characters,_that.recommendations,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.selectedExtension,_that.extensionMangaResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
   return null;
 
 }
@@ -224,15 +222,13 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedManga,_th
 
 
 class _MangaDetailsState extends MangaDetailsState {
-  const _MangaDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedManga, required this.progress, required this.score, required this.repeat, required this.characters, required this.recommendations, required final  List<String> banners, required this.alternateImage, required final  Set<Extension> installedExtensions, required this.userLoaded, required this.selectedExtension, required final  List<JSManga> extensionMangaResults, required final  List<JSChapter> extensionEpisodeResults, required final  List<JPage> extensionVideoResults, final  List<AppEffect> effects = const <AppEffect>[]}): _banners = banners,_installedExtensions = installedExtensions,_extensionMangaResults = extensionMangaResults,_extensionEpisodeResults = extensionEpisodeResults,_extensionVideoResults = extensionVideoResults,_effects = effects,super._();
+  const _MangaDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedManga, required this.mediaListEntry, required this.characters, required this.recommendations, required final  List<String> banners, required this.alternateImage, required final  Set<Extension> installedExtensions, required this.userLoaded, required this.selectedExtension, required final  List<JSManga> extensionMangaResults, required final  List<JSChapter> extensionEpisodeResults, required final  List<JPage> extensionVideoResults, final  List<AppEffect> effects = const <AppEffect>[]}): _banners = banners,_installedExtensions = installedExtensions,_extensionMangaResults = extensionMangaResults,_extensionEpisodeResults = extensionEpisodeResults,_extensionVideoResults = extensionVideoResults,_effects = effects,super._();
   
 
 @override final  User loggedUser;
 @override final  MediaList selectedMediaList;
 @override final  Manga selectedManga;
-@override final  int progress;
-@override final  int score;
-@override final  int repeat;
+@override final  MediaListEntry mediaListEntry;
 @override final  (bool, List<MediaCharacter>) characters;
 @override final  (bool, List<Manga>) recommendations;
  final  List<String> _banners;
@@ -295,16 +291,16 @@ _$MangaDetailsStateCopyWith<_MangaDetailsState> get copyWith => __$MangaDetailsS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedManga, selectedManga) || other.selectedManga == selectedManga)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other._installedExtensions, _installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other._extensionMangaResults, _extensionMangaResults)&&const DeepCollectionEquality().equals(other._extensionEpisodeResults, _extensionEpisodeResults)&&const DeepCollectionEquality().equals(other._extensionVideoResults, _extensionVideoResults)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MangaDetailsState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.selectedMediaList, selectedMediaList) || other.selectedMediaList == selectedMediaList)&&(identical(other.selectedManga, selectedManga) || other.selectedManga == selectedManga)&&(identical(other.mediaListEntry, mediaListEntry) || other.mediaListEntry == mediaListEntry)&&(identical(other.characters, characters) || other.characters == characters)&&(identical(other.recommendations, recommendations) || other.recommendations == recommendations)&&const DeepCollectionEquality().equals(other._banners, _banners)&&(identical(other.alternateImage, alternateImage) || other.alternateImage == alternateImage)&&const DeepCollectionEquality().equals(other._installedExtensions, _installedExtensions)&&(identical(other.userLoaded, userLoaded) || other.userLoaded == userLoaded)&&(identical(other.selectedExtension, selectedExtension) || other.selectedExtension == selectedExtension)&&const DeepCollectionEquality().equals(other._extensionMangaResults, _extensionMangaResults)&&const DeepCollectionEquality().equals(other._extensionEpisodeResults, _extensionEpisodeResults)&&const DeepCollectionEquality().equals(other._extensionVideoResults, _extensionVideoResults)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedManga,progress,score,repeat,characters,recommendations,const DeepCollectionEquality().hash(_banners),alternateImage,const DeepCollectionEquality().hash(_installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(_extensionMangaResults),const DeepCollectionEquality().hash(_extensionEpisodeResults),const DeepCollectionEquality().hash(_extensionVideoResults),const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,selectedMediaList,selectedManga,mediaListEntry,characters,recommendations,const DeepCollectionEquality().hash(_banners),alternateImage,const DeepCollectionEquality().hash(_installedExtensions),userLoaded,selectedExtension,const DeepCollectionEquality().hash(_extensionMangaResults),const DeepCollectionEquality().hash(_extensionEpisodeResults),const DeepCollectionEquality().hash(_extensionVideoResults),const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'MangaDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedManga: $selectedManga, progress: $progress, score: $score, repeat: $repeat, characters: $characters, recommendations: $recommendations, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, extensionMangaResults: $extensionMangaResults, extensionEpisodeResults: $extensionEpisodeResults, extensionVideoResults: $extensionVideoResults, effects: $effects)';
+  return 'MangaDetailsState(loggedUser: $loggedUser, selectedMediaList: $selectedMediaList, selectedManga: $selectedManga, mediaListEntry: $mediaListEntry, characters: $characters, recommendations: $recommendations, banners: $banners, alternateImage: $alternateImage, installedExtensions: $installedExtensions, userLoaded: $userLoaded, selectedExtension: $selectedExtension, extensionMangaResults: $extensionMangaResults, extensionEpisodeResults: $extensionEpisodeResults, extensionVideoResults: $extensionVideoResults, effects: $effects)';
 }
 
 
@@ -315,7 +311,7 @@ abstract mixin class _$MangaDetailsStateCopyWith<$Res> implements $MangaDetailsS
   factory _$MangaDetailsStateCopyWith(_MangaDetailsState value, $Res Function(_MangaDetailsState) _then) = __$MangaDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Manga selectedManga, int progress, int score, int repeat, (bool, List<MediaCharacter>) characters, (bool, List<Manga>) recommendations, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<JSManga> extensionMangaResults, List<JSChapter> extensionEpisodeResults, List<JPage> extensionVideoResults, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Manga selectedManga, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Manga>) recommendations, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, Extension? selectedExtension, List<JSManga> extensionMangaResults, List<JSChapter> extensionEpisodeResults, List<JPage> extensionVideoResults, List<AppEffect> effects
 });
 
 
@@ -332,15 +328,13 @@ class __$MangaDetailsStateCopyWithImpl<$Res>
 
 /// Create a copy of MangaDetailsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedManga = null,Object? progress = null,Object? score = null,Object? repeat = null,Object? characters = null,Object? recommendations = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? extensionMangaResults = null,Object? extensionEpisodeResults = null,Object? extensionVideoResults = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? selectedMediaList = null,Object? selectedManga = null,Object? mediaListEntry = null,Object? characters = null,Object? recommendations = null,Object? banners = null,Object? alternateImage = null,Object? installedExtensions = null,Object? userLoaded = null,Object? selectedExtension = freezed,Object? extensionMangaResults = null,Object? extensionEpisodeResults = null,Object? extensionVideoResults = null,Object? effects = null,}) {
   return _then(_MangaDetailsState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,selectedMediaList: null == selectedMediaList ? _self.selectedMediaList : selectedMediaList // ignore: cast_nullable_to_non_nullable
 as MediaList,selectedManga: null == selectedManga ? _self.selectedManga : selectedManga // ignore: cast_nullable_to_non_nullable
-as Manga,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
-as int,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
-as int,characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
+as Manga,mediaListEntry: null == mediaListEntry ? _self.mediaListEntry : mediaListEntry // ignore: cast_nullable_to_non_nullable
+as MediaListEntry,characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
 as (bool, List<MediaCharacter>),recommendations: null == recommendations ? _self.recommendations : recommendations // ignore: cast_nullable_to_non_nullable
 as (bool, List<Manga>),banners: null == banners ? _self._banners : banners // ignore: cast_nullable_to_non_nullable
 as List<String>,alternateImage: null == alternateImage ? _self.alternateImage : alternateImage // ignore: cast_nullable_to_non_nullable

@@ -34,6 +34,16 @@ class _UnyoSettingsSelectionToggleState extends State<UnyoSettingsSelectionToggl
   }
 
   @override
+  void didUpdateWidget(covariant UnyoSettingsSelectionToggle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initiallySelected != widget.initiallySelected) {
+      setState(() {
+        _isSelected = widget.initiallySelected;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,

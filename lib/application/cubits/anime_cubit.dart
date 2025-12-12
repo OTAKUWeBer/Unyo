@@ -40,6 +40,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
           banners: [],
           loggedUser: UserModel.empty(),
           isLoading: true,
+          selectionDialogLoading: true,
           userLoaded: false,
         ),
       ) {

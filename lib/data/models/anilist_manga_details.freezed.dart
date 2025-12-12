@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AnilistMangaDetailsModel {
 
-@HiveField(0) int get progress;@HiveField(1) int get score;@HiveField(2) int get repeat;@HiveField(3)@MangaConverter() List<Manga> get recommendedMangas;@HiveField(4)@MediaCharacterConverter() List<MediaCharacter> get characters;
+@HiveField(0)@MediaListEntryConverter() MediaListEntry get mediaListEntry;@HiveField(1)@MangaConverter() List<Manga> get recommendedMangas;@HiveField(2)@MediaCharacterConverter() List<MediaCharacter> get characters;
 /// Create a copy of AnilistMangaDetailsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AnilistMangaDetailsModelCopyWith<AnilistMangaDetailsModel> get copyWith => _$An
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistMangaDetailsModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other.recommendedMangas, recommendedMangas)&&const DeepCollectionEquality().equals(other.characters, characters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AnilistMangaDetailsModel&&(identical(other.mediaListEntry, mediaListEntry) || other.mediaListEntry == mediaListEntry)&&const DeepCollectionEquality().equals(other.recommendedMangas, recommendedMangas)&&const DeepCollectionEquality().equals(other.characters, characters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,score,repeat,const DeepCollectionEquality().hash(recommendedMangas),const DeepCollectionEquality().hash(characters));
+int get hashCode => Object.hash(runtimeType,mediaListEntry,const DeepCollectionEquality().hash(recommendedMangas),const DeepCollectionEquality().hash(characters));
 
 @override
 String toString() {
-  return 'AnilistMangaDetailsModel(progress: $progress, score: $score, repeat: $repeat, recommendedMangas: $recommendedMangas, characters: $characters)';
+  return 'AnilistMangaDetailsModel(mediaListEntry: $mediaListEntry, recommendedMangas: $recommendedMangas, characters: $characters)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AnilistMangaDetailsModelCopyWith<$Res>  {
   factory $AnilistMangaDetailsModelCopyWith(AnilistMangaDetailsModel value, $Res Function(AnilistMangaDetailsModel) _then) = _$AnilistMangaDetailsModelCopyWithImpl;
 @useResult
 $Res call({
-@HiveField(0) int progress,@HiveField(1) int score,@HiveField(2) int repeat,@HiveField(3)@MangaConverter() List<Manga> recommendedMangas,@HiveField(4)@MediaCharacterConverter() List<MediaCharacter> characters
+@HiveField(0)@MediaListEntryConverter() MediaListEntry mediaListEntry,@HiveField(1)@MangaConverter() List<Manga> recommendedMangas,@HiveField(2)@MediaCharacterConverter() List<MediaCharacter> characters
 });
 
 
@@ -65,12 +65,10 @@ class _$AnilistMangaDetailsModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistMangaDetailsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? score = null,Object? repeat = null,Object? recommendedMangas = null,Object? characters = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? mediaListEntry = null,Object? recommendedMangas = null,Object? characters = null,}) {
   return _then(_self.copyWith(
-progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
-as int,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
-as int,recommendedMangas: null == recommendedMangas ? _self.recommendedMangas : recommendedMangas // ignore: cast_nullable_to_non_nullable
+mediaListEntry: null == mediaListEntry ? _self.mediaListEntry : mediaListEntry // ignore: cast_nullable_to_non_nullable
+as MediaListEntry,recommendedMangas: null == recommendedMangas ? _self.recommendedMangas : recommendedMangas // ignore: cast_nullable_to_non_nullable
 as List<Manga>,characters: null == characters ? _self.characters : characters // ignore: cast_nullable_to_non_nullable
 as List<MediaCharacter>,
   ));
@@ -157,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  int score, @HiveField(2)  int repeat, @HiveField(3)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(4)@MediaCharacterConverter()  List<MediaCharacter> characters)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)@MediaListEntryConverter()  MediaListEntry mediaListEntry, @HiveField(1)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(2)@MediaCharacterConverter()  List<MediaCharacter> characters)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnilistMangaDetailsModel() when $default != null:
-return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,_that.characters);case _:
+return $default(_that.mediaListEntry,_that.recommendedMangas,_that.characters);case _:
   return orElse();
 
 }
@@ -178,10 +176,10 @@ return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  int score, @HiveField(2)  int repeat, @HiveField(3)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(4)@MediaCharacterConverter()  List<MediaCharacter> characters)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)@MediaListEntryConverter()  MediaListEntry mediaListEntry, @HiveField(1)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(2)@MediaCharacterConverter()  List<MediaCharacter> characters)  $default,) {final _that = this;
 switch (_that) {
 case _AnilistMangaDetailsModel():
-return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,_that.characters);case _:
+return $default(_that.mediaListEntry,_that.recommendedMangas,_that.characters);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +196,10 @@ return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  int progress, @HiveField(1)  int score, @HiveField(2)  int repeat, @HiveField(3)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(4)@MediaCharacterConverter()  List<MediaCharacter> characters)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)@MediaListEntryConverter()  MediaListEntry mediaListEntry, @HiveField(1)@MangaConverter()  List<Manga> recommendedMangas, @HiveField(2)@MediaCharacterConverter()  List<MediaCharacter> characters)?  $default,) {final _that = this;
 switch (_that) {
 case _AnilistMangaDetailsModel() when $default != null:
-return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,_that.characters);case _:
+return $default(_that.mediaListEntry,_that.recommendedMangas,_that.characters);case _:
   return null;
 
 }
@@ -213,21 +211,19 @@ return $default(_that.progress,_that.score,_that.repeat,_that.recommendedMangas,
 @JsonSerializable()
 
 class _AnilistMangaDetailsModel implements AnilistMangaDetailsModel {
-  const _AnilistMangaDetailsModel({@HiveField(0) required this.progress, @HiveField(1) required this.score, @HiveField(2) required this.repeat, @HiveField(3)@MangaConverter() required final  List<Manga> recommendedMangas, @HiveField(4)@MediaCharacterConverter() required final  List<MediaCharacter> characters}): _recommendedMangas = recommendedMangas,_characters = characters;
+  const _AnilistMangaDetailsModel({@HiveField(0)@MediaListEntryConverter() required this.mediaListEntry, @HiveField(1)@MangaConverter() required final  List<Manga> recommendedMangas, @HiveField(2)@MediaCharacterConverter() required final  List<MediaCharacter> characters}): _recommendedMangas = recommendedMangas,_characters = characters;
   factory _AnilistMangaDetailsModel.fromJson(Map<String, dynamic> json) => _$AnilistMangaDetailsModelFromJson(json);
 
-@override@HiveField(0) final  int progress;
-@override@HiveField(1) final  int score;
-@override@HiveField(2) final  int repeat;
+@override@HiveField(0)@MediaListEntryConverter() final  MediaListEntry mediaListEntry;
  final  List<Manga> _recommendedMangas;
-@override@HiveField(3)@MangaConverter() List<Manga> get recommendedMangas {
+@override@HiveField(1)@MangaConverter() List<Manga> get recommendedMangas {
   if (_recommendedMangas is EqualUnmodifiableListView) return _recommendedMangas;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_recommendedMangas);
 }
 
  final  List<MediaCharacter> _characters;
-@override@HiveField(4)@MediaCharacterConverter() List<MediaCharacter> get characters {
+@override@HiveField(2)@MediaCharacterConverter() List<MediaCharacter> get characters {
   if (_characters is EqualUnmodifiableListView) return _characters;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_characters);
@@ -247,16 +243,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistMangaDetailsModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&const DeepCollectionEquality().equals(other._recommendedMangas, _recommendedMangas)&&const DeepCollectionEquality().equals(other._characters, _characters));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AnilistMangaDetailsModel&&(identical(other.mediaListEntry, mediaListEntry) || other.mediaListEntry == mediaListEntry)&&const DeepCollectionEquality().equals(other._recommendedMangas, _recommendedMangas)&&const DeepCollectionEquality().equals(other._characters, _characters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,score,repeat,const DeepCollectionEquality().hash(_recommendedMangas),const DeepCollectionEquality().hash(_characters));
+int get hashCode => Object.hash(runtimeType,mediaListEntry,const DeepCollectionEquality().hash(_recommendedMangas),const DeepCollectionEquality().hash(_characters));
 
 @override
 String toString() {
-  return 'AnilistMangaDetailsModel(progress: $progress, score: $score, repeat: $repeat, recommendedMangas: $recommendedMangas, characters: $characters)';
+  return 'AnilistMangaDetailsModel(mediaListEntry: $mediaListEntry, recommendedMangas: $recommendedMangas, characters: $characters)';
 }
 
 
@@ -267,7 +263,7 @@ abstract mixin class _$AnilistMangaDetailsModelCopyWith<$Res> implements $Anilis
   factory _$AnilistMangaDetailsModelCopyWith(_AnilistMangaDetailsModel value, $Res Function(_AnilistMangaDetailsModel) _then) = __$AnilistMangaDetailsModelCopyWithImpl;
 @override @useResult
 $Res call({
-@HiveField(0) int progress,@HiveField(1) int score,@HiveField(2) int repeat,@HiveField(3)@MangaConverter() List<Manga> recommendedMangas,@HiveField(4)@MediaCharacterConverter() List<MediaCharacter> characters
+@HiveField(0)@MediaListEntryConverter() MediaListEntry mediaListEntry,@HiveField(1)@MangaConverter() List<Manga> recommendedMangas,@HiveField(2)@MediaCharacterConverter() List<MediaCharacter> characters
 });
 
 
@@ -284,12 +280,10 @@ class __$AnilistMangaDetailsModelCopyWithImpl<$Res>
 
 /// Create a copy of AnilistMangaDetailsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? score = null,Object? repeat = null,Object? recommendedMangas = null,Object? characters = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? mediaListEntry = null,Object? recommendedMangas = null,Object? characters = null,}) {
   return _then(_AnilistMangaDetailsModel(
-progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
-as int,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
-as int,recommendedMangas: null == recommendedMangas ? _self._recommendedMangas : recommendedMangas // ignore: cast_nullable_to_non_nullable
+mediaListEntry: null == mediaListEntry ? _self.mediaListEntry : mediaListEntry // ignore: cast_nullable_to_non_nullable
+as MediaListEntry,recommendedMangas: null == recommendedMangas ? _self._recommendedMangas : recommendedMangas // ignore: cast_nullable_to_non_nullable
 as List<Manga>,characters: null == characters ? _self._characters : characters // ignore: cast_nullable_to_non_nullable
 as List<MediaCharacter>,
   ));

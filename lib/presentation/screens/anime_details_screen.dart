@@ -102,7 +102,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                   ? (state.episodesInfo[i].image != "" ? state.episodesInfo[i].image : state.alternateImage)
                   : (state.alternateImage != "" ? state.alternateImage : state.selectedAnime.coverImage),
           episodeNumber: i + 1,
-          progress: state.progress,
+          progress: state.mediaListEntry.progress,
           released:
               state.selectedAnime.nextAiringEpisode.episode != 0
                   ? (state.selectedAnime.nextAiringEpisode.episode - 1)
@@ -171,11 +171,11 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                     children: [
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               UnyoBannerIcon(
                                                 text: "${state.selectedAnime.duration}min",
@@ -193,6 +193,27 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                 iconData: Icons.star,
                                               ),
                                             ],
+                                          ),
+                                          // TODO: extract to a widget
+                                          InkWell(
+                                            child: Container(
+                                              width: 120.w,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.withOpacity(0.3),
+                                                borderRadius: BorderRadius.circular(8.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  state.mediaListEntry.status,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () => context.read<AnimeDetailsCubit>().openAnimeServerSelectionDialog(context),
                                           ),
                                         ],
                                       ),
@@ -236,7 +257,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                                                           .read<AnimeDetailsCubit>()
                                                           .navigateToAnimeAdvancedSearchScreenWithFilters(
                                                             context,
-                                                            genre
+                                                            genre,
                                                           ),
                                                   image: state.banners.isNotEmpty ? state.banners[index] : "",
                                                   text: genre,
