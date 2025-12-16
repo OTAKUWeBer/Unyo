@@ -21,7 +21,7 @@ class DarkUnyoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        minimumSize: WidgetStatePropertyAll( Size(75.w, 40.h)),
+        minimumSize: WidgetStatePropertyAll( Size(80.w, 45.h)),
         backgroundColor: WidgetStatePropertyAll(
           color,
         ),

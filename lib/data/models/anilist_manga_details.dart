@@ -47,6 +47,7 @@ abstract class AnilistMangaDetailsModel
     return AnilistMangaDetailsModel(
         mediaListEntry: MediaListEntryModel(
         progress: mangaDetailsMediaList.mediaListEntry?.progress ?? -1,
+        progressVolumes: mangaDetailsMediaList.mediaListEntry?.progressVolumes ?? -1,
         score: mangaDetailsMediaList.mediaListEntry?.score ?? -1,
         repeat: mangaDetailsMediaList.mediaListEntry?.repeat ?? -1,
         status: mangaDetailsMediaList.mediaListEntry?.status ?? "ADD TO LIST",

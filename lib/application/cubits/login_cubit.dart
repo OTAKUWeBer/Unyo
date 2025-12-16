@@ -13,12 +13,11 @@ import 'package:unyo/application/states/login_state.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/login_card_type.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
-import 'package:unyo/core/services/api/dto/anilist/api_dtos.dart';
+import 'package:unyo/core/services/api/dto/anilist/auth_token_dto.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/models/models.dart';
-import 'package:unyo/data/repositories/extension_repository_aniyomi.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/user.dart';
@@ -179,7 +178,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     if (dateTime.isBefore(DateTime.now())) {
       _logger.w("Anilist User token is expired, getting new accessToken");
       try {
-        ApiResponse<AuthTokenDto> authToken = await _userRepositoryAnilist
+        ApiResponse<AuthTokenEntity> authToken = await _userRepositoryAnilist
             .getAuthToken(user.accessCode);
         User updatedUser = user.copyWith(
           accessToken: authToken.data.accessToken,

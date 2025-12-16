@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MediaListEntryModel {
 
-@HiveField(0) int get progress;@HiveField(1) double get score;@HiveField(2) int get repeat;@HiveField(3) String get status;@HiveField(4) List<String> get startedAt;@HiveField(5) List<String> get completedAt;
+@HiveField(0) int get progress;@HiveField(1) int get progressVolumes;@HiveField(2) double get score;@HiveField(3) int get repeat;@HiveField(4) String get status;@HiveField(5) List<String> get startedAt;@HiveField(6) List<String> get completedAt;
 /// Create a copy of MediaListEntryModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $MediaListEntryModelCopyWith<MediaListEntryModel> get copyWith => _$MediaListEnt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MediaListEntryModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.startedAt, startedAt)&&const DeepCollectionEquality().equals(other.completedAt, completedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MediaListEntryModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.progressVolumes, progressVolumes) || other.progressVolumes == progressVolumes)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.startedAt, startedAt)&&const DeepCollectionEquality().equals(other.completedAt, completedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,score,repeat,status,const DeepCollectionEquality().hash(startedAt),const DeepCollectionEquality().hash(completedAt));
+int get hashCode => Object.hash(runtimeType,progress,progressVolumes,score,repeat,status,const DeepCollectionEquality().hash(startedAt),const DeepCollectionEquality().hash(completedAt));
 
 @override
 String toString() {
-  return 'MediaListEntryModel(progress: $progress, score: $score, repeat: $repeat, status: $status, startedAt: $startedAt, completedAt: $completedAt)';
+  return 'MediaListEntryModel(progress: $progress, progressVolumes: $progressVolumes, score: $score, repeat: $repeat, status: $status, startedAt: $startedAt, completedAt: $completedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $MediaListEntryModelCopyWith<$Res>  {
   factory $MediaListEntryModelCopyWith(MediaListEntryModel value, $Res Function(MediaListEntryModel) _then) = _$MediaListEntryModelCopyWithImpl;
 @useResult
 $Res call({
-@HiveField(0) int progress,@HiveField(1) double score,@HiveField(2) int repeat,@HiveField(3) String status,@HiveField(4) List<String> startedAt,@HiveField(5) List<String> completedAt
+@HiveField(0) int progress,@HiveField(1) int progressVolumes,@HiveField(2) double score,@HiveField(3) int repeat,@HiveField(4) String status,@HiveField(5) List<String> startedAt,@HiveField(6) List<String> completedAt
 });
 
 
@@ -65,9 +65,10 @@ class _$MediaListEntryModelCopyWithImpl<$Res>
 
 /// Create a copy of MediaListEntryModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? score = null,Object? repeat = null,Object? status = null,Object? startedAt = null,Object? completedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? progress = null,Object? progressVolumes = null,Object? score = null,Object? repeat = null,Object? status = null,Object? startedAt = null,Object? completedAt = null,}) {
   return _then(_self.copyWith(
 progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as int,progressVolumes: null == progressVolumes ? _self.progressVolumes : progressVolumes // ignore: cast_nullable_to_non_nullable
 as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
 as double,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -158,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  double score, @HiveField(2)  int repeat, @HiveField(3)  String status, @HiveField(4)  List<String> startedAt, @HiveField(5)  List<String> completedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  int progressVolumes, @HiveField(2)  double score, @HiveField(3)  int repeat, @HiveField(4)  String status, @HiveField(5)  List<String> startedAt, @HiveField(6)  List<String> completedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MediaListEntryModel() when $default != null:
-return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
+return $default(_that.progress,_that.progressVolumes,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
   return orElse();
 
 }
@@ -179,10 +180,10 @@ return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.start
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  double score, @HiveField(2)  int repeat, @HiveField(3)  String status, @HiveField(4)  List<String> startedAt, @HiveField(5)  List<String> completedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@HiveField(0)  int progress, @HiveField(1)  int progressVolumes, @HiveField(2)  double score, @HiveField(3)  int repeat, @HiveField(4)  String status, @HiveField(5)  List<String> startedAt, @HiveField(6)  List<String> completedAt)  $default,) {final _that = this;
 switch (_that) {
 case _MediaListEntryModel():
-return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
+return $default(_that.progress,_that.progressVolumes,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -199,10 +200,10 @@ return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.start
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  int progress, @HiveField(1)  double score, @HiveField(2)  int repeat, @HiveField(3)  String status, @HiveField(4)  List<String> startedAt, @HiveField(5)  List<String> completedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@HiveField(0)  int progress, @HiveField(1)  int progressVolumes, @HiveField(2)  double score, @HiveField(3)  int repeat, @HiveField(4)  String status, @HiveField(5)  List<String> startedAt, @HiveField(6)  List<String> completedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _MediaListEntryModel() when $default != null:
-return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
+return $default(_that.progress,_that.progressVolumes,_that.score,_that.repeat,_that.status,_that.startedAt,_that.completedAt);case _:
   return null;
 
 }
@@ -214,22 +215,23 @@ return $default(_that.progress,_that.score,_that.repeat,_that.status,_that.start
 @JsonSerializable()
 
 class _MediaListEntryModel implements MediaListEntryModel {
-  const _MediaListEntryModel({@HiveField(0) required this.progress, @HiveField(1) required this.score, @HiveField(2) required this.repeat, @HiveField(3) required this.status, @HiveField(4) required final  List<String> startedAt, @HiveField(5) required final  List<String> completedAt}): _startedAt = startedAt,_completedAt = completedAt;
+  const _MediaListEntryModel({@HiveField(0) required this.progress, @HiveField(1) required this.progressVolumes, @HiveField(2) required this.score, @HiveField(3) required this.repeat, @HiveField(4) required this.status, @HiveField(5) required final  List<String> startedAt, @HiveField(6) required final  List<String> completedAt}): _startedAt = startedAt,_completedAt = completedAt;
   factory _MediaListEntryModel.fromJson(Map<String, dynamic> json) => _$MediaListEntryModelFromJson(json);
 
 @override@HiveField(0) final  int progress;
-@override@HiveField(1) final  double score;
-@override@HiveField(2) final  int repeat;
-@override@HiveField(3) final  String status;
+@override@HiveField(1) final  int progressVolumes;
+@override@HiveField(2) final  double score;
+@override@HiveField(3) final  int repeat;
+@override@HiveField(4) final  String status;
  final  List<String> _startedAt;
-@override@HiveField(4) List<String> get startedAt {
+@override@HiveField(5) List<String> get startedAt {
   if (_startedAt is EqualUnmodifiableListView) return _startedAt;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_startedAt);
 }
 
  final  List<String> _completedAt;
-@override@HiveField(5) List<String> get completedAt {
+@override@HiveField(6) List<String> get completedAt {
   if (_completedAt is EqualUnmodifiableListView) return _completedAt;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_completedAt);
@@ -249,16 +251,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MediaListEntryModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._startedAt, _startedAt)&&const DeepCollectionEquality().equals(other._completedAt, _completedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MediaListEntryModel&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.progressVolumes, progressVolumes) || other.progressVolumes == progressVolumes)&&(identical(other.score, score) || other.score == score)&&(identical(other.repeat, repeat) || other.repeat == repeat)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._startedAt, _startedAt)&&const DeepCollectionEquality().equals(other._completedAt, _completedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,progress,score,repeat,status,const DeepCollectionEquality().hash(_startedAt),const DeepCollectionEquality().hash(_completedAt));
+int get hashCode => Object.hash(runtimeType,progress,progressVolumes,score,repeat,status,const DeepCollectionEquality().hash(_startedAt),const DeepCollectionEquality().hash(_completedAt));
 
 @override
 String toString() {
-  return 'MediaListEntryModel(progress: $progress, score: $score, repeat: $repeat, status: $status, startedAt: $startedAt, completedAt: $completedAt)';
+  return 'MediaListEntryModel(progress: $progress, progressVolumes: $progressVolumes, score: $score, repeat: $repeat, status: $status, startedAt: $startedAt, completedAt: $completedAt)';
 }
 
 
@@ -269,7 +271,7 @@ abstract mixin class _$MediaListEntryModelCopyWith<$Res> implements $MediaListEn
   factory _$MediaListEntryModelCopyWith(_MediaListEntryModel value, $Res Function(_MediaListEntryModel) _then) = __$MediaListEntryModelCopyWithImpl;
 @override @useResult
 $Res call({
-@HiveField(0) int progress,@HiveField(1) double score,@HiveField(2) int repeat,@HiveField(3) String status,@HiveField(4) List<String> startedAt,@HiveField(5) List<String> completedAt
+@HiveField(0) int progress,@HiveField(1) int progressVolumes,@HiveField(2) double score,@HiveField(3) int repeat,@HiveField(4) String status,@HiveField(5) List<String> startedAt,@HiveField(6) List<String> completedAt
 });
 
 
@@ -286,9 +288,10 @@ class __$MediaListEntryModelCopyWithImpl<$Res>
 
 /// Create a copy of MediaListEntryModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? score = null,Object? repeat = null,Object? status = null,Object? startedAt = null,Object? completedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? progress = null,Object? progressVolumes = null,Object? score = null,Object? repeat = null,Object? status = null,Object? startedAt = null,Object? completedAt = null,}) {
   return _then(_MediaListEntryModel(
 progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as int,progressVolumes: null == progressVolumes ? _self.progressVolumes : progressVolumes // ignore: cast_nullable_to_non_nullable
 as int,score: null == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
 as double,repeat: null == repeat ? _self.repeat : repeat // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable

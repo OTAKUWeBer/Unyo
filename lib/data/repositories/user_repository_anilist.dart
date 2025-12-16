@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf/shelf_io.dart' as shelfio;
+import 'package:unyo/core/services/api/dto/anilist/auth_token_dto.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_graphql_entity.dart';
 import 'package:unyo/data/models/anilist_anime_model.dart';
 import 'package:unyo/data/models/anilist_manga_model.dart';
@@ -18,7 +19,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 import 'package:unyo/config/config.dart' as config;
-import 'package:unyo/core/services/api/dto/anilist/api_dtos.dart';
 import 'package:unyo/core/services/api/dto/anilist/viewer_graphql_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
@@ -181,7 +181,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     return userMangaLists;
   }
 
-  Future<ApiResponse<AuthTokenDto>> getAuthToken(String accessCode) async {
+  Future<ApiResponse<AuthTokenEntity>> getAuthToken(String accessCode) async {
     Map<String, dynamic> body = {
       "grant_type": "authorization_code",
       "client_id": config.anilistClientId,
@@ -189,9 +189,9 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
       "redirect_uri": config.anilistRedirectUri,
       "code": accessCode,
     };
-    return _httpService.post<AuthTokenDto>(
+    return _httpService.post<AuthTokenEntity>(
       config.anilistOAuthEndpoint,
-      fromJson: AuthTokenDto.fromJson,
+      fromJson: AuthTokenEntity.fromJson,
       body: body,
     );
   }
@@ -215,7 +215,7 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
 
   Future<void> _createUser(String accessCode) async {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
-    ApiResponse<AuthTokenDto> authToken = await getAuthToken(accessCode);
+    ApiResponse<AuthTokenEntity> authToken = await getAuthToken(accessCode);
     Map<String, String> graphQlHeaders = {"Authorization": "Bearer ${authToken.data.accessToken}"};
     ApiGraphQLResponse<ViewerGraphqlEntity> viewerDto = await _anilistGraphQLService
         .query<ViewerGraphqlEntity>(

@@ -32,7 +32,7 @@ import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
-import 'package:unyo/presentation/dialogs/anime_server_selection_dialog.dart';
+import 'package:unyo/presentation/dialogs/anime_details_media_entry_dialog.dart';
 
 class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeDetailsState> {
   // Repositories
@@ -67,7 +67,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           loggedUser: UserModel.empty(),
           selectedMediaList: MediaListModel.empty(),
           selectedAnime: AnimeModel.empty(),
-          mediaListEntry:MediaListEntryModel.empty(),
+          mediaListEntry: MediaListEntryModel.empty(),
           characters: (false, []),
           recommendations: (false, []),
           episodesInfo: [],
@@ -133,9 +133,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
 
   void navigateToAnimeAdvancedSearchScreenWithFilters(BuildContext context, String newAnimeGenre) {
     _logger.i("Navigating to Anime Advanced Search Filters");
-    bool hasAnimeSearchInStack = AutoRouter.of(context).stackData.any(
-          (route) => route.name == "AnimeAdvancedSearchRoute",
-    );
+    bool hasAnimeSearchInStack = AutoRouter.of(
+      context,
+    ).stackData.any((route) => route.name == "AnimeAdvancedSearchRoute");
     if (hasAnimeSearchInStack) {
       _selectedAnimeAdvancedSearchGenresFilters.updateSelectedAnimeGenre(newAnimeGenre);
       popRouteEffect(context);
@@ -175,7 +175,108 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   }
 
   void openAnimeServerSelectionDialog(BuildContext context) {
-    showWidgetDialogEffect(dialog: const AnimeServerSelectionDialog());
+    showWidgetDialogEffect(dialog: AnimeDetailsMediaEntryDialog(cubit: this));
+  }
+
+  Future<void> updateMediaListEntry(BuildContext context) async {
+    MediaListEntry desiredMediaListEntry = state.mediaListEntry;
+    try {
+      switch (state.loggedUser.settings.service) {
+        case Service.anilist:
+          _logger.i("Updating Media List Entry to $desiredMediaListEntry on Anilist");
+          MediaListEntry savedMediaListEntry = await _animeRepositoryAnilist.updateMediaListEntry(
+            desiredMediaListEntry,
+            state.selectedAnime,
+            state.loggedUser,
+          );
+          emit(state.copyWith(mediaListEntry: savedMediaListEntry));
+        case Service.mal:
+          _logger.i("Updating Media List Entry to $desiredMediaListEntry on MyAnimeList");
+        case Service.shikimori:
+          _logger.i("Updating Media List Entry to $desiredMediaListEntry on Shikimori");
+        case Service.kitsu:
+          _logger.i("Updating Media List Entry to $desiredMediaListEntry on Kitsu");
+        case Service.simkl:
+          _logger.i("Updating Media List Entry to $desiredMediaListEntry on Simkl");
+      }
+
+    } on HttpServerException catch (e, stackTrace) {
+      handleError("Error updating Anime Entry:", responseBody: e.message, stackTrace: stackTrace);
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry: $e", stackTrace: stackTrace);
+    }
+    if (!context.mounted) return;
+    popRouteEffect(context);
+  }
+
+  Future<void> updateMediaListEntryStatus(String? newStatus) async {
+    if (newStatus == null) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(status: newStatus);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry status: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateMediaListEntryProgress(int? newProgress) async {
+    if (newProgress == null) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(progress: newProgress);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry progress: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateMediaListEntryScore(double? newScore) async {
+    if (newScore == null) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(score: newScore);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry score: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateMediaListEntryRepeat(int? newRepeat) async {
+    if (newRepeat == null) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(repeat: newRepeat);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry repeat: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateMediaListEntryStartedAt(BuildContext context) async {
+    DateTime? selectedDateTime = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (selectedDateTime == null ) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(startedAt: [selectedDateTime.day.toString(), selectedDateTime.month.toString(), selectedDateTime.year.toString()]);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry started at: $e", stackTrace: stackTrace);
+    }
+  }
+
+  Future<void> updateMediaListEntryCompletedAt(BuildContext context) async {
+    DateTime? selectedDateTime = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (selectedDateTime == null ) return;
+    try {
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(completedAt: [selectedDateTime.day.toString(), selectedDateTime.month.toString(), selectedDateTime.year.toString()]);
+      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+    } catch (e, stackTrace) {
+      handleError("Error updating Anime Entry completed at: $e", stackTrace: stackTrace);
+    }
   }
 
   Future<void> _getAnimeDetails(User loggedUser, Anime selectedAnime) async {
@@ -198,7 +299,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
             ),
           );
           if (animeDetails.$2.recommendedAnimes.isEmpty) {
-            (bool, List<Anime>) trendingAnimes = await _animeRepositoryAnilist.getTrendingAnimes(1, loggedUser);
+            (bool, List<Anime>) trendingAnimes = await _animeRepositoryAnilist.getTrendingAnimes(
+              1,
+              loggedUser,
+            );
             emit(state.copyWith(recommendations: (trendingAnimes.$1, trendingAnimes.$2.shuffled(Random()))));
           }
           _getAlternativeImage(loggedUser, selectedAnime);

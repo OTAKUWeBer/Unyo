@@ -288,13 +288,13 @@ class MediaDetailsGraphqlMediaCharactersNodesDateOfBirth {
 @JsonSerializable()
 class MediaDetailsGraphqlMediaMediaListEntry {
 	int progress = 0;
+	int progressVolumes = 0;
 	double score = 0;
 	int repeat = 0;
 	String status = '';
 	late MediaDetailsGraphqlMediaMediaListEntryStartedAt startedAt;
 	late MediaDetailsGraphqlMediaMediaListEntryCompletedAt completedAt;
 	List<MediaDetailsGraphqlMediaMediaListEntryCustomLists> customLists = [];
-	dynamic progressVolumes;
 
 	MediaDetailsGraphqlMediaMediaListEntry();
 

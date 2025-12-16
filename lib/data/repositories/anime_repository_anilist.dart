@@ -14,6 +14,7 @@ import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_com
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_details_graphql_entity.dart';
+import 'package:unyo/core/services/api/dto/anilist/save_media_list_entry_entity.dart';
 import 'package:unyo/core/services/api/graphql/queries/anilist_queries.dart' as anilist_queries;
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_released_graphql_entity.dart';
 import 'package:unyo/core/services/api/graphql/graphql_response.dart';
@@ -24,6 +25,7 @@ import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/repositories/repository_mixin.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/domain/repositories/anime_repository.dart';
 import 'package:unyo/presentation/widgets/text/text_utils.dart';
@@ -368,6 +370,38 @@ class AnimeRepositoryAnilist with RepositoryMixin implements AnimeRepository {
         .map((schedule) => AnilistAnimeModel.fromScheduleEntry(schedule))
         .toList();
   }
+
+  @override
+    Future<MediaListEntry> updateMediaListEntry(MediaListEntry newMediaListEntry, Anime selectedAnime, User loggedUser) async {
+      Map<String, String>? graphQlHeaders =
+      loggedUser is AnilistUserModel ? {"Authorization": "Bearer ${(loggedUser).accessToken}"} : null;
+      ApiGraphQLResponse<SaveMediaListEntryEntity> saveMediaListEntry = await _anilistGraphQLService
+          .mutation<SaveMediaListEntryEntity>(
+        query: anilist_queries.updateMediaEntryQuery,
+        fromJson: SaveMediaListEntryEntity.fromJson,
+        variables: {
+          "mediaId": selectedAnime.id,
+          "status": newMediaListEntry.status.toUpperCase() != "ADD TO LIST" ? newMediaListEntry.status.toUpperCase() : null,
+          if (newMediaListEntry.progress != -1)
+            "progress": newMediaListEntry.progress,
+          if (newMediaListEntry.score != -1.0)
+            "score": newMediaListEntry.score,
+          "startedAt": {
+            "day": int.tryParse(newMediaListEntry.startedAt[0]),
+            "month": int.tryParse(newMediaListEntry.startedAt[1]),
+            "year": int.tryParse(newMediaListEntry.startedAt[2]),
+          },
+          "completedAt": {
+            "day": int.tryParse(newMediaListEntry.completedAt[0]),
+            "month": int.tryParse(newMediaListEntry.completedAt[1]),
+            "year": int.tryParse(newMediaListEntry.completedAt[2]),
+          },
+        },
+        headers: graphQlHeaders,
+      );
+      throwIfGraphQlError(saveMediaListEntry);
+      return MediaListEntryModel.fromSaveMediaListEntryEntity(saveMediaListEntry.data.saveMediaListEntry);
+    }
 }
 
 enum AnlistGenreFilters {

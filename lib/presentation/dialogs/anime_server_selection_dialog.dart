@@ -18,15 +18,8 @@ class AnimeServerSelectionDialog extends StatelessWidget {
                 child: SizedBox(
                   width: 906.w,
                   height: 540.h,
-                  child: Column(
-                    children: [
-                      Text("Status: ${state.mediaListEntry.status}"),
-                      Text("Progress: ${state.mediaListEntry.progress}"),
-                      Text("Started At: ${state.mediaListEntry.startedAt[0]}/${state.mediaListEntry
-                          .startedAt[1]}/${state.mediaListEntry.startedAt[2]}"),
-                      Text("Completed At: ${state.mediaListEntry.completedAt[0]}/${state.mediaListEntry
-                          .completedAt[1]}/${state.mediaListEntry.completedAt[2]}"),
-                    ],
+                  child: const Column(
+
                   ),
                 )
             ),

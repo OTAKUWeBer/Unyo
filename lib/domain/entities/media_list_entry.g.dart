@@ -18,29 +18,32 @@ class MediaListEntryModelAdapter extends TypeAdapter<MediaListEntryModel> {
     };
     return MediaListEntryModel(
       progress: (fields[0] as num).toInt(),
-      score: (fields[1] as num).toDouble(),
-      repeat: (fields[2] as num).toInt(),
-      status: fields[3] as String,
-      startedAt: (fields[4] as List).cast<String>(),
-      completedAt: (fields[5] as List).cast<String>(),
+      progressVolumes: (fields[1] as num).toInt(),
+      score: (fields[2] as num).toDouble(),
+      repeat: (fields[3] as num).toInt(),
+      status: fields[4] as String,
+      startedAt: (fields[5] as List).cast<String>(),
+      completedAt: (fields[6] as List).cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, MediaListEntryModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.progress)
       ..writeByte(1)
-      ..write(obj.score)
+      ..write(obj.progressVolumes)
       ..writeByte(2)
-      ..write(obj.repeat)
+      ..write(obj.score)
       ..writeByte(3)
-      ..write(obj.status)
+      ..write(obj.repeat)
       ..writeByte(4)
-      ..write(obj.startedAt)
+      ..write(obj.status)
       ..writeByte(5)
+      ..write(obj.startedAt)
+      ..writeByte(6)
       ..write(obj.completedAt);
   }
 
@@ -62,6 +65,7 @@ class MediaListEntryModelAdapter extends TypeAdapter<MediaListEntryModel> {
 _MediaListEntryModel _$MediaListEntryModelFromJson(Map<String, dynamic> json) =>
     _MediaListEntryModel(
       progress: (json['progress'] as num).toInt(),
+      progressVolumes: (json['progressVolumes'] as num).toInt(),
       score: (json['score'] as num).toDouble(),
       repeat: (json['repeat'] as num).toInt(),
       status: json['status'] as String,
@@ -77,6 +81,7 @@ Map<String, dynamic> _$MediaListEntryModelToJson(
   _MediaListEntryModel instance,
 ) => <String, dynamic>{
   'progress': instance.progress,
+  'progressVolumes': instance.progressVolumes,
   'score': instance.score,
   'repeat': instance.repeat,
   'status': instance.status,

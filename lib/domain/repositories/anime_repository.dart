@@ -1,5 +1,6 @@
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
+import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/user.dart';
 
 abstract class AnimeRepository {
@@ -23,4 +24,5 @@ abstract class AnimeRepository {
     User loggedUser
   );
   Future<List<String>> getMediaCoverImages(User loggedUser);
+  Future<MediaListEntry> updateMediaListEntry(MediaListEntry newMediaListEntry, Anime selectedAnime, User loggedUser);
 }

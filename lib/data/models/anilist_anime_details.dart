@@ -42,6 +42,7 @@ abstract class AnilistAnimeDetailsModel with _$AnilistAnimeDetailsModel implemen
     return AnilistAnimeDetailsModel(
       mediaListEntry: MediaListEntryModel(
         progress: animeDetailsMediaList.mediaListEntry?.progress ?? -1,
+        progressVolumes: animeDetailsMediaList.mediaListEntry?.progressVolumes ?? -1,
         score: animeDetailsMediaList.mediaListEntry?.score ?? -1,
         repeat: animeDetailsMediaList.mediaListEntry?.repeat ?? -1,
         status: animeDetailsMediaList.mediaListEntry?.status ?? "ADD TO LIST",

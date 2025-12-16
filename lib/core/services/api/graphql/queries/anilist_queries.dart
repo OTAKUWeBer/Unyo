@@ -521,3 +521,23 @@ id
   }
 }
 ''';
+const updateMediaEntryQuery = '''
+mutation SaveMediaListEntry(\$mediaId: Int, \$progress: Int, \$progressVolumes: Int, \$repeat: Int, \$score: Float, \$startedAt: FuzzyDateInput, \$completedAt: FuzzyDateInput, \$status: MediaListStatus) {
+  SaveMediaListEntry(mediaId: \$mediaId, progress: \$progress, progressVolumes: \$progressVolumes, repeat: \$repeat, score: \$score, startedAt: \$startedAt, completedAt: \$completedAt, status: \$status) {
+    progress
+    repeat
+    score
+    status
+    startedAt {
+      day
+      month
+      year
+    }
+    completedAt {
+      day
+      year
+    }
+    progressVolumes
+  }
+}
+''';
