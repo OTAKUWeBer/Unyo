@@ -199,6 +199,7 @@ class MediaCard extends StatelessWidget {
                                   format == "ONE_SHOT" ||
                                   format == "MOVIE" ||
                                   format == "NOVEL" ||
+                                  format == "ONE_SHOT" ||
                                   format == "MUSIC"
                               ? 8
                               : 14,

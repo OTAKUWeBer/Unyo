@@ -251,11 +251,11 @@ query Page(\$page: Int, \$perPage: Int, \$sort: [MediaSort], \$type: MediaType, 
 }
 ''';
 // {
-// "page" : 1,
-// "perPage" : 50,
-// "type": "ANIME" or "MANGA",
-// "sort": "POPULARITY_DESC" or "TRENDING_DESC",
-// "startDateGreater": 20250724
+//   "page" : 1,
+//   "perPage" : 50,
+//   "type": "ANIME" or "MANGA",
+//   "sort": "POPULARITY_DESC" or "TRENDING_DESC",
+//   "startDateGreater": 20250724
 // }
 const mediaUpcomingQuery = '''
 query Page(\$page: Int, \$perPage: Int, \$sort: [MediaSort], \$type: MediaType, \$startDateGreater: FuzzyDateInt) {
@@ -475,7 +475,7 @@ query (
 ) {
   Page(page: \$page, perPage: \$perPage) {
     media(
-      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search, , countryOfOrigin: \$countryOfOrigin
+      type: \$type, season: \$season, seasonYear: \$seasonYear, format: \$format, status: \$status, genre_in: \$genres, sort: \$sort, search: \$search, countryOfOrigin: \$countryOfOrigin
     ) {
 id
           idMal

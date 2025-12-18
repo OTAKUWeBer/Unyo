@@ -133,28 +133,6 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                         ),
                       )
                       : const SizedBox.shrink(),
-                  state.yearFilters.$1
-                      ? SizedBox(
-                        width: 190.w,
-                        child: UnyoDropdown(
-                          label: "Year",
-                          icon: Icons.calendar_today_rounded,
-                          children: state.yearFilters.$2,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedYear,
-                        ),
-                      )
-                      : const SizedBox.shrink(),
-                  state.countryOfOriginsFilters.$1
-                      ? SizedBox(
-                        width: 190.w,
-                        child: UnyoDropdown(
-                          label: "Country of Origin",
-                          icon: Icons.wb_sunny_rounded,
-                          children: state.countryOfOriginsFilters.$2,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountryOfOrigin,
-                        ),
-                      )
-                      : const SizedBox.shrink(),
                   state.formatFilters.$1
                       ? SizedBox(
                         width: 190.w,
@@ -162,18 +140,32 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           label: "Format",
                           icon: Icons.video_library_rounded,
                           children: state.formatFilters.$2,
+                          selectedValue: state.selectedFormat,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedFormat,
                         ),
                       )
                       : const SizedBox.shrink(),
-                  state.publishingStatusFilters.$1
+                  state.countryFilters.$1
                       ? SizedBox(
                         width: 190.w,
                         child: UnyoDropdown(
-                          label: "Publishing Status",
+                          label: "Country",
+                          icon: Icons.public,
+                          children: state.countryFilters.$2,
+                          selectedValue: state.selectedCountry,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountry,
+                        ),
+                      )
+                      : const SizedBox.shrink(),
+                  state.airingStatusFilters.$1
+                      ? SizedBox(
+                        width: 190.w,
+                        child: UnyoDropdown(
+                          label: "Airing Status",
                           icon: Icons.signal_cellular_alt_rounded,
-                          children: state.publishingStatusFilters.$2,
-                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedPublishingStatus,
+                          children: state.airingStatusFilters.$2,
+                          selectedValue: state.selectedAiringStatus,
+                          onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedAiringStatus,
                         ),
                       )
                       : const SizedBox.shrink(),

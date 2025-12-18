@@ -39,7 +39,7 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
   void didUpdateWidget(covariant UnyoDropdown oldWidget) {
     if(oldWidget.selectedValue != widget.selectedValue) {
       setState(() {
-        searchController.text = widget.selectedValue!;
+        searchController.text = widget.selectedValue ?? '';
       });
     }
     super.didUpdateWidget(oldWidget);
@@ -55,7 +55,7 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder:
-          (context, constrains) => DropdownMenu(
+          (context, constrains) => DropdownMenu<String?>(
             width: widget.width ?? constrains.maxWidth,
             controller: searchController,
             onSelected: widget.onPressed,
@@ -63,11 +63,22 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
               child: Icon(widget.icon ?? Icons.search_rounded, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
             ),
+            trailingIcon: widget.selectedValue != null
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        searchController.clear();
+                        widget.onPressed?.call(null);
+                      },
+                      child: Icon(Icons.clear, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
+                    ),
+                  )
+                : Icon(
+                    Icons.arrow_drop_down,
+                    color: ColorScheme.of(context).tertiary.withOpacity(0.7),
+                  ),
             enableFilter: true,
-            trailingIcon: Icon(
-              Icons.arrow_drop_down,
-              color: ColorScheme.of(context).tertiary.withOpacity(0.7),
-            ),
             menuStyle: MenuStyle(
               backgroundColor: WidgetStatePropertyAll(ColorScheme.of(context).secondary.withOpacity(0.8)),
               maximumSize: WidgetStatePropertyAll(Size(constrains.maxWidth, 300)),
@@ -85,20 +96,23 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
             ),
             dropdownMenuEntries:
-                widget.children
-                    .mapIndexed(
-                      (index, element) => DropdownMenuEntry<String>(
-                        value: element,
-                        label: element,
-                        style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(
-                            Colors.transparent,
+                [
+                  ...widget.children
+                      .map(
+                        (element) => DropdownMenuEntry<String?>(
+                          value: element,
+                          label: element,
+                          style: const ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(
+                              Colors.transparent,
+                            ),
+                            alignment: Alignment.center,
                           ),
-                          alignment: Alignment.center,
                         ),
-                      ),
-                    )
-                    .toList(),
+                      )
+                      .toList(),
+                ]
+                .toList(),
           ),
     );
   }

@@ -12,10 +12,9 @@ abstract class MangaRepository {
   Future<List<Manga>> performMangaAdvancedSearch(
     String query,
     List<String> selectedGenres,
-    String? selectedCountryOfOrigin,
     String? selectedFormat,
-    int? selectedYear,
-    String? selectedPublishingStatus,
+    String? selectedCountry,
+    String? selectedAiringStatus,
     String sort,
     int page,
     User loggedUser

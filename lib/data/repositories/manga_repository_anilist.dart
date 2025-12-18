@@ -132,17 +132,25 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
     Map<String, (bool, List<String>)> filters = {};
     filters.addAll({
       'genres': (
-      true,
-      TextUtils.upperCaseFirstCharacter(
-        AnlistGenreFilters.values.map((enumElement) => enumElement.name).toList(),
-      ),
+        true,
+        TextUtils.upperCaseFirstCharacter(
+          AnlistGenreFilters.values
+              .map((enumElement) {
+                // Special handling for sci_fi to display as "Sci-fi"
+                if (enumElement.name == 'sci_fi') {
+                  return 'Sci-Fi';
+                }
+                return enumElement.name.replaceAll('_', ' ');
+              })
+              .toList(),
+        ),
       ),
     });
     filters.addAll({
-      'countriesOfOrigin': (
+      'seasons': (
       true,
       TextUtils.upperCaseFirstCharacter(
-        AnilistCountryOfOriginFilters.values.map((enumElement) => enumElement.name).toList(),
+        AnilistSeasonFilters.values.map((enumElement) => enumElement.name).toList(),
       ),
       ),
     });
@@ -155,22 +163,21 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
       ),
     });
     filters.addAll({
-      'publishingStatuses': (
+      'countries': (
       true,
       TextUtils.upperCaseFirstCharacter(
-        AnilistPublishingStatusFilters.values
-            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
-            .toList(),
+        AnilistCountryFilters.values.map((enumElement) => enumElement.name.replaceAll('_', ' ')).toList(),
       ),
       ),
     });
     filters.addAll({
-      'years': (
+      'airingStatuses': (
       true,
-      List<String>.generate(
-        DateTime.now().year - 1939,
-            (index) => (1940 + index).toString(),
-      ).reversed.toList(),
+      TextUtils.upperCaseFirstCharacter(
+        AnilistAiringStatusFilters.values
+            .map((enumElement) => enumElement.name.replaceAll('_', ' '))
+            .toList(),
+      ),
       ),
     });
     filters.addAll({
@@ -198,40 +205,59 @@ class MangaRepositoryAnilist with RepositoryMixin implements MangaRepository {
 
   @override
   Future<List<Manga>> performMangaAdvancedSearch(
-      String query,
-      List<String> selectedGenres,
-      String? selectedCountryOfOrigin,
-      String? selectedFormat,
-      int? selectedYear,
-      String? selectedPublishingStatus,
-      String sort,
-      int page,
-      User loggedUser
-      ) async {
-    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> animeAdvancedSearchData =
-    await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
+    String query,
+    List<String> selectedGenres,
+    String? selectedFormat,
+    String? selectedCountry,
+    String? selectedAiringStatus,
+    String sort,
+    int page,
+    User loggedUser,
+  ) async {
+    // Helper function to map country names to codes
+    String mapCountryToCode(String country) {
+      switch (country.toLowerCase().replaceAll(' ', '_')) {
+        case 'japan':
+          return 'JP';
+        case 'south_korea':
+          return 'KR';
+        case 'china':
+          return 'CN';
+        case 'taiwan':
+          return 'TW';
+        default:
+          return country.toUpperCase().replaceAll(' ', '_');
+      }
+    }
+
+    ApiGraphQLResponse<MediaAdvancedSearchQueryGraphqlEntity> mangaAdvancedSearchData =
+        await _anilistGraphQLService.query<MediaAdvancedSearchQueryGraphqlEntity>(
       query: anilist_queries.mediaAdvancedSearchQuery,
       fromJson: MediaAdvancedSearchQueryGraphqlEntity.fromJson,
       variables: {
         "type": "MANGA",
-        "page": 1,
+        "page": page,
         "perPage": 50,
         "sort": sort.replaceAll("_ASC", ""),
         if (query.isNotEmpty) "search": query,
-        if (selectedGenres.isNotEmpty) "genres": selectedGenres,
-        if (selectedCountryOfOrigin != null && selectedCountryOfOrigin.isNotEmpty) "countryOfOrigin": selectedCountryOfOrigin.toUpperCase(),
-        if (selectedYear != null) "seasonYear": selectedYear,
-        if (selectedPublishingStatus != null && selectedPublishingStatus.isNotEmpty)
-          "status": selectedPublishingStatus.toUpperCase().replaceAll(' ', '_'),
+        if (selectedGenres.isNotEmpty) 
+          "genres": selectedGenres.map((g) => g.toUpperCase().replaceAll(' ', '_')).toList(),
+        if (selectedAiringStatus != null && selectedAiringStatus.isNotEmpty)
+          "status": selectedAiringStatus.toUpperCase().replaceAll(' ', '_'),
         if (selectedFormat != null && selectedFormat.isNotEmpty)
           "format": selectedFormat.toUpperCase().replaceAll(' ', '_'),
+        if (selectedCountry != null && selectedCountry.isNotEmpty)
+          "countryOfOrigin": mapCountryToCode(selectedCountry),
       },
     );
-    throwIfGraphQlError(animeAdvancedSearchData);
+    
+    throwIfGraphQlError(mangaAdvancedSearchData);
+    
     List<Manga> searchResults =
-    animeAdvancedSearchData.data.page.media
-        .map((mediaEntry) => AnilistMangaModel.fromAdvancedSearchMediaEntry(mediaEntry))
-        .toList();
+        mangaAdvancedSearchData.data.page.media
+            .map((mediaEntry) => AnilistMangaModel.fromAdvancedSearchMediaEntry(mediaEntry))
+            .toList();
+    
     return searchResults;
   }
 
@@ -272,23 +298,31 @@ enum AnlistGenreFilters {
   ecchi,
   fantasy,
   horror,
+  mahou_shoujo,
   mecha,
   music,
   mystery,
   psychological,
   romance,
-  sciFi,
-  sliceOfLife,
+  sci_fi,
+  slice_of_Life,
   sports,
   supernatural,
   thriller,
 }
 
-enum AnilistCountryOfOriginFilters { jp, cn, tw, kr }
+enum AnilistCountryFilters {
+  japan,
+  south_korea,
+  china,
+  taiwan,
+}
 
-enum AnilistFormatFilters { manga, light_novel, one_shot }
+enum AnilistSeasonFilters { winter, spring, summer, fall }
 
-enum AnilistPublishingStatusFilters { releasing, finished, not_yet_released, hiatus, cancelled }
+enum AnilistFormatFilters { manga, novel, one_shot }
+
+enum AnilistAiringStatusFilters { releasing, finished, not_yet_released, hiatus, cancelled }
 
 enum AnilistSortOptions { title_romaji, title_english, title_native, format, start_date, end_date, score, popularity, trending, episodes, duration, status, updated_at, favourites }
 
