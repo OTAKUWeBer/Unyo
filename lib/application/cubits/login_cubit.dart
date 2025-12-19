@@ -91,7 +91,7 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
   }
 
   void initiateAccountCreation(BuildContext context) async {
-    showWidgetDialogEffect(dialog: AccountCreationDialog(context));
+    showWidgetDialogEffect(dialog: AccountCreationDialog(context, cubit: this));
   }
 
   void selectLoginType(LoginCardType type) async {
@@ -165,10 +165,6 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
     }
   }
 
-  // Future<void> _loadUserExtensions() async {
-  //   sl<ExtensionRepositoryAniyomi>();
-  // }
-
   void _updateAvailableUsers(List<User> users) {
     emit(state.copyWith(availableUsers: users));
   }
@@ -194,8 +190,6 @@ class LoginCubit extends Cubit<LoginState> with EffectMixin<LoginState> {
         return;
       }
     }
-    // print(user.accessToken);
-    // print(user.id);
     _loggedUserNotifier.updateUser(user);
   }
 

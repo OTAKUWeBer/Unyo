@@ -33,6 +33,7 @@ import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
 import 'package:unyo/presentation/dialogs/anime_details_media_entry_dialog.dart';
+import 'package:unyo/presentation/dialogs/anime_server_selection_dialog.dart';
 
 class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeDetailsState> {
   // Repositories
@@ -174,8 +175,12 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     }
   }
 
-  void openAnimeServerSelectionDialog(BuildContext context) {
+  void openAnimeDetailsMediaEntryDialog(BuildContext context) {
     showWidgetDialogEffect(dialog: AnimeDetailsMediaEntryDialog(cubit: this));
+  }
+
+  void openAnimeServerSelectionDialog(BuildContext context) {
+    showWidgetDialogEffect(dialog: AnimeServerSelectionDialog(cubit: this));
   }
 
   Future<void> updateMediaListEntry(BuildContext context) async {
@@ -354,6 +359,19 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedExtension,
       );
       emit(state.copyWith(extensionAnimeResults: animeResults));
+      if (animeResults.isNotEmpty) {
+        showSnackBarEffect(
+            selectedExtension.name,
+            message: "Found: ${animeResults.first.getTitle()}",
+            contentType: ContentType.success
+        );
+      }else {
+        showSnackBarEffect(
+          selectedExtension.name,
+          message: "No results found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          contentType: ContentType.warning,
+        );
+      }
     } catch (e, stackTrace) {
       handleError("Error fetching Anime Info from selected extension: $e", stackTrace: stackTrace);
     }

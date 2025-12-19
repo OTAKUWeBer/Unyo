@@ -11,9 +11,11 @@ class UnyoEpisodeButton extends StatelessWidget {
   final int progress;
   final int released;
   final bool showDivider;
+  final void Function()? onPressed;
 
   const UnyoEpisodeButton({
     super.key,
+    this.onPressed,
     required this.mainTitle,
     required this.secondaryTitle,
     required this.episodeImageUrl,
@@ -26,7 +28,7 @@ class UnyoEpisodeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

@@ -14,20 +14,19 @@ import 'package:unyo/presentation/widgets/text/text_display_large.dart';
 import '../../application/states/login_state.dart';
 
 class AccountCreationDialog extends StatelessWidget {
-  const AccountCreationDialog(this.screenContext, {super.key});
+  const AccountCreationDialog(this.screenContext, {super.key, required this.cubit});
 
   final BuildContext screenContext;
+  final LoginCubit cubit;
 
   @override
   Widget build(BuildContext context) {
-    // TODO - Do I need a MultiBlocProvider here if I'm only using one cubit?
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: BlocProvider.of<LoginCubit>(screenContext)),
-      ],
+    return BlocProvider.value(
+      value: cubit,
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
           return Dialog(
+            backgroundColor: const Color.fromARGB(255, 30, 30, 30),
             child: SizedBox(
               width: 0.6.sw,
               height: 0.6.sh,
