@@ -5,6 +5,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsepisode.dart';
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
 import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
@@ -77,6 +79,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           installedExtensions: {},
           selectedExtension: null,
           userLoaded: false,
+          animeServerDialogReady: false,
           extensionAnimeResults: [],
           extensionEpisodeResults: [],
           extensionVideoResults: [],
@@ -127,7 +130,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
-    _logger.i("Navigating to Anime Details of ${anime.title}");
+    _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
@@ -152,6 +155,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
             .where((extension) => selectedAnimeExtensionName == extension.name)
             .firstOrNull;
     if (selectedExtension != null) {
+      emit(state.copyWith(selectedExtension: selectedExtension));
       switch (state.loggedUser) {
         case AnilistUserModel anilistUserModel:
           SettingsModel userSettings = anilistUserModel.settings as SettingsModel;
@@ -179,8 +183,13 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     showWidgetDialogEffect(dialog: AnimeDetailsMediaEntryDialog(cubit: this));
   }
 
-  void openAnimeServerSelectionDialog(BuildContext context) {
+  Future<void> openAnimeServerSelectionDialog(BuildContext context) async {
+    emit(state.copyWith(animeServerDialogReady: false));
+    bool canOpenDialog = await _getEpisodesFromSelectedExtension(state.selectedExtension, state.extensionAnimeResults.firstOrNull);
+    if (!canOpenDialog) return;
     showWidgetDialogEffect(dialog: AnimeServerSelectionDialog(cubit: this));
+    await _getVideosFromSelectedExtension(state.selectedExtension, state.extensionEpisodeResults.firstOrNull);
+    emit(state.copyWith(animeServerDialogReady: true));
   }
 
   Future<void> updateMediaListEntry(BuildContext context) async {
@@ -288,7 +297,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i("Fetching Anime Details from AniList for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Details from AniList for ${state.selectedAnime.title.userPreferred}");
           (bool, AnimeDetails) animeDetails = await _animeRepositoryAnilist.getAnimeDetails(
             selectedAnime,
             loggedUser,
@@ -312,13 +321,13 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           }
           _getAlternativeImage(loggedUser, selectedAnime);
         case Service.mal:
-          _logger.i("Fetching Anime Details from MyAnimeList for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Details from MyAnimeList for ${state.selectedAnime.title.userPreferred}");
         case Service.shikimori:
-          _logger.i("Fetching Anime Details from Shikimori for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Details from Shikimori for ${state.selectedAnime.title.userPreferred}");
         case Service.kitsu:
-          _logger.i("Fetching Anime Details from Kitsu for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Details from Kitsu for ${state.selectedAnime.title.userPreferred}");
         case Service.simkl:
-          _logger.i("Fetching Anime Details from Simkl for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Details from Simkl for ${state.selectedAnime.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Anime details:", responseBody: e.message, stackTrace: stackTrace);
@@ -377,11 +386,103 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     }
   }
 
+  Future<bool> _getEpisodesFromSelectedExtension(Extension? selectedExtension, JSAnime? selectedJSAnime) async {
+    if (selectedExtension == null) {
+      _logger.w("No extension selected to fetch episodes.");
+      showSnackBarEffect(
+        "No Extension Selected",
+        message: "Select an extension to fetch episodes.",
+        contentType: ContentType.warning,
+      );
+      return false;
+    } else if (selectedJSAnime == null) {
+      _logger.w("No JSAnime selected to fetch episodes.");
+      showSnackBarEffect(
+        "No Anime Selected",
+        message: "Select an anime to fetch episodes.",
+        contentType: ContentType.warning,
+      );
+      return false;
+    }
+    try {
+      _logger.i(
+        "Fetching Episodes Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+      );
+      List<JSEpisode> episodeResults = await _extensionRepositoryAniyomi.getAnimeEpisodeList(
+        selectedJSAnime,
+        selectedExtension,
+      );
+      emit(state.copyWith(extensionEpisodeResults: episodeResults));
+      if (episodeResults.isNotEmpty) {
+        showSnackBarEffect(
+            selectedExtension.name,
+            message: "Found ${episodeResults.length} episodes for ${state.selectedAnime.title.userPreferred}",
+            contentType: ContentType.success
+        );
+      } else {
+        showSnackBarEffect(
+          selectedExtension.name,
+          message: "No episodes found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          contentType: ContentType.warning,
+        );
+      }
+    } catch (e, stackTrace) {
+      handleError("Error fetching Episodes Info from selected extension: $e", stackTrace: stackTrace);
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getVideosFromSelectedExtension(Extension? selectedExtension, JSEpisode? selectedJSEpisode) async {
+    if (selectedExtension == null) {
+      _logger.w("No extension selected to fetch videos.");
+      showSnackBarEffect(
+        "No Extension Selected",
+        message: "Select an extension to fetch videos.",
+        contentType: ContentType.warning,
+      );
+      return;
+    } else if (selectedJSEpisode == null) {
+      _logger.w("No JSEpisode selected to fetch videos.");
+      showSnackBarEffect(
+        "No Episode Selected",
+        message: "Select an episode to fetch videos.",
+        contentType: ContentType.warning,
+      );
+      return;
+    }
+    try {
+      _logger.i(
+        "Fetching Videos Info from extension ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+      );
+      List<JVideo> videoResults = await _extensionRepositoryAniyomi.getAnimeVideoList(
+        selectedJSEpisode,
+        selectedExtension,
+      );
+      emit(state.copyWith(extensionVideoResults: videoResults));
+      if (videoResults.isNotEmpty) {
+        showSnackBarEffect(
+            selectedExtension.name,
+            message: "Found ${videoResults.length} video links for ${state.selectedAnime.title.userPreferred}",
+            contentType: ContentType.success
+        );
+      } else {
+        showSnackBarEffect(
+          selectedExtension.name,
+          message: "No video links found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          contentType: ContentType.warning,
+        );
+      }
+    } catch (e, stackTrace) {
+      handleError("Error fetching Videos Info from selected extension: $e", stackTrace: stackTrace);
+    }
+  }
+
   Future<void> _getAlternativeImage(User loggedUser, Anime selectedAnime) async {
     try {
       switch (loggedUser.settings.episodeService) {
         case EpisodeService.anizip:
-          _logger.i("Fetching Alternative Image from Anizip for ${state.selectedAnime.title}");
+          _logger.i("Fetching Alternative Image from Anizip for ${state.selectedAnime.title.userPreferred}");
           late String alternateImage;
           if (loggedUser.settings.service == Service.anilist) {
             alternateImage = await _episodeRepositoryAnizip.getAlternativeImage(
@@ -396,7 +497,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           }
           emit(state.copyWith(alternateImage: alternateImage));
         case EpisodeService.kitsu:
-          _logger.i("Fetching Alternative Image from Kitsu for ${state.selectedAnime.title}");
+          _logger.i("Fetching Alternative Image from Kitsu for ${state.selectedAnime.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Alternative Image:", responseBody: e.message, stackTrace: stackTrace);
@@ -409,7 +510,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     try {
       switch (loggedUser.settings.episodeService) {
         case EpisodeService.anizip:
-          _logger.i("Fetching Episodes Details from Anizip for ${state.selectedAnime.title}");
+          _logger.i("Fetching Episodes Details from Anizip for ${state.selectedAnime.title.userPreferred}");
           late List<EpisodeInfo> episodesInfo;
           if (loggedUser.settings.service == Service.anilist) {
             episodesInfo = await _episodeRepositoryAnizip.getEpisodeInfo(
@@ -424,7 +525,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           }
           emit(state.copyWith(episodesInfo: episodesInfo));
         case EpisodeService.kitsu:
-          _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedAnime.title}");
+          _logger.i("Fetching Episodes Details from Kitsu for ${state.selectedAnime.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Episodes details:", responseBody: e.message, stackTrace: stackTrace);
@@ -437,17 +538,17 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i("Fetching Anime Banners from AniList for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Banners from AniList for ${state.selectedAnime.title.userPreferred}");
           List<String> banners = await _animeRepositoryAnilist.getMediaCoverImages(loggedUser);
           emit(state.copyWith(banners: banners));
         case Service.mal:
-          _logger.i("Fetching Anime Banners from MyAnimeList for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Banners from MyAnimeList for ${state.selectedAnime.title.userPreferred}");
         case Service.shikimori:
-          _logger.i("Fetching Anime Banners from Shikimori for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Banners from Shikimori for ${state.selectedAnime.title.userPreferred}");
         case Service.kitsu:
-          _logger.i("Fetching Anime Banners from Kitsu for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Banners from Kitsu for ${state.selectedAnime.title.userPreferred}");
         case Service.simkl:
-          _logger.i("Fetching Anime Banners from Simkl for ${state.selectedAnime.title}");
+          _logger.i("Fetching Anime Banners from Simkl for ${state.selectedAnime.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Anime banners:", responseBody: e.message, stackTrace: stackTrace);
@@ -464,7 +565,6 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           Extension? selectedExtension = userSettings.mediaExtensionConfigs[selectedAnime.id.toString()];
           if (selectedExtension != null) {
             selectAnimeExtension(selectedExtension.name);
-            emit(state.copyWith(selectedExtension: selectedExtension));
           }
         case LocalUserModel localUserModel:
       }

@@ -141,6 +141,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           icon: Icons.video_library_rounded,
                           children: state.formatFilters.$2,
                           selectedValue: state.selectedFormat,
+                          reactOnCancel: true,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedFormat,
                         ),
                       )
@@ -153,6 +154,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           icon: Icons.public,
                           children: state.countryFilters.$2,
                           selectedValue: state.selectedCountry,
+                          reactOnCancel: true,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedCountry,
                         ),
                       )
@@ -165,6 +167,7 @@ class _MangaAdvancedSearchViewState extends State<_MangaAdvancedSearchView> {
                           icon: Icons.signal_cellular_alt_rounded,
                           children: state.airingStatusFilters.$2,
                           selectedValue: state.selectedAiringStatus,
+                          reactOnCancel: true,
                           onPressed: context.read<MangaAdvancedSearchCubit>().updateSelectedAiringStatus,
                         ),
                       )

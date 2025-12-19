@@ -28,6 +28,7 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required String alternateImage,
     required Set<Extension> installedExtensions,
     required bool userLoaded,
+    required bool animeServerDialogReady,
     required Extension? selectedExtension,
     // relations
     // voice actors

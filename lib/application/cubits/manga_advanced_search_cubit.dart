@@ -73,7 +73,7 @@ class MangaAdvancedSearchCubit extends Cubit<MangaAdvancedSearchState>
   }
 
   void navigateToMangaDetails(BuildContext context, Manga manga, MediaList mediaList) {
-    _logger.i("Navigating to Manga Details of ${manga.title}");
+    _logger.i("Navigating to Manga Details of ${manga.title.userPreferred}");
     _selectedMangaNotifier.updateSelectedManga(manga);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     bool hasMangaDetailsInStack = AutoRouter.of(context).stackData.any(

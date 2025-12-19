@@ -4,7 +4,7 @@ import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
 
 class UnyoServerButton extends StatelessWidget {
   final JVideo videoServer;
-  const UnyoServerButton({super.key, required this.videoServerList});
+  const UnyoServerButton({super.key, required this.videoServer});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,8 @@ class UnyoServerButton extends StatelessWidget {
         ),
         height: 80.h,
         child: Text(
-          "",
-            // videoServer.get,
-            style: TextStyle(
+            videoServer.getQuality().toDartString(),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600
             )

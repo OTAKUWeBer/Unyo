@@ -7,7 +7,14 @@ class UnyoSlider extends StatefulWidget {
   final String title;
   final void Function(double) onChanged;
 
-  const UnyoSlider({super.key, required this.minValue, required this.initialValue, required this.maxValue, required this.title, required this.onChanged});
+  const UnyoSlider({
+    super.key,
+    required this.minValue,
+    required this.initialValue,
+    required this.maxValue,
+    required this.title,
+    required this.onChanged,
+  });
 
   @override
   State<UnyoSlider> createState() => _UnyoSliderState();
@@ -27,13 +34,18 @@ class _UnyoSliderState extends State<UnyoSlider> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),),
+        Text(widget.title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const SizedBox(width: 10),
-            Text("${_currentValue.toInt()}", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
-            const SizedBox(width: 10),
+            SizedBox(
+              width: 35,
+              child: Text(
+                "${_currentValue.toInt()}",
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
             Expanded(
               child: Slider(
                 value: _currentValue,
