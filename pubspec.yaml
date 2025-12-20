@@ -83,6 +83,13 @@ dev_dependencies:
   json_serializable: ^6.9.5
   build_runner: ^2.5.4
 
+dependency_overrides:
+  flutter_discord_rpc:
+    git:
+      url: https://github.com/OTAKUWeBer/frb_plugins.git
+      path: packages/flutter_discord_rpc
+      ref: main
+
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures the Material Icons font is included so you can use the material Icons class.
