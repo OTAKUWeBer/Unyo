@@ -13,7 +13,8 @@ class UnyoBannerCarousel extends StatefulWidget {
   final List<Manga>? mangaList;
   final Function(dynamic, MediaList)? onPressed;
 
-  const UnyoBannerCarousel({super.key, this.animeList, this.mangaList, this.onPressed});
+  const UnyoBannerCarousel({super.key, this.animeList, this.mangaList, this.onPressed})
+      : assert(animeList != null || mangaList != null, 'Either animeList or mangaList must be provided');
 
   @override
   State<UnyoBannerCarousel> createState() => _UnyoBannerCarouselState();
@@ -167,10 +168,10 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                       TextTitleSmall(
                                         text:
                                             widget
-                                                .animeList?[_currentPage]
+                                                .animeList?[index]
                                                 .title
                                                 .userPreferred ??
-                                            widget.mangaList![_currentPage].title.userPreferred,
+                                            widget.mangaList![index].title.userPreferred,
                                         style: const TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                       Container(
@@ -195,9 +196,9 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                                 color: Colors.white,
                                               ),
                                               text:
-                                                  widget.animeList?[_currentPage].meanScore
+                                                  widget.animeList?[index].meanScore
                                                       .toString() ??
-                                                  widget.mangaList![_currentPage].meanScore
+                                                  widget.mangaList![index].meanScore
                                                       .toString(),
                                             ),
                                           ],
@@ -211,8 +212,8 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                                       Expanded(
                                         child: TextBodyMedium(
                                           text:
-                                              TextUtils.parseHtmlToPlainText(widget.animeList?[_currentPage].description ??
-                                              widget.mangaList![_currentPage].description),
+                                              TextUtils.parseHtmlToPlainText(widget.animeList?[index].description ??
+                                              widget.mangaList![index].description),
                                           maxLines: 6,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(color: Colors.grey),
