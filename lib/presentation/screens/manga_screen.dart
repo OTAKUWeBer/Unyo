@@ -13,6 +13,8 @@ import 'package:unyo/presentation/views/loading_view.dart';
 import 'package:unyo/presentation/widgets/styled/manga_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_button.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner_carousel.dart';
+import 'package:unyo/core/enums/media_type.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 
 @RoutePage()
 class MangaScreen extends StatelessWidget {
@@ -85,6 +87,10 @@ class _MangaViewState extends State<_MangaView> {
               UnyoBannerCarousel(
                 mangaList: state.banners,
                 onPressed: (manga, mediaList) => context.read<MangaCubit>().navigateToMangaDetails(manga, mediaList),
+                mediaList: const MediaListModel(
+                name: "BannerCarousel", 
+                mediaType: MediaType.manga,
+               ),
               ),
               const SizedBox(height: 40),
               SizedBox(

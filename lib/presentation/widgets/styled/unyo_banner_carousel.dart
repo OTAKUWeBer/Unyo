@@ -12,9 +12,15 @@ class UnyoBannerCarousel extends StatefulWidget {
   final List<Anime>? animeList;
   final List<Manga>? mangaList;
   final Function(dynamic, MediaList)? onPressed;
+  final MediaList mediaList;
 
-  const UnyoBannerCarousel({super.key, this.animeList, this.mangaList, this.onPressed})
-      : assert(animeList != null || mangaList != null, 'Either animeList or mangaList must be provided');
+  const UnyoBannerCarousel({
+    super.key,
+    this.animeList,
+    this.mangaList,
+    this.onPressed,
+    required this.mediaList,
+  }) : assert(animeList != null || mangaList != null, 'Either animeList or mangaList must be provided');
 
   @override
   State<UnyoBannerCarousel> createState() => _UnyoBannerCarouselState();
@@ -120,7 +126,7 @@ class _UnyoBannerCarouselState extends State<UnyoBannerCarousel> {
                               onTap: widget.onPressed != null
                                   ? () {
                                       final item = widget.animeList?[index] ?? widget.mangaList![index];
-                                      widget.onPressed!(item, MediaListModel.empty());
+                                      widget.onPressed!(item, widget.mediaList);
                                     }
                                   : null,
                               child: ClipRRect(

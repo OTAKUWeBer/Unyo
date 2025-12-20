@@ -12,6 +12,8 @@ import 'package:unyo/presentation/views/loading_view.dart';
 import 'package:unyo/presentation/widgets/styled/anime_card_list.dart';
 import 'package:unyo/presentation/widgets/styled/media_button.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_banner_carousel.dart';
+import 'package:unyo/core/enums/media_type.dart';
+import 'package:unyo/domain/entities/media_list.dart';
 
 @RoutePage()
 class AnimeScreen extends StatelessWidget {
@@ -86,6 +88,10 @@ class _AnimeViewState extends State<_AnimeView> {
               UnyoBannerCarousel(
                 animeList: state.banners,
                 onPressed: (anime, mediaList) => context.read<AnimeCubit>().navigateToAnimeDetails(anime, mediaList),
+                mediaList: const MediaListModel(
+                name: "BannerCarousel", 
+                mediaType: MediaType.anime,
+                ),
               ),
               const SizedBox(height: 40,),
               SizedBox(
