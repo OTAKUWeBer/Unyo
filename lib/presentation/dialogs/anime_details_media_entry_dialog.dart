@@ -19,6 +19,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
       child: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
         builder:
             (context, state) => Dialog(
+              backgroundColor: const Color.fromARGB(255, 30, 30, 30),
               child: SizedBox(
                 width: 906.w,
                 height: 540.h,

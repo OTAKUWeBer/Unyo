@@ -90,7 +90,7 @@ class AnimeCubit extends Cubit<AnimeState> with EffectMixin<AnimeState> {
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
-    _logger.i("Navigating to Anime Details of ${anime.title}");
+    _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");

@@ -93,18 +93,19 @@ class _UnyoSettingsSelectionSliderState extends State<UnyoSettingsSelectionSlide
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SizedBox(width: 10,),
-                Text(
-                  widget.minValue.toString(),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                SizedBox(
+                  width: 35,
+                  child: Text(
+                    "${_currentValue.toInt()}",
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
                 ),
-                const SizedBox(width: 10,),
                 Expanded(
                   child: Slider(
                       value: _currentValue,
                       min: widget.minValue.toDouble(),
                       max: widget.maxValue.toDouble(),
                       divisions: widget.maxValue - widget.minValue,
-                      label: " ${_currentValue.toString()} ${widget.labelSuffix}",
                       activeColor: ColorScheme.of(context).tertiary,
                       inactiveColor: ColorScheme.of(context).secondary.withOpacity(0.4),
                       onChanged: (value) {

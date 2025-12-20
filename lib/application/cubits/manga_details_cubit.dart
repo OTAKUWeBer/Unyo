@@ -118,7 +118,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
   }
 
   void navigateToMangaDetails(Manga manga, MediaList mediaList) {
-    _logger.i("Navigating to Manga Details of ${manga.title}");
+    _logger.i("Navigating to Manga Details of ${manga.title.userPreferred}");
     _selectedMangaNotifier.updateSelectedManga(manga);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
   }
@@ -170,7 +170,7 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i("Fetching Manga Details from AniList for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Details from AniList for ${state.selectedManga.title.userPreferred}");
           (bool, MangaDetails) mangaDetails = await _mangaRepositoryAnilist.getMangaDetails(
             selectedManga,
             loggedUser,
@@ -190,13 +190,13 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
             emit(state.copyWith(recommendations: (trendingMangas.$1, trendingMangas.$2.shuffled(Random()))));
           }
         case Service.mal:
-          _logger.i("Fetching Manga Details from MyMangaList for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Details from MyMangaList for ${state.selectedManga.title.userPreferred}");
         case Service.shikimori:
-          _logger.i("Fetching Manga Details from Shikimori for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Details from Shikimori for ${state.selectedManga.title.userPreferred}");
         case Service.kitsu:
-          _logger.i("Fetching Manga Details from Kitsu for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Details from Kitsu for ${state.selectedManga.title.userPreferred}");
         case Service.simkl:
-          _logger.i("Fetching Manga Details from Simkl for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Details from Simkl for ${state.selectedManga.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Manga details:", responseBody: e.message, stackTrace: stackTrace);
@@ -268,17 +268,17 @@ class MangaDetailsCubit extends Cubit<MangaDetailsState> with EffectMixin<MangaD
     try {
       switch (loggedUser.settings.service) {
         case Service.anilist:
-          _logger.i("Fetching Manga Banners from AniList for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Banners from AniList for ${state.selectedManga.title.userPreferred}");
           List<String> banners = await _mangaRepositoryAnilist.getMediaCoverImages(loggedUser);
           emit(state.copyWith(banners: banners));
         case Service.mal:
-          _logger.i("Fetching Manga Banners from MyMangaList for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Banners from MyMangaList for ${state.selectedManga.title.userPreferred}");
         case Service.shikimori:
-          _logger.i("Fetching Manga Banners from Shikimori for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Banners from Shikimori for ${state.selectedManga.title.userPreferred}");
         case Service.kitsu:
-          _logger.i("Fetching Manga Banners from Kitsu for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Banners from Kitsu for ${state.selectedManga.title.userPreferred}");
         case Service.simkl:
-          _logger.i("Fetching Manga Banners from Simkl for ${state.selectedManga.title}");
+          _logger.i("Fetching Manga Banners from Simkl for ${state.selectedManga.title.userPreferred}");
       }
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error fetching Manga banners:", responseBody: e.message, stackTrace: stackTrace);

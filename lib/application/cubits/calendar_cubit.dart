@@ -57,7 +57,7 @@ class CalendarCubit extends Cubit<CalendarState> with EffectMixin<CalendarState>
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
-    _logger.i("Navigating to Anime Details of ${anime.title}");
+    _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     pushRouteEffect(path: "/animedetails");

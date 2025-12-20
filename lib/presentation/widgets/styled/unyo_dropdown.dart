@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class UnyoDropdown extends StatefulWidget {
@@ -8,6 +7,7 @@ class UnyoDropdown extends StatefulWidget {
   final IconData? icon;
   final String? label;
   final String? selectedValue;
+  final bool? reactOnCancel;
 
   const UnyoDropdown({
     super.key,
@@ -16,7 +16,8 @@ class UnyoDropdown extends StatefulWidget {
     this.icon,
     required this.label,
     required this.onPressed,
-    this.selectedValue
+    this.selectedValue,
+    this.reactOnCancel = false,
   });
 
   @override
@@ -30,14 +31,14 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
   void initState() {
     searchController = TextEditingController();
     if (widget.selectedValue != null) {
-    searchController.text = widget.selectedValue!;
+      searchController.text = widget.selectedValue!;
     }
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant UnyoDropdown oldWidget) {
-    if(oldWidget.selectedValue != widget.selectedValue) {
+    if (oldWidget.selectedValue != widget.selectedValue) {
       setState(() {
         searchController.text = widget.selectedValue ?? '';
       });
@@ -61,29 +62,34 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
             onSelected: widget.onPressed,
             leadingIcon: Padding(
               padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-              child: Icon(widget.icon ?? Icons.search_rounded, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
+              child: Icon(
+                widget.icon ?? Icons.search_rounded,
+                color: ColorScheme.of(context).tertiary.withOpacity(0.7),
+              ),
             ),
-            trailingIcon: widget.selectedValue != null
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: GestureDetector(
+            trailingIcon:
+                widget.selectedValue == null || widget.selectedValue!.isEmpty || searchController.text.isEmpty
+                    ? Icon(Icons.arrow_drop_down, color: ColorScheme.of(context).tertiary.withOpacity(0.7))
+                    : GestureDetector(
                       onTap: () {
-                        searchController.clear();
-                        widget.onPressed?.call(null);
+                        setState(() {
+                          searchController.clear();
+                        });
+                        if (widget.reactOnCancel == true) {
+                          widget.onPressed?.call(null);
+                        }
                       },
                       child: Icon(Icons.clear, color: ColorScheme.of(context).tertiary.withOpacity(0.7)),
                     ),
-                  )
-                : Icon(
-                    Icons.arrow_drop_down,
-                    color: ColorScheme.of(context).tertiary.withOpacity(0.7),
-                  ),
             enableFilter: true,
             menuStyle: MenuStyle(
               backgroundColor: WidgetStatePropertyAll(ColorScheme.of(context).secondary.withOpacity(0.8)),
               maximumSize: WidgetStatePropertyAll(Size(constrains.maxWidth, 300)),
             ),
-            label: widget.label != null ? Text(widget.label!, style: TextStyle(color: Colors.white.withOpacity(0.8))) : null,
+            label:
+                widget.label != null
+                    ? Text(widget.label!, style: TextStyle(color: Colors.white.withOpacity(0.8)))
+                    : null,
             inputDecorationTheme: InputDecorationTheme(
               focusedBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(Radius.circular(16.0)),
@@ -103,16 +109,13 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
                           value: element,
                           label: element,
                           style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(
-                              Colors.transparent,
-                            ),
+                            backgroundColor: WidgetStatePropertyAll(Colors.transparent),
                             alignment: Alignment.center,
                           ),
                         ),
                       )
                       .toList(),
-                ]
-                .toList(),
+                ].toList(),
           ),
     );
   }

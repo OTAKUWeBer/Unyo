@@ -73,7 +73,7 @@ class AnimeAdvancedSearchCubit extends Cubit<AnimeAdvancedSearchState>
   }
 
   void navigateToAnimeDetails(BuildContext context, Anime anime, MediaList mediaList) {
-    _logger.i("Navigating to Anime Details of ${anime.title}");
+    _logger.i("Navigating to Anime Details of ${anime.title.userPreferred}");
     _selectedAnimeNotifier.updateSelectedAnime(anime);
     _selectedMediaListNotifier.updateSelectedMediaList(mediaList);
     bool hasAnimeDetailsInStack = AutoRouter.of(context).stackData.any(

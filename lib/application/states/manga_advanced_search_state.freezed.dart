@@ -221,7 +221,7 @@ return $default(_that.loggedUser,_that.genresFilters,_that.formatFilters,_that.c
 
 
 class _MangaAdvancedSearchState extends MangaAdvancedSearchState {
-  const _MangaAdvancedSearchState({required this.loggedUser, this.genresFilters = const (false, <String>[]), this.formatFilters = const (false, <String>[]), this.countryFilters = const (false, <String>[]), this.airingStatusFilters = const (false, <String>[]), this.searchSortOptions = const (false, <String>[]), this.searchSortOrder = const (false, <String>[]), this.searchQuery = '', final  List<String> selectedGenres = const <String>[], this.selectedFormat, this.selectedCountry, this.selectedAiringStatus, final  List<Manga> searchResults = const [], this.selectedSearchOrder = 'Desc', this.selectedSearchSortOption = 'Popularity', final  List<AppEffect> effects = const <AppEffect>[]}): _selectedGenres = selectedGenres,_searchResults = searchResults,_effects = effects,super._();
+  const _MangaAdvancedSearchState({required this.loggedUser, this.genresFilters = const (false, <String>[]), this.formatFilters = const (false, <String>[]), this.countryFilters = const (false, <String>[]), this.airingStatusFilters = const (false, <String>[]), this.searchSortOptions = const (false, <String>[]), this.searchSortOrder = const (false, <String>[]), this.searchQuery = '', final  List<String> selectedGenres = const <String>[], this.selectedFormat = null, this.selectedCountry = null, this.selectedAiringStatus = null, final  List<Manga> searchResults = const [], this.selectedSearchOrder = 'Desc', this.selectedSearchSortOption = 'Popularity', final  List<AppEffect> effects = const <AppEffect>[]}): _selectedGenres = selectedGenres,_searchResults = searchResults,_effects = effects,super._();
   
 
 @override final  User loggedUser;
@@ -239,9 +239,9 @@ class _MangaAdvancedSearchState extends MangaAdvancedSearchState {
   return EqualUnmodifiableListView(_selectedGenres);
 }
 
-@override final  String? selectedFormat;
-@override final  String? selectedCountry;
-@override final  String? selectedAiringStatus;
+@override@JsonKey() final  String? selectedFormat;
+@override@JsonKey() final  String? selectedCountry;
+@override@JsonKey() final  String? selectedAiringStatus;
  final  List<Manga> _searchResults;
 @override@JsonKey() List<Manga> get searchResults {
   if (_searchResults is EqualUnmodifiableListView) return _searchResults;

@@ -95,7 +95,7 @@ class AppEffectHandler {
     ScaffoldMessenger.of(context)
       ..hideCurrentMaterialBanner()
       ..showMaterialBanner(snackBar);
-    timer = Timer(const Duration(seconds: 3), () {
+    timer = Timer(Duration(seconds: effect.contentType == ContentType.success ? 1 : 3), () {
       ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
     });
   }

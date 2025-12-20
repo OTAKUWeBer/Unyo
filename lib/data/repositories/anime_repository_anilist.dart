@@ -8,8 +8,7 @@ import 'package:unyo/core/di/locator.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
-import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart'
-    show MediaAdvancedSearchQueryGraphqlEntity;
+import 'package:unyo/core/services/api/dto/anilist/media_advanced_search_query_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_recently_completed_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_trendingOrPopular_graphql_entity.dart';
 import 'package:unyo/core/services/api/dto/anilist/media_collection_upcoming_graphql_entity.dart';
