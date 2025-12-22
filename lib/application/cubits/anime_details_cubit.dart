@@ -184,7 +184,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   }
 
   Future<void> openAnimeServerSelectionDialog(BuildContext context) async {
-    emit(state.copyWith(animeServerDialogReady: false));
+    emit(state.copyWith(animeServerDialogReady: false, extensionVideoResults: []));
     bool canOpenDialog = await _getEpisodesFromSelectedExtension(state.selectedExtension, state.extensionAnimeResults.firstOrNull);
     if (!canOpenDialog) return;
     showWidgetDialogEffect(dialog: AnimeServerSelectionDialog(cubit: this));
@@ -412,25 +412,21 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedJSAnime,
         selectedExtension,
       );
-      emit(state.copyWith(extensionEpisodeResults: episodeResults));
       if (episodeResults.isNotEmpty) {
-        showSnackBarEffect(
-            selectedExtension.name,
-            message: "Found ${episodeResults.length} episodes for ${state.selectedAnime.title.userPreferred}",
-            contentType: ContentType.success
-        );
+        emit(state.copyWith(extensionEpisodeResults: episodeResults));
+        return true;
       } else {
         showSnackBarEffect(
           selectedExtension.name,
           message: "No episodes found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
           contentType: ContentType.warning,
         );
+        return false;
       }
     } catch (e, stackTrace) {
       handleError("Error fetching Episodes Info from selected extension: $e", stackTrace: stackTrace);
       return false;
     }
-    return true;
   }
 
   Future<void> _getVideosFromSelectedExtension(Extension? selectedExtension, JSEpisode? selectedJSEpisode) async {
@@ -459,13 +455,8 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedJSEpisode,
         selectedExtension,
       );
-      emit(state.copyWith(extensionVideoResults: videoResults));
       if (videoResults.isNotEmpty) {
-        showSnackBarEffect(
-            selectedExtension.name,
-            message: "Found ${videoResults.length} video links for ${state.selectedAnime.title.userPreferred}",
-            contentType: ContentType.success
-        );
+       emit(state.copyWith(extensionVideoResults: videoResults));
       } else {
         showSnackBarEffect(
           selectedExtension.name,

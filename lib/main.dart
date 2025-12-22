@@ -30,9 +30,9 @@ void main() async {
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en')],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
+      supportedLocales: const [Locale('en', 'GB')],
+      path: 'assets/i18n',
+      fallbackLocale: const Locale('en', 'GB'),
       useOnlyLangCode: true,
       child: ScreenUtilInit(
         designSize: const Size(1280, 720),

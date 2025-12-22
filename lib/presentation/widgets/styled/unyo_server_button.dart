@@ -17,12 +17,17 @@ class UnyoServerButton extends StatelessWidget {
           color: Colors.grey.withOpacity(0.3),
         ),
         height: 80.h,
-        child: Text(
-            videoServer.getQuality().toDartString(),
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600
-            )
+        child: Row(
+          children: [
+            Text(
+              videoServer.getVideoTitle().toDartString(),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+            Icon(
+              RegExp(r'(720|1080)[pP]?').hasMatch(videoServer.getQuality().toDartString()) ? Icons.hd : Icons.sd,
+              color: ColorScheme.of(context).tertiary,
+            ),
+          ],
         ),
       ),
     );

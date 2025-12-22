@@ -90,7 +90,7 @@ flutter:
 
   # Assets Application
   assets:
-    - assets/translations/
+    - assets/i18n/
     - assets/logo.png
     - assets/images/myanimelist.svg
     - assets/images/anilist.svg
