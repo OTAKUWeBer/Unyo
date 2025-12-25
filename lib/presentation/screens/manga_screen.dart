@@ -122,7 +122,7 @@ class _MangaViewState extends State<_MangaView> {
                     listTitle: "Trending Mangas",
                     mangaList: state.trending.$2,
                     controller: trendingController,
-                    onPressed: (manga, mediaList) => context.read<MangaCubit>().navigateToMangaDetails(manga, mediaList),
+                    onPressed: context.read<MangaCubit>().navigateToMangaDetails,
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
@@ -132,7 +132,7 @@ class _MangaViewState extends State<_MangaView> {
                     listTitle: "Recently Completed Mangas",
                     mangaList: state.recentlyCompleted.$2,
                     controller: recentlyCompletedController,
-                    onPressed: (manga, mediaList) => context.read<MangaCubit>().navigateToMangaDetails(manga, mediaList),
+                    onPressed: context.read<MangaCubit>().navigateToMangaDetails,
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
@@ -142,7 +142,7 @@ class _MangaViewState extends State<_MangaView> {
                     listTitle: "Popular Mangas",
                     mangaList: state.popular.$2,
                     controller: popularController,
-                    onPressed: (manga, mediaList) => context.read<MangaCubit>().navigateToMangaDetails(manga, mediaList),
+                    onPressed: context.read<MangaCubit>().navigateToMangaDetails,
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
@@ -152,7 +152,7 @@ class _MangaViewState extends State<_MangaView> {
                     listTitle: "Upcoming Mangas",
                     mangaList: state.upcoming.$2,
                     controller: upcomingController,
-                    onPressed: (manga, mediaList) => context.read<MangaCubit>().navigateToMangaDetails(manga, mediaList),
+                    onPressed: context.read<MangaCubit>().navigateToMangaDetails,
                     loadMore: false,
                   )
                   : const SizedBox.shrink(),
