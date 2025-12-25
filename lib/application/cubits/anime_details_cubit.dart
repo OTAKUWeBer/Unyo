@@ -184,12 +184,28 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   }
 
   Future<void> openAnimeServerSelectionDialog(BuildContext context) async {
-    emit(state.copyWith(animeServerDialogReady: false));
-    bool canOpenDialog = await _getEpisodesFromSelectedExtension(state.selectedExtension, state.extensionAnimeResults.firstOrNull);
+    emit(state.copyWith(animeServerDialogReady: false, extensionVideoResults: []));
+    bool canOpenDialog = await _getEpisodesFromSelectedExtension(
+      state.selectedExtension,
+      state.extensionAnimeResults.firstOrNull,
+    );
     if (!canOpenDialog) return;
-    showWidgetDialogEffect(dialog: AnimeServerSelectionDialog(cubit: this));
-    await _getVideosFromSelectedExtension(state.selectedExtension, state.extensionEpisodeResults.firstOrNull);
-    emit(state.copyWith(animeServerDialogReady: true));
+    showWidgetDialogEffect(
+      dialog: AnimeServerSelectionDialog(
+        cubit: this,
+        onOpen: () async {
+          bool shouldKeepDialog = await _getVideosFromSelectedExtension(
+            state.selectedExtension,
+            state.extensionEpisodeResults.firstOrNull,
+          );
+          if (!shouldKeepDialog && context.mounted) {
+            return false;
+          }
+          emit(state.copyWith(animeServerDialogReady: true));
+          return true;
+        },
+      ),
+    );
   }
 
   Future<void> updateMediaListEntry(BuildContext context) async {
@@ -213,7 +229,6 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         case Service.simkl:
           _logger.i("Updating Media List Entry to $desiredMediaListEntry on Simkl");
       }
-
     } on HttpServerException catch (e, stackTrace) {
       handleError("Error updating Anime Entry:", responseBody: e.message, stackTrace: stackTrace);
     } catch (e, stackTrace) {
@@ -226,7 +241,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryStatus(String? newStatus) async {
     if (newStatus == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(status: newStatus);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        status: newStatus,
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry status: $e", stackTrace: stackTrace);
@@ -236,7 +253,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryProgress(int? newProgress) async {
     if (newProgress == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(progress: newProgress);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        progress: newProgress,
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry progress: $e", stackTrace: stackTrace);
@@ -246,7 +265,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryScore(double? newScore) async {
     if (newScore == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(score: newScore);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        score: newScore,
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry score: $e", stackTrace: stackTrace);
@@ -256,7 +277,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryRepeat(int? newRepeat) async {
     if (newRepeat == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(repeat: newRepeat);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        repeat: newRepeat,
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry repeat: $e", stackTrace: stackTrace);
@@ -269,9 +292,15 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    if (selectedDateTime == null ) return;
+    if (selectedDateTime == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(startedAt: [selectedDateTime.day.toString(), selectedDateTime.month.toString(), selectedDateTime.year.toString()]);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        startedAt: [
+          selectedDateTime.day.toString(),
+          selectedDateTime.month.toString(),
+          selectedDateTime.year.toString(),
+        ],
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry started at: $e", stackTrace: stackTrace);
@@ -284,9 +313,15 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    if (selectedDateTime == null ) return;
+    if (selectedDateTime == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(completedAt: [selectedDateTime.day.toString(), selectedDateTime.month.toString(), selectedDateTime.year.toString()]);
+      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+        completedAt: [
+          selectedDateTime.day.toString(),
+          selectedDateTime.month.toString(),
+          selectedDateTime.year.toString(),
+        ],
+      );
       emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry completed at: $e", stackTrace: stackTrace);
@@ -370,14 +405,15 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       emit(state.copyWith(extensionAnimeResults: animeResults));
       if (animeResults.isNotEmpty) {
         showSnackBarEffect(
-            selectedExtension.name,
-            message: "Found: ${animeResults.first.getTitle()}",
-            contentType: ContentType.success
+          selectedExtension.name,
+          message: "Found: ${animeResults.first.getTitle()}",
+          contentType: ContentType.success,
         );
-      }else {
+      } else {
         showSnackBarEffect(
           selectedExtension.name,
-          message: "No results found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          message:
+              "No results found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
           contentType: ContentType.warning,
         );
       }
@@ -386,7 +422,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     }
   }
 
-  Future<bool> _getEpisodesFromSelectedExtension(Extension? selectedExtension, JSAnime? selectedJSAnime) async {
+  Future<bool> _getEpisodesFromSelectedExtension(
+    Extension? selectedExtension,
+    JSAnime? selectedJSAnime,
+  ) async {
     if (selectedExtension == null) {
       _logger.w("No extension selected to fetch episodes.");
       showSnackBarEffect(
@@ -412,28 +451,28 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedJSAnime,
         selectedExtension,
       );
-      emit(state.copyWith(extensionEpisodeResults: episodeResults));
       if (episodeResults.isNotEmpty) {
-        showSnackBarEffect(
-            selectedExtension.name,
-            message: "Found ${episodeResults.length} episodes for ${state.selectedAnime.title.userPreferred}",
-            contentType: ContentType.success
-        );
+        emit(state.copyWith(extensionEpisodeResults: episodeResults));
+        return true;
       } else {
         showSnackBarEffect(
           selectedExtension.name,
-          message: "No episodes found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          message:
+              "No episodes found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
           contentType: ContentType.warning,
         );
+        return false;
       }
     } catch (e, stackTrace) {
       handleError("Error fetching Episodes Info from selected extension: $e", stackTrace: stackTrace);
       return false;
     }
-    return true;
   }
 
-  Future<void> _getVideosFromSelectedExtension(Extension? selectedExtension, JSEpisode? selectedJSEpisode) async {
+  Future<bool> _getVideosFromSelectedExtension(
+    Extension? selectedExtension,
+    JSEpisode? selectedJSEpisode,
+  ) async {
     if (selectedExtension == null) {
       _logger.w("No extension selected to fetch videos.");
       showSnackBarEffect(
@@ -441,7 +480,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         message: "Select an extension to fetch videos.",
         contentType: ContentType.warning,
       );
-      return;
+      return false;
     } else if (selectedJSEpisode == null) {
       _logger.w("No JSEpisode selected to fetch videos.");
       showSnackBarEffect(
@@ -449,7 +488,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         message: "Select an episode to fetch videos.",
         contentType: ContentType.warning,
       );
-      return;
+      return false;
     }
     try {
       _logger.i(
@@ -459,22 +498,21 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedJSEpisode,
         selectedExtension,
       );
-      emit(state.copyWith(extensionVideoResults: videoResults));
       if (videoResults.isNotEmpty) {
-        showSnackBarEffect(
-            selectedExtension.name,
-            message: "Found ${videoResults.length} video links for ${state.selectedAnime.title.userPreferred}",
-            contentType: ContentType.success
-        );
+        emit(state.copyWith(extensionVideoResults: videoResults));
+        return true;
       } else {
         showSnackBarEffect(
           selectedExtension.name,
-          message: "No video links found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
+          message:
+              "No video links found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}",
           contentType: ContentType.warning,
         );
+        return false;
       }
     } catch (e, stackTrace) {
       handleError("Error fetching Videos Info from selected extension: $e", stackTrace: stackTrace);
+      return false;
     }
   }
 

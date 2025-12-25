@@ -7,39 +7,62 @@ import 'package:unyo/application/states/anime_details_state.dart';
 import 'package:unyo/presentation/views/loading_view.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_server_button.dart';
 
-class AnimeServerSelectionDialog extends StatelessWidget {
+class AnimeServerSelectionDialog extends StatefulWidget {
   final AnimeDetailsCubit cubit;
+  final Future<bool> Function() onOpen;
 
-  const AnimeServerSelectionDialog({super.key, required this.cubit});
+  const AnimeServerSelectionDialog({super.key, required this.cubit, required this.onOpen});
+
+  @override
+  State<AnimeServerSelectionDialog> createState() => _AnimeServerSelectionDialogState();
+}
+
+class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog> {
+
+  @override
+  void initState() {
+    super.initState();
+    asyncInit();
+  }
+
+  Future<void> asyncInit() async {
+    bool remainOpen = await widget.onOpen();
+    if (!remainOpen && mounted) {
+      Navigator.of(context).pop();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: cubit,
+      value: widget.cubit,
       child: BlocBuilder<AnimeDetailsCubit, AnimeDetailsState>(
         builder:
             (context, state) => Dialog(
               backgroundColor: const Color.fromARGB(255, 30, 30, 30),
-              child: state.animeServerDialogReady ? SizedBox(
+              child: SizedBox(
                 width: 600.w,
                 height: 540.h,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.0.w, vertical: 36.0.h),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Select Server",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-                      ),
-                      ...state.extensionVideoResults.map(
-                        (JVideo video) => Column(
-                          children: [SizedBox(height: 25.0.h), UnyoServerButton(videoServer: video)],
-                        ),
-                      ),
-                    ],
-                  ),
+                  child:
+                      state.animeServerDialogReady
+                          ? Column(
+                            children: [
+                              const Text(
+                                "Select Server",
+                                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800),
+                              ),
+                              ...state.extensionVideoResults.map(
+                                (JVideo video) => Column(
+                                  children: [SizedBox(height: 25.0.h), UnyoServerButton(videoServer: video)],
+                                ),
+                              ),
+                            ],
+                          )
+                          : const LoadingView(),
                 ),
-              ) : const LoadingView(),
+              ),
             ),
       ),
     );

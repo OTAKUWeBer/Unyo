@@ -35,7 +35,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                             children: [
                               const Text(
                                 "List Editor",
-                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                                style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800),
                               ),
                               IconButton(
                                 onPressed: () {},
