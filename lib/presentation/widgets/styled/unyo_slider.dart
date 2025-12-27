@@ -51,7 +51,7 @@ class _UnyoSliderState extends State<UnyoSlider> {
                 value: _currentValue,
                 min: widget.minValue.toDouble(),
                 max: widget.maxValue.toDouble(),
-                divisions: widget.maxValue - widget.minValue,
+                divisions: (widget.maxValue - widget.minValue) == 0 ? null : widget.maxValue - widget.minValue,
                 // label: "$_currentValue",
                 activeColor: ColorScheme.of(context).tertiary,
                 inactiveColor: ColorScheme.of(context).secondary.withOpacity(0.4),

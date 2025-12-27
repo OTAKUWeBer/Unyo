@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 class UnyoTextfield extends StatefulWidget {
   final double? width;
   final IconData? icon;
+  final String? hint;
   final String? label;
   final int debounceMilliseconds;
   final void Function(String)? onChange;
 
-  const UnyoTextfield({super.key, this.width, this.icon, required this.label, required this.debounceMilliseconds, required this.onChange});
+  const UnyoTextfield({super.key, this.width, this.icon, this.hint, required this.label, required this.debounceMilliseconds, required this.onChange});
 
   @override
   State<UnyoTextfield> createState() => _UnyoTextfieldState();
@@ -51,6 +52,7 @@ class _UnyoTextfieldState extends State<UnyoTextfield> {
                   borderRadius: BorderRadius.circular(16.0),
                   borderSide: BorderSide(color: ColorScheme.of(context).primary, width: 3),
                 ),
+                hintText: widget.hint,
                 label:
                     widget.label != null
                         ? Text(widget.label!, style: TextStyle(color: Colors.white.withOpacity(0.8)))

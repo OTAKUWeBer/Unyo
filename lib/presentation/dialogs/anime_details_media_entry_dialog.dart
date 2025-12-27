@@ -59,7 +59,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                             selectedValue: state.mediaListEntry.status,
                           ),
                           SizedBox(height: 25.0.h),
-                          UnyoSlider(
+                        UnyoSlider(
                             minValue: 0,
                             initialValue: state.mediaListEntry.progress != -1 ? state.mediaListEntry.progress : 0,
                             title: "Progress",

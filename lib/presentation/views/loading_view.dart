@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LoadingView extends StatelessWidget {
-  const LoadingView({super.key});
+  final double width;
+  const LoadingView({super.key, this.width = 120});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class LoadingView extends StatelessWidget {
       children: [
         Center(
           child: Container(
-            width: 120,
+            width: width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: const AssetImage(

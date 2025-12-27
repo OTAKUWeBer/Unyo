@@ -76,7 +76,6 @@ class UserRepositoryAnilist with RepositoryMixin implements UserRepository {
     _anilistUsersBox = await Hive.openBox<AnilistUserModel>("anilistUsers");
     if (_anilistUsersBox.containsKey(user.name)) {
       _logger.w("User ${user.name} already exists in the registered anilist users, updating info");
-      // await _anilistUsersBox.delete(user.name);
       await _anilistUsersBox.put(user.name, user as AnilistUserModel);
     } else {
       _logger.i("Adding new user ${user.name} to the registered anilist users");

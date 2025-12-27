@@ -44,7 +44,7 @@ class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog>
                 width: 600.w,
                 height: 540.h,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0.w, vertical: 36.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 36.0.h),
                   child:
                       state.animeServerDialogReady
                           ? Column(
@@ -53,14 +53,22 @@ class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog>
                                 "Select Server",
                                 style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800),
                               ),
-                              ...state.extensionVideoResults.map(
-                                (JVideo video) => Column(
-                                  children: [SizedBox(height: 25.0.h), UnyoServerButton(videoServer: video)],
+                              Expanded(
+                                child: ListView(
+                                  scrollDirection: Axis.vertical,
+                                  padding: EdgeInsets.symmetric(horizontal: 15.0.w),
+                                  children: [
+                                    ...state.extensionVideoResults.map(
+                                          (JVideo video) => Column(
+                                        children: [SizedBox(height: 25.0.h), UnyoServerButton(videoServer: video)],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                              )
                             ],
                           )
-                          : const LoadingView(),
+                          : LoadingView(width: 85.w,),
                 ),
               ),
             ),

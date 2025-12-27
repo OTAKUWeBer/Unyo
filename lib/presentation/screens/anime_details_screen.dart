@@ -108,7 +108,7 @@ class _AnimeDetailsViewState extends State<_AnimeDetailsView> {
                   ? (state.selectedAnime.nextAiringEpisode.episode - 1)
                   : numEpisodes,
           showDivider: i != 0,
-          onPressed: () => context.read<AnimeDetailsCubit>().openAnimeServerSelectionDialog(context),
+          onPressed: () => context.read<AnimeDetailsCubit>().openAnimeServerSelectionDialog(context, i),
         ),
       );
     }
