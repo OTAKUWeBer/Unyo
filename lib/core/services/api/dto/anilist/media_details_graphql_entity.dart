@@ -24,7 +24,7 @@ class MediaDetailsGraphqlEntity {
 class MediaDetailsGraphqlMedia {
 	late int id = 0;
 	late MediaDetailsGraphqlMediaTitle title;
-	late MediaDetailsGraphqlMediaRecommendations recommendations;
+	late MediaDetailsGraphqlMediaRecommendations recommendations = MediaDetailsGraphqlMediaRecommendations();
 	late MediaDetailsGraphqlMediaCharacters characters;
 	MediaDetailsGraphqlMediaMediaListEntry? mediaListEntry;
 
@@ -77,7 +77,7 @@ class MediaDetailsGraphqlMediaRecommendations {
 
 @JsonSerializable()
 class MediaDetailsGraphqlMediaRecommendationsNodes {
-	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation mediaRecommendation;
+	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation mediaRecommendation = MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation();
 
 	MediaDetailsGraphqlMediaRecommendationsNodes();
 
@@ -95,17 +95,17 @@ class MediaDetailsGraphqlMediaRecommendationsNodes {
 class MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendation {
 	int id = 0;
 	int idMal = 0;
-	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate startDate;
-	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate endDate;
+	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate startDate = MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationStartDate();
+	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate endDate = MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationEndDate();
 	String season = '';
 	String status = '';
 	bool isFavourite = false;
 	bool isAdult = false;
 	int episodes = 0;
   int chapters = 0;
-	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle title;
+	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle title = MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationTitle();
 	String bannerImage = '';
-	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage coverImage;
+	late MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage coverImage = MediaDetailsGraphqlMediaRecommendationsNodesMediaRecommendationCoverImage();
 	int averageScore = 0;
 	int duration = 0;
 	String format = '';

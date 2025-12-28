@@ -183,8 +183,9 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     showWidgetDialogEffect(dialog: AnimeDetailsMediaEntryDialog(cubit: this));
   }
 
-  Future<void> openAnimeServerSelectionDialog(BuildContext context) async {
+  Future<void> openAnimeServerSelectionDialog(BuildContext context, int episodeIndex) async {
     emit(state.copyWith(animeServerDialogReady: false, extensionVideoResults: []));
+    // TODO - You may not want to select the first one on extensionAnimeResults
     bool canOpenDialog = await _getEpisodesFromSelectedExtension(
       state.selectedExtension,
       state.extensionAnimeResults.firstOrNull,
@@ -196,7 +197,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         onOpen: () async {
           bool shouldKeepDialog = await _getVideosFromSelectedExtension(
             state.selectedExtension,
-            state.extensionEpisodeResults.firstOrNull,
+            state.extensionEpisodeResults[episodeIndex],
           );
           if (!shouldKeepDialog && context.mounted) {
             return false;
@@ -402,6 +403,27 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         state.selectedAnime.title.userPreferred,
         selectedExtension,
       );
+      if (animeResults.isEmpty) {
+        _logger.w("No results found in ${selectedExtension.name} for ${state.selectedAnime.title.userPreferred}, trying alternative english title.");
+        animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(
+          state.selectedAnime.title.english,
+          selectedExtension,
+        );
+      }
+      if (animeResults.isEmpty) {
+        _logger.w("No results found in ${selectedExtension.name} for ${state.selectedAnime.title.english}, trying alternative native title.");
+        animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(
+          state.selectedAnime.title.nativeTitle,
+          selectedExtension,
+        );
+      }
+      if (animeResults.isEmpty) {
+        _logger.w("No results found in ${selectedExtension.name} for ${state.selectedAnime.title.nativeTitle}, trying alternative romaji title.");
+        animeResults = await _extensionRepositoryAniyomi.getAnimeSearchResults(
+          state.selectedAnime.title.romaji,
+          selectedExtension,
+        );
+      }
       emit(state.copyWith(extensionAnimeResults: animeResults));
       if (animeResults.isNotEmpty) {
         showSnackBarEffect(
@@ -452,7 +474,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedExtension,
       );
       if (episodeResults.isNotEmpty) {
-        emit(state.copyWith(extensionEpisodeResults: episodeResults));
+        emit(state.copyWith(extensionEpisodeResults: episodeResults.sorted((animeEpisode1, animeEpisode2) => animeEpisode1.getEpisode_number().toInt() - animeEpisode2.getEpisode_number().toInt())));
         return true;
       } else {
         showSnackBarEffect(

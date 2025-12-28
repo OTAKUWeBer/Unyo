@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +15,7 @@ import 'package:unyo/data/models/local_user_model.dart';
 import 'package:unyo/data/repositories/repositories.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
+import 'package:unyo/presentation/dialogs/textfield_dialog.dart';
 
 class SettingsCubit extends Cubit<SettingsState> with EffectMixin<SettingsState> {
   final Logger _logger = sl<Logger>();
@@ -49,12 +51,64 @@ class SettingsCubit extends Cubit<SettingsState> with EffectMixin<SettingsState>
 
   Future<void> enableNSFWContent(bool enable) async {
     try {
-      Settings updatedSettings = (state.loggedUser.settings as SettingsModel).copyWith(enableNsfwContent: enable);
+      Settings updatedSettings = (state.loggedUser.settings as SettingsModel).copyWith(
+        enableNsfwContent: enable,
+      );
       _updateUserInfo(updatedSettings);
     } catch (e, stackTrace) {
       logger.e("Error enabling/disabling NSFW content $e", stackTrace: stackTrace);
       handleError("Error enabling/disabling NSFW content", stackTrace: stackTrace);
     }
+  }
+
+  void openAniyomiExtensionsDialog() {
+    showWidgetDialogEffect(
+      dialog: TextFieldDialog(
+        width: 500.w,
+        height: 200.h,
+        title: "Aniyomi extensions repository URL",
+        hint: state.loggedUser.settings.aniyomiExtensionsRepositoryUrl,
+        onSubmitted: (newExtensionsUrl) {
+          if (newExtensionsUrl == null || newExtensionsUrl.isEmpty) {
+            return;
+          }
+          try {
+            Settings updatedSettings = (state.loggedUser.settings as SettingsModel).copyWith(
+              aniyomiExtensionsRepositoryUrl: newExtensionsUrl,
+            );
+            _updateUserInfo(updatedSettings);
+          } catch (e, stackTrace) {
+            logger.e("Error updating Aniyomi extensions URL $e", stackTrace: stackTrace);
+            handleError("Error updating Aniyomi extensions URL", stackTrace: stackTrace);
+          }
+        },
+      ),
+    );
+  }
+
+  void openTachiyomiExtensionsDialog() {
+    showWidgetDialogEffect(
+      dialog: TextFieldDialog(
+        width: 500.w,
+        height: 200.h,
+        title: "Tachiyomi extensions repository URL",
+        hint: state.loggedUser.settings.tachiyomiExtensionsRepositoryUrl,
+        onSubmitted: (newExtensionsUrl) {
+          if (newExtensionsUrl == null || newExtensionsUrl.isEmpty) {
+            return;
+          }
+          try {
+            Settings updatedSettings = (state.loggedUser.settings as SettingsModel).copyWith(
+              tachiyomiExtensionsRepositoryUrl: newExtensionsUrl,
+            );
+            _updateUserInfo(updatedSettings);
+          } catch (e, stackTrace) {
+            logger.e("Error updating Tachiyomi extensions URL $e", stackTrace: stackTrace);
+            handleError("Error updating Tachiyomi extensions URL", stackTrace: stackTrace);
+          }
+        },
+      ),
+    );
   }
 
   Future<void> _updateUserInfo(Settings settings) async {
