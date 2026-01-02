@@ -63,6 +63,7 @@ dependencies:
   # Localization
   easy_localization: ^3.0.7+1
   # FFI/Native Integration
+  system_info3: ^4.0.2
   ffi: ^2.1.4
   ffigen: ^19.0.0
   meta: ^1.16.0
@@ -95,7 +96,11 @@ flutter:
     - assets/images/myanimelist.svg
     - assets/images/anilist.svg
     - assets/images/local_account.svg
-  #   - images/a_dot_ham.jpeg
+    - assets/services/torrserver/amd64/linux/torrserver
+    - assets/services/torrserver/amd64/macos/torrserver
+    - assets/services/torrserver/amd64/windows/torrserver.exe
+    - assets/services/torrserver/arm64/linux/torrserver
+    - assets/services/torrserver/arm64/macos/torrserver
 
   # To add custom fonts, add a fonts section in the "flutter" section with a "family" key for the font name and a "fonts" key listing the font assets.
   # fonts:

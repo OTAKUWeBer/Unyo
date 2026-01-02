@@ -30,6 +30,7 @@ import 'package:unyo/core/notification/user_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/core/services/torrent/torrent_service.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
@@ -59,6 +60,7 @@ void setupLocator() {
     instanceName: config.applicationSupportDirectory,
   );
   sl.registerSingleton<AniyomiBridge>(AniyomiBridge());
+  sl.registerSingleton<TorrentService>(TorrentService());
   // Notifiers
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.loggedUserNotifier);
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
