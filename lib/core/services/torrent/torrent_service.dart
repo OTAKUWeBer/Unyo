@@ -57,7 +57,14 @@ class TorrentService {
   }
 
   Future<void> _startServer(String torrServerPath) async {
-    torrentProcess = await Process.start(torrServerPath, [], mode: ProcessStartMode.normal);
+    // Set working directory to the binary's location so generated files are created there
+    final workingDir = path.dirname(torrServerPath);
+    torrentProcess = await Process.start(
+      torrServerPath,
+      [],
+      mode: ProcessStartMode.normal,
+      workingDirectory: workingDir,
+    );
   }
 
   Future<void> stopServer() async {

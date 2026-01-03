@@ -11,6 +11,7 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/router/app_router.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/hive_registrar.g.dart';
+import 'package:window_manager/window_manager.dart';
 
 final _appRouter = AppRouter();
 
@@ -18,6 +19,7 @@ void main() async {
   // Initialize Flutter bindings
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await windowManager.ensureInitialized();
   // Inject dependencies before running the app
   setupLocator();
   // Initialize Hive and register adapters
@@ -27,6 +29,19 @@ void main() async {
     ..registerAdapters();
   // Inject the remaining dependencies that rely on Hive and are not Lazy
   setupLocatorAfterHiveInit();
+  // Setup Window Manager
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(1280, 720),
+    center: true,
+    backgroundColor: Colors.transparent,
+    titleBarStyle: TitleBarStyle.normal,
+    title: "Unyo"
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+    await windowManager.setPreventClose(true);
+  });
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
