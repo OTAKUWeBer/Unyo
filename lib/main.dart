@@ -1,7 +1,9 @@
 import 'dart:io';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:fvp/fvp.dart' as fvp;
 import 'package:hive_ce/hive.dart';
 import 'package:logger/logger.dart';
 
@@ -11,7 +13,6 @@ import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/router/app_router.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/hive_registrar.g.dart';
-import 'package:window_manager/window_manager.dart';
 
 final _appRouter = AppRouter();
 
@@ -42,6 +43,17 @@ void main() async {
     await windowManager.focus();
     await windowManager.setPreventClose(true);
   });
+  // Setup Video Player
+  if (Platform.isWindows) {
+    fvp.registerWith(options: {
+      'platforms': ['windows'],
+      'video.decoders': ['DXVA', 'FFmpeg'],
+    });
+  } else {
+    fvp.registerWith(options: {
+      'platforms': ['linux', 'macos'],
+    });
+  }
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(
