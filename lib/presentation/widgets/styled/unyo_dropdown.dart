@@ -114,7 +114,6 @@ class _UnyoDropdownState extends State<UnyoDropdown> {
                           ),
                         ),
                       )
-                      .toList(),
                 ].toList(),
           ),
     );

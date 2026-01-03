@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
 import 'package:unyo/application/cubits/anime_details_cubit.dart';
 import 'package:unyo/application/states/anime_details_state.dart';
+import 'package:unyo/domain/entities/extension/video.dart' as ext;
 import 'package:unyo/presentation/views/loading_view.dart';
 import 'package:unyo/presentation/widgets/styled/unyo_server_button.dart';
 
@@ -59,7 +59,7 @@ class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog>
                                   padding: EdgeInsets.symmetric(horizontal: 15.0.w),
                                   children: [
                                     ...state.extensionVideoResults.map(
-                                          (JVideo video) => Column(
+                                          (ext.Video video) => Column(
                                         children: [SizedBox(height: 25.0.h), UnyoServerButton(videoServer: video)],
                                       ),
                                     ),

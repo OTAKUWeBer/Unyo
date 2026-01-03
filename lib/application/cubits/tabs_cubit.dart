@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/application/states/tabs_state.dart';
+import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/enums/selected_menu_option.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
@@ -15,7 +16,7 @@ class TabsCubit extends Cubit<TabsState>
     with EffectMixin<TabsState> {
   final UserNotifier _loggedUserNotifier;
   final MenuBarNotifier _menuBarNotifier;
-  final Logger _logger = Logger();
+  final Logger _logger = sl<Logger>();
   late StreamSubscription<User> _newLoggedUserSubscription;
   late StreamSubscription<bool> _showMenuBarSubscription;
 

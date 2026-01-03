@@ -4,8 +4,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class UnyoAnimatedImageBanner extends StatefulWidget {
-  final imageUrl;
-  const UnyoAnimatedImageBanner({super.key, this.imageUrl});
+  final String imageUrl;
+  const UnyoAnimatedImageBanner({super.key, required this.imageUrl});
 
   @override
   State<UnyoAnimatedImageBanner> createState() =>

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
+import 'package:unyo/domain/entities/extension/video.dart' as ext;
 
 class UnyoServerButton extends StatelessWidget {
-  final JVideo videoServer;
+  final ext.Video videoServer;
 
   const UnyoServerButton({super.key, required this.videoServer});
 
@@ -32,13 +32,13 @@ class UnyoServerButton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        videoServer.getQuality().toDartString(),
+                        videoServer.quality,
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       Row(
                         children: [
                           Icon(
-                            RegExp(r'(720|1080)[pP]?').hasMatch(videoServer.getQuality().toDartString())
+                            RegExp(r'(720|1080)[pP]?').hasMatch(videoServer.quality)
                                 ? Icons.hd
                                 : Icons.sd,
                             color: ColorScheme.of(context).tertiary,

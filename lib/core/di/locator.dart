@@ -42,10 +42,14 @@ import 'package:unyo/application/cubits/home_cubit.dart';
 
 final sl = GetIt.instance;
 
-void setupLocator() {
+void setupLocator() async{
   // Singletons
-  sl.registerLazySingleton<Logger>(() => getLogger());
-
+  sl.registerSingletonAsync<Directory>(
+    () => getApplicationSupportDirectory(),
+    instanceName: config.applicationSupportDirectory,
+  );
+  await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
+  sl.registerSingleton<Logger>(getLogger());
   // Services
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<GraphQLService>(
@@ -55,10 +59,6 @@ void setupLocator() {
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
   sl.registerSingleton<ThemeService>(ThemeService());
   sl.registerLazySingleton<ColorImageService>(() => ColorImageService());
-  sl.registerLazySingletonAsync<Directory>(
-    () => getApplicationSupportDirectory(),
-    instanceName: config.applicationSupportDirectory,
-  );
   sl.registerSingleton<AniyomiBridge>(AniyomiBridge());
   sl.registerSingleton<TorrentService>(TorrentService());
   // Notifiers

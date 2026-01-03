@@ -5,7 +5,6 @@ import 'package:path/path.dart' as path;
 import 'package:unyo/config/config.dart' as config;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:system_info3/system_info3.dart';
 import 'package:unyo/core/di/locator.dart';
 import 'package:unyo/core/services/api/http/api_response.dart';
@@ -21,12 +20,12 @@ class TorrentService {
   Process? torrentProcess;
 
   TorrentService() {
-    initTorrentServer();
+    _initTorrentServer();
   }
 
-  Future<void> initTorrentServer() async {
+  Future<void> _initTorrentServer() async {
     await stopServer();
-    Directory supportDirectory = await getApplicationSupportDirectory();
+    Directory supportDirectory = sl<Directory>(instanceName: config.applicationSupportDirectory);
     String torrServerPath = await _loadTorrServerIfNeeded(supportDirectory);
     _startServer(torrServerPath);
   }
@@ -108,5 +107,4 @@ class TorrentService {
     }
     torrentProcess?.kill();
   }
-
 }

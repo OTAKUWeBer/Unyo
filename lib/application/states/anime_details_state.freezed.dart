@@ -16,7 +16,7 @@ mixin _$AnimeDetailsState {
 
  User get loggedUser; MediaList get selectedMediaList; Anime get selectedAnime; MediaListEntry get mediaListEntry; (bool, List<MediaCharacter>) get characters; (bool, List<Anime>) get recommendations; List<EpisodeInfo> get episodesInfo; List<String> get banners; String get alternateImage; Set<Extension> get installedExtensions; bool get userLoaded; bool get animeServerDialogReady; Extension? get selectedExtension;// relations
 // voice actors
- List<JSAnime> get extensionAnimeResults; List<JSEpisode> get extensionEpisodeResults; List<JVideo> get extensionVideoResults; List<AppEffect> get effects;
+ List<JSAnime> get extensionAnimeResults; List<JSEpisode> get extensionEpisodeResults; List<ext.Video> get extensionVideoResults; List<AppEffect> get effects;
 /// Create a copy of AnimeDetailsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -47,7 +47,7 @@ abstract mixin class $AnimeDetailsStateCopyWith<$Res>  {
   factory $AnimeDetailsStateCopyWith(AnimeDetailsState value, $Res Function(AnimeDetailsState) _then) = _$AnimeDetailsStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, bool animeServerDialogReady, Extension? selectedExtension, List<JSAnime> extensionAnimeResults, List<JSEpisode> extensionEpisodeResults, List<JVideo> extensionVideoResults, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, bool animeServerDialogReady, Extension? selectedExtension, List<JSAnime> extensionAnimeResults, List<JSEpisode> extensionEpisodeResults, List<ext.Video> extensionVideoResults, List<AppEffect> effects
 });
 
 
@@ -82,7 +82,7 @@ as bool,selectedExtension: freezed == selectedExtension ? _self.selectedExtensio
 as Extension?,extensionAnimeResults: null == extensionAnimeResults ? _self.extensionAnimeResults : extensionAnimeResults // ignore: cast_nullable_to_non_nullable
 as List<JSAnime>,extensionEpisodeResults: null == extensionEpisodeResults ? _self.extensionEpisodeResults : extensionEpisodeResults // ignore: cast_nullable_to_non_nullable
 as List<JSEpisode>,extensionVideoResults: null == extensionVideoResults ? _self.extensionVideoResults : extensionVideoResults // ignore: cast_nullable_to_non_nullable
-as List<JVideo>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as List<ext.Video>,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -168,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<JVideo> extensionVideoResults,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<ext.Video> extensionVideoResults,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.mediaListEntry,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.animeServerDialogReady,_that.selectedExtension,_that.extensionAnimeResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
@@ -189,7 +189,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<JVideo> extensionVideoResults,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<ext.Video> extensionVideoResults,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState():
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.mediaListEntry,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.animeServerDialogReady,_that.selectedExtension,_that.extensionAnimeResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
@@ -209,7 +209,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<JVideo> extensionVideoResults,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  MediaList selectedMediaList,  Anime selectedAnime,  MediaListEntry mediaListEntry,  (bool, List<MediaCharacter>) characters,  (bool, List<Anime>) recommendations,  List<EpisodeInfo> episodesInfo,  List<String> banners,  String alternateImage,  Set<Extension> installedExtensions,  bool userLoaded,  bool animeServerDialogReady,  Extension? selectedExtension,  List<JSAnime> extensionAnimeResults,  List<JSEpisode> extensionEpisodeResults,  List<ext.Video> extensionVideoResults,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _AnimeDetailsState() when $default != null:
 return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_that.mediaListEntry,_that.characters,_that.recommendations,_that.episodesInfo,_that.banners,_that.alternateImage,_that.installedExtensions,_that.userLoaded,_that.animeServerDialogReady,_that.selectedExtension,_that.extensionAnimeResults,_that.extensionEpisodeResults,_that.extensionVideoResults,_that.effects);case _:
@@ -224,7 +224,7 @@ return $default(_that.loggedUser,_that.selectedMediaList,_that.selectedAnime,_th
 
 
 class _AnimeDetailsState extends AnimeDetailsState {
-  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.mediaListEntry, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required final  Set<Extension> installedExtensions, required this.userLoaded, required this.animeServerDialogReady, required this.selectedExtension, required final  List<JSAnime> extensionAnimeResults, required final  List<JSEpisode> extensionEpisodeResults, required final  List<JVideo> extensionVideoResults, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_extensionAnimeResults = extensionAnimeResults,_extensionEpisodeResults = extensionEpisodeResults,_extensionVideoResults = extensionVideoResults,_effects = effects,super._();
+  const _AnimeDetailsState({required this.loggedUser, required this.selectedMediaList, required this.selectedAnime, required this.mediaListEntry, required this.characters, required this.recommendations, required final  List<EpisodeInfo> episodesInfo, required final  List<String> banners, required this.alternateImage, required final  Set<Extension> installedExtensions, required this.userLoaded, required this.animeServerDialogReady, required this.selectedExtension, required final  List<JSAnime> extensionAnimeResults, required final  List<JSEpisode> extensionEpisodeResults, required final  List<ext.Video> extensionVideoResults, final  List<AppEffect> effects = const <AppEffect>[]}): _episodesInfo = episodesInfo,_banners = banners,_installedExtensions = installedExtensions,_extensionAnimeResults = extensionAnimeResults,_extensionEpisodeResults = extensionEpisodeResults,_extensionVideoResults = extensionVideoResults,_effects = effects,super._();
   
 
 @override final  User loggedUser;
@@ -276,8 +276,8 @@ class _AnimeDetailsState extends AnimeDetailsState {
   return EqualUnmodifiableListView(_extensionEpisodeResults);
 }
 
- final  List<JVideo> _extensionVideoResults;
-@override List<JVideo> get extensionVideoResults {
+ final  List<ext.Video> _extensionVideoResults;
+@override List<ext.Video> get extensionVideoResults {
   if (_extensionVideoResults is EqualUnmodifiableListView) return _extensionVideoResults;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_extensionVideoResults);
@@ -321,7 +321,7 @@ abstract mixin class _$AnimeDetailsStateCopyWith<$Res> implements $AnimeDetailsS
   factory _$AnimeDetailsStateCopyWith(_AnimeDetailsState value, $Res Function(_AnimeDetailsState) _then) = __$AnimeDetailsStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser, MediaList selectedMediaList, Anime selectedAnime, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, bool animeServerDialogReady, Extension? selectedExtension, List<JSAnime> extensionAnimeResults, List<JSEpisode> extensionEpisodeResults, List<JVideo> extensionVideoResults, List<AppEffect> effects
+ User loggedUser, MediaList selectedMediaList, Anime selectedAnime, MediaListEntry mediaListEntry, (bool, List<MediaCharacter>) characters, (bool, List<Anime>) recommendations, List<EpisodeInfo> episodesInfo, List<String> banners, String alternateImage, Set<Extension> installedExtensions, bool userLoaded, bool animeServerDialogReady, Extension? selectedExtension, List<JSAnime> extensionAnimeResults, List<JSEpisode> extensionEpisodeResults, List<ext.Video> extensionVideoResults, List<AppEffect> effects
 });
 
 
@@ -356,7 +356,7 @@ as bool,selectedExtension: freezed == selectedExtension ? _self.selectedExtensio
 as Extension?,extensionAnimeResults: null == extensionAnimeResults ? _self._extensionAnimeResults : extensionAnimeResults // ignore: cast_nullable_to_non_nullable
 as List<JSAnime>,extensionEpisodeResults: null == extensionEpisodeResults ? _self._extensionEpisodeResults : extensionEpisodeResults // ignore: cast_nullable_to_non_nullable
 as List<JSEpisode>,extensionVideoResults: null == extensionVideoResults ? _self._extensionVideoResults : extensionVideoResults // ignore: cast_nullable_to_non_nullable
-as List<JVideo>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as List<ext.Video>,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

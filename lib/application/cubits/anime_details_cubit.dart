@@ -30,6 +30,7 @@ import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/anime_details.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
+import 'package:unyo/domain/entities/extension/video.dart' as ext;
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
@@ -521,7 +522,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
         selectedExtension,
       );
       if (videoResults.isNotEmpty) {
-        emit(state.copyWith(extensionVideoResults: videoResults));
+        emit(state.copyWith(extensionVideoResults: videoResults.map((jVideo) => ext.Video.fromJVideo(jVideo)).toList()));
         return true;
       } else {
         showSnackBarEffect(

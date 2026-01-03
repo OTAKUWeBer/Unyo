@@ -1,0 +1,28 @@
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsepisode.dart';
+
+class Episode {
+
+  final String url;
+  final String title;
+  final String? scanlator;
+  final double episodeNumber;
+  final int dateUploaded;
+
+  const Episode({
+    required this.url,
+    required this.title,
+    required this.scanlator,
+    required this.episodeNumber,
+    required this.dateUploaded,
+  });
+
+  factory Episode.fromJSEpisode(JSEpisode jsEpisode) {
+    return Episode(
+      url: jsEpisode.getUrl().toDartString(),
+      title: jsEpisode.getName().toDartString(),
+      scanlator: jsEpisode.getScanlator()?.toDartString(),
+      episodeNumber: jsEpisode.getEpisode_number(),
+      dateUploaded: jsEpisode.getDate_upload()
+    );
+  }
+}

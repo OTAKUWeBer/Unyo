@@ -67,7 +67,7 @@ class _UnyoSortWidgetState extends State<UnyoSortWidget> {
                   child: CompositedTransformFollower(
                     link: _layerLink,
                     showWhenUnlinked: false,
-                    offset: Offset(0, 54),
+                    offset: const Offset(0, 54),
                     child: Material(
                       elevation: 4,
                       borderRadius: BorderRadius.circular(16),

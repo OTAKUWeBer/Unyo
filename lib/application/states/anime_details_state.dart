@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jsepisode.dart';
-import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
 import 'package:unyo/application/cubits/effect_mixin.dart';
 import 'package:unyo/application/effects/app_effects.dart';
 import 'package:unyo/domain/entities/anime.dart';
 import 'package:unyo/domain/entities/episode_info.dart';
 import 'package:unyo/domain/entities/extension.dart';
+import 'package:unyo/domain/entities/extension/video.dart' as ext;
 import 'package:unyo/domain/entities/media_character.dart';
 import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/media_list_entry.dart';
@@ -34,7 +34,7 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     // voice actors
     required List<JSAnime> extensionAnimeResults,
     required List<JSEpisode> extensionEpisodeResults,
-    required List<JVideo> extensionVideoResults,
+    required List<ext.Video> extensionVideoResults,
     @Default(<AppEffect>[]) List<AppEffect> effects,
   }) = _AnimeDetailsState;
 
