@@ -70,6 +70,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   k3vinb5_aniyomi_bridge:
     path: ../k3vinb5_aniyomi_bridge
+  window_manager: ^0.5.1
 # Dev dependencies
 dev_dependencies:
   flutter_test:

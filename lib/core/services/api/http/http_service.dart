@@ -9,6 +9,7 @@ import 'package:retry/retry.dart';
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
 import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/api/http/empty_api_response.dart';
 import 'api_response.dart';
 import 'http_exception.dart';
 
@@ -232,6 +233,14 @@ class HttpService {
     final status = response.statusCode;
     if (status >= 200 && status < 300) {
       _logger.d("Response from server is successful with status code $status");
+      if (response.body.isEmpty) {
+        _logger.d("Response body is empty, returning empty ApiResponse");
+        return ApiResponse(
+          data: fromJson({}),
+          statusCode: status,
+          headers: response.headers,
+        );
+      }
       if (json.decode(response.body) is List<dynamic>) {
         final jsonList = json.decode(response.body) as List<dynamic>;
         return ApiResponse(

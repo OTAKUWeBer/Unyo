@@ -1,29 +1,37 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:path/path.dart' as path;
+import 'package:unyo/config/config.dart' as config;
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:system_info3/system_info3.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/api/http/api_response.dart';
+import 'package:unyo/core/services/api/http/empty_api_response.dart';
+import 'package:unyo/core/services/api/http/http_service.dart';
 
 class TorrentService {
   static const String _servicesDir = "services";
-  static const String _torrServerDir = "torrserver";
   static const String _torrentServerName = "torrserver";
   static const String _packageAssetsDir = "assets";
+  final HttpService _httpService = sl<HttpService>();
+  Process? torrentProcess;
 
   TorrentService() {
     initTorrentServer();
   }
 
   Future<void> initTorrentServer() async {
+    await stopServer();
     Directory supportDirectory = await getApplicationSupportDirectory();
-    _loadTorrServerIfNeeded(supportDirectory);
+    String torrServerPath = await _loadTorrServerIfNeeded(supportDirectory);
+    _startServer(torrServerPath);
   }
 
-  Future<void> _loadTorrServerIfNeeded(Directory supportDirectory) async {
+  Future<String> _loadTorrServerIfNeeded(Directory supportDirectory) async {
     String torrentServerPath = path.join(
       supportDirectory.path,
-      _torrServerDir,
+      _torrentServerName,
       _torrentServerName + (Platform.isWindows ? ".exe" : ""),
     );
     File aniyomiBridgeCore = File(torrentServerPath);
@@ -33,6 +41,10 @@ class TorrentService {
         torrentServerPath,
       );
     }
+    if (!Platform.isWindows) {
+      await Process.run('chmod', ['+x', torrentServerPath]);
+    }
+    return torrentServerPath;
   }
 
   Future<File> _copyAssetToFile(String assetPath, String outPath) async {
@@ -43,4 +55,21 @@ class TorrentService {
     await file.writeAsBytes(buffer, flush: true);
     return file;
   }
+
+  Future<void> _startServer(String torrServerPath) async {
+    torrentProcess = await Process.start(torrServerPath, [], mode: ProcessStartMode.normal);
+  }
+
+  Future<void> stopServer() async {
+    try {
+      ApiResponse<EmptyApiResponse> response = await _httpService.get("${config.torrentServiceEndpoint}/shutdown", fromJson: EmptyApiResponse.fromJson);
+      if (response.statusCode == 200) {
+        torrentProcess = null;
+        return;
+      }
+    } catch (_) {
+    }
+    torrentProcess?.kill();
+  }
+
 }
