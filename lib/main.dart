@@ -30,7 +30,7 @@ void main() async {
     ..registerAdapters();
   // Inject the remaining dependencies that rely on Hive and are not Lazy
   setupLocatorAfterHiveInit();
-  // Setup Window Manager
+  // Setup Window Manager options
   WindowOptions windowOptions = const WindowOptions(
     size: Size(1280, 720),
     center: true,

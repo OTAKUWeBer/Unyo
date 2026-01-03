@@ -7,6 +7,7 @@ version: 1.0.0
 
 environment:
   sdk: ^3.10.0
+  flutter: ">=3.38.1"
 
 # List your package dependencies below. Run `flutter pub outdated` to check for updates.
 dependencies:
@@ -46,7 +47,7 @@ dependencies:
   flutter_discord_rpc: ^1.1.0
   # Media
   smooth_video_progress: ^0.0.4
-  fvp: ^0.35.2
+  fvp: ^0.33.1
   video_player: ^2.10.1
   # Backend/Server
   shelf: ^1.4.2
@@ -66,8 +67,6 @@ dependencies:
   # FFI/Native Integration
   system_info3: ^4.0.2
   jni: ^0.14.2
-#  ffi: ^2.1.4
-#  ffigen: ^19.0.0
   meta: ^1.17.0
   jwt_decoder: ^2.0.1
   k3vinb5_aniyomi_bridge:

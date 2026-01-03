@@ -210,6 +210,7 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     if (!_aniyomiBridge.isReady()) {
       await Future.delayed(const Duration(milliseconds: 1000));
       _loadInstalledAnimeExtensions(loggedUser);
+      return;
     }
     for (Extension extension in installedExtensions) {
       _aniyomiBridge.loadAnimeExtension(extension.apk);
@@ -221,6 +222,7 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
     if (!_aniyomiBridge.isReady()) {
       await Future.delayed(const Duration(milliseconds: 1000));
       _loadInstalledMangaExtensions(loggedUser);
+      return;
     }
     for (Extension extension in installedExtensions) {
       _aniyomiBridge.loadMangaExtension(extension.apk);
