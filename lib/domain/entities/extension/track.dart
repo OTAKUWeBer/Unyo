@@ -20,4 +20,22 @@ class Track {
         embedded: false
     );
   }
+
+  factory Track.fromJson(Map<String, dynamic> json) {
+    return Track(
+      url: json['url'] as String,
+      lang: json['lang'] as String,
+      embedded: json['embedded'] as bool,
+      embeddedIndex: json['embeddedIndex'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'lang': lang,
+      'embedded': embedded,
+      'embeddedIndex': embeddedIndex,
+    };
+  }
 }

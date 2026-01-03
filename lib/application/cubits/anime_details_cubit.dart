@@ -196,6 +196,11 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       dialog: AnimeServerSelectionDialog(
         cubit: this,
         onOpen: () async {
+          if (episodeIndex >= state.extensionEpisodeResults.length) {
+            _logger.w("Episode index $episodeIndex is out of bounds for extension episode results.");
+            showSnackBarEffect("${state.selectedExtension?.name} Error", message: "Only ${state.extensionEpisodeResults.length} episodes were found", contentType: ContentType.warning);
+            return false;
+          }
           bool shouldKeepDialog = await _getVideosFromSelectedExtension(
             state.selectedExtension,
             state.extensionEpisodeResults[episodeIndex],

@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jheaders.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jtrack.dart';
 import 'package:k3vinb5_aniyomi_bridge/jmodels/jvideo.dart';
@@ -54,4 +55,66 @@ class Video {
       resolution: jVideo.getResolution()?.intValue(),
     );
   }
+
+  factory Video.empty() {
+    return const Video(
+      url: '',
+      title: '',
+      quality: '',
+      videoUrl: '',
+      headers: null,
+      initialized: false,
+      audioTracks: [],
+      subtitleTracks: [],
+      bitrate: null,
+      resolution: null,
+    );
+  }
+
+  factory Video.fromJson(Map<String, dynamic> json) {
+    return Video(
+      url: json['url'] as String,
+      title: json['title'] as String,
+      quality: json['quality'] as String,
+      videoUrl: json['videoUrl'] as String,
+      headers: json['headers'] != null
+          ? Headers.fromJson(json['headers'] as Map<String, dynamic>)
+          : null,
+      initialized: json['initialized'] as bool,
+      audioTracks: (json['audioTracks'] as List<dynamic>)
+          .map((e) => Track.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subtitleTracks: (json['subtitleTracks'] as List<dynamic>)
+          .map((e) => Track.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      bitrate: json['bitrate'] as int?,
+      resolution: json['resolution'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'url': url,
+      'title': title,
+      'quality': quality,
+      'videoUrl': videoUrl,
+      'headers': headers?.toJson(),
+      'initialized': initialized,
+      'audioTracks': audioTracks.map((e) => e.toJson()).toList(),
+      'subtitleTracks': subtitleTracks.map((e) => e.toJson()).toList(),
+      'bitrate': bitrate,
+      'resolution': resolution,
+    };
+  }
+}
+
+class VideoConverter implements JsonConverter<Video, Map<String, dynamic>> {
+  const VideoConverter();
+
+  @override
+  Video fromJson(Map<String, dynamic> json) => Video.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(Video object) =>
+      (object).toJson();
 }

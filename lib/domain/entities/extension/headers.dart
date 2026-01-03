@@ -13,4 +13,16 @@ class Headers {
       headersMap: jHeaders.toMultimap().map((key, value) => MapEntry(key.toDartString(), value.join(","))),
     );
   }
+
+  factory Headers.fromJson(Map<String, dynamic> json) {
+    return Headers(
+      headersMap: Map<String, String>.from(json['headersMap'] as Map),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'headersMap': headersMap,
+    };
+  }
 }

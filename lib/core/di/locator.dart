@@ -9,6 +9,7 @@ import 'package:unyo/application/cubits/extensions_cubit.dart';
 import 'package:unyo/application/cubits/manga_advanced_search_cubit.dart';
 import 'package:unyo/application/cubits/manga_details_cubit.dart';
 import 'package:unyo/application/cubits/settings_cubit.dart';
+import 'package:unyo/application/cubits/video_cubit.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
@@ -27,6 +28,7 @@ import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/notification/video_info_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
@@ -70,7 +72,7 @@ void setupLocator() async{
   sl.registerLazySingleton<AnimeGenresNotifier>(() => AnimeGenresNotifier());
   sl.registerLazySingleton<MangaGenresNotifier>(() => MangaGenresNotifier());
   sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
-
+  sl.registerLazySingleton<VideoInfoNotifier>(() => VideoInfoNotifier());
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
   sl.registerLazySingleton<UserRepositoryAnilist>(
@@ -82,7 +84,6 @@ void setupLocator() async{
   sl.registerLazySingleton<AnimeRepositoryAnilist>(() => AnimeRepositoryAnilist());
   sl.registerLazySingleton<MangaRepositoryAnilist>(() => MangaRepositoryAnilist());
   sl.registerLazySingleton<EpisodeRepositoryAnizip>(() => EpisodeRepositoryAnizip());
-
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(
     () => LoginCubit(
@@ -196,6 +197,11 @@ void setupLocator() async{
       sl<MangaGenresNotifier>(),
       sl<MangaRepositoryAnilist>(),
     ),
+  );
+  sl.registerFactory<VideoCubit>(() => VideoCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<VideoInfoNotifier>(),
+    )
   );
 }
 

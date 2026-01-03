@@ -122,6 +122,17 @@ class AppRouter extends RootStackRouter {
           duration: const Duration(milliseconds: 250),
           reverseDuration: const Duration(milliseconds: 250),
         ),
+        CustomRoute(
+          page: VideoRoute.page,
+          path: 'video',
+          transitionsBuilder:
+              (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) => ScaleTransition(
+            scale: CurvedAnimation(parent: animation, curve: Curves.decelerate),
+            child: FadeTransition(opacity: CurvedAnimation(parent: animation, curve: Curves.easeInCubic), child: child),
+          ),
+          duration: const Duration(milliseconds: 250),
+          reverseDuration: const Duration(milliseconds: 250),
+        ),
       ],
     ),
   ];

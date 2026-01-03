@@ -46,7 +46,7 @@ class VideoService {
     // Waits for video to be ready and initializes embedded tracks
     _player.onMediaStatus((mdk.MediaStatus oldStatus, mdk.MediaStatus newStatus) {
       if (newStatus.rawValue == mdk.MediaStatus.loaded) {
-        _initEmbeddedCaptionsAndAudiotracks();
+        _initCaptionsAndAudiotracks();
       }
       if (newStatus.rawValue == mdk.MediaStatus.buffering) {
         _isBuffering = true;
@@ -84,40 +84,46 @@ class VideoService {
   }
 
   // Setters
-  void play() {
-    if (_isBuffering) return;
+  bool play() {
+    if (_isBuffering) return false;
     _player.state = mdk.PlaybackState.playing;
+    return true;
   }
 
-  void pause() {
-    if (_isBuffering) return;
+  bool pause() {
+    if (_isBuffering) return false;
     _player.state = mdk.PlaybackState.paused;
+    return true;
   }
 
-  void setLooping(bool loop) {
+  bool setLooping(bool loop) {
     loop ? _player.loop = -1 : _player.loop = 0;
+    return true;
   }
 
-  void setVolume(double volume) {
+  bool setVolume(double volume) {
     _player.volume = volume;
+    return true;
   }
 
-  void setPlaybackSpeed(double newPlayBackSpeed) {
+  bool setPlaybackSpeed(double newPlayBackSpeed) {
     _player.playbackRate = newPlayBackSpeed;
+    return true;
   }
 
-  void seekTo(Duration newDuration) {
+  bool seekTo(Duration newDuration) {
     _player.seek(position: newDuration.inMilliseconds);
+    return true;
   }
 
-  void setCaptionOffset(Duration duration) {
-    throw UnimplementedError("CaptionOffset not yet implemented");
+  bool setCaptionOffset(Duration duration) {
+    return false;
   }
 
-  Future<void> setCaption(int captionIndex) async {
+  Future<bool> setCaption(int captionIndex) async {
     if (captionIndex < 0 || captionIndex >= captionTracks.length) {
       _currentCaptionTrack = null;
-      return;
+      return false;
     }
     _currentCaptionTrack = captionTracks[captionIndex];
     if (_currentCaptionTrack!.embedded) {
@@ -126,24 +132,30 @@ class VideoService {
       ];
     } else {
       _currentCaptionFile = await _loadExternalCaption(_currentCaptionTrack!);
+      _player.setMedia(_currentCaptionTrack!.url, mdk.MediaType.subtitle);
     }
+    return true;
   }
 
-  void setAudioTrack(int audioTrackIndex) {
+  bool setAudioTrack(int audioTrackIndex) {
     if (audioTrackIndex < 0 || audioTrackIndex >= audioTracks.length) {
       _currentAudioTrack = null;
-      return;
+      return false;
     }
     _currentAudioTrack = audioTracks[audioTrackIndex];
     if (_currentAudioTrack!.embedded) {
       _player.activeAudioTracks = [
         _currentAudioTrack?.embeddedIndex ?? 0
       ];
+    } else {
+      _player.setMedia(_currentAudioTrack!.url, mdk.MediaType.audio);
     }
+    return true;
   }
 
-  void setFullscreen(bool fullscreen) {
+  bool setFullscreen(bool fullscreen) {
     windowManager.setFullScreen(fullscreen);
+    return true;
   }
 
   void dispose() {
@@ -194,7 +206,7 @@ class VideoService {
     });
   }
 
-  Future<void> _initEmbeddedCaptionsAndAudiotracks() async {
+  Future<void> _initCaptionsAndAudiotracks() async {
     if (_player.mediaInfo.subtitle != null && _player.mediaInfo.subtitle!.isNotEmpty) {
       for (mdk.SubtitleStreamInfo subtitleStreamInfo in _player.mediaInfo.subtitle!) {
         captionTracks.add(
@@ -207,7 +219,7 @@ class VideoService {
         );
       }
     }
-
+    captionTracks.addAll(_video.subtitleTracks);
     if (_player.mediaInfo.audio != null && _player.mediaInfo.audio!.length > 1) {
       for (mdk.AudioStreamInfo audioStreamInfo in _player.mediaInfo.audio!) {
         audioTracks.add(
@@ -221,6 +233,7 @@ class VideoService {
         );
       }
     }
+    audioTracks.addAll(_video.audioTracks);
   }
 
   Future<ClosedCaptionFile> _loadExternalCaption(ext.Track captionTrack) async {

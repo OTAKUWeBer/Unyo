@@ -69,12 +69,12 @@ _MediaListEntryModel _$MediaListEntryModelFromJson(Map<String, dynamic> json) =>
       score: (json['score'] as num).toDouble(),
       repeat: (json['repeat'] as num).toInt(),
       status: json['status'] as String,
-      startedAt:
-          (json['startedAt'] as List<dynamic>).map((e) => e as String).toList(),
-      completedAt:
-          (json['completedAt'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList(),
+      startedAt: (json['startedAt'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      completedAt: (json['completedAt'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$MediaListEntryModelToJson(

@@ -56,20 +56,15 @@ _AnilistAnimeDetailsModel _$AnilistAnimeDetailsModelFromJson(
   mediaListEntry: const MediaListEntryConverter().fromJson(
     json['mediaListEntry'] as Map<String, dynamic>,
   ),
-  recommendedAnimes:
-      (json['recommendedAnimes'] as List<dynamic>)
-          .map(
-            (e) => const AnimeConverter().fromJson(e as Map<String, dynamic>),
-          )
-          .toList(),
-  characters:
-      (json['characters'] as List<dynamic>)
-          .map(
-            (e) => const MediaCharacterConverter().fromJson(
-              e as Map<String, dynamic>,
-            ),
-          )
-          .toList(),
+  recommendedAnimes: (json['recommendedAnimes'] as List<dynamic>)
+      .map((e) => const AnimeConverter().fromJson(e as Map<String, dynamic>))
+      .toList(),
+  characters: (json['characters'] as List<dynamic>)
+      .map(
+        (e) =>
+            const MediaCharacterConverter().fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$AnilistAnimeDetailsModelToJson(
@@ -78,8 +73,10 @@ Map<String, dynamic> _$AnilistAnimeDetailsModelToJson(
   'mediaListEntry': const MediaListEntryConverter().toJson(
     instance.mediaListEntry,
   ),
-  'recommendedAnimes':
-      instance.recommendedAnimes.map(const AnimeConverter().toJson).toList(),
-  'characters':
-      instance.characters.map(const MediaCharacterConverter().toJson).toList(),
+  'recommendedAnimes': instance.recommendedAnimes
+      .map(const AnimeConverter().toJson)
+      .toList(),
+  'characters': instance.characters
+      .map(const MediaCharacterConverter().toJson)
+      .toList(),
 };

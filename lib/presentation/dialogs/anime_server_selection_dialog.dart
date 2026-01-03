@@ -41,8 +41,8 @@ class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog>
             (context, state) => Dialog(
               backgroundColor: const Color.fromARGB(255, 30, 30, 30),
               child: SizedBox(
-                width: 600.w,
-                height: 540.h,
+                width: 550.w,
+                height: 600.h,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 36.0.h),
                   child:
@@ -68,7 +68,7 @@ class _AnimeServerSelectionDialogState extends State<AnimeServerSelectionDialog>
                               )
                             ],
                           )
-                          : LoadingView(width: 85.w,),
+                          : LoadingView(width: 85.w, description: "Please wait, this can take some seconds...",),
                 ),
               ),
             ),

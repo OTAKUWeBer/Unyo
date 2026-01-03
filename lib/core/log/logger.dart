@@ -6,7 +6,8 @@ import 'package:unyo/core/di/locator.dart';
 
 Logger getLogger() {
   Directory supportDirectory = sl<Directory>(instanceName: config.applicationSupportDirectory);
-  File newLogFile = File('${supportDirectory.path}/logs/${DateTime.now().millisecondsSinceEpoch}.log');
+  String newLogPrettyName = "${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '-')}.log";
+  File newLogFile = File('${supportDirectory.path}/logs/$newLogPrettyName');
   newLogFile.create(recursive: true);
   List<FileSystemEntity> logFiles = supportDirectory.listSync().where((file) => file.path.endsWith('.log')).toList();
   if (logFiles.length > 20) {
