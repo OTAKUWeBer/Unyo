@@ -56,12 +56,12 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                             ],
                             label: "Status",
                             onPressed: context.read<AnimeDetailsCubit>().updateMediaListEntryStatus,
-                            selectedValue: state.mediaListEntry.status,
+                            selectedValue: state.newMediaListEntry.status,
                           ),
                           SizedBox(height: 25.0.h),
                         UnyoSlider(
                             minValue: 0,
-                            initialValue: state.mediaListEntry.progress != -1 ? state.mediaListEntry.progress : 0,
+                            initialValue: state.newMediaListEntry.progress != -1 ? state.newMediaListEntry.progress : 0,
                             title: "Progress",
                             maxValue: state.selectedAnime.episodes,
                             onChanged:
@@ -72,7 +72,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                           UnyoSlider(
                             minValue: 0,
                             initialValue:
-                            state.mediaListEntry.score.toInt() != -1 ? state.mediaListEntry.score.toInt() : 0,
+                            state.newMediaListEntry.score.toInt() != -1 ? state.newMediaListEntry.score.toInt() : 0,
                             title: "Score",
                             maxValue: 10,
                             onChanged: context.read<AnimeDetailsCubit>().updateMediaListEntryScore,
@@ -88,7 +88,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                   ),
                                   const SizedBox(width: 4.0),
-                                  Text("${state.mediaListEntry.startedAt[0]}/${state.mediaListEntry.startedAt[1]}/${state.mediaListEntry.startedAt[2]}"),
+                                  Text("${state.newMediaListEntry.startedAt[0]}/${state.newMediaListEntry.startedAt[1]}/${state.newMediaListEntry.startedAt[2]}"),
                                   const SizedBox(width: 5.0),
                                   IconButton(
                                     onPressed:
@@ -107,7 +107,7 @@ class AnimeDetailsMediaEntryDialog extends StatelessWidget {
                                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                                   ),
                                   const SizedBox(width: 4.0),
-                                  Text("${state.mediaListEntry.completedAt[0]}/${state.mediaListEntry.completedAt[1]}/${state.mediaListEntry.completedAt[2]}"),
+                                  Text("${state.newMediaListEntry.completedAt[0]}/${state.newMediaListEntry.completedAt[1]}/${state.newMediaListEntry.completedAt[2]}"),
                                   const SizedBox(width: 5.0),
                                   IconButton(
                                     onPressed:

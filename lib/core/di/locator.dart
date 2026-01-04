@@ -158,6 +158,7 @@ void setupLocator() async{
       sl<AnimeNotifier>(),
       sl<AnimeGenresNotifier>(),
       sl<MediaListNotifier>(),
+      sl<VideoInfoNotifier>(),
       sl<ExtensionRepositoryAniyomi>(),
       sl<UserRepositoryAnilist>(),
     ),

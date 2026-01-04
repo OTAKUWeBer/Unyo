@@ -19,6 +19,7 @@ import 'package:unyo/core/notification/anime_genres_notifier.dart';
 import 'package:unyo/core/notification/anime_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/notification/video_info_notifier.dart';
 import 'package:unyo/core/services/api/http/http_exception.dart';
 import 'package:unyo/data/models/anilist_user_model.dart';
 import 'package:unyo/data/models/local_user_model.dart';
@@ -35,6 +36,7 @@ import 'package:unyo/domain/entities/media_list.dart';
 import 'package:unyo/domain/entities/media_list_entry.dart';
 import 'package:unyo/domain/entities/settings.dart';
 import 'package:unyo/domain/entities/user.dart';
+import 'package:unyo/domain/entities/video_info.dart';
 import 'package:unyo/presentation/dialogs/anime_details_media_entry_dialog.dart';
 import 'package:unyo/presentation/dialogs/anime_server_selection_dialog.dart';
 
@@ -50,6 +52,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   final AnimeNotifier _selectedAnimeNotifier;
   final AnimeGenresNotifier _selectedAnimeAdvancedSearchGenresFilters;
   final MediaListNotifier _selectedMediaListNotifier;
+  final VideoInfoNotifier _videoInfoNotifier;
   late StreamSubscription<Anime> _selectedAnimeSubscription;
   late StreamSubscription<User> _loggedUserSubscription;
   late StreamSubscription<MediaList> _selectedMediaListSubscription;
@@ -64,6 +67,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     this._selectedAnimeNotifier,
     this._selectedAnimeAdvancedSearchGenresFilters,
     this._selectedMediaListNotifier,
+    this._videoInfoNotifier,
     this._extensionRepositoryAniyomi,
     this._userRepositoryAnilist,
   ) : super(
@@ -72,6 +76,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
           selectedMediaList: MediaListModel.empty(),
           selectedAnime: AnimeModel.empty(),
           mediaListEntry: MediaListEntryModel.empty(),
+          newMediaListEntry: MediaListEntryModel.empty(),
           characters: (false, []),
           recommendations: (false, []),
           episodesInfo: [],
@@ -150,6 +155,17 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     }
   }
 
+  Future<void> navigateToVideoPlayer(ext.Video selectedVideo, int episodeIndex) async {
+    _logger.i("Navigating to Video Player with selected video from ${state.selectedExtension?.name}");
+    _videoInfoNotifier.updateVideoInfo(
+        VideoInfoModel(
+      currentVideo: selectedVideo,
+      playlistIndex: episodeIndex,
+     )
+    );
+    pushRouteEffect(path: "/video");
+  }
+
   Future<void> selectAnimeExtension(String? selectedAnimeExtensionName) async {
     Extension? selectedExtension =
         state.installedExtensions
@@ -216,7 +232,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   }
 
   Future<void> updateMediaListEntry(BuildContext context) async {
-    MediaListEntry desiredMediaListEntry = state.mediaListEntry;
+    MediaListEntry desiredMediaListEntry = state.newMediaListEntry;
     try {
       switch (state.loggedUser.settings.service) {
         case Service.anilist:
@@ -226,7 +242,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
             state.selectedAnime,
             state.loggedUser,
           );
-          emit(state.copyWith(mediaListEntry: savedMediaListEntry));
+          emit(state.copyWith(mediaListEntry: savedMediaListEntry, newMediaListEntry: savedMediaListEntry));
         case Service.mal:
           _logger.i("Updating Media List Entry to $desiredMediaListEntry on MyAnimeList");
         case Service.shikimori:
@@ -248,10 +264,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryStatus(String? newStatus) async {
     if (newStatus == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         status: newStatus,
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry status: $e", stackTrace: stackTrace);
     }
@@ -260,10 +276,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryProgress(int? newProgress) async {
     if (newProgress == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         progress: newProgress,
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry progress: $e", stackTrace: stackTrace);
     }
@@ -272,10 +288,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryScore(double? newScore) async {
     if (newScore == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         score: newScore,
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry score: $e", stackTrace: stackTrace);
     }
@@ -284,10 +300,10 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   Future<void> updateMediaListEntryRepeat(int? newRepeat) async {
     if (newRepeat == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         repeat: newRepeat,
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry repeat: $e", stackTrace: stackTrace);
     }
@@ -301,14 +317,14 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     );
     if (selectedDateTime == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         startedAt: [
           selectedDateTime.day.toString(),
           selectedDateTime.month.toString(),
           selectedDateTime.year.toString(),
         ],
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry started at: $e", stackTrace: stackTrace);
     }
@@ -322,14 +338,14 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
     );
     if (selectedDateTime == null) return;
     try {
-      MediaListEntry updatedMediaListEntry = (state.mediaListEntry as MediaListEntryModel).copyWith(
+      MediaListEntry updatedMediaListEntry = (state.newMediaListEntry as MediaListEntryModel).copyWith(
         completedAt: [
           selectedDateTime.day.toString(),
           selectedDateTime.month.toString(),
           selectedDateTime.year.toString(),
         ],
       );
-      emit(state.copyWith(mediaListEntry: updatedMediaListEntry));
+      emit(state.copyWith(newMediaListEntry: updatedMediaListEntry));
     } catch (e, stackTrace) {
       handleError("Error updating Anime Entry completed at: $e", stackTrace: stackTrace);
     }
@@ -348,6 +364,7 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
             state.copyWith(
               characters: (animeDetails.$2.characters.isNotEmpty, animeDetails.$2.characters),
               mediaListEntry: animeDetails.$2.mediaListEntry,
+              newMediaListEntry: animeDetails.$2.mediaListEntry,
               recommendations: (
                 animeDetails.$2.recommendedAnimes.isNotEmpty,
                 animeDetails.$2.recommendedAnimes,

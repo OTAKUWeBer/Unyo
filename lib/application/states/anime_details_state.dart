@@ -21,6 +21,7 @@ abstract class AnimeDetailsState with _$AnimeDetailsState implements HasEffects{
     required MediaList selectedMediaList,
     required Anime selectedAnime,
     required MediaListEntry mediaListEntry,
+    required MediaListEntry newMediaListEntry,
     required (bool, List<MediaCharacter>) characters,
     required (bool, List<Anime>) recommendations,
     required List<EpisodeInfo> episodesInfo,

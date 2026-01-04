@@ -4,13 +4,14 @@ import 'package:unyo/domain/entities/extension/video.dart' as ext;
 
 class UnyoServerButton extends StatelessWidget {
   final ext.Video videoServer;
+  final void Function()? onPressed;
 
-  const UnyoServerButton({super.key, required this.videoServer});
+  const UnyoServerButton({super.key, required this.videoServer, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       borderRadius: BorderRadius.circular(16.0),
       child: Container(
         decoration: BoxDecoration(
