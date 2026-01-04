@@ -62,7 +62,7 @@ void main() async {
     fvp.registerWith(
       options: {
         'platforms': ['linux'],
-        'video.decoders': ['FFmpeg', 'CUDA', 'VDPAU', 'VAAPI'],
+        'video.decoders': ['VAAPI', 'CUDA', 'VDPAU', 'FFmpeg'],
       },
     );
   }
