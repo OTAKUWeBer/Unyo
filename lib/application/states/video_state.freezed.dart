@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VideoState {
 
- User get loggedUser;@VideoInfoConverter() VideoInfo get videoInfo; List<AppEffect> get effects;
+ User get loggedUser; VideoInfo get videoInfo; Anime get selectedAnime; bool get isLoading; List<AppEffect> get effects;
 /// Create a copy of VideoState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $VideoStateCopyWith<VideoState> get copyWith => _$VideoStateCopyWithImpl<VideoSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&const DeepCollectionEquality().equals(other.effects, effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.effects, effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,const DeepCollectionEquality().hash(effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,selectedAnime,isLoading,const DeepCollectionEquality().hash(effects));
 
 @override
 String toString() {
-  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, effects: $effects)';
+  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, selectedAnime: $selectedAnime, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $VideoStateCopyWith<$Res>  {
   factory $VideoStateCopyWith(VideoState value, $Res Function(VideoState) _then) = _$VideoStateCopyWithImpl;
 @useResult
 $Res call({
- User loggedUser,@VideoInfoConverter() VideoInfo videoInfo, List<AppEffect> effects
+ User loggedUser, VideoInfo videoInfo, Anime selectedAnime, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -62,11 +62,13 @@ class _$VideoStateCopyWithImpl<$Res>
 
 /// Create a copy of VideoState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? effects = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? selectedAnime = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_self.copyWith(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,videoInfo: null == videoInfo ? _self.videoInfo : videoInfo // ignore: cast_nullable_to_non_nullable
-as VideoInfo,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as VideoInfo,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as Anime,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }
@@ -152,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser, @VideoInfoConverter()  VideoInfo videoInfo,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VideoState() when $default != null:
-return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
   return orElse();
 
 }
@@ -173,10 +175,10 @@ return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser, @VideoInfoConverter()  VideoInfo videoInfo,  List<AppEffect> effects)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)  $default,) {final _that = this;
 switch (_that) {
 case _VideoState():
-return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +195,10 @@ return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser, @VideoInfoConverter()  VideoInfo videoInfo,  List<AppEffect> effects)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)?  $default,) {final _that = this;
 switch (_that) {
 case _VideoState() when $default != null:
-return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
   return null;
 
 }
@@ -208,11 +210,13 @@ return $default(_that.loggedUser,_that.videoInfo,_that.effects);case _:
 
 
 class _VideoState extends VideoState {
-  const _VideoState({required this.loggedUser, @VideoInfoConverter() required this.videoInfo, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  const _VideoState({required this.loggedUser, required this.videoInfo, required this.selectedAnime, required this.isLoading, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
   
 
 @override final  User loggedUser;
-@override@VideoInfoConverter() final  VideoInfo videoInfo;
+@override final  VideoInfo videoInfo;
+@override final  Anime selectedAnime;
+@override final  bool isLoading;
  final  List<AppEffect> _effects;
 @override@JsonKey() List<AppEffect> get effects {
   if (_effects is EqualUnmodifiableListView) return _effects;
@@ -231,16 +235,16 @@ _$VideoStateCopyWith<_VideoState> get copyWith => __$VideoStateCopyWithImpl<_Vid
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&const DeepCollectionEquality().equals(other._effects, _effects));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._effects, _effects));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,const DeepCollectionEquality().hash(_effects));
+int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,selectedAnime,isLoading,const DeepCollectionEquality().hash(_effects));
 
 @override
 String toString() {
-  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, effects: $effects)';
+  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, selectedAnime: $selectedAnime, isLoading: $isLoading, effects: $effects)';
 }
 
 
@@ -251,7 +255,7 @@ abstract mixin class _$VideoStateCopyWith<$Res> implements $VideoStateCopyWith<$
   factory _$VideoStateCopyWith(_VideoState value, $Res Function(_VideoState) _then) = __$VideoStateCopyWithImpl;
 @override @useResult
 $Res call({
- User loggedUser,@VideoInfoConverter() VideoInfo videoInfo, List<AppEffect> effects
+ User loggedUser, VideoInfo videoInfo, Anime selectedAnime, bool isLoading, List<AppEffect> effects
 });
 
 
@@ -268,11 +272,13 @@ class __$VideoStateCopyWithImpl<$Res>
 
 /// Create a copy of VideoState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? effects = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? selectedAnime = null,Object? isLoading = null,Object? effects = null,}) {
   return _then(_VideoState(
 loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
 as User,videoInfo: null == videoInfo ? _self.videoInfo : videoInfo // ignore: cast_nullable_to_non_nullable
-as VideoInfo,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as VideoInfo,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as Anime,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
 as List<AppEffect>,
   ));
 }

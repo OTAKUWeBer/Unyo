@@ -1,5 +1,6 @@
 // External dependencies
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:fvp/mdk.dart' as mdk;
 import 'package:video_player/video_player.dart';
 import 'package:logger/logger.dart';
@@ -32,27 +33,34 @@ class VideoService {
 
   VideoService({required ext.Video video, required int playlistIndex}) : _playlistIndex = playlistIndex, _video = video {
     _player = mdk.Player();
-    // TODO handle magnets
-    // Set player media properties
-    _player.setMedia(_video.videoUrl, mdk.MediaType.video);
-    _player.loop = 0; // No loop
-    _player.state = mdk.PlaybackState.paused;
     // Set player ffmpeg properties
     _configurePlayer();
     // Set player HTTP headers
     _setPlayerHttpHeaders(_video.headers);
     // Set player logs handler
-    _setPlayerLogsHandler();
+    // _setPlayerLogsHandler();
     // Waits for video to be ready and initializes embedded tracks
+    // TODO handle magnets
+    // Set player media properties
+    _player.setMedia(_video.videoUrl, mdk.MediaType.video);
+    _player.setMedia(_video.videoUrl, mdk.MediaType.audio);
+    _player.loop = 0; // No loop
+    _player.state = mdk.PlaybackState.paused;
     _player.onMediaStatus((mdk.MediaStatus oldStatus, mdk.MediaStatus newStatus) {
-      if (newStatus.rawValue == mdk.MediaStatus.loaded) {
+      if (newStatus.test(mdk.MediaStatus.loaded)) {
         _initCaptionsAndAudiotracks();
+        _player.state = mdk.PlaybackState.playing;
+        setVolume(1.0);
+        return false;
       }
-      if (newStatus.rawValue == mdk.MediaStatus.buffering) {
+      if (newStatus.test(mdk.MediaStatus.buffering)) {
         _isBuffering = true;
       }
-      if (newStatus.rawValue == mdk.MediaStatus.buffered) {
+      if (newStatus.test(mdk.MediaStatus.buffered)) {
         _isBuffering = false;
+      }
+      if(newStatus.test(mdk.MediaStatus.invalid)) {
+        // TODO Warn user about invalid media and stop playback / leave
       }
       return true;
     });
@@ -60,6 +68,10 @@ class VideoService {
 
   // Getters
   Duration get position => Duration(milliseconds: _player.position);
+
+  String get formattedPosition => formatMilliseconds(position.inMilliseconds);
+
+  ValueNotifier<int?> get textureId => _player.textureId;
 
   Duration get duration => Duration(milliseconds: _player.mediaInfo.duration);
 
@@ -158,6 +170,11 @@ class VideoService {
     return true;
   }
 
+  bool updateTexture() {
+    _player.updateTexture();
+    return true;
+  }
+
   void dispose() {
     _player.state = mdk.PlaybackState.stopped;
     _player.dispose();
@@ -165,36 +182,72 @@ class VideoService {
 
   // Utilities
   void _configurePlayer() {
-    // Note might want to use avformat.user_agent
-    _player.setProperty('avformat.extension_picky', '0');
-    _player.setProperty('avformat.http_persistent', '1'); // NOTE: Not sure
-    _player.setProperty('avformat.reconnect', '1');
-    _player.setProperty('avformat.reconnect_streamed', '1');
-    _player.setProperty('avformat.reconnect_delay_max', '5');
-    _player.setProperty(
-      'avformat.protocol_whitelist',
-      'file,http,https,tcp,tls,udp,rtp,rtmp,rtmpe,rtmps,rtmpt,rtmpte,crypto,data',
-    ); // NOTE: Not sure
-  }
+  // 1. DECODER: Be ruthless. If late, skip frames.
+  _player.setProperty('framedrop', '1');
+
+  // 2. NETWORK: Keep connections alive
+  _player.setProperty('avformat.http_persistent', '1');
+  _player.setProperty('avformat.reconnect', '1');
+  _player.setProperty('avformat.reconnect_streamed', '1');
+  _player.setProperty('avformat.reconnect_delay_max', '5');
+
+  // 3. THE FIX for "0v 0.0s": Handle bad interleaving
+  _player.setProperty('avformat.max_interleave_delta', '10000000');
+
+  // 4. BUFFERING:
+  // Increase to 50MB so it doesn't stop downloading while hunting for video packets
+  _player.setProperty('avformat.buffer_size', '${50 * 1024 * 1024}');
+
+  // 5. STARTUP: Analyze less to start faster
+  _player.setProperty('avformat.analyzeduration', '2000000'); // 2s
+  _player.setProperty('avformat.probesize', '1024000');       // 1MB
+
+  // 6. PROTOCOLS
+  _player.setProperty(
+    'avformat.protocol_whitelist',
+    'file,http,https,tcp,tls,udp,rtp,rtmp,rtmpe,rtmps,rtmpt,rtmpte,crypto,data',
+  );
+}
 
   void _setPlayerHttpHeaders(ext.Headers? headers) {
-    if (headers != null && headers.headersMap.isNotEmpty) {
-      final formattedHeaders = headers.headersMap.entries.map((e) => '${e.key}: ${e.value}').join('\r\n');
-      _player.setProperty('headers', formattedHeaders);
-      _player.setProperty('avio.headers', formattedHeaders);
-    }
+  if (headers == null || headers.headersMap.isEmpty) return;
+  final userAgent = headers.headersMap.entries
+      .firstWhere(
+        (e) => e.key.toLowerCase() == 'user-agent',
+        orElse: () => const MapEntry('', '')
+      )
+      .value;
+
+  if (userAgent.isNotEmpty) {
+    _player.setProperty('user_agent', userAgent);
   }
+  final formattedHeaders = headers.headersMap.entries
+      .where((e) => e.key.toLowerCase() != 'user-agent') // Filter out UA
+      .map((e) {
+        // Fix cookie separator logic (HTTP spec requires '; ' not ',')
+        final value = e.key.toLowerCase() == 'cookie'
+            ? e.value.replaceAll(',', '; ')
+            : e.value;
+        return '${e.key}: $value';
+      })
+      .join('\r\n'); // Join with CRLF
+
+  if (formattedHeaders.isNotEmpty) {
+    _player.setProperty('headers', formattedHeaders);
+    _player.setProperty('avio.headers', formattedHeaders);
+  }
+}
 
   void _setPlayerLogsHandler() {
     mdk.setLogHandler((mdk.LogLevel level, String message) {
       if (!message.contains("unloaded media's position")) {
         switch (level) {
           case mdk.LogLevel.debug:
-            _logger.d("MDK Log: $message");
+            // _logger.d("MDK Log: $message");
           case mdk.LogLevel.info:
-            _logger.i("MDK Log: $message");
+            // _logger.i("MDK Log: $message");
           case mdk.LogLevel.warning:
-            _logger.w("MDK Log: $message");
+            // _logger.w("MDK Log: $message");
           case mdk.LogLevel.error:
             _logger.e("MDK Log: $message");
           case mdk.LogLevel.off:
@@ -281,5 +334,18 @@ class VideoService {
       }
     }
     return original;
+  }
+
+  String formatMilliseconds(int milliseconds) {
+    // Calculate total seconds
+    int totalSeconds = milliseconds ~/ 1000;
+
+    // Calculate hours, minutes, and seconds
+    int hours = totalSeconds ~/ 3600;
+    int minutes = (totalSeconds % 3600) ~/ 60;
+    int seconds = totalSeconds % 60;
+
+    // Return the formatted string
+    return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
   }
 }

@@ -42,7 +42,7 @@ class _AnimeListener extends StatelessWidget {
         }
       },
       child: BlocBuilder<AnimeCubit, AnimeState>(
-      builder: (context, state) => state.isLoading ? const LoadingView() : const _AnimeView(),
+        builder: (context, state) => state.isLoading ? const LoadingView() : const _AnimeView(),
       )
     );
   }

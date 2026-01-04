@@ -202,6 +202,7 @@ void setupLocator() async{
   sl.registerFactory<VideoCubit>(() => VideoCubit(
       sl<UserNotifier>(instanceName: config.loggedUserNotifier),
       sl<VideoInfoNotifier>(),
+      sl<AnimeNotifier>()
     )
   );
 }

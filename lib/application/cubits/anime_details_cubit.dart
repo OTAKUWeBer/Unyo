@@ -110,12 +110,6 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
   @override
   Logger get logger => _logger;
 
-  void navigateBackToAnimePage(BuildContext context) {
-    _logger.d("Returning to Anime Page");
-    popRouteEffect(context);
-    close();
-  }
-
   void _init() {
     _loggedUserSubscription = _loggedUserNotifier.userStream.listen((loggedUser) {
       emit(state.copyWith(loggedUser: loggedUser));
@@ -133,6 +127,12 @@ class AnimeDetailsCubit extends Cubit<AnimeDetailsState> with EffectMixin<AnimeD
       emit(state.copyWith(selectedMediaList: mediaList));
     });
     _loadInstalledExtensions();
+  }
+
+  void navigateBackToAnimePage(BuildContext context) {
+    _logger.d("Returning to Anime Page");
+    popRouteEffect(context);
+    close();
   }
 
   void navigateToAnimeDetails(Anime anime, MediaList mediaList) {
