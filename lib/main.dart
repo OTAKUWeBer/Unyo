@@ -1,7 +1,9 @@
 import 'dart:io';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:fvp/fvp.dart' as fvp;
 import 'package:hive_ce/hive.dart';
 import 'package:logger/logger.dart';
 
@@ -18,6 +20,7 @@ void main() async {
   // Initialize Flutter bindings
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await windowManager.ensureInitialized();
   // Inject dependencies before running the app
   setupLocator();
   // Initialize Hive and register adapters
@@ -27,6 +30,42 @@ void main() async {
     ..registerAdapters();
   // Inject the remaining dependencies that rely on Hive and are not Lazy
   setupLocatorAfterHiveInit();
+  // Setup Window Manager options
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(1280, 720),
+    center: true,
+    backgroundColor: Colors.transparent,
+    titleBarStyle: TitleBarStyle.normal,
+    title: "Unyo",
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    windowManager.show();
+    windowManager.focus();
+    windowManager.setPreventClose(true);
+  });
+  // Setup Video Player
+  if (Platform.isWindows) {
+    fvp.registerWith(
+      options: {
+        'platforms': ['windows'],
+        'video.decoders': ['MFT:d3d=11', 'CUDA', 'DXVA', 'FFmpeg'],
+      },
+    );
+  } else if (Platform.isMacOS) {
+    fvp.registerWith(
+      options: {
+        'platforms': ['macos'],
+        'video.decoders': ['VT', 'FFmpeg'],
+      },
+    );
+  } else if (Platform.isLinux) {
+    fvp.registerWith(
+      options: {
+        'platforms': ['linux'],
+        'video.decoders': ['VAAPI', 'CUDA', 'VDPAU', 'FFmpeg'],
+      },
+    );
+  }
   //Run Flutter app with localization and screen utilities
   runApp(
     EasyLocalization(

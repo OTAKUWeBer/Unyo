@@ -19,34 +19,36 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     return SettingsModel(
       language: fields[0] == null ? 'en' : fields[0] as String,
       service: fields[1] == null ? Service.anilist : fields[1] as Service,
-      episodeService:
-          fields[2] == null
-              ? EpisodeService.anizip
-              : fields[2] as EpisodeService,
-      installedAnimeExtensions:
-          fields[3] == null ? [] : (fields[3] as List).cast<Extension>(),
-      installedMangaExtensions:
-          fields[4] == null ? [] : (fields[4] as List).cast<Extension>(),
-      aniyomiExtensionsRepositoryUrl:
-          fields[5] == null
-              ? 'https://gitea.k3vinb5.dev/Backups/kohi-den-extensions/raw/branch/main/index.min.json'
-              : fields[5] as String,
-      tachiyomiExtensionsRepositoryUrl:
-          fields[6] == null
-              ? 'https://gitea.k3vinb5.dev/Backups/keiyoushi-extensions/raw/branch/repo/index.min.json'
-              : fields[6] as String,
-      mediaExtensionConfigs:
-          fields[7] == null ? {} : (fields[7] as Map).cast<String, Extension>(),
-      mediaTitleLanguage:
-          fields[8] == null ? 'userPreferred' : fields[8] as String,
+      episodeService: fields[2] == null
+          ? EpisodeService.anizip
+          : fields[2] as EpisodeService,
+      installedAnimeExtensions: fields[3] == null
+          ? []
+          : (fields[3] as List).cast<Extension>(),
+      installedMangaExtensions: fields[4] == null
+          ? []
+          : (fields[4] as List).cast<Extension>(),
+      aniyomiExtensionsRepositoryUrl: fields[5] == null
+          ? 'https://gitea.k3vinb5.dev/Backups/kohi-den-extensions/raw/branch/main/index.min.json'
+          : fields[5] as String,
+      tachiyomiExtensionsRepositoryUrl: fields[6] == null
+          ? 'https://gitea.k3vinb5.dev/Backups/keiyoushi-extensions/raw/branch/repo/index.min.json'
+          : fields[6] as String,
+      mediaExtensionConfigs: fields[7] == null
+          ? {}
+          : (fields[7] as Map).cast<String, Extension>(),
+      mediaTitleLanguage: fields[8] == null
+          ? 'userPreferred'
+          : fields[8] as String,
       episodeTitleLanguage: fields[9] == null ? 'en' : fields[9] as String,
       enableDiscordRichPresence: fields[10] == null ? true : fields[10] as bool,
       automaticallySkipOpening: fields[11] == null ? false : fields[11] as bool,
       automaticallySkipEnding: fields[12] == null ? false : fields[12] as bool,
       manualSkipTime: fields[13] == null ? 85 : (fields[13] as num).toInt(),
       autoPlayNextEpisode: fields[14] == null ? false : fields[14] as bool,
-      enableOpenSubtitlesIntegration:
-          fields[15] == null ? false : fields[15] as bool,
+      enableOpenSubtitlesIntegration: fields[15] == null
+          ? false
+          : fields[15] as bool,
       enableNsfwContent: fields[16] == null ? false : fields[16] as bool,
     );
   }
@@ -163,14 +165,12 @@ Map<String, dynamic> _$SettingsModelToJson(
   'language': instance.language,
   'service': _$ServiceEnumMap[instance.service]!,
   'episodeService': _$EpisodeServiceEnumMap[instance.episodeService]!,
-  'installedAnimeExtensions':
-      instance.installedAnimeExtensions
-          .map(const ExtensionConverter().toJson)
-          .toList(),
-  'installedMangaExtensions':
-      instance.installedMangaExtensions
-          .map(const ExtensionConverter().toJson)
-          .toList(),
+  'installedAnimeExtensions': instance.installedAnimeExtensions
+      .map(const ExtensionConverter().toJson)
+      .toList(),
+  'installedMangaExtensions': instance.installedMangaExtensions
+      .map(const ExtensionConverter().toJson)
+      .toList(),
   'aniyomiExtensionsRepositoryUrl': instance.aniyomiExtensionsRepositoryUrl,
   'tachiyomiExtensionsRepositoryUrl': instance.tachiyomiExtensionsRepositoryUrl,
   'mediaExtensionConfigs': instance.mediaExtensionConfigs.map(

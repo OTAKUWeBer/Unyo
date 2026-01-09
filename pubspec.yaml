@@ -6,20 +6,20 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0
 
 environment:
-  sdk: ^3.7.2
+  sdk: ^3.10.0
+  flutter: ">=3.38.1"
 
 # List your package dependencies below. Run `flutter pub outdated` to check for updates.
 dependencies:
   # Flutter SDK dependencies
   flutter:
     sdk: flutter
-
   # State management
-  bloc: ^9.0.0
+  bloc: ^9.2.0
   flutter_bloc: ^9.1.1
   rxdart: ^0.28.0
   # Dependency Injection
-  get_it: ^8.0.3
+  get_it: ^9.2.0
   # Logging
   logger: ^2.6.0
   # Code generation
@@ -27,61 +27,64 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   # HTTP requests
-  http: ^1.4.0
+  http: ^1.6.0
   retry: ^3.1.2
   # Routing and Navigation
-  auto_route: ^10.1.0+1
-  auto_route_generator: ^10.1.0
+  auto_route: ^11.1.0
+  auto_route_generator: ^10.4.0
   # UI and Layout
   flutter_screenutil: ^5.9.3
   loading_animation_widget: ^1.3.0
-  awesome_snackbar_content: ^0.1.6
-  flutter_svg: ^2.2.0
-  fl_chart: ^1.0.0
-  dynamic_color: ^1.7.0
+  awesome_snackbar_content: ^0.1.8
+  flutter_svg: ^2.2.3
+  fl_chart: ^1.1.1
+  dynamic_color: ^1.8.1
   material_color_utilities: ^0.11.1
   palette_generator: ^0.3.3+7
   # Platform Integration
-  url_launcher: ^6.3.1
-#  bitsdojo_window: ^0.1.6
+  window_manager: ^0.5.1
+  url_launcher: ^6.3.2
   flutter_discord_rpc: ^1.1.0
   # Media
   smooth_video_progress: ^0.0.4
-  fvp: ^0.33.0
+  fvp: ^0.33.1
+  video_player: ^2.10.1
   # Backend/Server
   shelf: ^1.4.2
   # Storage
   path_provider: ^2.1.5
-  hive_ce: ^2.11.3
+  hive_ce: ^2.16.0
   path: ^1.9.1
+  crypto: ^3.0.7
   # Asset Management
-  icons_launcher: ^3.0.1
+  icons_launcher: ^3.0.3
   # Utilities
   collection: ^1.19.1
   html: ^0.15.6
   cast: ^2.1.0
   # Localization
-  easy_localization: ^3.0.7+1
+  easy_localization: ^3.0.8
   # FFI/Native Integration
-  ffi: ^2.1.4
-  ffigen: ^19.0.0
-  meta: ^1.16.0
+  system_info3: ^4.0.2
+  jni: ^0.14.2
+  meta: ^1.17.0
   jwt_decoder: ^2.0.1
   k3vinb5_aniyomi_bridge:
     path: ../k3vinb5_aniyomi_bridge
+
 # Dev dependencies
 dev_dependencies:
   flutter_test:
     sdk: flutter
   # Linting and code quality
   flutter_lints: ^6.0.0
-  bloc_lint: ^0.2.0
+  bloc_lint: ^0.3.5
   # Testing
   bloc_test: ^10.0.0
   # Code generation
   hive_ce_generator: ^1.9.2
   json_serializable: ^6.9.5
-  build_runner: ^2.5.4
+  build_runner: ^2.10.4
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -95,7 +98,11 @@ flutter:
     - assets/images/myanimelist.svg
     - assets/images/anilist.svg
     - assets/images/local_account.svg
-  #   - images/a_dot_ham.jpeg
+    - assets/services/torrserver/amd64/linux/torrserver
+    - assets/services/torrserver/amd64/macos/torrserver
+    - assets/services/torrserver/amd64/windows/torrserver.exe
+    - assets/services/torrserver/arm64/linux/torrserver
+    - assets/services/torrserver/arm64/macos/torrserver
 
   # To add custom fonts, add a fonts section in the "flutter" section with a "family" key for the font name and a "fonts" key listing the font assets.
   # fonts:

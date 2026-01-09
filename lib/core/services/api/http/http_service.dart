@@ -232,10 +232,20 @@ class HttpService {
     final status = response.statusCode;
     if (status >= 200 && status < 300) {
       _logger.d("Response from server is successful with status code $status");
+      if (response.body.isEmpty) {
+        _logger.d("Response body is empty, returning empty ApiResponse");
+        return ApiResponse(
+          data: fromJson({}),
+          bodyBytes: response.bodyBytes,
+          statusCode: status,
+          headers: response.headers,
+        );
+      }
       if (json.decode(response.body) is List<dynamic>) {
         final jsonList = json.decode(response.body) as List<dynamic>;
         return ApiResponse(
             data: fromJson({'list': jsonList}),
+            bodyBytes: response.bodyBytes,
             statusCode: status,
             headers: response.headers
         );
@@ -243,6 +253,7 @@ class HttpService {
       final jsonMap = json.decode(response.body) as Map<String, dynamic>;
       return ApiResponse(
         data: fromJson(jsonMap),
+        bodyBytes: response.bodyBytes,
         statusCode: status,
         headers: response.headers,
       );

@@ -28,7 +28,9 @@ class UnyoEpisodeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
+      onTap: released >= episodeNumber
+          ? onPressed
+          : null,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -43,11 +45,11 @@ class UnyoEpisodeButton extends StatelessWidget {
             padding: EdgeInsets.only(left: 22.w, right: 22.w, bottom: 12.h, top: showDivider ? 12.h : 0),
             child: HoverAnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              hoverHeight: 72.h,
+              hoverHeight: released >= episodeNumber ? 72.h : 70.h,
               height: 70.h,
               width: double.infinity,
               hoverWidth: double.infinity,
-              hoverCursor: SystemMouseCursors.click,
+              hoverCursor: released >= episodeNumber ? SystemMouseCursors.click : SystemMouseCursors.basic,
               decoration: const BoxDecoration(),
               hoverDecoration: const BoxDecoration(),
               child: Row(

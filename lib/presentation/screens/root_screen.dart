@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:unyo/core/di/locator.dart';
+import 'package:unyo/core/services/torrent/torrent_service.dart';
+import 'package:window_manager/window_manager.dart';
 
 @RoutePage()
 class RootScreen extends StatefulWidget {
@@ -11,14 +14,29 @@ class RootScreen extends StatefulWidget {
   State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
+class _RootScreenState extends State<RootScreen> with WindowListener {
   final HeroController controller = HeroController();
 
   @override
+  void initState() {
+    super.initState();
+    windowManager.addListener(this);
+  }
+
+  @override
   void dispose() {
+    windowManager.removeListener(this);
     controller.dispose();
     super.dispose();
   }
+
+  @override
+  void onWindowClose() async {
+    super.onWindowClose();
+    await sl<TorrentService>().stopServer();
+    await windowManager.destroy();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

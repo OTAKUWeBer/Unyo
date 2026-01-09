@@ -208,7 +208,10 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
   Future<void> _loadInstalledAnimeExtensions(User loggedUser) async {
     Set<Extension> installedExtensions = await getInstalledAnimeExtensions(loggedUser);
     if (!_aniyomiBridge.isReady()) {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      Timer(const Duration(milliseconds: 500), () {
+        _loadInstalledAnimeExtensions(loggedUser);
+      });
+      return;
     }
     for (Extension extension in installedExtensions) {
       _aniyomiBridge.loadAnimeExtension(extension.apk);
@@ -217,6 +220,12 @@ class ExtensionRepositoryAniyomi implements ExtensionRepository {
 
   Future<void> _loadInstalledMangaExtensions(User loggedUser) async {
     Set<Extension> installedExtensions = await getInstalledMangaExtensions(loggedUser);
+    if (!_aniyomiBridge.isReady()) {
+      Timer(const Duration(milliseconds: 500), () {
+        _loadInstalledMangaExtensions(loggedUser);
+      });
+      return;
+    }
     for (Extension extension in installedExtensions) {
       _aniyomiBridge.loadMangaExtension(extension.apk);
     }

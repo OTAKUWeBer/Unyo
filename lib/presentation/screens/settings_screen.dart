@@ -210,17 +210,23 @@ class _SettingsViewState extends State<_SettingsView> with TickerProviderStateMi
                               children: ["English"],
                               onPressed: (value) {},
                             ),
-                            UnyoSettingsSelectionDialog(
+                            UnyoSettingsSelectionDropdown(
                               title: "Default Media Title Language",
                               description: "Select the default media title language",
                               icon: Icons.text_fields_rounded,
-                              openDialog: () {},
+                              label: "Select a language",
+                              defaultValue: "English",
+                              children: ["English"],
+                              onPressed: (value) {},
                             ),
-                            UnyoSettingsSelectionDialog(
+                            UnyoSettingsSelectionDropdown(
                               title: "Default Episode Title Language",
                               description: "Select the default episode title language",
                               icon: Icons.text_fields_rounded,
-                              openDialog: () {},
+                              label: "Select a language",
+                              defaultValue: "English",
+                              children: ["English"],
+                              onPressed: (value) {},
                             ),
                           ],
                         ),

@@ -9,6 +9,7 @@ import 'package:unyo/application/cubits/extensions_cubit.dart';
 import 'package:unyo/application/cubits/manga_advanced_search_cubit.dart';
 import 'package:unyo/application/cubits/manga_details_cubit.dart';
 import 'package:unyo/application/cubits/settings_cubit.dart';
+import 'package:unyo/application/cubits/video_cubit.dart';
 
 // Internal dependencies
 import 'package:unyo/config/config.dart' as config;
@@ -27,9 +28,11 @@ import 'package:unyo/core/notification/manga_notifier.dart';
 import 'package:unyo/core/notification/media_list_notifier.dart';
 import 'package:unyo/core/notification/menu_bar_notifier.dart';
 import 'package:unyo/core/notification/user_notifier.dart';
+import 'package:unyo/core/notification/video_info_notifier.dart';
 import 'package:unyo/core/services/api/graphql/graphql_service.dart';
 import 'package:unyo/core/services/api/http/http_service.dart';
 import 'package:unyo/core/services/effects/app_effect_handler.dart';
+import 'package:unyo/core/services/torrent/torrent_service.dart';
 import 'package:unyo/core/theme/color_image_service.dart';
 import 'package:unyo/core/theme/theme_service.dart';
 import 'package:unyo/data/repositories/anime_repository_anilist.dart';
@@ -41,10 +44,14 @@ import 'package:unyo/application/cubits/home_cubit.dart';
 
 final sl = GetIt.instance;
 
-void setupLocator() {
+void setupLocator() async{
   // Singletons
-  sl.registerLazySingleton<Logger>(() => getLogger());
-
+  sl.registerSingletonAsync<Directory>(
+    () => getApplicationSupportDirectory(),
+    instanceName: config.applicationSupportDirectory,
+  );
+  await sl.isReady<Directory>(instanceName: config.applicationSupportDirectory);
+  sl.registerSingleton<Logger>(getLogger());
   // Services
   sl.registerLazySingleton<HttpService>(() => HttpService());
   sl.registerLazySingleton<GraphQLService>(
@@ -54,11 +61,8 @@ void setupLocator() {
   sl.registerLazySingleton<AppEffectHandler>(() => AppEffectHandler());
   sl.registerSingleton<ThemeService>(ThemeService());
   sl.registerLazySingleton<ColorImageService>(() => ColorImageService());
-  sl.registerLazySingletonAsync<Directory>(
-    () => getApplicationSupportDirectory(),
-    instanceName: config.applicationSupportDirectory,
-  );
   sl.registerSingleton<AniyomiBridge>(AniyomiBridge());
+  sl.registerSingleton<TorrentService>(TorrentService());
   // Notifiers
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.loggedUserNotifier);
   sl.registerLazySingleton<UserNotifier>(() => UserNotifier(), instanceName: config.newUserNotifier);
@@ -68,7 +72,7 @@ void setupLocator() {
   sl.registerLazySingleton<AnimeGenresNotifier>(() => AnimeGenresNotifier());
   sl.registerLazySingleton<MangaGenresNotifier>(() => MangaGenresNotifier());
   sl.registerLazySingleton<MediaListNotifier>(() => MediaListNotifier());
-
+  sl.registerLazySingleton<VideoInfoNotifier>(() => VideoInfoNotifier());
   // Repositories
   sl.registerLazySingleton<UserRepositoryLocal>(() => UserRepositoryLocal());
   sl.registerLazySingleton<UserRepositoryAnilist>(
@@ -80,7 +84,6 @@ void setupLocator() {
   sl.registerLazySingleton<AnimeRepositoryAnilist>(() => AnimeRepositoryAnilist());
   sl.registerLazySingleton<MangaRepositoryAnilist>(() => MangaRepositoryAnilist());
   sl.registerLazySingleton<EpisodeRepositoryAnizip>(() => EpisodeRepositoryAnizip());
-
   // Cubits / Blocs
   sl.registerFactory<LoginCubit>(
     () => LoginCubit(
@@ -155,6 +158,7 @@ void setupLocator() {
       sl<AnimeNotifier>(),
       sl<AnimeGenresNotifier>(),
       sl<MediaListNotifier>(),
+      sl<VideoInfoNotifier>(),
       sl<ExtensionRepositoryAniyomi>(),
       sl<UserRepositoryAnilist>(),
     ),
@@ -194,6 +198,12 @@ void setupLocator() {
       sl<MangaGenresNotifier>(),
       sl<MangaRepositoryAnilist>(),
     ),
+  );
+  sl.registerFactory<VideoCubit>(() => VideoCubit(
+      sl<UserNotifier>(instanceName: config.loggedUserNotifier),
+      sl<VideoInfoNotifier>(),
+      sl<AnimeNotifier>()
+    )
   );
 }
 

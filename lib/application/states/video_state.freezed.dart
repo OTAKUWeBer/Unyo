@@ -1,0 +1,289 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'video_state.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+// dart format off
+T _$identity<T>(T value) => value;
+/// @nodoc
+mixin _$VideoState {
+
+ User get loggedUser; VideoInfo get videoInfo; Anime get selectedAnime; bool get isLoading; List<AppEffect> get effects;
+/// Create a copy of VideoState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$VideoStateCopyWith<VideoState> get copyWith => _$VideoStateCopyWithImpl<VideoState>(this as VideoState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.effects, effects));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,selectedAnime,isLoading,const DeepCollectionEquality().hash(effects));
+
+@override
+String toString() {
+  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, selectedAnime: $selectedAnime, isLoading: $isLoading, effects: $effects)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $VideoStateCopyWith<$Res>  {
+  factory $VideoStateCopyWith(VideoState value, $Res Function(VideoState) _then) = _$VideoStateCopyWithImpl;
+@useResult
+$Res call({
+ User loggedUser, VideoInfo videoInfo, Anime selectedAnime, bool isLoading, List<AppEffect> effects
+});
+
+
+
+
+}
+/// @nodoc
+class _$VideoStateCopyWithImpl<$Res>
+    implements $VideoStateCopyWith<$Res> {
+  _$VideoStateCopyWithImpl(this._self, this._then);
+
+  final VideoState _self;
+  final $Res Function(VideoState) _then;
+
+/// Create a copy of VideoState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? selectedAnime = null,Object? isLoading = null,Object? effects = null,}) {
+  return _then(_self.copyWith(
+loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,videoInfo: null == videoInfo ? _self.videoInfo : videoInfo // ignore: cast_nullable_to_non_nullable
+as VideoInfo,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as Anime,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self.effects : effects // ignore: cast_nullable_to_non_nullable
+as List<AppEffect>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [VideoState].
+extension VideoStatePatterns on VideoState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _VideoState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _VideoState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _VideoState value)  $default,){
+final _that = this;
+switch (_that) {
+case _VideoState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _VideoState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _VideoState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _VideoState() when $default != null:
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)  $default,) {final _that = this;
+switch (_that) {
+case _VideoState():
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( User loggedUser,  VideoInfo videoInfo,  Anime selectedAnime,  bool isLoading,  List<AppEffect> effects)?  $default,) {final _that = this;
+switch (_that) {
+case _VideoState() when $default != null:
+return $default(_that.loggedUser,_that.videoInfo,_that.selectedAnime,_that.isLoading,_that.effects);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _VideoState extends VideoState {
+  const _VideoState({required this.loggedUser, required this.videoInfo, required this.selectedAnime, required this.isLoading, final  List<AppEffect> effects = const <AppEffect>[]}): _effects = effects,super._();
+  
+
+@override final  User loggedUser;
+@override final  VideoInfo videoInfo;
+@override final  Anime selectedAnime;
+@override final  bool isLoading;
+ final  List<AppEffect> _effects;
+@override@JsonKey() List<AppEffect> get effects {
+  if (_effects is EqualUnmodifiableListView) return _effects;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_effects);
+}
+
+
+/// Create a copy of VideoState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VideoStateCopyWith<_VideoState> get copyWith => __$VideoStateCopyWithImpl<_VideoState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VideoState&&(identical(other.loggedUser, loggedUser) || other.loggedUser == loggedUser)&&(identical(other.videoInfo, videoInfo) || other.videoInfo == videoInfo)&&(identical(other.selectedAnime, selectedAnime) || other.selectedAnime == selectedAnime)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._effects, _effects));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,loggedUser,videoInfo,selectedAnime,isLoading,const DeepCollectionEquality().hash(_effects));
+
+@override
+String toString() {
+  return 'VideoState(loggedUser: $loggedUser, videoInfo: $videoInfo, selectedAnime: $selectedAnime, isLoading: $isLoading, effects: $effects)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$VideoStateCopyWith<$Res> implements $VideoStateCopyWith<$Res> {
+  factory _$VideoStateCopyWith(_VideoState value, $Res Function(_VideoState) _then) = __$VideoStateCopyWithImpl;
+@override @useResult
+$Res call({
+ User loggedUser, VideoInfo videoInfo, Anime selectedAnime, bool isLoading, List<AppEffect> effects
+});
+
+
+
+
+}
+/// @nodoc
+class __$VideoStateCopyWithImpl<$Res>
+    implements _$VideoStateCopyWith<$Res> {
+  __$VideoStateCopyWithImpl(this._self, this._then);
+
+  final _VideoState _self;
+  final $Res Function(_VideoState) _then;
+
+/// Create a copy of VideoState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? loggedUser = null,Object? videoInfo = null,Object? selectedAnime = null,Object? isLoading = null,Object? effects = null,}) {
+  return _then(_VideoState(
+loggedUser: null == loggedUser ? _self.loggedUser : loggedUser // ignore: cast_nullable_to_non_nullable
+as User,videoInfo: null == videoInfo ? _self.videoInfo : videoInfo // ignore: cast_nullable_to_non_nullable
+as VideoInfo,selectedAnime: null == selectedAnime ? _self.selectedAnime : selectedAnime // ignore: cast_nullable_to_non_nullable
+as Anime,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,effects: null == effects ? _self._effects : effects // ignore: cast_nullable_to_non_nullable
+as List<AppEffect>,
+  ));
+}
+
+
+}
+
+// dart format on

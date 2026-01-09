@@ -1,0 +1,46 @@
+import 'package:k3vinb5_aniyomi_bridge/jmodels/jsanime.dart';
+
+class Anime {
+  final String url;
+  final String title;
+  final String? thumbnailUrl;
+  final String? artist;
+  final String? author;
+  final String? description;
+  final String? genre;
+  final List<String>? genres;
+  final bool initialized;
+  final double seasonNumber;
+  final int status;
+
+  const Anime({
+    required this.url,
+    required this.title,
+    required this.thumbnailUrl,
+    required this.artist,
+    required this.author,
+    required this.description,
+    required this.genre,
+    required this.genres,
+    required this.initialized,
+    required this.seasonNumber,
+    required this.status,
+  });
+
+  factory Anime.fromJSAnime(JSAnime jsAnime) {
+    jObjIsNotNull(jObj) => jObj != null;
+    return Anime(
+      url: jsAnime.getUrl().toDartString(),
+      title: jsAnime.getTitle().toDartString(),
+      thumbnailUrl: jsAnime.getThumbnail_url()?.toDartString(),
+      artist: jsAnime.getArtist()?.toDartString(),
+      author: jsAnime.getAuthor()?.toDartString(),
+      description: jsAnime.getDescription()?.toDartString(),
+      genre: jsAnime.getGenre()?.toDartString(),
+      genres: jsAnime.getGenres()?.where(jObjIsNotNull).map((jObj) => jObj.toDartString()).toList(),
+      initialized: jsAnime.getInitialized(),
+      seasonNumber: jsAnime.getSeason_number(),
+      status: jsAnime.getStatus(),
+    );
+  }
+}
