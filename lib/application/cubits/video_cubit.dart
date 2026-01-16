@@ -68,7 +68,7 @@ class VideoCubit extends Cubit<VideoState> with EffectMixin<VideoState> {
       emit(state.copyWith(loggedUser: loggedUser));
     });
     _videoInfoSubscription = _videoInfoNotifier.videoInfoStream.listen((videoInfo) {
-      _videoService = VideoService(video: videoInfo.currentVideo, playlistIndex: videoInfo.playlistIndex);
+      _videoService = VideoService(video: videoInfo.currentVideo, playlistIndex: videoInfo.playlistIndex, lowLatency: false);
       emit(state.copyWith(videoInfo: videoInfo, isLoading: false));
     });
     _selectedAnimeSubscription = _selectedAnimeNotifier.animeStream.listen((selectedAnime) {

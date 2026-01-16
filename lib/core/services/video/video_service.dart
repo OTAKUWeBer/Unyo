@@ -1,5 +1,6 @@
 // External dependencies
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:fvp/mdk.dart' as mdk;
 import 'package:video_player/video_player.dart';
@@ -22,6 +23,7 @@ class VideoService {
 
   // Properties
   ext.Video _video;
+  // This will be used for getting the correct video out of a playlist from a magnet / torrent
   int _playlistIndex;
   late final mdk.Player _player;
   final List<ext.Track> captionTracks = [];
@@ -30,10 +32,16 @@ class VideoService {
   ext.Track? _currentCaptionTrack;
   ext.Track? _currentAudioTrack;
   bool _isBuffering = true;
+  final bool _lowLatency;
+  static const mdk.SeekFlag _seekFlags = mdk.SeekFlag(mdk.SeekFlag.fromStart | mdk.SeekFlag.inCache);
 
-  VideoService({required ext.Video video, required int playlistIndex}) : _playlistIndex = playlistIndex, _video = video {
+  VideoService({required ext.Video video, required int playlistIndex, bool lowLatency = false})
+      : _playlistIndex = playlistIndex,
+        _video = video,
+        _lowLatency = lowLatency {
     _player = mdk.Player();
     // Set player ffmpeg properties
+    _configureDecoder();
     _configurePlayer();
     // Set player HTTP headers
     _setPlayerHttpHeaders(_video.headers);
@@ -124,7 +132,7 @@ class VideoService {
   }
 
   bool seekTo(Duration newDuration) {
-    _player.seek(position: newDuration.inMilliseconds);
+    _player.seek(position: newDuration.inMilliseconds, flags: _seekFlags);
     return true;
   }
 
@@ -181,32 +189,43 @@ class VideoService {
   }
 
   // Utilities
+  void _configureDecoder() {
+    final vd = {
+      'windows': [
+        'MFT:d3d=11',
+        "D3D11",
+        "DXVA",
+        'CUDA',
+        'hap',
+        'FFmpeg',
+        'dav1d'
+      ],
+      'macos': ['VT', 'hap', 'FFmpeg', 'dav1d'],
+      'linux': ['VAAPI', 'CUDA', 'VDPAU', 'hap', 'FFmpeg', 'dav1d'],
+    };
+    _player.setDecoders(mdk.MediaType.video, vd[Platform.operatingSystem]!);
+  }
   void _configurePlayer() {
-  // 1. DECODER: Be ruthless. If late, skip frames.
-  _player.setProperty('framedrop', '1');
-
-  // 2. NETWORK: Keep connections alive
-  _player.setProperty('avformat.http_persistent', '1');
-  _player.setProperty('avformat.reconnect', '1');
-  _player.setProperty('avformat.reconnect_streamed', '1');
-  _player.setProperty('avformat.reconnect_delay_max', '5');
-
-  // 3. THE FIX for "0v 0.0s": Handle bad interleaving
-  _player.setProperty('avformat.max_interleave_delta', '10000000');
-
-  // 4. BUFFERING:
-  // Increase to 50MB so it doesn't stop downloading while hunting for video packets
-  _player.setProperty('avformat.buffer_size', '${50 * 1024 * 1024}');
-
-  // 5. STARTUP: Analyze less to start faster
-  _player.setProperty('avformat.analyzeduration', '2000000'); // 2s
-  _player.setProperty('avformat.probesize', '1024000');       // 1MB
-
-  // 6. PROTOCOLS
-  _player.setProperty(
-    'avformat.protocol_whitelist',
-    'file,http,https,tcp,tls,udp,rtp,rtmp,rtmpe,rtmps,rtmpt,rtmpte,crypto,data',
-  );
+    _player.setProperty(
+      'avformat.protocol_whitelist',
+      'file,http,https,tcp,tls,udp,rtp,rtmp,rtmpe,rtmps,rtmpt,rtmpte,crypto,data',
+    );
+    _player.setProperty('video.decoder', 'shader_resource=0');
+    _player.setProperty('avformat.strict', 'experimental');
+    _player.setProperty('avformat.safe', '0');
+    _player.setProperty('avio.reconnect', '1');
+    _player.setProperty('avio.reconnect_delay_max', '7');
+    _player.setProperty('avformat.rtsp_transport', 'tcp');
+    _player.setProperty('avformat.extension_picky', '0');
+    _player.setProperty('avformat.allowed_segment_extensions', 'ALL');
+    if (_lowLatency) {
+      _player.setProperty('avformat.fflags', '+nobuffer');
+      _player.setProperty('avformat.fpsprobesize', '0');
+      _player.setProperty('avformat.analyzeduration', '100000');
+      _player.setBufferRange(min: 0, max: 1000, drop: true);
+    } else {
+      _player.setBufferRange(min: 0, max: 4000, drop: false);
+    }
 }
 
   void _setPlayerHttpHeaders(ext.Headers? headers) {
