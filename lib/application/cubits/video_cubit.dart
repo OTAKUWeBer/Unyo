@@ -31,6 +31,7 @@ class VideoCubit extends Cubit<VideoState> with EffectMixin<VideoState> {
 
   // Services
   late VideoService _videoService;
+  bool _videoServiceInitialized = false;
 
   VideoCubit(this._loggedUserNotifier, this._videoInfoNotifier, this._selectedAnimeNotifier)
     : super(
@@ -56,10 +57,13 @@ class VideoCubit extends Cubit<VideoState> with EffectMixin<VideoState> {
 
   @override
   Future<void> close() {
-    _videoService.dispose();
+    if (_videoServiceInitialized) {
+      _videoService.dispose();
+    }
     _loggedUserSubscription.cancel();
     _videoInfoSubscription.cancel();
     _selectedAnimeSubscription.cancel();
+    _logger.d("VideoCubit closed and subscriptions cancelled.");
     return super.close();
   }
 
@@ -68,7 +72,8 @@ class VideoCubit extends Cubit<VideoState> with EffectMixin<VideoState> {
       emit(state.copyWith(loggedUser: loggedUser));
     });
     _videoInfoSubscription = _videoInfoNotifier.videoInfoStream.listen((videoInfo) {
-      _videoService = VideoService(video: videoInfo.currentVideo, playlistIndex: videoInfo.playlistIndex);
+      _videoService = VideoService(video: videoInfo.currentVideo, playlistIndex: videoInfo.playlistIndex, lowLatency: false);
+      _videoServiceInitialized = true;
       emit(state.copyWith(videoInfo: videoInfo, isLoading: false));
     });
     _selectedAnimeSubscription = _selectedAnimeNotifier.animeStream.listen((selectedAnime) {
@@ -79,6 +84,6 @@ class VideoCubit extends Cubit<VideoState> with EffectMixin<VideoState> {
   void navigateBackToAnimeDetailsPage(BuildContext context) {
     _logger.d("Returning to Anime Details Page");
     popRouteEffect(context);
-    close();
+    // The BlocProvider will dispose/close this cubit when the route is popped.
   }
 }
