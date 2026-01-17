@@ -3,7 +3,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Internal dependencies
 import 'package:unyo/core/services/effects/app_effect_handler.dart';

@@ -17,6 +17,13 @@ class _UnyoVideoTextureState extends State<UnyoVideoTexture> {
     _videoService = widget.videoService;
     _videoService.updateTexture();
   }
+
+  @override
+  void dispose() {
+    // Only updates texture on init; nothing to clean up, but keep method for symmetry/debug hooks.
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

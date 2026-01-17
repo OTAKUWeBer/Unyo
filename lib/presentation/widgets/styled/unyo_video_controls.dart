@@ -47,8 +47,8 @@ class _UnyoVideoControlsState extends State<UnyoVideoControls> with TickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => widget.videoCubit,
+    return BlocProvider.value(
+      value: widget.videoCubit,
       child: BlocBuilder<VideoCubit, VideoState>(
         builder: (context, state) {
           return Stack(
