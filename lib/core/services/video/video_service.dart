@@ -32,6 +32,8 @@ class VideoService {
   ext.Track? _currentCaptionTrack;
   ext.Track? _currentAudioTrack;
   bool _isBuffering = true;
+  bool _isMuted = false;
+  double _volumeBeforeMute = 1.0;
   final bool _lowLatency;
   static const mdk.SeekFlag _seekFlags = mdk.SeekFlag(mdk.SeekFlag.fromStart | mdk.SeekFlag.inCache);
 
@@ -91,6 +93,8 @@ class VideoService {
 
   bool get isBuffering => _isBuffering;
 
+  bool get isMuted => _isMuted;
+
   Future<bool> get isFullscreen async => await windowManager.isFullScreen();
 
   double get aspectRatio {
@@ -105,13 +109,11 @@ class VideoService {
 
   // Setters
   bool play() {
-    if (_isBuffering) return false;
     _player.state = mdk.PlaybackState.playing;
     return true;
   }
 
   bool pause() {
-    if (_isBuffering) return false;
     _player.state = mdk.PlaybackState.paused;
     return true;
   }
@@ -122,17 +124,40 @@ class VideoService {
   }
 
   bool setVolume(double volume) {
-    _player.volume = volume;
+    _player.volume = volume.clamp(0.0, 1.0);
+    if (volume > 0 && _isMuted) {
+      _isMuted = false;
+    }
     return true;
   }
 
   bool setPlaybackSpeed(double newPlayBackSpeed) {
-    _player.playbackRate = newPlayBackSpeed;
+    _player.playbackRate = newPlayBackSpeed.clamp(0.25, 4.0);
     return true;
   }
 
   bool seekTo(Duration newDuration) {
     _player.seek(position: newDuration.inMilliseconds, flags: _seekFlags);
+    return true;
+  }
+
+  bool toggleMute() {
+    if (_isMuted) {
+      // Unmute: restore previous volume
+      _player.volume = _volumeBeforeMute;
+      _isMuted = false;
+    } else {
+      // Mute: save current volume and set to 0
+      _volumeBeforeMute = _player.volume;
+      _player.volume = 0.0;
+      _isMuted = true;
+    }
+    return true;
+  }
+
+  Future<bool> toggleFullscreen() async {
+    final currentFullscreen = await windowManager.isFullScreen();
+    await windowManager.setFullScreen(!currentFullscreen);
     return true;
   }
 
